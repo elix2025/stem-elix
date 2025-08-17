@@ -43,54 +43,100 @@ const FloatingDroneBot = () => {
       ease: "sine.inOut",
     });
 
-    // Blinking animation
-    const blink = () => {
-      gsap.to([leftEye, rightEye], {
-        scaleY: 0.1,
+    // Mouse tracking for eyes
+    const handleMouseMove = (e) => {
+      const botRect = bot.getBoundingClientRect();
+      const botCenterX = botRect.left + botRect.width / 2;
+      const botCenterY = botRect.top + botRect.height / 2;
+
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      // Calculate angle from bot center to mouse
+      const angle = Math.atan2(mouseY - botCenterY, mouseX - botCenterX);
+
+      // Limit eye movement within eye socket
+      const maxDistance = 4;
+      const moveX = Math.cos(angle) * maxDistance;
+      const moveY = Math.sin(angle) * maxDistance;
+
+      // Apply movement to both eyes
+      gsap.to(leftEye, {
+        x: moveX,
+        y: moveY,
         duration: 0.1,
-        yoyo: true,
-        repeat: 1,
-        transformOrigin: "center",
-        onComplete: () => {
-          setTimeout(blink, Math.random() * 3000 + 2000);
-        },
+        ease: "power2.out",
+      });
+
+      gsap.to(rightEye, {
+        x: moveX,
+        y: moveY,
+        duration: 0.1,
+        ease: "power2.out",
+      });
+
+      // Move pupils within the eyes
+      const pupils = [
+        leftEye.querySelector(".absolute"),
+        rightEye.querySelector(".absolute"),
+      ];
+      pupils.forEach((pupil) => {
+        if (pupil) {
+          gsap.to(pupil, {
+            x: moveX * 1.5,
+            y: moveY * 1.5,
+            duration: 0.05,
+            ease: "power2.out",
+          });
+        }
       });
     };
-    blink();
+
+    // Add mouse move listener
+    document.addEventListener("mousemove", handleMouseMove);
+
+    // Cleanup function
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
   return (
-    <div className="flex items-center justify-center" style={{ background: "transparent" }}>
+    <div
+      className="flex items-center justify-center"
+      style={{ background: "transparent" }}
+    >
       <div ref={botRef} className="relative w-48 h-48">
-        {/* Body wrapper to add top rounded corners */}
+        {/* Oval Robot Head */}
         <div className="relative w-full h-full flex justify-center items-start">
           <div
-            className="w-0 h-0 border-l-[96px] border-r-[96px] border-b-[160px] border-l-transparent border-r-transparent border-b-white shadow-xl relative"
+            className="w-32 h-40 bg-white shadow-xl relative rounded-full"
             style={{
-              borderBottomLeftRadius: "30px",
-              borderBottomRightRadius: "30px",
-              overflow: "hidden",
-              clipPath: "polygon(0 30%, 50% 0, 100% 30%, 100% 100%, 0% 100%)",
+              borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
             }}
           />
 
           {/* Face / Screen */}
-          <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[80px] h-[40px] bg-black rounded-xl flex items-center justify-around px-2 shadow-inner z-10">
+          <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[80px] h-[40px] bg-black rounded-xl flex items-center justify-around px-2 shadow-inner z-10">
             <div
               ref={leftEyeRef}
-              className="w-4 h-4 bg-cyan-400 rounded-full shadow-md"
+              className="w-4 h-4 bg-cyan-400 rounded-full shadow-md relative overflow-hidden"
               style={{ boxShadow: "0 0 8px 2px #22d3ee" }}
-            ></div>
+            >
+              <div className="absolute w-2 h-2 bg-slate-800 rounded-full top-1 left-1 transition-transform duration-300"></div>
+            </div>
             <div
               ref={rightEyeRef}
-              className="w-4 h-4 bg-cyan-400 rounded-full shadow-md"
+              className="w-4 h-4 bg-cyan-400 rounded-full shadow-md relative overflow-hidden"
               style={{ boxShadow: "0 0 8px 2px #22d3ee" }}
-            ></div>
+            >
+              <div className="absolute w-2 h-2 bg-slate-800 rounded-full top-1 left-1 transition-transform duration-300"></div>
+            </div>
           </div>
 
           {/* Side Arms */}
-          <div className="absolute w-4 h-12 bg-white rounded-full left-[-12px] top-[70px] rotate-[-20deg] shadow-md"></div>
-          <div className="absolute w-4 h-12 bg-white rounded-full right-[-12px] top-[70px] rotate-[20deg] shadow-md"></div>
+          <div className="absolute w-4 h-12 bg-white rounded-full left-[-8px] top-[60px] rotate-[-20deg] shadow-md"></div>
+          <div className="absolute w-4 h-12 bg-white rounded-full right-[-8px] top-[60px] rotate-[20deg] shadow-md"></div>
 
           {/* Floating lines */}
           <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 space-y-1">

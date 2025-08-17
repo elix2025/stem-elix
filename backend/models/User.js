@@ -1,30 +1,55 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
-  name: {
+const courseProgressSchema = new Schema({
+  course: { type: Schema.Types.ObjectId, ref: "CourseModel", required: true },
+  status: {
     type: String,
-    required: true,
+    enum: ["in-progress", "completed"],
+    default: "in-progress",
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ['student', 'admin'],
-    default: 'student',
-  },
-  institute: {
-    type: String,
-    required: function() {
-      return this.role === 'student';
+  progress: { type: Number, default: 0 },
+  enrolledAt: { type: Date, default: Date.now },
+});
+
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Name is required"],
     },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+    phone: {
+      type: String,
+      required: false,
+    },
+    institute: {
+      type: String,
+      required: false,
+    },
+    role: {
+      type: String,
+      enum: ["student", "admin"],
+      default: "student",
+    },
+    // Student-specific fields
+    totalCoursesEnrolled: { type: Number, default: 0 },
+    coursesEnrolled: [courseProgressSchema],
+    coursesCompleted: { type: Number, default: 0 },
+    // Add other info as needed
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
   },
-}, { timestamps: true });
+  { timestamps: true }
+);
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model("User", userSchema);

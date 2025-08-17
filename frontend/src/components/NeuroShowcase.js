@@ -1,22 +1,81 @@
-// src/components/NeuroShowcase.js
-import "../Styles/NeuroShowcase.css";
-
 const NeuroShowcase = () => {
   return (
-    <section className="neuro-showcase">
-      <div className="neuro-content">
-        <h2>🧠 Explore the Brain with Our Neuroscience Kit</h2>
-        <p>
-          Dive into the world of neurons, circuits, and the human brain! Designed for curious learners (ages 6–18),
-          our <strong>Neuroscience STEM Kit</strong> combines interactive learning with real-world experiments to build brainy futures.
-        </p>
-        <button className="neuro-btn">Discover More</button>
-      </div>
-      <div className="neuro-image">
-        <img
-          src="https://cdn.pixabay.com/photo/2016/11/21/14/10/brain-1845946_960_720.png"
-          alt="Neuroscience Kit"
-        />
+    <section className="relative overflow-hidden isolate">
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-teal-50/30 to-emerald-50/20"></div>
+
+      {/* Content container */}
+      <div className="relative max-w-7xl mx-auto px-6 py-20 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Text content */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <div className="inline-flex items-center space-x-2 bg-emerald-100/80 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
+                <span>🧠</span>
+                <span>Neuroscience Kit</span>
+              </div>
+
+              <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 leading-tight">
+                Explore the Brain with Our
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600">
+                  {" "}
+                  Advanced Kit
+                </span>
+              </h2>
+
+              <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
+                Dive into the fascinating world of neurons, circuits, and the
+                human brain! Designed for curious learners aged 6–18, our
+                interactive
+                <span className="font-semibold text-slate-700">
+                  {" "}
+                  Neuroscience STEM Kit
+                </span>{" "}
+                combines hands-on experiments with cutting-edge learning to
+                build brilliant futures.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              <button className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
+                <span>Discover More</span>
+                <svg
+                  className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </button>
+
+              <button className="inline-flex items-center px-6 py-3 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-emerald-300 hover:text-emerald-700 transition-all duration-300 ease-out">
+                Learn More
+              </button>
+            </div>
+          </div>
+
+          {/* Image container */}
+          <div className="relative">
+            {/* Decorative elements */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-emerald-200 to-teal-200 rounded-full opacity-60"></div>
+            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-teal-200 to-emerald-200 rounded-full opacity-40"></div>
+
+            {/* Main image */}
+            <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-white/20">
+              <img
+                src={require("../assets/stem.webp")}
+                alt="Neuroscience Kit - Interactive Brain Learning"
+                className="w-full max-w-sm mx-auto rounded-xl transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

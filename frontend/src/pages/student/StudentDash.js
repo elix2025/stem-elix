@@ -1,97 +1,116 @@
-// // src/pages/student/StudentDash.js
-// import React, { useContext, useEffect, useState } from "react";
-// import "../../Styles/StudentDash.css";
-// import Navbar from "../../components/Navbar";
-// //import { ShopContext } from "../../context/shopcontext";
-// import axios from "axios";
-// import { Link } from "react-router-dom";
-// import Sidebar from "./Sidebar";
+import React, { useState, useEffect } from "react";
+import { useAPI } from "../../context/api";
 
-// const StudentDash = () => {
-//   const { user } = useContext(ShopContext);
-//   const [allCourses, setAllCourses] = useState([]);
-//   const [enrolledCourses, setEnrolledCourses] = useState([]); // You can implement real enrollment later
+const StudentDash = () => {
+  const [studentData, setStudentData] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const { currentUser, fetchUserProfile } = useAPI();
 
-//   useEffect(() => {
-//     const fetchCourses = async () => {
-//       try {
-//         const res = await axios.get("https://edvenger.onrender.com/api/courses");
-//         setAllCourses(res.data);
-//       } catch (err) {
-//         console.error("Failed to load courses", err);
-//       }
-//     };
-//     fetchCourses();
-//   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    console.log("StudentDash: currentUser", currentUser);
+    if (currentUser && currentUser.token) {
+      console.log(
+        "StudentDash: Fetching user profile with token",
+        currentUser.token
+      );
+      fetchUserProfile(currentUser._id, currentUser.token)
+        .then((data) => {
+          console.log("StudentDash: fetched user profile", data);
+          setStudentData(data);
+          setError("");
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("StudentDash: fetchUserProfile error", err);
+          setError(err?.message || JSON.stringify(err));
+          setLoading(false);
+        });
+    } else {
+      console.warn("StudentDash: No current user or token found");
+      if (currentUser === null) {
+        setLoading(true);
+      } else {
+        setError("No current user found. Please login.");
+        setStudentData(null);
+        setLoading(false);
+      }
+    }
+  }, [currentUser, fetchUserProfile]);
 
-//   return (
-//     <>
-//       <Navbar />
-//       <div className="student-dashboard">
-        
-//         <aside>
-//           <Sidebar/>
-//         </aside>
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen text-red-500">
+        {error}
+      </div>
+    );
+  }
 
-//         <main className="main-content">
+  return (
+    <div className="bg-gradient-to-br from-gray-50 to-slate-100 min-h-screen">
+      {studentData && (
+        <div className="max-w-3xl mx-auto py-12">
+          <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 className="text-2xl font-bold mb-4 text-teal-700">
+              Student Profile
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <div className="font-semibold text-gray-700">Name:</div>
+                <div className="mb-2">{studentData.name}</div>
+                <div className="font-semibold text-gray-700">Email:</div>
+                <div className="mb-2">{studentData.email}</div>
+                <div className="font-semibold text-gray-700">Phone:</div>
+                <div className="mb-2">{studentData.phone || "-"}</div>
+                <div className="font-semibold text-gray-700">Role:</div>
+                <div className="mb-2">{studentData.role}</div>
+              </div>
+              <div>
+                <div className="font-semibold text-gray-700">
+                  Total Courses Enrolled:
+                </div>
+                <div className="mb-2">{studentData.totalCoursesEnrolled}</div>
+                <div className="font-semibold text-gray-700">
+                  Courses Completed:
+                </div>
+                <div className="mb-2">{studentData.coursesCompleted}</div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl shadow-lg p-8">
+            <h2 className="text-xl font-bold mb-4 text-teal-700">
+              Enrolled Courses
+            </h2>
+            {studentData.coursesEnrolled &&
+            studentData.coursesEnrolled.length > 0 ? (
+              <ul className="list-disc pl-6">
+                {studentData.coursesEnrolled.map((c, idx) => (
+                  <li key={idx} className="mb-2">
+                    <span className="font-semibold">Course ID:</span>{" "}
+                    {c.course._id || c.course}
+                    {c.course.title && (
+                      <span className="ml-2">({c.course.title})</span>
+                    )}
+                    <span className="ml-4">Status: {c.status}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="text-gray-500">No courses enrolled yet.</div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
-//            <section className="welcome-section">
-//            <h2>
-//            <span className="hello">Hello {user?.name || "Student"},</span><br />
-//            <span className="question">what would you like to learn today?</span>
-//           </h2>
-
-//            <div className="quick-topics">
-//            <button className="topic-btn">🔬 STEM Basics</button>
-//            <button className="topic-btn">⚙️ Robotics</button>
-//            <button className="topic-btn">💡 Innovation Lab</button>
-//           </div>
-
-//            <div className="search-bar">
-//       <input
-//         type="text"
-//         placeholder="Search or ask anything..."
-//         onKeyDown={(e) => {
-//           if (e.key === "Enter") {
-//             alert(`Searching for "${e.target.value}"...`);
-//           }
-//         }}
-//       />
-//       <button onClick={() => alert("Search triggered")} className="search-icon">🔍</button>
-//     </div>
-//   </section>
-          
-//           <section className="available-courses">
-//             <h3>📚 Available Courses</h3>
-//             <div className="course-list">
-//               {allCourses.map((course) => (
-//                 <div key={course._id} className="course-card">
-//                   <img src={course.image} alt={course.title} />
-//                   <h4>{course.title}</h4>
-//                   <p>{course.description}</p>
-//                   <Link to={`/courses/${course.slug}`} className="start-btn">Explore</Link>
-//                 </div>
-//               ))}
-//             </div>
-//           </section>
-
-//           <section className="enrolled-section">
-//             <h3>🚀 In Progress</h3>
-//             {enrolledCourses.length === 0 ? (
-//               <div className="empty-state">
-//                 <p>You haven’t enrolled in any courses yet.</p>
-//                 <Link to="/" className="enroll-btn">Enroll Now</Link>
-//               </div>
-//             ) : (
-//               <div className="course-list">
-//                 {/* Loop over enrolledCourses when implemented */}
-//               </div>
-//             )}
-//           </section>
-//         </main>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default StudentDash;
+export default StudentDash;
