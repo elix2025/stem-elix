@@ -6,6 +6,9 @@ const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [adminToken, setAdminToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const Admin_Base_URL = process.env.REACT_APP_API_BASE || "http://localhost:5000/api";
 
   useEffect(() => {
@@ -14,127 +17,149 @@ export const AdminProvider = ({ children }) => {
     if (token) {
       console.log("Token found in localStorage", token);
       setIsAdminLoggedIn(true);
+      setAdminToken(token);
     } else {
       console.log("no token found in local storage");
     }
+    setLoading(false);
   }, []);
 
   const loginAdmin = async (email, password) => {
-    try {
+    
+  console.log('🔍 Admin login attempt:', { email, password: password ? 'PROVIDED' : 'MISSING' });
+    
+  try {
       const res = await axios.post(`${Admin_Base_URL}/auth/admin/login`, {
         email,
         password,
       });
 
-      if (res.data.success) {
+       if (res.data.success) {
         const token = res.data.token;
-        localStorage.setItem("token", token);
+        localStorage.setItem("adminToken", token);
         setIsAdminLoggedIn(true);
-        return {success: true};
-        
-      }else{
-        return {success: false, message: res.data.message};
+        setAdminToken(token);
+        return { success: true };
+      } else {
+        return { success: false, message: res.data.message };
       }
-
-      
-    } catch (err) {
+       } catch (err) {
       console.error("Admin login failed:", err.response?.data?.message);
-      return { success: false, message: err.response?.data?.message || "Login failed" };
+      return {
+        success: false,
+        message: err.response?.data?.message || "Login failed",
+      };
     }
   };
 
   const logoutAdmin = () => {
     setIsAdminLoggedIn(false);
-    localStorage.removeItem("token");
+    setAdminToken(null);
+    localStorage.removeItem("adminToken");
   };
 
- 
   const createCourse = async (courseData) => {
-    try {
-      const token = localStorage.getItem("token");
-       const formData = new FormData();
-     for (const key in courseData) {
-       if (key === "gradeRange") {
+  try {
+    const adminToken = localStorage.getItem("adminToken");
+    const formData = new FormData();
+
+    for (let key in courseData) {
+      if (!courseData[key]) continue; // skip empty values
+
+      // Handle nested gradeRange object
+      if (key === "gradeRange") {
         formData.append("gradeRangeMin", courseData.gradeRange.min);
         formData.append("gradeRangeMax", courseData.gradeRange.max);
-      } else {
-      formData.append(key, courseData[key]);
+      } 
+      // Handle file
+      else if (key === "CourseThumbnail") {
+        formData.append("CourseThumbnail", courseData.CourseThumbnail);
+      } 
+      // Normal fields
+      else {
+        formData.append(key, courseData[key]);
       }
-     }
+    }
 
-     for (let pair of formData.entries()) {
+    for (let pair of formData.entries()) {
       console.log(`${pair[0]}: ${pair[1]}`);
-     }
-
-    
-      const res = await axios.post(`${Admin_Base_URL}/courses/create`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-          
-        },
-      });
-      return res.data;
-    } catch (err) {
-      console.error("Error creating course:", err.response?.data?.message);
-      throw err;
     }
-  };
 
-  // Add Chapter
-  const addChapter = async (courseId, chapterData) => {
-    try {
-      const token = localStorage.getItem("token");
-      console.log("Sending chapter data:", chapterData);
-      const res = await axios.post(`${Admin_Base_URL}/courses/${courseId}/add-chapter`, chapterData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+    const res = await axios.post(`${Admin_Base_URL}/courses/create`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${adminToken}`,
+      },
+    });
 
-      console.log("chapter added:", res.data);
-      return res.data;
-    } catch (err) {
-      console.error("Error adding chapter:", err.response?.data?.message);
-      throw err;
+    if (res.data.success) {
+      return { success: true, course: res.data.course };
+    } else {
+      return { success: false, message: res.data.message };
     }
-  };
+  } catch (err) {
+    console.error("Error creating course:", err.response?.data?.message);
+    return {
+      success: false,
+      message: err.response?.data?.message || "Failed to create course",
+    };
+  }
+};
 
-   //  Add Lecture (with video upload)
-  const addLecture = async (courseId, chapterId, lectureData) => {
-    try {
-      const token = localStorage.getItem("token");
-      const formData = new FormData();
+// Add Chapter
+const addChapter = async (courseId, chapterData) => {
+  try {
+    const token = localStorage.getItem("adminToken");
+    console.log("Sending chapter data:", chapterData);
 
-        formData.append("lectureTitle", lectureData.lectureTitle);
+    const res = await axios.post(
+      `${Admin_Base_URL}/courses/${courseId}/add-chapter`,
+      chapterData,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    console.log("Chapter added:", res.data);
+    return res.data;
+  } catch (err) {
+    console.error("Error adding chapter:", err.response?.data?.message);
+    throw err;
+  }
+};
+
+// Add Lecture
+const addLecture = async (courseId, chapterId, lectureData) => {
+  try {
+    const token = localStorage.getItem("adminToken");
+    const formData = new FormData();
+
+    formData.append("lectureTitle", lectureData.lectureTitle);
     formData.append("lectureOrder", lectureData.lectureOrder);
     formData.append("lectureDuration", lectureData.lectureDuration);
     formData.append("isPreviewFree", lectureData.isPreviewFree);
-    formData.append("lectureUrl", lectureData.lectureUrl); // file upload
+    formData.append("lectureFile", lectureData.lectureFile); // actual file, not URL
 
-    console.log("📤 Sending lecture data:", formData);
+    console.log("📤 Sending lecture data:", [...formData.entries()]);
 
-
-      for (const key in lectureData) {
-        formData.append(key, lectureData[key]);
+    const res = await axios.post(
+      `${Admin_Base_URL}/courses/${courseId}/add-lecture/${chapterId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
       }
+    );
 
-      const res = await axios.post(
-        `${Admin_Base_URL}/courses/${courseId}/add-lecture/${chapterId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+    console.log("Lecture added:", res.data);
+    return res.data;
+  } catch (err) {
+    console.error("Error adding lecture:", err.response?.data?.message);
+    throw err;
+  }
+};
 
-      console.log("Lecture added:", res.data);
-      return res.data;
-    } catch (err) {
-      console.error("Error adding lecture:", err.response?.data?.message);
-      throw err;
-    }
-  };
+ 
 
   const getAllCourses = async () => {
   try {
@@ -152,6 +177,49 @@ export const AdminProvider = ({ children }) => {
   }
 };
 
+const getCourseContent = async (courseId) => {
+  try {
+    const res = await axios.get(`${Admin_Base_URL}/courses/${courseId}/content`);
+    console.log("Course content fetched:", res.data);
+    return res.data;
+  } catch(err){
+    console.error("Failed to fetch Course Content:", err.response?.data?.message || err.message);
+    throw err;
+  }
+};
+
+const editCourse = async () => {
+try{
+  const token = localStorage.getItem("token");
+
+}catch(err){
+
+}
+};
+
+const editChapter = async () => {}
+const editLecture = async () => {}
+
+const createProject = async (courseId,projectId) => {
+  try{
+ const token = localStorage.getItem(token);
+ const formData = new FormData();
+ const res = await axios.post(`${Admin_Base_URL}/courses/${courseId}/projects/${projectId}/submit`,
+  {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    }
+  });
+  console.log("project created:", res.data);
+  return res.data;
+  } catch (err){
+    console.error("Error creating project:",err.response?.data?.message)
+    throw err;
+  }
+};
+const getUserProjects = async() => {}
+
 
 
 
@@ -159,8 +227,10 @@ export const AdminProvider = ({ children }) => {
 
 
   return (
-    <AdminContext.Provider value={{ isAdminLoggedIn, loginAdmin, logoutAdmin,
-     createCourse, getAllCourses, addChapter,addLecture }}>
+    <AdminContext.Provider value={{ isAdminLoggedIn, adminToken,loading,loginAdmin, logoutAdmin,
+     createCourse, getAllCourses, addChapter,addLecture,getCourseContent,
+     editCourse,
+     editChapter,editLecture,createProject,getUserProjects }}>
       {children}
     </AdminContext.Provider>
   );

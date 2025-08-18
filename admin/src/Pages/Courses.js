@@ -3,12 +3,17 @@ import { useAdmin } from "../context/AdminContext";
 import AddCourses from "../components/AddCourses";
 import { useNavigate } from "react-router-dom";
 
+
 const Courses = () => {
-  const { getAllCourses } = useAdmin();
+  const { getAllCourses, getCourseContent } = useAdmin();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("view"); // view, add, delete
   const navigate = useNavigate();
+
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [selectedCourseContent, setSelectedCourseContent] = useState(null);
+  const [loadingContent, setLoadingContent] = useState(false);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -26,10 +31,12 @@ const Courses = () => {
     fetchCourses();
   }, []);
 
-  const handleThumbnailClick = (courseId) => {
-    alert(`Clicked on course ID: ${courseId}`);
-    // Later you can navigate to a detail page
-    // navigate(`/admin/courses/${courseId}`);
+  const handleThumbnailClick = async (courseId) => {
+  if (!courseId) {
+    console.error(" Invalid Course ID");
+    return;
+  }
+    navigate(`/admin/course-content/${courseId}`); 
   };
 
   return (
@@ -87,13 +94,14 @@ const Courses = () => {
                   <div
                     key={course._id}
                     className="border rounded-lg p-4 shadow-md hover:shadow-lg transition duration-300 bg-white"
+                    onClick={() => handleThumbnailClick(course._id)}
                   >
                     {course.CourseThumbnail && (
                       <img
                         src={course.CourseThumbnail}
                         alt={course.title}
                         className="w-full h-40 object-cover rounded mb-3 cursor-pointer hover:opacity-80"
-                        onClick={() => handleThumbnailClick(course._id)}
+                        // onClick={() => handleThumbnailClick(course._id)}
                       />
                     )}
                     <h3 className="text-xl font-semibold mb-1">{course.title}</h3>
@@ -105,6 +113,8 @@ const Courses = () => {
                   </div>
                 ))}
               </div>
+
+             
             )}
           </div>
         )}

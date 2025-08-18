@@ -17,7 +17,7 @@ const AddCourses = () => {
      gradeRangeMin: "",
      gradeRangeMax: "",
      price: "",
-    // status: "draft",       // Options: active, inactive, draft
+     status: "",       // Options: active, inactive, draft
      CourseThumbnail: "",
     // videoUrl: "",
   });

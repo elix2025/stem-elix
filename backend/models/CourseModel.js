@@ -35,6 +35,39 @@ const chapterSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const ProjectSchema = new mongoose.Schema({
+
+  projectId: { type: String, required: true },
+  projectName: {
+      type: String,
+      required: true
+      
+    },
+  
+    ProjectDescription: {
+      type: String,
+      required: true
+    },
+  
+    projectupload: {
+      type: String,
+      required: true
+    },
+    updatedAt: {
+      type: Date,
+
+    }
+
+}, {_id:false});
+
+const SubmissionSchema = new mongoose.Schema({
+  projectId: { type: mongoose.Schema.Types.ObjectId, ref: "Project", required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  submissionFile: { type: String, required: true }, // file or link
+  submittedAt: { type: Date, default: Date.now }
+});
+
+
 const CourseSchema = new mongoose.Schema({
   title: { type: String, required: true },
   categoryId: {
@@ -75,6 +108,12 @@ const CourseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+
+  project: [ProjectSchema],
+
+  submissions: [SubmissionSchema]
+
+
 
   // quiz: [
   //   {

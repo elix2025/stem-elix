@@ -1,4 +1,8 @@
-import "../models/CourseModel.js";
+import Course from"../models/CourseModel.js";
+import User from "../models/User.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
 // Get user profile by user ID
 export const getUserProfile = async (req, res) => {
   try {
@@ -14,10 +18,6 @@ export const getUserProfile = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-import User from "../models/User.js";
-import validator from "validator";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 // Enroll in a course
 export const enrollCourse = async (req, res) => {
@@ -184,13 +184,14 @@ export const adminLogin = async (req, res) => {
       email === process.env.ADMIN_EMAIL &&
       password === process.env.ADMIN_PASSWORD
     ) {
-      const token = jwt.sign(email + password, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        {email, isAdmin: true},  process.env.JWT_SECRET);
       res.json({ success: true, token });
     } else {
       res.json({ success: false, message: "Invalid credentials" });
     }
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
+    console.error(error);
+    res.status(500)({ success: false, message: error.message });
   }
 };
