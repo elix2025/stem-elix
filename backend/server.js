@@ -6,9 +6,12 @@ import connectCloudinary from "./config/cloudinary.js";
 import userRouter from "./routes/UserRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import protectedRoutes from "./routes/protectedRoutes.js";
+import paymentRouter from "./routes/paymentRoutes.js";
+import progressRouter from "./routes/progressRoutes.js";
+
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 dotenv.config();
 connectDB();
@@ -22,6 +25,8 @@ app.use("/api/auth", userRouter);
 app.use("/api/courses", courseRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/user", userRouter);
+app.use("/api/order",paymentRouter);
+app.use("/api/progress", progressRouter);
 
 app.get("/", (req, res) => {
   res.send("API is running ✅");

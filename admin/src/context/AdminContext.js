@@ -9,7 +9,7 @@ export const AdminProvider = ({ children }) => {
   const [adminToken, setAdminToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const Admin_Base_URL = process.env.REACT_APP_API_BASE || "http://localhost:5000/api";
+  const Admin_Base_URL = process.env.REACT_APP_API_BASE || "http://localhost:4000/api";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
