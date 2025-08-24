@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useAPI } from "../context/api";
 import { useNavigate, Link } from "react-router-dom";
+import { createUserSlug, createSlug } from "../utils/slugutils";
 
 const Login = () => {
   const { loginUser } = useAPI();
@@ -23,12 +24,27 @@ const Login = () => {
 
     try {
       const res = await loginUser(formData.email, formData.password);
+      console.log("Login response:", res);
+
       if (res.success) {
-        navigate("/student");
+        console.log("Login successful");
+
+        // Create user slug and redirect to username-based URL
+        const userData = res.user || res;
+        const userSlug = createUserSlug(userData);
+
+        if (userSlug) {
+          console.log("Redirecting to:", `/student/${userSlug}`);
+          navigate(`/student/${userSlug}`);
+        } else {
+          console.log("Could not create slug, using fallback");
+          navigate("/student/dashboard");
+        }
       } else {
-        setError(res.message);
+        setError(res.message || "Login failed");
       }
     } catch (err) {
+      console.error("Login error:", err);
       setError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);

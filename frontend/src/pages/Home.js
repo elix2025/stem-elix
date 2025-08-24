@@ -8,6 +8,7 @@ import StatsCard from "../components/StatsCard";
 const Home = () => {
   const neuroRef = useRef(null);
   const [neuroVisible, setNeuroVisible] = useState(false);
+  const { currentUser } = require("../context/api").useAPI();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -20,7 +21,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleEnrollNow = () => {
-    navigate("/register");
+    if (currentUser) {
+      navigate("/courses");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (

@@ -1,14 +1,23 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAPI } from "../context/api";
+import { createUserSlug } from "../utils/slugutils";
 
 const Navbar = () => {
   const location = useLocation();
+  const { currentUser, logoutUser } = useAPI();
   const isHomePage = location.pathname === "/";
   const [scrolled, setScrolled] = useState(() => {
     // Initialize with current scroll position to prevent flash
     return isHomePage ? window.scrollY > 50 : false;
   });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    logoutUser();
+    // Close mobile menu if open
+    setMobileMenuOpen(false);
+  };
 
   useEffect(() => {
     if (isHomePage) {
@@ -109,41 +118,99 @@ const Navbar = () => {
           >
             Contact Us
           </Link>
-          <Link
-            to="/login"
-            className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
-              location.pathname === "/login"
-                ? "border-b-2 border-teal-500 pb-1"
-                : "hover:text-teal-600 hover:border-b-2 hover:border-teal-500 hover:pb-1"
-            }`}
-          >
-            Login
-          </Link>
 
-          {/* Enhanced Sign Up Button */}
-          <Link
-            to="/register"
-            className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
-              isHomePage && !scrolled
-                ? "bg-white text-slate-800 hover:bg-teal-50 shadow-md"
-                : "bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
-            }`}
-          >
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-              />
-            </svg>
-            Get Started
-          </Link>
+          {/* Conditional rendering based on login status */}
+          {currentUser && currentUser.token ? (
+            // Profile and Logout buttons when logged in
+            <div className="flex items-center gap-4">
+              <Link
+                to={`/student/${createUserSlug(currentUser)}`}
+                className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                  isHomePage && !scrolled
+                    ? "bg-white text-slate-800 hover:bg-teal-50 shadow-md"
+                    : "bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
+                }`}
+              >
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+                Profile
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className={`inline-flex items-center px-4 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 ${
+                  isHomePage && !scrolled
+                    ? "text-white border-2 border-white/30 hover:bg-white/10 hover:border-white/50"
+                    : "text-slate-700 border-2 border-slate-300 hover:bg-slate-50 hover:border-slate-400"
+                }`}
+              >
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                Logout
+              </button>
+            </div>
+          ) : (
+            // Login and Get Started when not logged in
+            <>
+              <Link
+                to="/login"
+                className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
+                  location.pathname === "/login"
+                    ? "border-b-2 border-teal-500 pb-1"
+                    : "hover:text-teal-600 hover:border-b-2 hover:border-teal-500 hover:pb-1"
+                }`}
+              >
+                Login
+              </Link>
+
+              {/* Enhanced Sign Up Button */}
+              <Link
+                to="/register"
+                className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                  isHomePage && !scrolled
+                    ? "bg-white text-slate-800 hover:bg-teal-50 shadow-md"
+                    : "bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
+                }`}
+              >
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                  />
+                </svg>
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -227,37 +294,91 @@ const Navbar = () => {
           >
             Contact Us
           </Link>
-          <Link
-            to="/login"
-            className={`block text-lg font-semibold transition-colors duration-300 ${
-              isHomePage && !scrolled ? "text-white" : "text-slate-700"
-            } ${
-              location.pathname === "/login"
-                ? "text-teal-500"
-                : "hover:text-teal-600"
-            }`}
-          >
-            Login
-          </Link>
-          <Link
-            to="/register"
-            className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
-          >
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-              />
-            </svg>
-            Get Started
-          </Link>
+
+          {/* Conditional rendering for mobile based on login status */}
+          {currentUser && currentUser.token ? (
+            // Profile and Logout buttons when logged in
+            <div className="space-y-4">
+              <Link
+                to={`/student/${createUserSlug(currentUser)}`}
+                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
+              >
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+                Profile
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className={`inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 border-2 ${
+                  isHomePage && !scrolled
+                    ? "text-white border-white/30 hover:bg-white/10 hover:border-white/50"
+                    : "text-slate-700 border-slate-300 hover:bg-slate-50 hover:border-slate-400"
+                }`}
+              >
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                Logout
+              </button>
+            </div>
+          ) : (
+            // Login and Get Started when not logged in
+            <>
+              <Link
+                to="/login"
+                className={`block text-lg font-semibold transition-colors duration-300 ${
+                  isHomePage && !scrolled ? "text-white" : "text-slate-700"
+                } ${
+                  location.pathname === "/login"
+                    ? "text-teal-500"
+                    : "hover:text-teal-600"
+                }`}
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
+              >
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                  />
+                </svg>
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

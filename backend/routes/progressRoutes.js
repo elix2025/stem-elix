@@ -14,10 +14,10 @@ import {
 } from "../controllers/ProgressController.js";
 import { protect } from "../middleware/auth.js";
 import AdminAuth from "../middleware/adminauth.js";
-import {
-  testProgressAPIs,
-  testProgressFunction,
-} from "../utils/testProgress.js";
+// import {
+//   testProgressAPIs,
+//   testProgressFunction,
+// } from "../utils/testProgress.js";
 
 const progressRouter = express.Router();
 
@@ -75,39 +75,39 @@ progressRouter.get(
 );
 
 // Test routes (development only - remove in production)
-if (process.env.NODE_ENV !== "production") {
-  // Run full progress API test suite
-  progressRouter.get("/test/full", async (req, res) => {
-    try {
-      const result = await testProgressAPIs();
-      res.json(result);
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Test failed",
-        error: error.message,
-      });
-    }
-  });
+// if (process.env.NODE_ENV !== "production") {
+//   // Run full progress API test suite
+//   progressRouter.get("/test/full", async (req, res) => {
+//     try {
+//       const result = await testProgressAPIs();
+//       res.json(result);
+//     } catch (error) {
+//       res.status(500).json({
+//         success: false,
+//         message: "Test failed",
+//         error: error.message,
+//       });
+//     }
+//   });
 
   // Test specific progress function
-  progressRouter.post("/test/function", async (req, res) => {
-    try {
-      const { functionName, params } = req.body;
-      const result = await testProgressFunction(functionName, params);
-      res.json({
-        success: true,
-        functionName,
-        result,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Function test failed",
-        error: error.message,
-      });
-    }
-  });
-}
+//   progressRouter.post("/test/function", async (req, res) => {
+//     try {
+//       const { functionName, params } = req.body;
+//       const result = await testProgressFunction(functionName, params);
+//       res.json({
+//         success: true,
+//         functionName,
+//         result,
+//       });
+//     } catch (error) {
+//       res.status(500).json({
+//         success: false,
+//         message: "Function test failed",
+//         error: error.message,
+//       });
+//     }
+//   });
+// }
 
 export default progressRouter;

@@ -6,8 +6,7 @@ import progThumb from "../../assets/programming.png";
 import robotThumb from "../../assets/robot.png";
 import modelThumb from "../../assets/model.png";
 import { useAPI } from "../../context/api";
-
-// ...existing code for assets...
+import { createSlug } from "../../utils/slugutils";
 
 const categories = ["All", "AI", "Math", "Programming"];
 const topics = [
@@ -21,53 +20,141 @@ const topics = [
   "Deep Learning",
 ];
 
+const lengthOptions = [
+  { label: "0-1 Hour", value: "<1" },
+  { label: "1-3 Hours", value: "1-3" },
+  { label: "3-6 Hours", value: "3-6" },
+  { label: "6-17 Hours", value: "6-17" },
+  { label: "17+ Hours", value: ">17" },
+];
+
+const ratingOptions = [
+  { label: "4.5 & up", value: 4.5 },
+  { label: "4.0 & up", value: 4.0 },
+  { label: "3.5 & up", value: 3.5 },
+  { label: "3.0 & up", value: 3.0 },
+];
+
 const Courses = () => {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
-  const [topic, setTopic] = useState("All");
-  const [paid, setPaid] = useState("All");
+  const [category, setCategory] = useState(""); // initially unmarked
+  const [topic, setTopic] = useState(""); // initially unmarked
+  const [paid, setPaid] = useState(""); // initially unmarked
   const [length, setLength] = useState("");
+  const [rating, setRating] = useState("");
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const lengthOptions = [
-    { label: "Any", value: "" },
-    { label: "Less than 1 hour", value: "<1" },
-    { label: "1-3 hours", value: "1-3" },
-    { label: "3-6 hours", value: "3-6" },
-    { label: "6+ hours", value: ">6" },
-  ];
+
   const navigate = useNavigate();
   const { getAllCourses } = useAPI();
 
   useEffect(() => {
-    setLoading(true);
-    getAllCourses()
-      .then((data) => {
-        setCourses(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err?.message || "Failed to load courses");
-        setLoading(false);
-      });
-  }, [getAllCourses]);
+    console.log("🔄 useEffect triggered - starting to load courses");
+    const loadCourses = async () => {
+      console.log("📡 Setting loading to true");
+      setLoading(true);
+      try {
+        console.log("🌐 Calling getAllCourses API...");
+        const data = await getAllCourses();
+        console.log("📦 Raw data received:", data);
 
-  // Filter logic
-  const filteredCourses = courses.filter((course) => {
-    const matchesSearch = course.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesCategory =
-      category === "All" || course.categoryId === category;
-    // You may need to adjust topic/paid/length mapping based on backend data
-    return matchesSearch && matchesCategory;
+        // Ensure data is an array
+        const coursesArray = Array.isArray(data) ? data : [];
+        console.log("✅ Courses loaded:", coursesArray.length, "courses");
+        console.log(
+          "📚 Course titles:",
+          coursesArray.map((course) => course.title)
+        );
+
+        setCourses(coursesArray);
+        setError(""); // Clear any previous errors
+        console.log("✅ Courses set in state");
+      } catch (err) {
+        console.error("❌ Error loading courses:", err);
+        setError(err?.message || "Failed to load courses");
+        setCourses([]); // Set empty array on error
+      } finally {
+        console.log("🏁 Setting loading to false");
+        setLoading(false);
+      }
+    };
+
+    loadCourses();
+  }, []); // Empty dependency array - only run once on mount
+
+  // Filtering logic with safety check
+  const filteredCourses = Array.isArray(courses)
+    ? courses.filter((course) => {
+        const matchesSearch = course.title
+          .toLowerCase()
+          .includes(search.toLowerCase());
+        const matchesCategory =
+          category === "" ||
+          category === "All" ||
+          course.categoryId === category;
+        const matchesTopic =
+          topic === "" || topic === "All" || course.topic === topic;
+        const matchesPaid =
+          paid === "" ||
+          paid === "All" ||
+          (paid === "Free" ? course.price === 0 : course.price > 0);
+        const matchesLength =
+          length === "" ||
+          (length === "<1" && course.duration < 1) ||
+          (length === "1-3" && course.duration >= 1 && course.duration <= 3) ||
+          (length === "3-6" && course.duration > 3 && course.duration <= 6) ||
+          (length === "6-17" && course.duration > 6 && course.duration <= 17) ||
+          (length === ">17" && course.duration > 17);
+        const matchesRating =
+          rating === "" || (course.rating && course.rating >= rating);
+
+        return (
+          matchesSearch &&
+          matchesCategory &&
+          matchesTopic &&
+          matchesPaid &&
+          matchesLength &&
+          matchesRating
+        );
+      })
+    : [];
+
+  console.log("🔍 Filtering state:", {
+    totalCourses: courses.length,
+    filteredCourses: filteredCourses.length,
+    loading,
+    error,
+    search,
+    category,
+    topic,
+    paid,
+    length,
+    rating,
   });
+
+  // Collapsible filter section
+  const FilterSection = ({ title, children }) => {
+    const [open, setOpen] = useState(false);
+    return (
+      <div className="border-b border-slate-200 py-3">
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full flex justify-between items-center text-slate-800 font-semibold mb-2"
+        >
+          {title}
+          <span className="text-slate-500">{open ? "−" : "+"}</span>
+        </button>
+        {open && <div className="flex flex-col gap-2 pl-1">{children}</div>}
+      </div>
+    );
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold mb-8 text-slate-800">All Courses</h1>
-      {/* Search Bar */}
+
+      {/* Search */}
       <div className="mb-8 flex justify-center">
         <input
           type="text"
@@ -77,127 +164,184 @@ const Courses = () => {
           className="w-full max-w-xl px-5 py-3 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-lg shadow-sm"
         />
       </div>
+
       <div className="flex gap-8">
-        {/* Minimal Sidebar Filters */}
-        <aside className="w-64 min-w-[220px] pt-2 border-r border-slate-100 bg-white/80 h-fit sticky top-24 self-start flex flex-col gap-6">
-          <div>
-            <label className="block text-slate-500 font-medium mb-1 text-sm">
-              Category
-            </label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-base bg-slate-50"
-            >
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-slate-500 font-medium mb-1 text-sm">
-              Topic
-            </label>
-            <select
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-base bg-slate-50"
-            >
-              {topics.map((top) => (
-                <option key={top} value={top}>
-                  {top}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-slate-500 font-medium mb-1 text-sm">
-              Type
-            </label>
-            <select
-              value={paid}
-              onChange={(e) => setPaid(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-base bg-slate-50"
-            >
-              <option value="All">All</option>
-              <option value="Free">Free</option>
-              <option value="Paid">Paid</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-slate-500 font-medium mb-1 text-sm">
-              Max Length
-            </label>
-            <select
-              value={length}
-              onChange={(e) => setLength(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-base bg-slate-50"
-            >
-              {lengthOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* Sidebar Filters */}
+        <aside className="w-64 min-w-[220px] border-r border-slate-200 bg-white/80 h-[80vh] sticky top-24 self-start p-4 rounded-lg shadow-sm overflow-y-auto">
+          <FilterSection title="Ratings">
+            {ratingOptions.map((opt) => (
+              <label
+                key={opt.value}
+                className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={rating === opt.value}
+                  onChange={() =>
+                    setRating(rating === opt.value ? "" : opt.value)
+                  }
+                  className="w-4 h-4 accent-teal-600"
+                />
+                <span>{"★".repeat(Math.floor(opt.value))} & up</span>
+              </label>
+            ))}
+          </FilterSection>
+
+          <FilterSection title="Video Duration">
+            {lengthOptions.map((opt) => (
+              <label
+                key={opt.value}
+                className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={length === opt.value}
+                  onChange={() =>
+                    setLength(opt.value === length ? "" : opt.value)
+                  }
+                  className="w-4 h-4 accent-teal-600"
+                />
+                {opt.label}
+              </label>
+            ))}
+          </FilterSection>
+
+          <FilterSection title="Category">
+            {categories.map((cat) => (
+              <label
+                key={cat}
+                className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={category === cat}
+                  onChange={() => setCategory(category === cat ? "" : cat)}
+                  className="w-4 h-4 accent-teal-600"
+                />
+                {cat}
+              </label>
+            ))}
+          </FilterSection>
+
+          <FilterSection title="Topic">
+            {topics.map((top) => (
+              <label
+                key={top}
+                className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={topic === top}
+                  onChange={() => setTopic(topic === top ? "" : top)}
+                  className="w-4 h-4 accent-teal-600"
+                />
+                {top}
+              </label>
+            ))}
+          </FilterSection>
+
+          <FilterSection title="Type">
+            {["All", "Free", "Paid"].map((type) => (
+              <label
+                key={type}
+                className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={paid === type}
+                  onChange={() => setPaid(paid === type ? "" : type)}
+                  className="w-4 h-4 accent-teal-600"
+                />
+                {type}
+              </label>
+            ))}
+          </FilterSection>
         </aside>
-        {/* Courses Grid */}
+
+        {/* Courses List */}
         <div className="flex-1">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Debug Info - Remove in production */}
+          <div className="mb-4 p-3 bg-blue-50 rounded text-sm">
+            Debug:{" "}
+            {loading
+              ? "Loading..."
+              : `${courses.length} courses loaded, ${filteredCourses.length} after filtering`}
+            {error && <span className="text-red-600"> | Error: {error}</span>}
+          </div>
+
+          <div className="flex flex-col gap-6">
             {loading ? (
-              <div className="col-span-full text-center text-slate-500 text-lg py-12">
+              <div className="text-center text-slate-500 text-lg py-12">
                 Loading courses...
               </div>
             ) : error ? (
-              <div className="col-span-full text-center text-red-500 text-lg py-12">
+              <div className="text-center text-red-500 text-lg py-12">
                 {error}
               </div>
             ) : filteredCourses.length === 0 ? (
-              <div className="col-span-full text-center text-slate-500 text-lg py-12">
+              <div className="text-center text-slate-500 text-lg py-12">
                 No courses found.
               </div>
             ) : (
               filteredCourses.map((course) => (
                 <div
                   key={course._id}
-                  className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group flex flex-col"
-                  onClick={() => navigate(`/courses/info/${course._id}`)}
+                  className="bg-white rounded-lg shadow hover:shadow-md transition-all duration-300 cursor-pointer flex gap-6 p-5 border border-slate-200"
+                  onClick={() =>
+                    navigate(`/courses/info/${createSlug(course.title)}`)
+                  }
                 >
-                  <div className="mb-4 w-full h-40 flex items-center justify-center overflow-hidden rounded-xl bg-slate-100">
+                  {/* Thumbnail */}
+                  <div className="w-48 h-28 flex-shrink-0 overflow-hidden rounded-md bg-slate-100">
                     <img
                       src={course.CourseThumbnail || aiThumb}
-                      alt={course.title + " thumbnail"}
-                      className="object-contain h-full w-full group-hover:scale-105 transition-transform duration-300"
+                      alt={course.title}
+                      className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <h2 className="text-2xl font-bold text-slate-800 mb-2">
-                    {course.title}
-                  </h2>
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    <span className="px-3 py-1 rounded-full bg-teal-100 text-teal-700 text-xs font-semibold">
-                      {course.categoryId}
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
-                      {course.duration} hrs
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">
-                      {course.status}
-                    </span>
+
+                  {/* Course Info */}
+                  <div className="flex flex-col flex-1">
+                    <h2 className="text-lg font-bold text-slate-800 line-clamp-1">
+                      {course.title}
+                    </h2>
+                    <p className="text-slate-600 text-sm line-clamp-2 mb-2">
+                      {course.description}
+                    </p>
+
+                    {/* Rating + Students */}
+                    <div className="flex items-center gap-2 text-sm mb-2">
+                      <span className="text-amber-500 font-semibold">
+                        ★ {course.rating || "4.6"}
+                      </span>
+                      <span className="text-slate-500">
+                        ({course.enrolled || "1,200"} students)
+                      </span>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex gap-3 text-xs text-slate-600 mb-2">
+                      <span>{course.categoryId}</span>
+                      <span>{course.duration} hrs</span>
+                    </div>
+
+                    {/* Price + Badges */}
+                    <div className="mt-auto flex items-center gap-3">
+                      <span className="text-lg font-bold text-slate-800">
+                        ₹{course.price || "479"}
+                      </span>
+                      {course.isBestSeller && (
+                        <span className="px-2 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded font-semibold">
+                          Bestseller
+                        </span>
+                      )}
+                      {course.isPremium && (
+                        <span className="px-2 py-0.5 text-xs bg-purple-100 text-purple-800 rounded font-semibold">
+                          Premium
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <p className="text-slate-600 mb-4 text-sm">
-                    {course.description}
-                  </p>
-                  <button
-                    className="mt-auto px-5 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold shadow hover:from-teal-600 hover:to-emerald-600 transition-all duration-300"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/courses/info/${course._id}`);
-                    }}
-                  >
-                    View Details
-                  </button>
                 </div>
               ))
             )}

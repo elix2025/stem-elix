@@ -1,28 +1,9 @@
 // ✅ Create a new course (admin only)
-
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-const createCourse = async (courseData, token) => {
-  try {
-    // Use FormData for file upload
-    const formData = new FormData();
-    Object.entries(courseData).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-    const res = await axios.post(`${BASE_URL}/courses/create`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return res.data;
-  } catch (error) {
-    return error.response?.data || { message: "Failed to create course" };
-  }
-};
 
-const BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:4000/api";
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000/api";
+
 
 const APIContext = createContext();
 
@@ -33,8 +14,6 @@ export const APIContextProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // Try to fetch user profile with token
-      // You may need to decode token to get userId, or fetch a /me endpoint
       axios
         .get(`${BASE_URL}/user/me`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -103,13 +82,12 @@ export const APIContextProvider = ({ children }) => {
   //  Fetch all courses
   const getAllCourses = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/courses/all`);
-      if (res.data?.success) {
-        return res.data.courses;
-      }
-      return [];
+      const res = await axios.get(`${BASE_URL}/courses`);
+      setCourses(res.data.courses || []);
+      return res.data.courses || []; // Return the array of courses, not the whole response
     } catch (error) {
-      return error.response?.data || { message: "Failed to load courses" };
+      console.error("Error fetching courses:", error);
+      return []; // Return empty array on error
     }
   };
 
@@ -123,17 +101,15 @@ export const APIContextProvider = ({ children }) => {
     }
   };
 
-  //  Fetch user profile data by userId
+  //  Fetch user profile
   const fetchUserProfile = async (userId, token) => {
     try {
-      const res = await axios.get(`${BASE_URL}/user/me`, {
+      const res = await axios.get(`${BASE_URL}/user/profile/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;
     } catch (error) {
-      return (
-        error.response?.data || { message: "Failed to fetch user profile" }
-      );
+      return error.response?.data || { message: "Failed to fetch profile" };
     }
   };
 
@@ -165,6 +141,197 @@ export const APIContextProvider = ({ children }) => {
     }
   };
 
+  // ===== PROGRESS API FUNCTIONS =====
+
+  // Initialize progress for a course
+  const initializeCourseProgress = async (courseId, token) => {
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/progress/initialize`,
+        { courseId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (error) {
+      console.error("Failed to initialize progress:", error);
+      return (
+        error.response?.data || { message: "Failed to initialize progress" }
+      );
+    }
+  };
+
+  // Update lecture progress
+  const updateLectureProgress = async (
+    courseId,
+    chapterId,
+    lectureId,
+    progressData,
+    token
+  ) => {
+    try {
+      const res = await axios.put(
+        `${BASE_URL}/progress/course/${courseId}/chapter/${chapterId}/lecture/${lectureId}`,
+        progressData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (error) {
+      console.error("Failed to update lecture progress:", error);
+      return (
+        error.response?.data || { message: "Failed to update lecture progress" }
+      );
+    }
+  };
+
+  // Get user's progress for a specific course
+  const getCourseProgress = async (courseId, token) => {
+    try {
+      const res = await axios.get(`${BASE_URL}/progress/course/${courseId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Failed to get course progress:", error);
+      return (
+        error.response?.data || { message: "Failed to get course progress" }
+      );
+    }
+  };
+
+  // Get all progress for the logged-in user
+  const getUserProgress = async (token) => {
+    try {
+      const res = await axios.get(`${BASE_URL}/progress/user`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Failed to get user progress:", error);
+      return error.response?.data || { message: "Failed to get user progress" };
+    }
+  };
+
+  // Add quiz score
+  const addQuizScore = async (courseId, quizData, token) => {
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/progress/course/${courseId}/quiz`,
+        quizData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (error) {
+      console.error("Failed to add quiz score:", error);
+      return error.response?.data || { message: "Failed to add quiz score" };
+    }
+  };
+
+  // Update study streak
+  const updateStreak = async (token) => {
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/progress/update-streak`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (error) {
+      console.error("Failed to update streak:", error);
+      return error.response?.data || { message: "Failed to update streak" };
+    }
+  };
+
+  // Get recent activity
+  const getRecentActivity = async (token) => {
+    try {
+      const res = await axios.get(`${BASE_URL}/progress/recent-activity`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Failed to get recent activity:", error);
+      return (
+        error.response?.data || { message: "Failed to get recent activity" }
+      );
+    }
+  };
+
+  // Get leaderboard
+  const getLeaderboard = async (token) => {
+    try {
+      const res = await axios.get(`${BASE_URL}/progress/leaderboard`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Failed to get leaderboard:", error);
+      return error.response?.data || { message: "Failed to get leaderboard" };
+    }
+  };
+
+  // Mark lecture as completed
+  const completeLecture = async (courseId, chapterId, lectureId, token) => {
+    try {
+      const res = await axios.put(
+        `${BASE_URL}/progress/course/${courseId}/chapter/${chapterId}/lecture/${lectureId}`,
+        {
+          isCompleted: true,
+          watchPercentage: 100,
+          timeSpent: 1, // At least 1 second to register completion
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (error) {
+      console.error("Failed to complete lecture:", error);
+      return error.response?.data || { message: "Failed to complete lecture" };
+    }
+  };
+
+  // Get progress statistics for admin
+  const getProgressStatistics = async (token) => {
+    try {
+      const res = await axios.get(`${BASE_URL}/progress/admin/statistics`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Failed to get progress statistics:", error);
+      return (
+        error.response?.data || { message: "Failed to get progress statistics" }
+      );
+    }
+  };
+
+  // Get all progress for a course (admin)
+  const getCourseProgressAdmin = async (courseId, token) => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/progress/admin/course/${courseId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (error) {
+      console.error("Failed to get course progress (admin):", error);
+      return (
+        error.response?.data || { message: "Failed to get course progress" }
+      );
+    }
+  };
+
+  // Get user progress for admin
+  const getUserProgressAdmin = async (userId, token) => {
+    try {
+      const res = await axios.get(`${BASE_URL}/progress/admin/user/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Failed to get user progress (admin):", error);
+      return error.response?.data || { message: "Failed to get user progress" };
+    }
+  };
+
   return (
     <APIContext.Provider
       value={{
@@ -178,7 +345,19 @@ export const APIContextProvider = ({ children }) => {
         fetchUserProfile,
         enrollCourse,
         completeCourse,
-        createCourse,
+        // Progress functions
+        initializeCourseProgress,
+        updateLectureProgress,
+        getCourseProgress,
+        getUserProgress,
+        addQuizScore,
+        updateStreak,
+        getRecentActivity,
+        getLeaderboard,
+        completeLecture,
+        getProgressStatistics,
+        getCourseProgressAdmin,
+        getUserProgressAdmin,
       }}
     >
       {children}

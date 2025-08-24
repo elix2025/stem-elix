@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAPI } from "../../context/api";
+import { findCourseBySlug, createSlug } from "../../utils/slugutils";
 
 const CourseInfo = () => {
-  const { id } = useParams();
+  const { courseName } = useParams();
   const navigate = useNavigate();
-  const { getCourseById, enrollCourse, currentUser } = useAPI();
+  const { getAllCourses, enrollCourse, currentUser } = useAPI();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setLoading(true);
-    getCourseById(id)
-      .then((data) => {
-        setCourse(data);
-        setLoading(false);
-      })
-      .catch((err) => {
+    const loadCourse = async () => {
+      setLoading(true);
+      try {
+        // Get all courses and find by slug
+        const courses = await getAllCourses();
+        const foundCourse = findCourseBySlug(courses, courseName);
+
+        if (foundCourse) {
+          setCourse(foundCourse);
+        } else {
+          setError("Course not found");
+        }
+      } catch (err) {
         setError(err?.message || "Failed to load course");
+      } finally {
         setLoading(false);
-      });
-  }, [id, getCourseById]);
+      }
+    };
+
+    loadCourse();
+  }, [courseName, getAllCourses]);
 
   if (loading) {
     return (
@@ -132,7 +143,7 @@ const CourseInfo = () => {
             const res = await enrollCourse(userId, course._id, token);
             if (res && res._id) {
               alert("Enrolled successfully!");
-              navigate(`/courses/content/${course._id}`);
+              navigate(`/courses/content/${createSlug(course.title)}`);
             } else {
               alert(res.message || "Failed to enroll in course.");
             }
