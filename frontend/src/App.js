@@ -1,5 +1,5 @@
 // frontend/src/App.js
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate} from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -37,10 +37,15 @@ function App() {
             <Route path="/policy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsAndConditions />} />
             <Route path="/about" element={<About />} />
-            <Route path="/student" element={<StudentDash />} />
+             <Route path="/student" element={<Navigate to="/login" replace />} />
+            {/* <Route path="/student/dashboard" element={<StudentDash />} /> */}
+            <Route path="/student/:username" element={<StudentDash />} />
             <Route path="/courses" element={<Courses />} />
-            <Route path="/courses/info/:id" element={<CourseInfo />} />
-            <Route path="/courses/content/:id" element={<CourseContent />} />
+            <Route path="/courses/info/:courseName" element={<CourseInfo />} />
+            <Route
+              path="/courses/content/:courseName"
+              element={<CourseContent />}
+            />
           </Routes>
         </Layout>
         <Footer />

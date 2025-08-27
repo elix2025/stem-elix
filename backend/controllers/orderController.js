@@ -43,11 +43,31 @@ try{
 }; 
 
 export const verifyPayment = async (req, res) => {
-    try{
+    try{ 
+            console.log('Headers:', req.headers);
+        console.log('Body:', req.body);
+        console.log('Query:', req.query);
+
         const {courseId , userId, razorpay_order_id,
             razorpay_payment_id,
              razorpay_signature,
         } = req.body;
+
+          // Validate all required fields
+        if (!courseId || !userId || !razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing required fields",
+                required: {
+                    courseId: !!courseId,
+                    userId: !!userId,
+                    razorpay_order_id: !!razorpay_order_id,
+                    razorpay_payment_id: !!razorpay_payment_id,
+                    razorpay_signature: !!razorpay_signature
+                }
+            }); 
+          }
+ 
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSignature = crypto
@@ -60,10 +80,18 @@ export const verifyPayment = async (req, res) => {
     }
 
         // Update payment record
-    await Payment.findOneAndUpdate(
+     const payment = await Payment.findOneAndUpdate(
       { orderId: razorpay_order_id },
-      { status: "paid", paymentId: razorpay_payment_id, signature: razorpay_signature }
+      { status: "paid", paymentId: razorpay_payment_id, signature: razorpay_signature },
+      { new: true }
     );
+
+      if (!payment) {
+      return res.status(404).json({
+        success: false,
+        message: "Payment record not found"
+      });
+    }
 
     // enroll user in course 
 

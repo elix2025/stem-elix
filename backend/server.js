@@ -6,8 +6,9 @@ import connectCloudinary from "./config/cloudinary.js";
 import userRouter from "./routes/UserRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import protectedRoutes from "./routes/protectedRoutes.js";
-import paymentRouter from "./routes/paymentRoutes.js";
+import orderRouter from "./routes/orderRoutes.js";
 import progressRouter from "./routes/progressRoutes.js";
+import emailRouter from "./routes/emailRoutes.js";
 
 
 const app = express();
@@ -25,8 +26,9 @@ app.use("/api/auth", userRouter);
 app.use("/api/courses", courseRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/user", userRouter);
-app.use("/api/order",paymentRouter);
+app.use("/api/orders",orderRouter);
 app.use("/api/progress", progressRouter);
+app.use("/api/email", emailRouter);
 
 app.get("/", (req, res) => {
   res.send("API is running ✅");

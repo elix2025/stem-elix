@@ -83,7 +83,7 @@ export const getAllCourses = async (req, res) => {
     if(req.users?.isAdmin){
       query = {};
     }
-    const courses = await Course.find({});
+    const courses = await Course.find(query);
     res.status(200).json({
       success: true,
       courses,
@@ -112,6 +112,50 @@ export const getCourseById = async (req, res) => {
     res.status(200).json(course);
   } catch (err) {
     console.error("Error fetching course:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getCourseByTitle = async (req, res) => {
+  try {
+    const { title } = req.params;
+
+    // Decode the title from URL encoding and replace hyphens with spaces for fuzzy matching
+    const decodedTitle = decodeURIComponent(title).replace(/-/g, " ");
+
+    // First try exact match (case insensitive)
+    let course = await Course.findOne({
+      title: { $regex: new RegExp(`^${decodedTitle}$`, "i") },
+    });
+
+    // If exact match fails, try fuzzy search by creating slug and matching
+    if (!course) {
+      // Get all courses and find by slug matching (fallback)
+      const courses = await Course.find({ status: "active" });
+      course = courses.find((c) => {
+        const courseSlug = c.title
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9\s-]/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "");
+        return courseSlug === title.toLowerCase();
+      });
+    }
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    // If not admin → block draft/inactive
+    if (!req.user?.isAdmin && course.status !== "active") {
+      return res.status(403).json({ error: "This course is not available" });
+    }
+
+    res.status(200).json(course);
+  } catch (err) {
+    console.error("Error fetching course by title:", err);
     res.status(500).json({ message: "Server error" });
   }
 };

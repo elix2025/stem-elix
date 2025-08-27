@@ -102,25 +102,7 @@ const Hero = ({ handleEnrollNow }) => {
                 </button>
               </div>
 
-              {/* Features List */}
-              <div className="grid grid-cols-2 gap-4 pt-8">
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-slate-300">Interactive Learning</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                  <span className="text-slate-300">Expert Instructors</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                  <span className="text-slate-300">Hands-on Projects</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
-                  <span className="text-slate-300">24/7 Support</span>
-                </div>
-              </div>
+              
             </div>
 
             {/* Right Content - Robot */}

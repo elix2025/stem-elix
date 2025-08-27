@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useAPI } from "../../context/api";
-import { findCourseBySlug } from "../../utils/slugutils";
 import {
   ChevronDown,
   ChevronRight,
@@ -67,7 +66,7 @@ const SECTIONS = [
 
 const CourseContent = () => {
   const { courseName } = useParams();
-  const { getAllCourses } = useAPI();
+  const { getCourseByTitle } = useAPI();
   const [course, setCourse] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
   const [currentChapter, setCurrentChapter] = useState(null);
@@ -81,10 +80,10 @@ const CourseContent = () => {
     const loadCourse = async () => {
       setCourseLoading(true);
       try {
-        const courses = await getAllCourses();
-        const foundCourse = findCourseBySlug(courses, courseName);
+        // Get course directly by title/slug
+        const foundCourse = await getCourseByTitle(courseName);
 
-        if (foundCourse) {
+        if (foundCourse && !foundCourse.message) {
           setCourse(foundCourse);
           // Set initial active section and chapter
           if (
@@ -101,7 +100,7 @@ const CourseContent = () => {
             }
           }
         } else {
-          setCourseError("Course not found");
+          setCourseError(foundCourse?.message || "Course not found");
         }
       } catch (err) {
         setCourseError(err?.message || "Failed to load course");
@@ -111,7 +110,7 @@ const CourseContent = () => {
     };
 
     loadCourse();
-  }, [courseName, getAllCourses]);
+  }, [courseName, getCourseByTitle]);
 
   // Use the progress tracking hook
   const {
@@ -504,7 +503,7 @@ const CourseContent = () => {
                   setNotes(e.target.value);
                   if (courseName && currentChapter?.lectureId) {
                     localStorage.setItem(
-                      `notes-${courseName}-${currentChapter.lectureId}`,
+                      notes-`${courseName}-${currentChapter.lectureId}`,
                       e.target.value
                     );
                   }
@@ -517,7 +516,7 @@ const CourseContent = () => {
                     setNotes("");
                     if (courseName && currentChapter?.lectureId) {
                       localStorage.removeItem(
-                        `notes-${courseName}-${currentChapter.lectureId}`
+                        notes-`${courseName}-${currentChapter.lectureId}`
                       );
                     }
                   }}

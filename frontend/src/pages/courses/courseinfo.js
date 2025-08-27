@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAPI } from "../../context/api";
-import { findCourseBySlug, createSlug } from "../../utils/slugutils";
+import { createSlug } from "../../utils/slugutils";
 
 const CourseInfo = () => {
   const { courseName } = useParams();
   const navigate = useNavigate();
-  const { getAllCourses, enrollCourse, currentUser } = useAPI();
+  const { getCourseByTitle, enrollCourse, currentUser, buyCourse } = useAPI();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -15,14 +15,13 @@ const CourseInfo = () => {
     const loadCourse = async () => {
       setLoading(true);
       try {
-        // Get all courses and find by slug
-        const courses = await getAllCourses();
-        const foundCourse = findCourseBySlug(courses, courseName);
+        // Get course directly by title/slug
+        const foundCourse = await getCourseByTitle(courseName);
 
-        if (foundCourse) {
+        if (foundCourse && !foundCourse.message) {
           setCourse(foundCourse);
         } else {
-          setError("Course not found");
+          setError(foundCourse?.message || "Course not found");
         }
       } catch (err) {
         setError(err?.message || "Failed to load course");
@@ -32,7 +31,7 @@ const CourseInfo = () => {
     };
 
     loadCourse();
-  }, [courseName, getAllCourses]);
+  }, [courseName, getCourseByTitle]);
 
   if (loading) {
     return (
@@ -138,18 +137,24 @@ const CourseInfo = () => {
             }
             if (!userId || !token) {
               alert("You must be logged in to enroll.");
+              navigate("/login");
               return;
             }
-            const res = await enrollCourse(userId, course._id, token);
-            if (res && res._id) {
-              alert("Enrolled successfully!");
-              navigate(`/courses/content/${createSlug(course.title)}`);
-            } else {
-              alert(res.message || "Failed to enroll in course.");
+            try{
+                const response = await buyCourse(course._id, userId);
+      
+      if (!response.success) {
+        throw new Error(response.message || "Failed to initiate payment");
+      }
+
+            }catch(error){
+              console.error("Payment/Enrollment error:", error);
+             alert(error.message || "Failed to process enrollment. Please try again.");
+    
             }
           }}
         >
-          Enroll Now
+          Enroll Now - {course.price}$
         </button>
       </aside>
     </div>
