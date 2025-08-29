@@ -20,14 +20,15 @@ const Hero = ({ handleEnrollNow }) => {
 
   return (
     <>
-      {/* Hero Section with Modern Design */}
+      
       <section
         ref={heroRef}
         className={`hero-section relative overflow-hidden transition-opacity duration-300 ${
           heroVisible ? "opacity-100" : "opacity-90"
         } min-h-screen isolation-auto`}
-      >
+       >
         {/* Animated Background */}
+       
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-gray-800 to-slate-800">
           <div className="absolute inset-0 bg-gradient-to-r from-slate-600/20 to-teal-600/20"></div>
           {/* Animated circles */}
@@ -36,6 +37,7 @@ const Hero = ({ handleEnrollNow }) => {
         </div>
 
         {/* Content Container */}
+        
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
             {/* Left Content */}

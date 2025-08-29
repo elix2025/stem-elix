@@ -94,7 +94,7 @@ export const APIContextProvider = ({ children }) => {
       setCourses(res.data.courses || []);
       return res.data.courses || []; // Return the array of courses, not the whole response
     } catch (error) {
-      console.error("Error fetching courses:", error);
+      console.error("Error fetching courses from getall courses:", error);
       return []; // Return empty array on error
     }
   };

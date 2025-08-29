@@ -1,7 +1,8 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { useAPI } from "../context/api";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +13,7 @@ const CourseCard = ({ img, title }) => (
     whileInView={{ filter: "grayscale(0%)" }}
     transition={{ duration: 0.5 }}
     viewport={{ once: false, amount: "all" }}
-  >
+     >
     <img
       src={img}
       alt={title}
@@ -22,11 +23,15 @@ const CourseCard = ({ img, title }) => (
   </motion.div>
 );
 
+
 const TinkrionShowcase = () => {
   const sectionRef = useRef(null);
   const horizontalRef = useRef(null);
   const leftRef = useRef(null);
 
+  const { getAllCourses } = useAPI();
+  const [showcaseCourses,setShowcaseCourses]=useState([]);
+  
   // Dummy data
   const courses = [
     { img: "https://via.placeholder.com/400x300", title: "Junior" },
@@ -35,6 +40,24 @@ const TinkrionShowcase = () => {
     { img: "https://via.placeholder.com/400x300", title: "Innovator" },
     { img: "https://via.placeholder.com/400x300", title: "Creator" },
   ];
+  
+  useEffect(()=>{
+     const loadCourses=async()=>{
+          try {
+            
+            const data=await getAllCourses();
+            console.log("📦 Raw data received:", data);
+            // Ensure data is an array
+        
+        setShowcaseCourses(data);
+        
+          } catch (error) {
+             console.error("❌ Error loading courses:", error);
+          }
+     }
+     loadCourses();
+  },[])
+  console.log("courses from home ",showcaseCourses)
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -116,10 +139,9 @@ const TinkrionShowcase = () => {
       <div
         ref={horizontalRef}
         className="absolute left-1/3 min-h-screen flex justify-start items-center pl-40 space-x-24 bg-gray-50"
-      >
-        {courses.map((c, i) => (
-          <CourseCard key={i} img={c.img} title={c.title} />
-        ))}
+       >
+        {showcaseCourses.map((c, i) => <CourseCard key={i} img={c.CourseThumbnail} title={c.title} />
+        )}
       </div>
     </section>
   );
