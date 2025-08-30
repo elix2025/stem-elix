@@ -1,120 +1,127 @@
-import React from "react";
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Hero from "../components/Hero";
-import NeuroShowcase from "../components/NeuroShowcase";
-import { MdOutlineSupportAgent } from "react-icons/md";
 import { AiOutlineFundProjectionScreen } from "react-icons/ai";
 import { LiaProjectDiagramSolid } from "react-icons/lia";
 import { GrUserExpert } from "react-icons/gr";
+import { MdOutlineSupportAgent } from "react-icons/md";
+
+import { useAPI } from "../context/api";
+import GlobalBackground from "../components/GlobalBackground";
+import Hero from "../components/Hero";
 import TinkrionShowcase from "../components/coursecard";
+import NeuroShowcase from "../components/NeuroShowcase";
 
 const Home = () => {
+  const { currentUser } = useAPI();
+  const navigate = useNavigate();
+
   const neuroRef = useRef(null);
   const [neuroVisible, setNeuroVisible] = useState(false);
-  const { currentUser } = require("../context/api").useAPI();
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       ([entry]) => setNeuroVisible(entry.isIntersecting),
       { threshold: 0.3 }
     );
-    if (neuroRef.current) observer.observe(neuroRef.current);
-    return () => observer.disconnect();
+    if (neuroRef.current) io.observe(neuroRef.current);
+    return () => io.disconnect();
   }, []);
-  const navigate = useNavigate();
 
   const handleEnrollNow = () => {
-    if (currentUser) {
-      navigate("/courses");
-    } else {
-      navigate("/login");
-    }
+    if (currentUser) navigate("/courses");
+    else navigate("/login");
   };
 
-  // background color class 
-const  bgClass="bg-gradient-to-br from-slate-900 via-gray-800 to-slate-800 bg-gradient-to-r from-slate-600/20 to-teal-600/20"
-
   return (
-    <div className= {`home-page `} >
+    <div className="home-page text-white">
+      <GlobalBackground />
+
+      {/* HERO */}
       <Hero handleEnrollNow={handleEnrollNow} />
 
-      {/* Features List */}
-      <div className='w-[100vw] min-h-[90px] flex items-center justify-center 
-              flex-wrap gap-4 md:mb-[50px]'>
-        <div className='flex items-center justify-center gap-2 px-5
-                py-3 rounded-3xl bg-gray-200 cursor-pointer text-[#03394b]'>
-          {/* <img className="w-[35px] h-[35px] fill-[#03394b]" src="../assets/learning.png"  /> */}
-          <AiOutlineFundProjectionScreen className="w-[35px] h-[35px] fill-[#03394b]" /> Interactive Learning
+      {/* FEATURES — glass chips matching Hero */}
+      <section className="relative">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-10">
+          <div className="flex flex-wrap gap-4 justify-center">
+            {[
+              { icon: AiOutlineFundProjectionScreen, label: "Interactive Learning" },
+              { icon: GrUserExpert, label: "Expert Instructors" },
+              { icon: LiaProjectDiagramSolid, label: "Hands-on Projects" },
+              { icon: MdOutlineSupportAgent, label: "24/7 Support" },
+            ].map(({ icon: Icon, label }, i) => (
+              <div
+                key={i}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-3xl
+                           bg-white/10 border border-white/20 backdrop-blur-sm
+                           text-white hover:bg-white/15 transition"
+              >
+                <Icon className="w-[22px] h-[22px] text-teal-300" />
+                <span className="text-sm font-medium">{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
+      </section>
 
-
-        <div className='flex items-center justify-center gap-2 px-5
-                py-3 rounded-3xl bg-gray-200 cursor-pointer text-[#03394b]'>
-          <GrUserExpert className="w-[35px] h-[35px] fill-[#03394b]" />Expert Instructors
+      {/* COURSES SHOWCASE */}
+      <section className="relative">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-10">
+          <TinkrionShowcase />
         </div>
+      </section>
 
-
-        <div className='flex items-center justify-center gap-2 px-5
-                py-3 rounded-3xl bg-gray-200 cursor-pointer text-[#03394b]'>
-          <LiaProjectDiagramSolid className="w-[35px] h-[35px] fill-[#03394b]" />Hands-on Projects
-        </div>
-
-
-        <div className='flex items-center justify-center gap-2 px-5
-                py-3 rounded-3xl bg-gray-200 cursor-pointer text-[#03394b]'>
-          <MdOutlineSupportAgent className="w-[35px] h-[35px] fill-[#03394b]" />24/7 Support
-        </div>
-
-      </div>
-
-      <div>
-        <TinkrionShowcase />
-      </div>
-
-      <div
+      {/* NEURO SHOWCASE (fade-in) */}
+      <section
         ref={neuroRef}
-        className={`fade-in ${neuroVisible ? "visible" : ""}`}
+        className={`relative transition-all duration-500 ${
+          neuroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        }`}
       >
-        <NeuroShowcase />
-      </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-10">
+          <NeuroShowcase />
+        </div>
+      </section>
 
-      <section className="py-16 bg-gradient-to-r from-pink-50 via-purple-50 to-blue-50">
-        <div className="max-w-6xl mx-auto text-center px-6">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-10">
-            🎒 Our Back-to-School Program
+      {/* BACK-TO-SCHOOL — glass-on-dark instead of pastel */}
+      <section className="relative">
+        <div className="relative z-10 max-w-6xl mx-auto text-center px-6 py-20">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 via-teal-400 to-emerald-400">
+              🎒 Our Back-to-School Program
+            </span>
           </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto mb-12">
-            We are proud to partner with leading schools to provide students with innovative learning experiences. Our goal is to bridge the gap between classroom education and real-world skills, making learning exciting, practical, and future-ready.
+          <p className="text-slate-300 max-w-3xl mx-auto mb-12">
+            We partner with schools to bring hands-on, future-ready learning that bridges classroom theory with real-world skills.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {/* Card 1 */}
-            <div className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
-              <div className="text-blue-500 text-4xl mb-4">🏫</div>
-              <h3 className="text-lg font-semibold mb-2">Partnering with Schools</h3>
-              <p className="text-gray-500">
-                Collaborating with top schools to bring technology-driven, hands-on learning programs for students of all grades.
-              </p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
-              <div className="text-green-500 text-4xl mb-4">💡</div>
-              <h3 className="text-lg font-semibold mb-2">Future-Ready Skills</h3>
-              <p className="text-gray-500">
-                Introducing STEM, AI, Robotics, and problem-solving workshops designed to boost creativity and innovation among kids.
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
-              <div className="text-yellow-500 text-4xl mb-4">🤝</div>
-              <h3 className="text-lg font-semibold mb-2">Empowering Educators</h3>
-              <p className="text-gray-500">
-                Training teachers with modern teaching tools and methodologies to enhance student engagement and understanding.
-              </p>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              {
+                icon: "🏫",
+                t: "Partnering with Schools",
+                d: "Technology-driven, hands-on programs for every grade."
+              },
+              {
+                icon: "💡",
+                t: "Future-Ready Skills",
+                d: "STEM, AI, Robotics to spark creativity and innovation."
+              },
+              {
+                icon: "🤝",
+                t: "Empowering Educators",
+                d: "Modern tools and methods to boost engagement."
+              },
+            ].map((c, i) => (
+              <div
+                key={i}
+                className="bg-white/5 border border-white/10 rounded-2xl p-6
+                           backdrop-blur-sm shadow-xl text-left"
+              >
+                <div className="text-4xl mb-4">{c.icon}</div>
+                <h3 className="text-lg font-semibold text-white mb-2">{c.t}</h3>
+                <p className="text-slate-300">{c.d}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
