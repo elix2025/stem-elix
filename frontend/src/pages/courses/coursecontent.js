@@ -503,7 +503,7 @@ const CourseContent = () => {
                   setNotes(e.target.value);
                   if (courseName && currentChapter?.lectureId) {
                     localStorage.setItem(
-                      notes-`${courseName}-${currentChapter.lectureId}`,
+                      `notes-${courseName}-${currentChapter.lectureId}`,
                       e.target.value
                     );
                   }
@@ -516,7 +516,7 @@ const CourseContent = () => {
                     setNotes("");
                     if (courseName && currentChapter?.lectureId) {
                       localStorage.removeItem(
-                        notes-`${courseName}-${currentChapter.lectureId}`
+                        `notes-${courseName}-${currentChapter.lectureId}`
                       );
                     }
                   }}
