@@ -33,8 +33,6 @@ const Home = () => {
 
   return (
     <div className="home-page bg-white">
-    
-
       {/* HERO */}
       <Hero handleEnrollNow={handleEnrollNow} />
 
@@ -62,12 +60,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* COURSES SHOWCASE */}
-      <section className="relative">
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-10">
-          <TinkrionShowcase />
-        </div>
-      </section>
+      {/* TINKRION SHOWCASE - FULL WIDTH */}
+      <TinkrionShowcase />
 
       {/* NEURO SHOWCASE (fade-in) */}
       <section
@@ -82,7 +76,7 @@ const Home = () => {
       </section>
 
       {/* BACK-TO-SCHOOL — glass-on-dark instead of pastel */}
-      <section className="relative">
+      <section className="relative bg-gradient-to-br from-slate-900 to-gray-900">
         <div className="relative z-10 max-w-6xl mx-auto text-center px-6 py-20">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 via-teal-400 to-emerald-400">

@@ -1,196 +1,220 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import { useAPI } from "../context/api";
 
-/* ===== Small Card (subtle pop on enter/hover) ===== */
 const CourseCard = ({ img, title }) => (
-  <motion.div
-    className="flex-shrink-0 snap-center
-               min-w-[88%] sm:min-w-[70%] md:min-w-[55%] lg:min-w-[45%] xl:min-w-[40%]"
-    initial={{ opacity: 0, y: 10, scale: 1, filter: "grayscale(100%)" }}
-    whileInView={{ opacity: 1, y: 0, scale: 1.02, filter: "grayscale(0%)" }}
-    whileHover={{ scale: 1.04 }}
-    viewport={{ amount: 0.45, once: false }}
-    transition={{ duration: 0.35, ease: "easeOut" }}
-  >
-    <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm shadow-2xl">
-      <img
-        src={img}
-        alt={title}
-        loading="lazy"
-        draggable="false"
-        className="w-full h-56 md:h-64 object-cover select-none"
-        onError={(e) => (e.currentTarget.src = "/fallback.jpg")}
-      />
-      <div className="p-5">
-        <h3 className="text-white font-semibold text-center text-base md:text-lg">
-          {title}
-        </h3>
-      </div>
+  <div className="flex-shrink-0 w-[calc(100vw-3rem)] md:w-[calc(33.333%-1rem)] bg-white border border-purple-200 rounded-xl 
+                  overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 
+                  hover:scale-105 cursor-pointer snap-start">
+    <img
+      src={img}
+      alt={title}
+      className="w-full h-48 md:h-52 object-cover"
+      onError={(e) => {
+        console.log("Image failed:", img);
+        e.currentTarget.src = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop&auto=format";
+      }}
+      onLoad={() => console.log("Image loaded:", img)}
+    />
+    <div className="p-4 md:p-6 min-h-[4rem]">
+      <h3 className="text-gray-800 font-semibold text-base md:text-lg text-center leading-tight break-words overflow-wrap-anywhere">
+        {title}
+      </h3>
     </div>
-  </motion.div>
+  </div>
 );
 
-/* ===== Showcase (row-wise, simple, no hijack) ===== */
 export default function TinkrionShowcase() {
   const { getAllCourses } = useAPI();
   const [courses, setCourses] = useState([]);
+  const scrollRef = useRef(null);
 
-  const stripRef = useRef(null);
-
-  // Fetch & normalize
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
+    const fetchCourses = async () => {
       try {
-        const res = await getAllCourses();
-        const list =
-          Array.isArray(res) ? res :
-          Array.isArray(res?.data) ? res.data :
-          Array.isArray(res?.courses) ? res.courses :
-          Array.isArray(res?.data?.courses) ? res.data.courses : [];
-        if (!cancelled) setCourses(list);
-      } catch (e) {
-        console.error("❌ load courses failed:", e);
+        const response = await getAllCourses();
+        console.log("Full API Response:", response); // Debug log
+        
+        // Try multiple response structures
+        let courseList = [];
+        if (Array.isArray(response)) {
+          courseList = response;
+        } else if (response?.data) {
+          courseList = Array.isArray(response.data) ? response.data : 
+                      Array.isArray(response.data.courses) ? response.data.courses : [];
+        } else if (response?.courses) {
+          courseList = response.courses;
+        }
+        
+        console.log("Extracted courses:", courseList); // Debug log
+        setCourses(Array.isArray(courseList) ? courseList : []);
+      } catch (error) {
+        console.error("API Error:", error);
+        setCourses([]);
       }
-    })();
-    return () => { cancelled = true; };
+    };
+    fetchCourses();
   }, [getAllCourses]);
 
-  // Wheel → horizontal ONLY when hovering slider
-  useEffect(() => {
-    const el = stripRef.current;
-    if (!el) return;
-
-    let hovering = false;
-    const enter = () => (hovering = true);
-    const leave = () => (hovering = false);
-    const onWheel = (e) => {
-      if (!hovering) return;                 // page scroll as usual
-      if (e.deltaY === 0) return;
-
-      const atStart = el.scrollLeft <= 0 && e.deltaY < 0;
-      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth && e.deltaY > 0;
-      if (atStart || atEnd) return;          // let page scroll at edges
-
-      e.preventDefault();                    // IMPORTANT: needs passive:false
-      el.scrollLeft += e.deltaY * 1;         // map vertical wheel → horizontal
-    };
-
-    el.addEventListener("mouseenter", enter);
-    el.addEventListener("mouseleave", leave);
-    el.addEventListener("wheel", onWheel, { passive: false });
-
-    return () => {
-      el.removeEventListener("mouseenter", enter);
-      el.removeEventListener("mouseleave", leave);
-      el.removeEventListener("wheel", onWheel);
-    };
-  }, []);
-
-  // Helpers
-  const resolveImg = (c) => {
-    const raw = c.courseThumbnail || c.CourseThumbnail || c.thumbnail || c.image || c.imageUrl;
-    if (!raw) return "/fallback.jpg";
-    return String(raw).startsWith("http")
-      ? raw
-      : `${import.meta.env?.VITE_API_URL || ""}${raw}`;
-  };
-  const resolveTitle = (c) => c.title || c.name || c.courseTitle || "Course";
-
-  // Chevrons (tap-friendly for mobile)
-  const scrollByAmount = (dir = 1) => {
-    const el = stripRef.current;
-    if (!el) return;
-    const amt = Math.max(240, Math.floor(el.clientWidth * 0.9)); // ~1 viewport
-    el.scrollBy({ left: dir * amt, behavior: "smooth" });
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const container = scrollRef.current;
+      const cardWidth = container.querySelector('.snap-start')?.offsetWidth || 300;
+      const gap = 16; // gap-4 = 16px
+      const scrollAmount = cardWidth + gap;
+      
+      container.scrollBy({ 
+        left: direction === 'left' ? -scrollAmount : scrollAmount, 
+        behavior: 'smooth' 
+      });
+    }
   };
 
-  // Hide scrollbars (scoped CSS)
-  // If you prefer global, move this to globals.css
-  const NoScrollbarStyle = () => (
-    <style>{`
-      .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-    `}</style>
-  );
+  // Enhanced image resolution with multiple fallbacks
+  const getCourseImage = (course) => {
+    const possibleImages = [
+      course?.courseThumbnail,
+      course?.CourseThumbnail,
+      course?.thumbnail,
+      course?.image,
+      course?.imageUrl,
+      course?.img
+    ];
 
-  const list = courses.length
-    ? courses
-    : [
-        { title: "Junior", imageUrl: "https://via.placeholder.com/1200x800" },
-        { title: "Master", imageUrl: "https://via.placeholder.com/1200x800" },
-        { title: "Explorer", imageUrl: "https://via.placeholder.com/1200x800" },
-        { title: "Innovator", imageUrl: "https://via.placeholder.com/1200x800" },
-        { title: "Creator", imageUrl: "https://via.placeholder.com/1200x800" },
-      ];
+    for (let img of possibleImages) {
+      if (img) {
+        // If already a complete URL
+        if (String(img).startsWith('http')) {
+          console.log("Using direct URL:", img);
+          return img;
+        }
+        
+        // Try constructing with different base URLs
+        const baseUrls = [
+          process.env.REACT_APP_API_URL,
+          process.env.NEXT_PUBLIC_API_URL,
+          import.meta?.env?.VITE_API_URL,
+          window?.location?.origin
+        ].filter(Boolean);
+
+        for (let base of baseUrls) {
+          const fullUrl = `${base}${img.startsWith('/') ? img : '/' + img}`;
+          console.log("Trying constructed URL:", fullUrl);
+          return fullUrl;
+        }
+      }
+    }
+
+    return null; // Let fallback handle it
+  };
+
+  const getCourseTitle = (course) => {
+    return course?.title || course?.name || course?.courseTitle || course?.courseName || "Course";
+  };
+
+  // Working fallback images from Unsplash
+  const fallbackCourses = [
+    { 
+      id: 1, 
+      title: "Junior Developer", 
+      imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&h=400&fit=crop&auto=format"
+    },
+    { 
+      id: 2, 
+      title: "Master Track", 
+      imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&h=400&fit=crop&auto=format"
+    },
+    { 
+      id: 3, 
+      title: "Explorer Path", 
+      imageUrl: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=500&h=400&fit=crop&auto=format"
+    },
+    { 
+      id: 4, 
+      title: "Innovator Course", 
+      imageUrl: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=500&h=400&fit=crop&auto=format"
+    },
+    { 
+      id: 5, 
+      title: "Creator Journey", 
+      imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=400&fit=crop&auto=format"
+    },
+  ];
+
+  const displayCourses = courses.length > 0 ? courses : fallbackCourses;
 
   return (
-    <section className="relative">
-      <NoScrollbarStyle />
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
-        {/* Glass panel + border to break page continuity */}
-        <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-2xl overflow-hidden">
-          {/* Row 1: Text (top) */}
-          <div className="px-6 md:px-8 lg:px-10 pt-10">
-            <h2 className="text-3xl lg:text-4xl font-bold">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 via-teal-400 to-emerald-400">
-                Tinkrion
-              </span>
-            </h2>
-            <p className="text-slate-300 mt-3 max-w-3xl">
-              Welcome to <span className="font-semibold">Tinkrion</span> — our unique
-              learning ecosystem for curious minds. Explore{" "}
-              <span className="font-semibold">Junior, Master, Explorer</span> and more
-              tracks on your STEM journey.
-            </p>
+    <div className="w-full py-8 md:py-16 bg-gradient-to-br from-purple-400 to-white">
+      <div className="w-full px-4 md:px-6">
+        
+        {/* Header */}
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">
+              Tinkrion
+            </span>
+          </h2>
+          <p className="text-gray-700 text-base md:text-lg px-2">
+            Welcome to <span className="text-purple-600 font-semibold">Tinkrion</span> — 
+            explore our STEM learning tracks.
+          </p>
+        </div>
+
+        {/* Slider Container */}
+        <div className="relative w-full">
+          
+          {/* Navigation Buttons - Only show on desktop */}
+          <button
+            onClick={() => scroll('left')}
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10
+                       bg-white border-2 border-purple-300 hover:border-purple-500
+                       text-purple-600 w-12 h-12 rounded-full items-center justify-center
+                       transition-all duration-200 hover:scale-110 shadow-lg text-xl"
+          >
+            ‹
+          </button>
+          
+          <button
+            onClick={() => scroll('right')}
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10
+                       bg-white border-2 border-purple-300 hover:border-purple-500
+                       text-purple-600 w-12 h-12 rounded-full items-center justify-center
+                       transition-all duration-200 hover:scale-110 shadow-lg text-xl"
+          >
+            ›
+          </button>
+
+          {/* Cards Container */}
+          <div
+            ref={scrollRef}
+            className="flex gap-4 md:gap-6 overflow-x-auto 
+                       px-6 md:px-16 py-4 
+                       scrollbar-hide scroll-smooth snap-x snap-mandatory"
+          >
+            {displayCourses.map((course, index) => (
+              <CourseCard
+                key={course._id || course.id || index}
+                img={getCourseImage(course) || course.imageUrl}
+                title={getCourseTitle(course)}
+              />
+            ))}
           </div>
 
-          {/* Row 2: Slider (bottom) */}
-          <div className="relative mt-6 pb-10">
-            {/* Edge fades */}
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-slate-900/60 to-transparent" />
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-slate-900/60 to-transparent" />
-
-            {/* Mobile chevrons (also usable on desktop) */}
-            <button
-              onClick={() => scrollByAmount(-1)}
-              className="md:left-3 left-2 absolute top-1/2 -translate-y-1/2 h-10 w-10 rounded-full
-                         border border-white/20 bg-white/10 backdrop-blur text-white text-xl
-                         flex items-center justify-center active:scale-95"
-              aria-label="Scroll left"
-            >
-              ‹
-            </button>
-            <button
-              onClick={() => scrollByAmount(1)}
-              className="md:right-3 right-2 absolute top-1/2 -translate-y-1/2 h-10 w-10 rounded-full
-                         border border-white/20 bg-white/10 backdrop-blur text-white text-xl
-                         flex items-center justify-center active:scale-95"
-              aria-label="Scroll right"
-            >
-              ›
-            </button>
-
-            {/* Strip */}
-            <div
-              ref={stripRef}
-              className="mt-2 px-6 md:px-8 lg:px-10 flex gap-6 overflow-x-auto no-scrollbar
-                         snap-x snap-mandatory scroll-smooth"
-              style={{ scrollSnapType: "x mandatory" }}
-            >
-              {list.map((c, i) => (
-                <CourseCard key={c._id || i} img={resolveImg(c) ?? c.imageUrl} title={resolveTitle(c)} />
-              ))}
-            </div>
-
-            {/* Mobile hint */}
-            <div className="px-6 md:px-8 lg:px-10 mt-3 text-xs text-slate-400 md:hidden">
-              Tap chevrons or swipe to explore →
-            </div>
-          </div>
+          {/* Mobile instruction */}
+          <p className="text-center text-purple-500/70 text-sm mt-4 md:hidden">
+            Swipe left or right to explore courses →
+          </p>
+          
+          {/* Desktop instruction */}
+          <p className="hidden md:block text-center text-purple-500/70 text-sm mt-4">
+            Use arrow buttons or scroll to browse courses
+          </p>
         </div>
       </div>
-    </section>
+
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
+    </div>
   );
 }
