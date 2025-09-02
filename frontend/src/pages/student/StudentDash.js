@@ -356,10 +356,12 @@ const StudentDash = () => {
                       )}
                     </div>
 
+{/* ------------------> for now this link below is not working because the route to course content page is not there in frontend yet ! :(  .<---------------- */}
+                    
                     <Link
-                      to={`/courses/content/${
+                      to={`/courses/${
                         progress.courseId._id || progress.courseId
-                      }`}
+                      }/content/`}
                       className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-teal-500 to-blue-500 text-white rounded-lg hover:from-teal-600 hover:to-blue-600 transition flex items-center justify-center gap-2"
                     >
                       <FaPlay className="text-sm" />
