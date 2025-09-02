@@ -80,8 +80,8 @@ const Navbar = () => {
             to="/"
             className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
               location.pathname === "/"
-                ? "border-b-2 border-teal-500 pb-1"
-                : "hover:text-teal-600 hover:border-b-2 hover:border-teal-500 hover:pb-1"
+                ? "border-b-2 border-purple-500 pb-1"
+                : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
             }`}
           >
             Home
@@ -90,8 +90,8 @@ const Navbar = () => {
             to="/about"
             className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
               location.pathname === "/about"
-                ? "border-b-2 border-teal-500 pb-1"
-                : "hover:text-teal-600 hover:border-b-2 hover:border-teal-500 hover:pb-1"
+                ? "border-b-2 border-purple-500 pb-1"
+                : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
             }`}
           >
             About
@@ -101,8 +101,8 @@ const Navbar = () => {
             to="/courses"
             className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
               location.pathname === "/courses"
-                ? "border-b-2 border-teal-500 pb-1"
-                : "hover:text-teal-600 hover:border-b-2 hover:border-teal-500 hover:pb-1"
+                ? "border-b-2 border-purple-500 pb-1"
+                : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
             }`}
           >
             Courses
@@ -112,8 +112,8 @@ const Navbar = () => {
             to="/contact"
             className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
               location.pathname === "/contact"
-                ? "border-b-2 border-teal-500 pb-1"
-                : "hover:text-teal-600 hover:border-b-2 hover:border-teal-500 hover:pb-1"
+                ? "border-b-2 border-purple-500 pb-1"
+                : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
             }`}
           >
             Contact Us
@@ -127,8 +127,8 @@ const Navbar = () => {
                 to={`/student/${createUserSlug(currentUser)}`}
                 className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
                   isHomePage && !scrolled
-                    ? "bg-white text-slate-800 hover:bg-teal-50 shadow-md"
-                    : "bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
+                    ? "bg-white text-slate-800 hover:bg-purple-50 shadow-md"
+                    : "bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 shadow-md"
                 }`}
               >
                 <svg
@@ -178,8 +178,8 @@ const Navbar = () => {
                 to="/login"
                 className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                   location.pathname === "/login"
-                    ? "border-b-2 border-teal-500 pb-1"
-                    : "hover:text-teal-600 hover:border-b-2 hover:border-teal-500 hover:pb-1"
+                    ? "border-b-2 border-purple-500 pb-1"
+                    : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
                 }`}
               >
                 Login
@@ -190,8 +190,8 @@ const Navbar = () => {
                 to="/register"
                 className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
                   isHomePage && !scrolled
-                    ? "bg-white text-slate-800 hover:bg-teal-50 shadow-md"
-                    : "bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
+                    ? "bg-white text-slate-800 hover:bg-purple-50 shadow-md"
+                    : "bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 shadow-md"
                 }`}
               >
                 <svg
@@ -264,8 +264,8 @@ const Navbar = () => {
               isHomePage && !scrolled ? "text-white" : "text-slate-700"
             } ${
               location.pathname === "/"
-                ? "text-teal-500"
-                : "hover:text-teal-600"
+                ? "text-purple-500"
+                : "hover:text-purple-600"
             }`}
           >
             Home
@@ -276,8 +276,8 @@ const Navbar = () => {
               isHomePage && !scrolled ? "text-white" : "text-slate-700"
             } ${
               location.pathname === "/about"
-                ? "text-teal-500"
-                : "hover:text-teal-600"
+                ? "text-purple-500"
+                : "hover:text-purple-600"
             }`}
           >
             About
@@ -288,8 +288,8 @@ const Navbar = () => {
               isHomePage && !scrolled ? "text-white" : "text-slate-700"
             } ${
               location.pathname === "/contact"
-                ? "text-teal-500"
-                : "hover:text-teal-600"
+                ? "text-purple-500"
+                : "hover:text-purple-600"
             }`}
           >
             Contact Us
@@ -301,7 +301,7 @@ const Navbar = () => {
             <div className="space-y-4">
               <Link
                 to={`/student/${createUserSlug(currentUser)}`}
-                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
+                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 shadow-md"
               >
                 <svg
                   className="w-4 h-4 mr-2"
@@ -352,15 +352,15 @@ const Navbar = () => {
                   isHomePage && !scrolled ? "text-white" : "text-slate-700"
                 } ${
                   location.pathname === "/login"
-                    ? "text-teal-500"
-                    : "hover:text-teal-600"
+                    ? "text-purple-500"
+                    : "hover:text-purple-600"
                 }`}
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-700 hover:to-emerald-700 shadow-md"
+                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 shadow-md"
               >
                 <svg
                   className="w-4 h-4 mr-2"
