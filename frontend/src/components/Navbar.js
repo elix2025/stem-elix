@@ -44,15 +44,15 @@ const Navbar = () => {
 
   const navbarClass = isHomePage
     ? scrolled
-      ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/20"
+      ? "bg-[#efefef] backdrop-blur-md shadow-lg border-b border-gray-200/20"
       : "bg-transparent"
     : "bg-white shadow-lg border-b border-gray-200";
 
   const textColorClass =
-    isHomePage && !scrolled ? "text-white" : "text-slate-700";
+    isHomePage && !scrolled ? "text-black" : "text-back";
 
   const logoColorClass =
-    isHomePage && !scrolled ? "text-white" : "text-slate-800";
+    isHomePage && !scrolled ? "text-black" : "text-black";
 
   return (
     <nav
@@ -67,7 +67,7 @@ const Navbar = () => {
             to="/"
             className="hover:scale-105 transform transition-transform duration-200 inline-block"
           >
-            <span className="bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent font-extrabold">
+            <span className="bg-gradient-to-r from-[#a855f7] to-[#6d28d9] bg-clip-text text-transparent font-extrabold">
               Stem
             </span>
             <span className={logoColorClass}>Elix</span>

@@ -106,6 +106,17 @@ const FloatingDroneBot = () => {
       className="flex items-center justify-center"
       style={{ background: "transparent" }}
     >
+
+      <div ref={botRef} className="relative w-48 h-48">
+        {/* Purple Background Glow */}
+        <div 
+          className="absolute inset-0 -z-10 rounded-full opacity-20"
+          style={{
+            background: 'radial-gradient(circle at center, #a855f7 0%, transparent 70%)',
+            transform: 'scale(1.5)'
+          }}
+        />
+      </div>
       <div ref={botRef} className="relative w-48 h-48">
         {/* Oval Robot Head */}
         <div className="relative w-full h-full flex justify-center items-start">

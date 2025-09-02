@@ -6,7 +6,6 @@ import { GrUserExpert } from "react-icons/gr";
 import { MdOutlineSupportAgent } from "react-icons/md";
 
 import { useAPI } from "../context/api";
-import GlobalBackground from "../components/GlobalBackground";
 import Hero from "../components/Hero";
 import TinkrionShowcase from "../components/coursecard";
 import NeuroShowcase from "../components/NeuroShowcase";
@@ -33,8 +32,8 @@ const Home = () => {
   };
 
   return (
-    <div className="home-page text-white">
-      <GlobalBackground />
+    <div className="home-page bg-white">
+    
 
       {/* HERO */}
       <Hero handleEnrollNow={handleEnrollNow} />
@@ -52,10 +51,10 @@ const Home = () => {
               <div
                 key={i}
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-3xl
-                           bg-white/10 border border-white/20 backdrop-blur-sm
-                           text-white hover:bg-white/15 transition"
+                           bg-gray-50 border border-gray-200
+                         text-black-800 hover:bg-gray-100 transition"
               >
-                <Icon className="w-[22px] h-[22px] text-teal-300" />
+                <Icon className="w-[22px] h-[22px] text-black" />
                 <span className="text-sm font-medium">{label}</span>
               </div>
             ))}
@@ -73,7 +72,7 @@ const Home = () => {
       {/* NEURO SHOWCASE (fade-in) */}
       <section
         ref={neuroRef}
-        className={`relative transition-all duration-500 ${
+        className={`relative bg-white transition-all duration-500 ${
           neuroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
