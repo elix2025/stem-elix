@@ -53,7 +53,7 @@ export default function TinkrionShowcase() {
       }
     };
     fetchCourses();
-  }, [getAllCourses]);
+  }, []);
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -143,7 +143,7 @@ export default function TinkrionShowcase() {
   const displayCourses = courses.length > 0 ? courses : fallbackCourses;
 
   return (
-    <div className="w-full py-8 md:py-16 bg-gradient-to-br from-purple-400 to-white">
+    <div className="w-full py-8 md:py-16 bg-gradient-to-br from-[efefef] to-gray-100">
       <div className="w-full px-4 md:px-6">
         
         {/* Header */}

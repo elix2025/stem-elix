@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAPI } from "../../context/api";
-import { Link } from "react-router-dom";
+import { Link, useParams, Navigate, useNavigate } from "react-router-dom";
+import { createUserSlug, createSlug } from "../../utils/slugutils";
 import {
   FaBookOpen,
   FaCheckCircle,
@@ -16,6 +17,8 @@ import {
 import { MdEmail } from "react-icons/md";
 
 const StudentDash = () => {
+  const { username } = useParams();
+  const navigate = useNavigate();
   const [studentData, setStudentData] = useState(null);
   const [progressData, setProgressData] = useState([]);
   const [recentActivity, setRecentActivity] = useState([]);
@@ -23,6 +26,7 @@ const StudentDash = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const {
     currentUser,
@@ -37,7 +41,23 @@ const StudentDash = () => {
     window.scrollTo(0, 0);
 
     const fetchData = async () => {
+      // Check if we have a token, even if currentUser is not loaded yet
+      const token = localStorage.getItem("token");
+
       if (currentUser && currentUser.token) {
+        // User is fully loaded, verify username match if provided
+        if (username) {
+          const currentUserSlug = createUserSlug(
+            currentUser.name || currentUser.email
+          );
+          if (username !== currentUserSlug) {
+            // Instead of showing error, redirect to correct username
+            setShouldRedirect(true);
+            navigate(`/student/${currentUserSlug}`, { replace: true });
+            return;
+          }
+        }
+
         try {
           setLoading(true);
 
@@ -50,8 +70,8 @@ const StudentDash = () => {
 
           // Fetch progress data
           const progressResponse = await getUserProgress(currentUser.token);
-          if (progressResponse?.success) {
-            setProgressData(progressResponse.progress || []);
+          if (progressResponse.success) {
+            setProgressData(progressResponse.progress);
           }
 
           // Update streak
@@ -59,14 +79,14 @@ const StudentDash = () => {
 
           // Fetch recent activity
           const activityResponse = await getRecentActivity(currentUser.token);
-          if (activityResponse?.success) {
-            setRecentActivity(activityResponse.activity || []);
+          if (activityResponse.success) {
+            setRecentActivity(activityResponse.activity);
           }
 
           // Fetch leaderboard
           const leaderboardResponse = await getLeaderboard(currentUser.token);
-          if (leaderboardResponse?.success) {
-            setLeaderboardData((leaderboardResponse.leaderboard || []).slice(0, 10));
+          if (leaderboardResponse.success) {
+            setLeaderboardData(leaderboardResponse.leaderboard.slice(0, 10));
           }
 
           setError("");
@@ -76,14 +96,19 @@ const StudentDash = () => {
         } finally {
           setLoading(false);
         }
+      } else if (token) {
+        // Token exists but currentUser is still loading, keep showing loading
+        setLoading(true);
+        setError("");
       } else {
+        // No token, user needs to log in
         setLoading(false);
         setError("Please log in to view your dashboard");
       }
     };
 
     fetchData();
-  }, [currentUser]);
+  }, [currentUser, username]);
 
   // Calculate overall statistics
   const getOverallStats = () => {
@@ -111,11 +136,16 @@ const StudentDash = () => {
 
   const overallStats = getOverallStats();
 
+  // Handle redirect if user accessed wrong username
+  if (shouldRedirect) {
+    return null; // Component will unmount and redirect
+  }
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <div className="animate-spin w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
@@ -123,17 +153,24 @@ const StudentDash = () => {
   }
 
   if (error) {
+    // Check if it's an unauthorized access error, redirect to login
+    if (error.includes("Unauthorized access")) {
+      return <Navigate to="/login" replace />;
+    }
+
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-6">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <FaBookOpen className="text-red-500 text-2xl" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Dashboard Error</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Dashboard Error
+          </h2>
           <p className="text-gray-600 mb-4">{error}</p>
           <Link
             to="/login"
-            className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+            className="inline-flex items-center px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition"
           >
             Go to Login
           </Link>
@@ -143,26 +180,27 @@ const StudentDash = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-fuchsia-600 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full flex items-center justify-center">
               <FaUserCircle className="text-white text-2xl" />
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-800">
-                Welcome back, {studentData?.name || currentUser?.name || "Student"}!
+                Welcome back,{" "}
+                {studentData?.name || currentUser?.name || "Student"}!
               </h1>
               <p className="text-gray-600 flex items-center gap-2">
-                <MdEmail className="text-purple-600" />
+                <MdEmail className="text-teal-500" />
                 {studentData?.email || currentUser?.email}
               </p>
             </div>
           </div>
 
-          {/* Tabs */}
+          {/* Tab Navigation */}
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8">
               {["overview", "courses", "activity", "leaderboard"].map((tab) => (
@@ -171,7 +209,7 @@ const StudentDash = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`py-2 px-1 border-b-2 font-medium text-sm capitalize transition ${
                     activeTab === tab
-                      ? "border-purple-600 text-purple-700"
+                      ? "border-teal-500 text-teal-600"
                       : "border-transparent text-gray-500 hover:text-gray-700"
                   }`}
                 >
@@ -182,62 +220,76 @@ const StudentDash = () => {
           </div>
         </div>
 
-        {/* Overview */}
+        {/* Overview Tab */}
         {activeTab === "overview" && overallStats && (
           <div className="space-y-6">
-            {/* Stat cards */}
+            {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
               <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Total Courses</p>
-                    <p className="text-2xl font-bold text-gray-900">{overallStats.totalCourses}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Total Courses
+                    </p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {overallStats.totalCourses}
+                    </p>
                   </div>
-                  <FaBookOpen className="text-violet-600 text-2xl" />
+                  <FaBookOpen className="text-blue-500 text-2xl" />
                 </div>
               </div>
 
               <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Completed</p>
-                    <p className="text-2xl font-bold text-emerald-600">
+                    <p className="text-sm font-medium text-gray-600">
+                      Completed
+                    </p>
+                    <p className="text-2xl font-bold text-green-600">
                       {overallStats.completedCourses}
                     </p>
                   </div>
-                  <FaCheckCircle className="text-emerald-600 text-2xl" />
+                  <FaCheckCircle className="text-green-500 text-2xl" />
                 </div>
               </div>
 
               <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Study Hours</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Study Hours
+                    </p>
                     <p className="text-2xl font-bold text-purple-600">
                       {overallStats.totalTimeHours}
                     </p>
                   </div>
-                  <FaClock className="text-purple-600 text-2xl" />
+                  <FaClock className="text-purple-500 text-2xl" />
                 </div>
               </div>
 
               <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Avg Progress</p>
-                    <p className="text-2xl font-bold text-fuchsia-600">
+                    <p className="text-sm font-medium text-gray-600">
+                      Avg Progress
+                    </p>
+                    <p className="text-2xl font-bold text-teal-600">
                       {overallStats.avgProgress}%
                     </p>
                   </div>
-                  <FaChartLine className="text-fuchsia-600 text-2xl" />
+                  <FaChartLine className="text-teal-500 text-2xl" />
                 </div>
               </div>
 
               <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Best Streak</p>
-                    <p className="text-2xl font-bold text-orange-600">{overallStats.maxStreak}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Best Streak
+                    </p>
+                    <p className="text-2xl font-bold text-orange-600">
+                      {overallStats.maxStreak}
+                    </p>
                   </div>
                   <FaFire className="text-orange-500 text-2xl" />
                 </div>
@@ -246,7 +298,9 @@ const StudentDash = () => {
 
             {/* Recent Progress */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Progress</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                Recent Progress
+              </h3>
               <div className="space-y-4">
                 {progressData.slice(0, 3).map((progress, idx) => (
                   <div
@@ -254,46 +308,43 @@ const StudentDash = () => {
                     className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
                   >
                     <div className="flex items-center gap-3">
-                      <FaBookOpen className="text-purple-600" />
+                      <FaBookOpen className="text-teal-500" />
                       <div>
                         <h4 className="font-medium text-gray-800">
                           {progress.courseId?.title || "Course"}
                         </h4>
                         <p className="text-sm text-gray-600">
                           Last accessed:{" "}
-                          {progress.lastAccessedDate
-                            ? new Date(progress.lastAccessedDate).toLocaleDateString()
-                            : "—"}
+                          {new Date(
+                            progress.lastAccessedDate
+                          ).toLocaleDateString()}
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm font-medium text-gray-700">
-                          {progress.overallProgress || 0}%
+                          {progress.overallProgress}%
                         </span>
                         {progress.isCompleted && (
-                          <FaCheckCircle className="text-emerald-600" />
+                          <FaCheckCircle className="text-green-500" />
                         )}
                       </div>
                       <div className="w-24 bg-gray-200 rounded-full h-2">
                         <div
-                          className="bg-gradient-to-r from-purple-600 to-fuchsia-600 h-2 rounded-full"
-                          style={{ width: `${progress.overallProgress || 0}%` }}
+                          className="bg-gradient-to-r from-teal-500 to-blue-500 h-2 rounded-full"
+                          style={{ width: `${progress.overallProgress}%` }}
                         ></div>
                       </div>
                     </div>
                   </div>
                 ))}
-                {!progressData.length && (
-                  <p className="text-gray-500 text-center py-4">No progress yet.</p>
-                )}
               </div>
             </div>
           </div>
         )}
 
-        {/* Courses */}
+        {/* Courses Tab */}
         {activeTab === "courses" && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-800">My Courses</h2>
@@ -308,27 +359,29 @@ const StudentDash = () => {
                       {progress.courseId?.title || "Course"}
                     </h3>
                     {progress.isCompleted && (
-                      <FaGraduationCap className="text-emerald-600 text-xl" />
+                      <FaGraduationCap className="text-green-500 text-xl" />
                     )}
                   </div>
 
                   <div className="space-y-3">
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-gradient-to-r from-purple-600 to-fuchsia-600 h-2 rounded-full"
-                        style={{ width: `${progress.overallProgress || 0}%` }}
+                        className="bg-gradient-to-r from-teal-500 to-blue-500 h-2 rounded-full"
+                        style={{ width: `${progress.overallProgress}%` }}
                       ></div>
                     </div>
 
                     <div className="flex justify-between text-sm text-gray-600">
-                      <span>{progress.overallProgress || 0}% Complete</span>
-                      <span>{Math.round((progress.totalTimeSpent || 0) / 60)} min</span>
+                      <span>{progress.overallProgress}% Complete</span>
+                      <span>
+                        {Math.round(progress.totalTimeSpent / 60)} min
+                      </span>
                     </div>
 
                     <div className="flex items-center gap-4 text-sm">
                       <div className="flex items-center gap-1">
                         <FaFire className="text-orange-500" />
-                        <span>{progress.streak || 0} day streak</span>
+                        <span>{progress.streak} day streak</span>
                       </div>
                       {progress.certificateEarned && (
                         <div className="flex items-center gap-1">
@@ -339,8 +392,12 @@ const StudentDash = () => {
                     </div>
 
                     <Link
-                      to={`/courses/${progress.courseId?._id || progress.courseId}/content/`}
-                      className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white rounded-lg hover:from-purple-700 hover:to-fuchsia-700 transition flex items-center justify-center gap-2"
+                      to={`/courses/content/${createSlug(
+                        progress.courseId?.title ||
+                          progress.courseId?.name ||
+                          progress.courseName
+                      )}`}
+                      className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-teal-500 to-blue-500 text-white rounded-lg hover:from-teal-600 hover:to-blue-600 transition flex items-center justify-center gap-2"
                     >
                       <FaPlay className="text-sm" />
                       Continue Learning
@@ -348,46 +405,45 @@ const StudentDash = () => {
                   </div>
                 </div>
               ))}
-              {!progressData.length && (
-                <p className="text-gray-500">No courses yet.</p>
-              )}
             </div>
           </div>
         )}
 
-        {/* Activity */}
+        {/* Activity Tab */}
         {activeTab === "activity" && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800">Recent Activity</h2>
+            <h2 className="text-2xl font-bold text-gray-800">
+              Recent Activity
+            </h2>
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
               {recentActivity.length > 0 ? (
                 <div className="space-y-4">
                   {recentActivity.map((activity, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center gap-4 p-4 border-l-4 border-purple-600 bg-purple-50 rounded-r-lg"
+                      className="flex items-center gap-4 p-4 border-l-4 border-teal-500 bg-teal-50 rounded-r-lg"
                     >
-                      <FaBookOpen className="text-purple-600" />
+                      <FaBookOpen className="text-teal-500" />
                       <div>
                         <h4 className="font-medium text-gray-800">
-                          {activity.courseId?.title || "Course"}
+                          {activity.courseId?.title}
                         </h4>
                         <p className="text-sm text-gray-600">
-                          Progress: {activity.overallProgress || 0}% •{" "}
-                          {activity.updatedAt
-                            ? new Date(activity.updatedAt).toLocaleDateString()
-                            : "—"}
+                          Progress: {activity.overallProgress}% •{" "}
+                          {new Date(activity.updatedAt).toLocaleDateString()}
                         </p>
                         {activity.milestones?.length > 0 && (
                           <div className="flex gap-2 mt-1">
-                            {activity.milestones.slice(-3).map((m, i) => (
-                              <span
-                                key={i}
-                                className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded"
-                              >
-                                {m.type?.toString().replaceAll("_", " ")}
-                              </span>
-                            ))}
+                            {activity.milestones
+                              .slice(-3)
+                              .map((milestone, i) => (
+                                <span
+                                  key={i}
+                                  className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded"
+                                >
+                                  {milestone.type.replace("_", " ")}
+                                </span>
+                              ))}
                           </div>
                         )}
                       </div>
@@ -403,7 +459,7 @@ const StudentDash = () => {
           </div>
         )}
 
-        {/* Leaderboard */}
+        {/* Leaderboard Tab */}
         {activeTab === "leaderboard" && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-800">Leaderboard</h2>
@@ -416,11 +472,15 @@ const StudentDash = () => {
                       className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-fuchsia-600 rounded-full flex items-center justify-center">
-                          <span className="text-white font-bold text-sm">{idx + 1}</span>
+                        <div className="w-8 h-8 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-sm">
+                            {idx + 1}
+                          </span>
                         </div>
                         <div>
-                          <h4 className="font-medium text-gray-800">{user.name}</h4>
+                          <h4 className="font-medium text-gray-800">
+                            {user.name}
+                          </h4>
                           <div className="flex items-center gap-4 text-sm text-gray-600">
                             <span>{user.completedCourses} courses</span>
                             <span>{user.totalTimeSpent}h study time</span>
@@ -435,7 +495,9 @@ const StudentDash = () => {
                             {user.totalProgress}%
                           </span>
                         </div>
-                        <span className="text-sm text-gray-600">avg progress</span>
+                        <span className="text-sm text-gray-600">
+                          avg progress
+                        </span>
                       </div>
                     </div>
                   ))}
