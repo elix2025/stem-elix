@@ -32,13 +32,11 @@ const Home = () => {
   };
 
   return (
-    <div className="home-page bg-white">
-    
-
+    <div className="home-page bg-white text-slate-900">
       {/* HERO */}
       <Hero handleEnrollNow={handleEnrollNow} />
 
-      {/* FEATURES — glass chips matching Hero */}
+      {/* FEATURES — white chips with purple accents */}
       <section className="relative">
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-10">
           <div className="flex flex-wrap gap-4 justify-center">
@@ -51,10 +49,10 @@ const Home = () => {
               <div
                 key={i}
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-3xl
-                           bg-gray-50 border border-gray-200
-                         text-black-800 hover:bg-gray-100 transition"
+                           bg-white border border-gray-200 text-slate-800
+                           hover:border-purple-300 hover:bg-purple-50 transition"
               >
-                <Icon className="w-[22px] h-[22px] text-black" />
+                <Icon className="w-[22px] h-[22px] text-purple-600" />
                 <span className="text-sm font-medium">{label}</span>
               </div>
             ))}
@@ -62,12 +60,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* COURSES SHOWCASE */}
-      <section className="relative">
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-10">
-          <TinkrionShowcase />
-        </div>
-      </section>
+      {/* TINKRION SHOWCASE - FULL WIDTH */}
+      <TinkrionShowcase />
 
       {/* NEURO SHOWCASE (fade-in) */}
       <section
@@ -81,11 +75,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* BACK-TO-SCHOOL — glass-on-dark instead of pastel */}
-      <section className="relative">
+      {/* BACK-TO-SCHOOL — dark band with purple accents */}
+      <section className="relative bg-gradient-to-br from-slate-900 to-gray-900">
         <div className="relative z-10 max-w-6xl mx-auto text-center px-6 py-20">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 via-teal-400 to-emerald-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 via-purple-400 to-fuchsia-400">
               🎒 Our Back-to-School Program
             </span>
           </h2>
@@ -95,21 +89,9 @@ const Home = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              {
-                icon: "🏫",
-                t: "Partnering with Schools",
-                d: "Technology-driven, hands-on programs for every grade."
-              },
-              {
-                icon: "💡",
-                t: "Future-Ready Skills",
-                d: "STEM, AI, Robotics to spark creativity and innovation."
-              },
-              {
-                icon: "🤝",
-                t: "Empowering Educators",
-                d: "Modern tools and methods to boost engagement."
-              },
+              { icon: "🏫", t: "Partnering with Schools", d: "Technology-driven, hands-on programs for every grade." },
+              { icon: "💡", t: "Future-Ready Skills", d: "STEM, AI, Robotics to spark creativity and innovation." },
+              { icon: "🤝", t: "Empowering Educators", d: "Modern tools and methods to boost engagement." },
             ].map((c, i) => (
               <div
                 key={i}
