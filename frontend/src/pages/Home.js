@@ -9,6 +9,7 @@ import { useAPI } from "../context/api";
 import Hero from "../components/Hero";
 import TinkrionShowcase from "../components/coursecard";
 import NeuroShowcase from "../components/NeuroShowcase";
+import ShowCaseProjects from "../components/ShowCaseProjects";
 
 const Home = () => {
   const { currentUser } = useAPI();
@@ -105,6 +106,9 @@ const Home = () => {
             ))}
           </div>
         </div>
+      </section>
+      <section className=" transition-all duration-500">
+        <ShowCaseProjects/>
       </section>
     </div>
   );
