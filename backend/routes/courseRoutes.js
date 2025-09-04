@@ -20,9 +20,10 @@ import {
 } from "../controllers/courseController.js";
 import AdminAuth from "../middleware/adminauth.js";
 import { protect } from "../middleware/auth.js";
+import upload from "../middleware/multer.js";
 
 const router = express.Router();
-const upload = multer({ dest: "uploads/" });
+// const upload = multer({ dest: "uploads/" });
 
 router.post(
   "/create",

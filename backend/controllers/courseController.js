@@ -41,7 +41,18 @@ export const createCourse = async (req, res) => {
         .json({ message: "Missing required fields", missingFields });
     }
 
-    const thumbnailUpload = await cloudinary.uploader.upload(CourseThumbnail.path);
+    // const thumbnailUpload = await cloudinary.uploader.upload(CourseThumbnail.path);
+    const thumbnailUpload = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { resource_type: "image" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+
+  stream.end(CourseThumbnail.buffer); // 👈 buffer instead of path
+});
 
     const newCourse = new Course({
       title,
@@ -368,10 +379,25 @@ export const addLecture = async (req, res) => {
       return res.status(404).json({ message: "Chapter not found" });
     }
 
-    const uploadVideo = await cloudinary.uploader.upload(lectureFile.path, {
-      resource_type: "video", //imp. fr videos
-      folder: "course_lectures",
+    // const uploadVideo = await cloudinary.uploader.upload(lectureFile.path, {
+    //   resource_type: "video", //imp. fr videos
+    //   folder: "course_lectures",
+    // });
+
+    const uploadVideo = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: "video",
+          folder: "course_lectures",
+        },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      stream.end(lectureFile.buffer);
     });
+
 
     const newLecture = {
       lectureId: uuidv4(),
