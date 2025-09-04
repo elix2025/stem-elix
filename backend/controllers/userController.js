@@ -1,6 +1,7 @@
 import Course from"../models/CourseModel.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
+import validator from "validator";
 import jwt from "jsonwebtoken";
 
 // Get user profile by user ID
