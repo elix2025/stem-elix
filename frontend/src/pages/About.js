@@ -36,28 +36,28 @@ const AboutUsPage = () => {
       label: "Students Enrolled",
       icon: "🎓",
       wrap: "bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200",
-      numberCls: "text-purple-600",
+      numberCls: "text-[#ac6cf4]",
     },
     {
       number: "120+",
       label: "Courses Available",
       icon: "📚",
-      wrap: "bg-gradient-to-br from-purple-50 to-fuchsia-50 border-purple-200",
-      numberCls: "text-purple-600",
+      wrap: "bg-gradient-to-br from-[#ac6cf4]/10 to-fuchsia-50 border-[#ac6cf4]/30",
+      numberCls: "text-[#ac6cf4]",
     },
     {
       number: "98%",
       label: "Student Satisfaction",
       icon: "⭐",
-      wrap: "bg-gradient-to-br from-violet-50 to-purple-50 border-violet-200",
-      numberCls: "text-purple-600",
+      wrap: "bg-gradient-to-br from-violet-50 to-[#ac6cf4]/10 border-violet-200",
+      numberCls: "text-[#ac6cf4]",
     },
     {
       number: "50+",
       label: "Partner Schools",
       icon: "🏫",
       wrap: "bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200",
-      numberCls: "text-purple-600",
+      numberCls: "text-[#ac6cf4]",
     },
   ];
 
@@ -74,14 +74,14 @@ const AboutUsPage = () => {
       description:
         "Students from over 50 countries actively learning on our platform",
       icon: "🌎",
-      wrap: "bg-gradient-to-br from-purple-50 to-fuchsia-50 border-purple-200",
+      wrap: "bg-gradient-to-br from-[#ac6cf4]/10 to-fuchsia-50 border-[#ac6cf4]/30",
     },
     {
       title: "Research-Backed",
       description:
         "Our methods are proven to increase STEM engagement by 300%",
       icon: "📈",
-      wrap: "bg-gradient-to-br from-violet-50 to-purple-50 border-violet-200",
+      wrap: "bg-gradient-to-br from-violet-50 to-[#ac6cf4]/10 border-violet-200",
     },
   ];
 
@@ -96,7 +96,7 @@ const AboutUsPage = () => {
       >
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-20 left-10 w-72 h-72 bg-[#ac6cf4]/10 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-fuchsia-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
           <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-violet-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
         </div>
@@ -122,7 +122,7 @@ const AboutUsPage = () => {
           <div className="text-center text-white space-y-8">
             {/* Badge */}
             <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-full text-sm font-medium">
-              <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+              <span className="w-2 h-2 bg-[#ac6cf4] rounded-full animate-pulse"></span>
               <span>🌟 About StemElix</span>
             </div>
 
@@ -130,7 +130,7 @@ const AboutUsPage = () => {
             <div className="space-y-6">
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
                 <span className="block">Empowering Tomorrow's</span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-violet-400">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#ac6cf4] via-fuchsia-400 to-violet-400">
                   STEM Innovators
                 </span>
               </h1>
@@ -170,7 +170,7 @@ const AboutUsPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 bg-purple-50 text-purple-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+            <div className="inline-flex items-center space-x-2 bg-[#ac6cf4]/10 text-[#ac6cf4] px-4 py-2 rounded-full text-sm font-medium mb-4">
               <span>🎯 Our Purpose</span>
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
@@ -186,9 +186,9 @@ const AboutUsPage = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Mission */}
             <div className="space-y-8">
-              <div className="bg-gradient-to-br from-purple-50 to-fuchsia-50 rounded-3xl p-8 border border-purple-100">
+              <div className="bg-gradient-to-br from-[#ac6cf4]/10 to-fuchsia-50 rounded-3xl p-8 border border-[#ac6cf4]/20">
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-purple-600 rounded-2xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-[#ac6cf4] rounded-2xl flex items-center justify-center">
                     <svg
                       className="w-6 h-6 text-white"
                       fill="none"
@@ -208,7 +208,7 @@ const AboutUsPage = () => {
                 </p>
               </div>
 
-              <div className="bg-gradient-to-br from-violet-50 to-purple-50 rounded-3xl p-8 border border-violet-100">
+              <div className="bg-gradient-to-br from-violet-50 to-[#ac6cf4]/10 rounded-3xl p-8 border border-violet-100">
                 <div className="flex items-center space-x-4 mb-6">
                   <div className="w-12 h-12 bg-violet-600 rounded-2xl flex items-center justify-center">
                     <svg
@@ -260,13 +260,13 @@ const AboutUsPage = () => {
       {/* Team Section */}
       <section
         id="team"
-        className={`py-20 px-6 lg:px-8 bg-gradient-to-br from-slate-50 to-purple-50 transition-all duration-1000 delay-400 ${
+        className={`py-20 px-6 lg:px-8 bg-gradient-to-br from-slate-50 to-[#ac6cf4]/10 transition-all duration-1000 delay-400 ${
           isVisible.team ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+            <div className="inline-flex items-center space-x-2 bg-[#ac6cf4]/10 text-[#ac6cf4] px-4 py-2 rounded-full text-sm font-medium mb-4">
               <span>👥 Our Team</span>
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
@@ -281,10 +281,10 @@ const AboutUsPage = () => {
           {/* Team Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {[
-              { name: "Dr. Sarah Chen", role: "Chief Learning Officer", icon: "🔬", bg: "from-purple-400 to-fuchsia-500" },
-              { name: "Alex Rodriguez", role: "Head of Engineering", icon: "⚙️", bg: "from-violet-400 to-purple-500" },
+              { name: "Dr. Sarah Chen", role: "Chief Learning Officer", icon: "🔬", bg: "from-[#ac6cf4] to-fuchsia-500" },
+              { name: "Alex Rodriguez", role: "Head of Engineering", icon: "⚙️", bg: "from-violet-400 to-[#ac6cf4]" },
               { name: "Maya Patel", role: "UX Design Lead", icon: "🎨", bg: "from-fuchsia-400 to-violet-500" },
-              { name: "Dr. James Wilson", role: "Research Director", icon: "🧬", bg: "from-purple-400 to-violet-500" },
+              { name: "Dr. James Wilson", role: "Research Director", icon: "🧬", bg: "from-[#ac6cf4] to-violet-500" },
             ].map((member, index) => (
               <div key={index} className="group">
                 <div className="bg-white rounded-3xl p-6 shadow-lg border border-slate-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -315,7 +315,7 @@ const AboutUsPage = () => {
                 className="text-center bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-white/50"
               >
                 <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-3xl font-bold text-purple-600 mb-1">{stat.number}</div>
+                <div className="text-3xl font-bold text-[#ac6cf4] mb-1">{stat.number}</div>
                 <div className="text-slate-600 text-sm">{stat.label}</div>
               </div>
             ))}
@@ -332,7 +332,7 @@ const AboutUsPage = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+            <div className="inline-flex items-center space-x-2 bg-[#ac6cf4]/10 text-[#ac6cf4] px-4 py-2 rounded-full text-sm font-medium mb-4">
               <span>📊 Our Impact</span>
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
@@ -377,17 +377,17 @@ const AboutUsPage = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-800 relative overflow-hidden">
+      <section className="py-20 px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-[#ac6cf4] to-slate-800 relative overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-10 left-10 w-40 h-40 bg-[#ac6cf4]/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-10 right-10 w-40 h-40 bg-fuchsia-500/10 rounded-full blur-3xl"></div>
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
             Ready to Start Your{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ac6cf4] to-fuchsia-400">
               STEM Journey?
             </span>
           </h2>
@@ -398,7 +398,7 @@ const AboutUsPage = () => {
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:-translate-y-1 transition-all duration-300">
+            <button className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#ac6cf4] to-fuchsia-600 text-white font-semibold rounded-2xl shadow-2xl hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-1 transition-all duration-300">
               <span>Start Learning Today</span>
               <svg
                 className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"

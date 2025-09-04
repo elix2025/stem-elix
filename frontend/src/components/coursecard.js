@@ -149,7 +149,7 @@ export default function TinkrionShowcase() {
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-black to-black bg-clip-text text-transparent">
               Tinkrion
             </span>
           </h2>
