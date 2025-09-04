@@ -1,8 +1,8 @@
 const NeuroShowcase = () => {
   return (
     <section className="relative overflow-hidden isolate">
-      {/* Subtle background gradient (white + purple tints) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-purple-50/30 to-fuchsia-50/20" />
+      {/* Subtle background gradient (white + brand purple tints) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-[#ac6cf4]/10 to-[#ac6cf4]/5" />
 
       {/* Content container */}
       <div className="relative max-w-7xl mx-auto px-6 py-20 lg:px-8">
@@ -10,14 +10,14 @@ const NeuroShowcase = () => {
           {/* Text content */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <div className="inline-flex items-center space-x-2 bg-purple-100/80 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">
+              <div className="inline-flex items-center space-x-2 bg-[#ac6cf4]/20 text-[#ac6cf4] px-3 py-1 rounded-full text-sm font-medium">
                 <span>🧠</span>
                 <span>Neuroscience Kit</span>
               </div>
 
               <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 leading-tight">
                 Explore the Brain with Our
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-fuchsia-600">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ac6cf4] to-[#ac6cf4]/80">
                   {" "}
                   Advanced Kit
                 </span>
@@ -37,7 +37,7 @@ const NeuroShowcase = () => {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <button className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-purple-500/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
+              <button className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#ac6cf4] to-[#ac6cf4]/90 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
                 <span>Discover More</span>
                 <svg
                   className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
@@ -54,7 +54,7 @@ const NeuroShowcase = () => {
                 </svg>
               </button>
 
-              <button className="inline-flex items-center px-6 py-3 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-purple-300 hover:text-purple-700 transition-all duration-300 ease-out">
+              <button className="inline-flex items-center px-6 py-3 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-[#ac6cf4] hover:text-[#ac6cf4] transition-all duration-300 ease-out">
                 Learn More
               </button>
             </div>
@@ -63,8 +63,8 @@ const NeuroShowcase = () => {
           {/* Image container */}
           <div className="relative">
             {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-fuchsia-200 to-purple-200 rounded-full opacity-60" />
-            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-purple-200 to-fuchsia-200 rounded-full opacity-40" />
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-[#ac6cf4]/40 to-[#ac6cf4]/60 rounded-full opacity-60" />
+            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-[#ac6cf4]/30 to-[#ac6cf4]/50 rounded-full opacity-40" />
 
             {/* Main image */}
             <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-slate-200">

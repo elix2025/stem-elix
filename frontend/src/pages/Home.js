@@ -37,7 +37,7 @@ const Home = () => {
       {/* HERO */}
       <Hero handleEnrollNow={handleEnrollNow} />
 
-      {/* FEATURES — white chips with purple accents */}
+      {/* FEATURES — white chips with brand purple accents */}
       <section className="relative">
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-10">
           <div className="flex flex-wrap gap-4 justify-center">
@@ -51,9 +51,9 @@ const Home = () => {
                 key={i}
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-3xl
                            bg-white border border-gray-200 text-slate-800
-                           hover:border-purple-300 hover:bg-purple-50 transition"
+                           hover:border-[#ac6cf4] hover:bg-[#ac6cf4]/10 transition"
               >
-                <Icon className="w-[22px] h-[22px] text-purple-600" />
+                <Icon className="w-[22px] h-[22px] text-[#ac6cf4]" />
                 <span className="text-sm font-medium">{label}</span>
               </div>
             ))}
@@ -76,11 +76,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* BACK-TO-SCHOOL — dark band with purple accents */}
+      {/* BACK-TO-SCHOOL — dark band with brand purple accents */}
       <section className="relative bg-gradient-to-br from-slate-900 to-gray-900">
         <div className="relative z-10 max-w-6xl mx-auto text-center px-6 py-20">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 via-purple-400 to-fuchsia-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 via-[#ac6cf4] to-[#ac6cf4]/80">
               🎒 Our Back-to-School Program
             </span>
           </h2>
@@ -97,7 +97,7 @@ const Home = () => {
               <div
                 key={i}
                 className="bg-white/5 border border-white/10 rounded-2xl p-6
-                           backdrop-blur-sm shadow-xl text-left"
+                           backdrop-blur-sm shadow-xl text-left hover:border-[#ac6cf4]/30 transition-all duration-300"
               >
                 <div className="text-4xl mb-4">{c.icon}</div>
                 <h3 className="text-lg font-semibold text-white mb-2">{c.t}</h3>

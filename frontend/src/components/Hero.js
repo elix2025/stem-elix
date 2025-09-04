@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import FloatingDroneBot from "./RobotHead";
-import  robotImage from "../assets/Robotrep.png"
+import robotImage from "../assets/Robotrep.png"
 
 
 const Hero = ({ handleEnrollNow }) => {
@@ -19,13 +19,12 @@ const Hero = ({ handleEnrollNow }) => {
   return (
     <section
       ref={heroRef}
-      className={`relative overflow-hidden transition-opacity duration-300 ${
-        heroVisible ? "opacity-100" : "opacity-90"
-      } min-h-screen isolation-auto`}
+      className={`relative overflow-hidden transition-opacity duration-300 ${heroVisible ? "opacity-100" : "opacity-90"
+        } min-h-screen isolation-auto pb-0 my-0`}
     >
       {/* NOTE: Background now comes from <GlobalBackground /> mounted at the page root */}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 pb-0">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           {/* Left copy */}
           <div className="space-y-8 text-white">
@@ -35,7 +34,7 @@ const Hero = ({ handleEnrollNow }) => {
             </div>
 
             <div className="space-y-4">
-              <h1 className="text-5xl text-black lg:text-7xl font-Dan Sans"> 
+              <h1 className="text-5xl text-black lg:text-7xl font-Dan Sans">
                 <span className="block">Let's Start Your</span>
                 <span className=" text-black bg-clip-text font-Dan Sans">
                   STEM Journey
@@ -75,7 +74,7 @@ const Hero = ({ handleEnrollNow }) => {
           <div className="relative flex justify-center items-center w-full">
             <div className="relative z-20">
               <img src={robotImage} alt="Robot" />
-              
+
               {/* <FloatingDroneBot /> */}
             </div>
             {/* Soft glow behind robot */}

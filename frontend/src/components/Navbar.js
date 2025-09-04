@@ -8,36 +8,30 @@ const Navbar = () => {
   const { currentUser, logoutUser } = useAPI();
   const isHomePage = location.pathname === "/";
   const [scrolled, setScrolled] = useState(() => {
-    // Initialize with current scroll position to prevent flash
     return isHomePage ? window.scrollY > 50 : false;
   });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logoutUser();
-    // Close mobile menu if open
     setMobileMenuOpen(false);
   };
 
   useEffect(() => {
     if (isHomePage) {
-      // Set initial state immediately to prevent flash
       setScrolled(window.scrollY > 50);
-
       const handleScroll = () => setScrolled(window.scrollY > 50);
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
     } else {
-      setScrolled(false); // disable scroll effect on other pages
+      setScrolled(false);
     }
   }, [isHomePage]);
 
-  // Close mobile menu when route changes
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // Scroll to top when navigating
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
@@ -67,7 +61,7 @@ const Navbar = () => {
             to="/"
             className="hover:scale-105 transform transition-transform duration-200 inline-block"
           >
-            <span className="bg-gradient-to-r from-[#a855f7] to-[#6d28d9] bg-clip-text text-transparent font-extrabold">
+            <span className="bg-gradient-to-r from-[#ac6cf4] to-[#ac6cf4] bg-clip-text text-transparent font-extrabold">
               Stem
             </span>
             <span className={logoColorClass}>Elix</span>
@@ -80,8 +74,8 @@ const Navbar = () => {
             to="/"
             className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
               location.pathname === "/"
-                ? "border-b-2 border-purple-500 pb-1"
-                : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
+                ? "border-b-2 border-[#ac6cf4] pb-1"
+                : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
             }`}
           >
             Home
@@ -90,8 +84,8 @@ const Navbar = () => {
             to="/about"
             className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
               location.pathname === "/about"
-                ? "border-b-2 border-purple-500 pb-1"
-                : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
+                ? "border-b-2 border-[#ac6cf4] pb-1"
+                : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
             }`}
           >
             About
@@ -101,8 +95,8 @@ const Navbar = () => {
             to="/courses"
             className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
               location.pathname === "/courses"
-                ? "border-b-2 border-purple-500 pb-1"
-                : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
+                ? "border-b-2 border-[#ac6cf4] pb-1"
+                : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
             }`}
           >
             Courses
@@ -112,8 +106,8 @@ const Navbar = () => {
             to="/contact"
             className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
               location.pathname === "/contact"
-                ? "border-b-2 border-purple-500 pb-1"
-                : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
+                ? "border-b-2 border-[#ac6cf4] pb-1"
+                : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
             }`}
           >
             Contact Us
@@ -121,14 +115,13 @@ const Navbar = () => {
 
           {/* Conditional rendering based on login status */}
           {currentUser && currentUser.token ? (
-            // Profile and Logout buttons when logged in
             <div className="flex items-center gap-4">
               <Link
                 to={`/student/${createUserSlug(currentUser)}`}
                 className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
                   isHomePage && !scrolled
-                    ? "bg-white text-slate-800 hover:bg-purple-50 shadow-md"
-                    : "bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 shadow-md"
+                    ? "bg-white text-slate-800 hover:bg-[#f3e8fd] shadow-md"
+                    : "bg-[#ac6cf4] text-white hover:bg-[#9b5ee3] shadow-md"
                 }`}
               >
                 <svg
@@ -172,26 +165,24 @@ const Navbar = () => {
               </button>
             </div>
           ) : (
-            // Login and Get Started when not logged in
             <>
               <Link
                 to="/login"
                 className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                   location.pathname === "/login"
-                    ? "border-b-2 border-purple-500 pb-1"
-                    : "hover:text-purple-600 hover:border-b-2 hover:border-purple-500 hover:pb-1"
+                    ? "border-b-2 border-[#ac6cf4] pb-1"
+                    : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
                 }`}
               >
                 Login
               </Link>
 
-              {/* Enhanced Sign Up Button */}
               <Link
                 to="/register"
                 className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
                   isHomePage && !scrolled
-                    ? "bg-white text-slate-800 hover:bg-purple-50 shadow-md"
-                    : "bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 shadow-md"
+                    ? "bg-white text-slate-800 hover:bg-[#f3e8fd] shadow-md"
+                    : "bg-[#ac6cf4] text-white hover:bg-[#9b5ee3] shadow-md"
                 }`}
               >
                 <svg
@@ -264,8 +255,8 @@ const Navbar = () => {
               isHomePage && !scrolled ? "text-white" : "text-slate-700"
             } ${
               location.pathname === "/"
-                ? "text-purple-500"
-                : "hover:text-purple-600"
+                ? "text-[#ac6cf4]"
+                : "hover:text-[#ac6cf4]"
             }`}
           >
             Home
@@ -276,8 +267,8 @@ const Navbar = () => {
               isHomePage && !scrolled ? "text-white" : "text-slate-700"
             } ${
               location.pathname === "/about"
-                ? "text-purple-500"
-                : "hover:text-purple-600"
+                ? "text-[#ac6cf4]"
+                : "hover:text-[#ac6cf4]"
             }`}
           >
             About
@@ -288,20 +279,18 @@ const Navbar = () => {
               isHomePage && !scrolled ? "text-white" : "text-slate-700"
             } ${
               location.pathname === "/contact"
-                ? "text-purple-500"
-                : "hover:text-purple-600"
+                ? "text-[#ac6cf4]"
+                : "hover:text-[#ac6cf4]"
             }`}
           >
             Contact Us
           </Link>
 
-          {/* Conditional rendering for mobile based on login status */}
           {currentUser && currentUser.token ? (
-            // Profile and Logout buttons when logged in
             <div className="space-y-4">
               <Link
                 to={`/student/${createUserSlug(currentUser)}`}
-                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 shadow-md"
+                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-[#ac6cf4] text-white hover:bg-[#9b5ee3] shadow-md"
               >
                 <svg
                   className="w-4 h-4 mr-2"
@@ -344,7 +333,6 @@ const Navbar = () => {
               </button>
             </div>
           ) : (
-            // Login and Get Started when not logged in
             <>
               <Link
                 to="/login"
@@ -352,15 +340,15 @@ const Navbar = () => {
                   isHomePage && !scrolled ? "text-white" : "text-slate-700"
                 } ${
                   location.pathname === "/login"
-                    ? "text-purple-500"
-                    : "hover:text-purple-600"
+                    ? "text-[#ac6cf4]"
+                    : "hover:text-[#ac6cf4]"
                 }`}
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 shadow-md"
+                className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-[#ac6cf4] text-white hover:bg-[#9b5ee3] shadow-md"
               >
                 <svg
                   className="w-4 h-4 mr-2"
