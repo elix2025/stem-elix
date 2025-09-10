@@ -136,7 +136,14 @@ const addLecture = async (courseId, chapterId, lectureData) => {
     formData.append("lectureOrder", lectureData.lectureOrder);
     formData.append("lectureDuration", lectureData.lectureDuration);
     formData.append("isPreviewFree", lectureData.isPreviewFree);
-    formData.append("lectureFile", lectureData.lectureFile); // actual file, not URL
+    // formData.append("lectureFile", lectureData.lectureFile);
+    formData.append("sourceType", lectureData.sourceType);
+
+     if (lectureData.sourceType === 'youtube') {
+      formData.append("youtubeUrl", lectureData.youtubeUrl);
+    } else if (lectureData.sourceType === 'cloud' && lectureData.lectureFile) {
+      formData.append("lectureFile", lectureData.lectureFile);
+    }
 
     console.log("📤 Sending lecture data:", [...formData.entries()]);
 

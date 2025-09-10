@@ -349,20 +349,49 @@ export const deleteChapter = async (req, res) => {
 export const addLecture = async (req, res) => {
   try {
     const { courseId, chapterId } = req.params;
-    const { lectureTitle, lectureDuration, isPreviewFree, lectureOrder } =
+    const { lectureTitle, lectureDuration, isPreviewFree, lectureOrder,
+      sourceType,
+      youtubeUrl,
+     } =
       req.body;
     const lectureFile = req.file; //video file comes from frontend via multipart
+
+     lectureDuration = Number(lectureDuration);
+    lectureOrder = Number(lectureOrder);
+    isPreviewFree = isPreviewFree === "true" || isPreviewFree === true;
+
 
     if (
       !lectureTitle ||
       !lectureDuration ||
-      !lectureFile ||
+      // !lectureFile ||
       isPreviewFree === undefined ||
-      !lectureOrder
+      !lectureOrder ||
+      !sourceType
     ) {
       return res
         .status(400)
-        .json({ message: "Missing required fields for lecture" });
+        .json({ message: "Missing required fields for lecture",
+           required: {
+          lectureTitle: !!lectureTitle,
+          lectureDuration: !!lectureDuration,
+          lectureOrder: !!lectureOrder,
+          isPreviewFree: isPreviewFree !== undefined,
+          sourceType: !!sourceType
+        },
+         });
+    }
+
+    if (sourceType === "youtube" && !youtubeUrl) {
+      return res.status(400).json({
+        message: "YouTube URL is required for Youtube source type", 
+      });
+    }
+
+    if(sourceType === 'cloud' && !lectureFile) {
+      return res.status(400).json({
+        message: "Lecture file is required for Cloud source type",
+      });
     }
 
     // Fond course
@@ -379,31 +408,72 @@ export const addLecture = async (req, res) => {
       return res.status(404).json({ message: "Chapter not found" });
     }
 
-    // const uploadVideo = await cloudinary.uploader.upload(lectureFile.path, {
-    //   resource_type: "video", //imp. fr videos
-    //   folder: "course_lectures",
-    // });
+    // avoid duplicate 
+    if (chapter.chapterContent.some((lec) => lec.lectureOrder === lectureOrder)) {
+      return res.status(400).json({ message: "Lecture order already exists in this chapter" });
+    }
 
-    const uploadVideo = await new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        {
-          resource_type: "video",
-          folder: "course_lectures",
-        },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        }
-      );
-      stream.end(lectureFile.buffer);
-    });
+    let lectureUrl = "";
+
+    if (sourceType === 'youtube'){
+      const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+      if (!youtubeRegex.test(youtubeUrl)) {
+        return res.status(400).json({
+          message: "Invalid YouTube URL",
+        });
+      }
+      lectureUrl = youtubeUrl;
+    } else if (sourceType === 'cloud'){
+      try {
+        const uploadVideo = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            {
+              resource_type: "video",
+              folder: "course_lectures",
+            },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            }
+          );
+          stream.end(lectureFile.buffer);
+        });
+        lectureUrl = uploadVideo.secure_url;
+      }catch (uploadError){
+       console.error("Cloudinary upload error:", uploadError);
+       return res.status(500).json({
+         message: "Error uploading lecture file",
+       });
+      }
+    } else{
+      return res.status(400).json({
+        message: "Invalid source type",
+      });
+    }
+
+
+    // const uploadVideo = await new Promise((resolve, reject) => {
+    //   const stream = cloudinary.uploader.upload_stream(
+    //     {
+    //       resource_type: "video",
+    //       folder: "course_lectures",
+    //     },
+    //     (error, result) => {
+    //       if (error) reject(error);
+    //       else resolve(result);
+    //     }
+    //   );
+    //   stream.end(lectureFile.buffer);
+    // });
 
 
     const newLecture = {
       lectureId: uuidv4(),
       lectureTitle,
       lectureDuration,
-      lectureUrl: uploadVideo.secure_url, //save cloudinary video url
+      lectureUrl, //save cloudinary video url
+      // youtubeUrl: sourceType === "youtube" ? youtubeUrl : null,
+      sourceType,
       isPreviewFree,
       lectureOrder,
     };

@@ -25,19 +25,21 @@ const chapterProgressSchema = new mongoose.Schema(
   { _id: false }
 );
 
-const quizScoreSchema = new mongoose.Schema(
-  {
-    quizId: { type: String, required: true },
-    score: { type: Number, required: true },
-    maxScore: { type: Number, required: true },
-    percentage: { type: Number, required: true },
-    attemptedAt: { type: Date, default: Date.now },
-    timeTaken: { type: Number },
-    correctAnswers: { type: Number, required: true },
-    totalQuestions: { type: Number, required: true },
-  },
-  { _id: false }
-);
+const AttendanceSchema = new mongoose.Schema({
+  lectureId: { type: String, required: true }, // matches lectureSchema.lectureId
+  attended: { type: Boolean, default: false },
+  totalSeconds: { type: Number, default: 0 },
+}, { _id: false });
+
+const ProjectProgressSchema = new mongoose.Schema({
+  projectId: { type: String, required: true }, // matches ProjectSchema.projectId
+  submitted: { type: Boolean, default: false },
+  submissionFile: String,
+  submittedAt: Date,
+  grade: { type: Number, min: 0, max: 100 },
+  reviewerNotes: String,
+}, { _id: false });
+
 
 const ProgressSchema = new mongoose.Schema({
   userId: {
@@ -59,13 +61,15 @@ const ProgressSchema = new mongoose.Schema({
 
   // Chapter and lecture progress
   chapters: [chapterProgressSchema],
+  attendance: [AttendanceSchema],
+  project: [ProjectProgressSchema],
 
-  // Quiz scores
-  quizScores: [quizScoreSchema],
-  averageQuizScore: { type: Number, default: 0 },
+   // Quiz scores
+  // quizScores: [quizScoreSchema],
+  // averageQuizScore: { type: Number, default: 0 },
 
   // Additional tracking fields
-  streak: { type: Number, default: 0 },
+  // streak: { type: Number, default: 0 },
   lastAccessedDate: { type: Date, default: Date.now },
   certificateEarned: { type: Boolean, default: false },
   studySessionCount: { type: Number, default: 0 },
@@ -105,3 +109,20 @@ ProgressSchema.pre("save", function (next) {
 });
 
 export default mongoose.model("Progress", ProgressSchema);
+
+
+
+// const quizScoreSchema = new mongoose.Schema(
+//   {
+//     quizId: { type: String, required: true },
+//     score: { type: Number, required: true },
+//     maxScore: { type: Number, required: true },
+//     percentage: { type: Number, required: true },
+//     attemptedAt: { type: Date, default: Date.now },
+//     timeTaken: { type: Number },
+//     correctAnswers: { type: Number, required: true },
+//     totalQuestions: { type: Number, required: true },
+//   },
+//   { _id: false }
+// );
+

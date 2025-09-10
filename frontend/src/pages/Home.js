@@ -33,7 +33,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home-page bg-white text-slate-900">
+    <div className="home-page bg-[#efefef] text-slate-900">
       {/* HERO */}
       <Hero handleEnrollNow={handleEnrollNow} />
 

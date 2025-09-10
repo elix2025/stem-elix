@@ -13,6 +13,17 @@ const lectureSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    youtubeUrl: {
+      type: String,
+      
+    },
+
+    sourceType: {
+      type: String,
+      enum: ["cloud", "youtube"],
+    },
+
     isPreviewFree: {
       type: Boolean,
       required: true,

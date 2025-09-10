@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import { useAPI } from "../../context/api";
 import {
@@ -162,25 +163,25 @@ const CourseContent = () => {
   };
 
   // Simulate video progress (for YouTube videos we can't get real progress)
-  useEffect(() => {
-    let progressInterval;
+  // useEffect(() => {
+  //   let progressInterval;
 
-    if (isTracking) {
-      progressInterval = setInterval(() => {
-        // Simulate video progress - in real implementation, get from video player
-        const simulatedProgress = Math.min(100, (totalSessionTime / 300) * 100); // 5 min video
-        const simulatedPosition = Math.min(300, totalSessionTime); // 5 min max
+  //   if (isTracking) {
+  //     progressInterval = setInterval(() => {
+  //       // Simulate video progress - in real implementation, get from video player
+  //       const simulatedProgress = Math.min(100, (totalSessionTime / 300) * 100); // 5 min video
+  //       const simulatedPosition = Math.min(300, totalSessionTime); // 5 min max
 
-        updateVideoProgress(simulatedProgress, simulatedPosition);
-      }, 5000); // Update every 5 seconds
-    }
+  //       updateVideoProgress(simulatedProgress, simulatedPosition);
+  //     }, 5000); // Update every 5 seconds
+  //   }
 
-    return () => {
-      if (progressInterval) {
-        clearInterval(progressInterval);
-      }
-    };
-  }, [isTracking, totalSessionTime, updateVideoProgress]);
+  //   return () => {
+  //     if (progressInterval) {
+  //       clearInterval(progressInterval);
+  //     }
+  //   };
+  // }, [isTracking, totalSessionTime, updateVideoProgress]);
 
   // Auto-complete when reaching 90%
   useEffect(() => {
@@ -394,17 +395,33 @@ const CourseContent = () => {
         {/* Video Player */}
         <div className="mb-4">
           {currentChapter ? (
-            <iframe
-              ref={videoRef}
-              width="100%"
-              height="420"
-              src={currentChapter.lectureUrl}
-              title={currentChapter.lectureTitle}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="rounded-xl shadow-lg"
-            ></iframe>
+            <ReactPlayer
+             url={currentChapter.lectureUrl}
+             controls
+             playing={isTracking} // sync play with tracking
+             width="100%"
+             height="420px"
+             className="rounded-xl shadow-lg"
+             onProgress={({ played, playedSeconds }) => {
+              const percentage = Math.floor(played * 100);
+              const position = Math.floor(playedSeconds);
+              updateVideoProgress(percentage, position);
+             }}
+             onEnded={() => {
+             markAsCompleted();
+             }}
+             />
+            // <iframe
+            //   ref={videoRef}
+            //   width="100%"
+            //   height="420"
+            //   src={currentChapter.lectureUrl}
+            //   title={currentChapter.lectureTitle}
+            //   frameBorder="0"
+            //   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            //   allowFullScreen
+            //   className="rounded-xl shadow-lg"
+            // ></iframe>
           ) : (
             <div className="w-full h-96 bg-gray-200 rounded-xl flex items-center justify-center">
               <p className="text-gray-600">No video available</p>

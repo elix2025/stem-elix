@@ -34,7 +34,7 @@ const StudentDash = () => {
     getUserProgress,
     getRecentActivity,
     getLeaderboard,
-    updateStreak,
+    // updateStreak,
   } = useAPI();
 
   useEffect(() => {
@@ -75,19 +75,19 @@ const StudentDash = () => {
           }
 
           // Update streak
-          await updateStreak(currentUser.token);
+          // await updateStreak(currentUser.token);
 
           // Fetch recent activity
-          const activityResponse = await getRecentActivity(currentUser.token);
-          if (activityResponse.success) {
-            setRecentActivity(activityResponse.activity);
-          }
+          // const activityResponse = await getRecentActivity(currentUser.token);
+          // if (activityResponse.success) {
+          //   setRecentActivity(activityResponse.activity);
+          // }
 
           // Fetch leaderboard
-          const leaderboardResponse = await getLeaderboard(currentUser.token);
-          if (leaderboardResponse.success) {
-            setLeaderboardData(leaderboardResponse.leaderboard.slice(0, 10));
-          }
+          // const leaderboardResponse = await getLeaderboard(currentUser.token);
+          // if (leaderboardResponse.success) {
+          //   setLeaderboardData(leaderboardResponse.leaderboard.slice(0, 10));
+          // }
 
           setError("");
         } catch (err) {

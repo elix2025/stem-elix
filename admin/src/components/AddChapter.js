@@ -1,4 +1,3 @@
-// admin/src/components/AddChapterLecture.js
 import { useEffect, useState } from "react";
 import { useAdmin } from "../context/AdminContext";
 
@@ -16,7 +15,9 @@ const AddChapterLecture = () => {
   const [lectureTitle, setLectureTitle] = useState("");
   const [lectureOrder, setLectureOrder] = useState("");
   const [lectureDuration, setLectureDuration] = useState("");
-  const [lectureUrl, setLectureUrl] = useState(null);
+  const [lectureFile, setLectureFile] = useState(null);
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [sourceType, setSourceType] = useState("cloud"); // default
   const [isPreviewFree, setIsPreviewFree] = useState(false);
 
   // ✅ Load all courses
@@ -35,13 +36,13 @@ const AddChapterLecture = () => {
     }
   }, [selectedCourse, courses]);
 
-  // ✅ Handle Add Chapter (Fixed payload)
+  // ✅ Handle Add Chapter
   const handleAddChapter = async () => {
     if (!selectedCourse) return alert("Select a course first");
     try {
       await addChapter(selectedCourse, {
-        chapterOrder: Number(chapterOrder), // ✅ matches backend
-        chapterTitle: chapterTitle,         // ✅ matches backend
+        chapterOrder: Number(chapterOrder),
+        chapterTitle: chapterTitle,
       });
       alert("✅ Chapter added successfully!");
     } catch (err) {
@@ -52,18 +53,21 @@ const AddChapterLecture = () => {
 
   // ✅ Handle Add Lecture
   const handleAddLecture = async () => {
-    if (!selectedCourse || !selectedChapter) return alert("Select course & chapter first");
+    if (!selectedCourse || !selectedChapter)
+      return alert("Select course & chapter first");
 
-    const formData = {
+    const lectureData = {
       lectureTitle,
       lectureOrder: Number(lectureOrder),
       lectureDuration: Number(lectureDuration),
       isPreviewFree,
-      lectureUrl, // file upload
+      sourceType,
+      lectureFile: sourceType === "cloud" ? lectureFile : null,
+      youtubeUrl: sourceType === "youtube" ? youtubeUrl : null,
     };
 
     try {
-      await addLecture(selectedCourse, selectedChapter, formData);
+      await addLecture(selectedCourse, selectedChapter, lectureData);
       alert("✅ Lecture added successfully!");
     } catch (err) {
       console.error("Error adding lecture:", err.response?.data || err.message);
@@ -153,11 +157,35 @@ const AddChapterLecture = () => {
           className="w-full border p-2 mb-2 rounded"
           onChange={(e) => setLectureDuration(e.target.value)}
         />
-        <input
-          type="file"
+
+        {/* Source Type Selector */}
+        <label className="block font-semibold mt-2">Source Type</label>
+        <select
           className="w-full border p-2 mb-2 rounded"
-          onChange={(e) => setLectureUrl(e.target.files[0])}
-        />
+          value={sourceType}
+          onChange={(e) => setSourceType(e.target.value)}
+        >
+          <option value="cloud">Cloud Upload</option>
+          <option value="youtube">YouTube URL</option>
+        </select>
+
+        {/* Conditional Inputs */}
+        {sourceType === "cloud" && (
+          <input
+            type="file"
+            className="w-full border p-2 mb-2 rounded"
+            onChange={(e) => setLectureFile(e.target.files[0])}
+          />
+        )}
+        {sourceType === "youtube" && (
+          <input
+            type="text"
+            placeholder="YouTube Video URL"
+            className="w-full border p-2 mb-2 rounded"
+            onChange={(e) => setYoutubeUrl(e.target.value)}
+          />
+        )}
+
         <label className="flex items-center space-x-2">
           <input
             type="checkbox"
@@ -165,6 +193,7 @@ const AddChapterLecture = () => {
           />
           <span>Free Preview?</span>
         </label>
+
         <button
           className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
           onClick={handleAddLecture}

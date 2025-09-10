@@ -1,19 +1,14 @@
 import express from "express";
 import {
-  initializeCourseProgress,
+  initializeProgress,
   updateLectureProgress,
+  markAttendance,
+  submitProject,
   getCourseProgress,
-  getUserProgress,
-  addQuizScore,
-  getCourseProgressAdmin,
-  getProgressStatistics,
-  getUserProgressAdmin,
-  getRecentActivity,
-  updateStreak,
-  getLeaderboard,
+  getUserProgress
 } from "../controllers/ProgressController.js";
-import { protect } from "../middleware/auth.js";
 import AdminAuth from "../middleware/adminauth.js";
+import {protect} from "../middleware/auth.js";
 // import {
 //   testProgressAPIs,
 //   testProgressFunction,
@@ -22,57 +17,63 @@ import AdminAuth from "../middleware/adminauth.js";
 const progressRouter = express.Router();
 
 // User routes (require authentication)
-progressRouter.post("/initialize", protect, initializeCourseProgress);
+progressRouter.post("/initialize", protect, initializeProgress);
 
-// Update lecture progress (real-time updates)
-progressRouter.put(
-  "/course/:courseId/chapter/:chapterId/lecture/:lectureId",
-  protect,
-  updateLectureProgress
-);
+progressRouter.put("/:courseId/lecture/:lectureId", protect, updateLectureProgress);
 
-// Get user's progress for a specific course
-progressRouter.get("/course/:courseId", protect, getCourseProgress);
+progressRouter.put("/:courseId/attendance/:lectureId", protect, markAttendance);
 
-// Get all progress for logged-in user
-progressRouter.get("/user", protect, getUserProgress);
+progressRouter.put("/:courseId/project/:projectId", protect, submitProject);
 
-// Add quiz score
-progressRouter.post("/course/:courseId/quiz", protect, addQuizScore);
+// // Update lecture progress (real-time updates)
+// progressRouter.put(
+//   "/course/:courseId/chapter/:chapterId/lecture/:lectureId",
+//   protect,
+//   updateLectureProgress
+// );
 
-// Update study streak
-progressRouter.post("/update-streak", protect, updateStreak);
+ // Get user's progress for a specific course
+ progressRouter.get("/course/:courseId", AdminAuth,getCourseProgress);
 
-// Get recent activity (last 10 progress updates)
-progressRouter.get("/recent-activity", protect, getRecentActivity);
+ // Get all progress for logged-in user
+ progressRouter.get("/:courseId", protect, getUserProgress);
 
-// Get leaderboard (top performers)
-progressRouter.get("/leaderboard", protect, getLeaderboard);
+// // Add quiz score
+// progressRouter.post("/course/:courseId/quiz", protect, addQuizScore);
 
-// Admin Routes (require admin authentication middleware)
-// Get all progress for a specific course (admin view)
-progressRouter.get(
-  "/admin/course/:courseId",
-  protect,
-  AdminAuth,
-  getCourseProgressAdmin
-);
+// // Update study streak
+// progressRouter.post("/update-streak", protect, updateStreak);
 
-// Get overall platform statistics (admin dashboard)
-progressRouter.get(
-  "/admin/statistics",
-  protect,
-  AdminAuth,
-  getProgressStatistics
-);
+// // Get recent activity (last 10 progress updates)
+// progressRouter.get("/recent-activity", protect, getRecentActivity);
 
-// Get progress for specific user (admin only)
-progressRouter.get(
-  "/admin/user/:userId",
-  protect,
-  AdminAuth,
-  getUserProgressAdmin
-);
+// // Get leaderboard (top performers)
+// progressRouter.get("/leaderboard", protect, getLeaderboard);
+
+// // Admin Routes (require admin authentication middleware)
+// // Get all progress for a specific course (admin view)
+// progressRouter.get(
+//   "/admin/course/:courseId",
+//   protect,
+//   AdminAuth,
+//   getCourseProgressAdmin
+// );
+
+// // Get overall platform statistics (admin dashboard)
+// progressRouter.get(
+//   "/admin/statistics",
+//   protect,
+//   AdminAuth,
+//   getProgressStatistics
+// );
+
+// // Get progress for specific user (admin only)
+// progressRouter.get(
+//   "/admin/user/:userId",
+//   protect,
+//   AdminAuth,
+//   getUserProgressAdmin
+// );
 
 // Test routes (development only - remove in production)
 // if (process.env.NODE_ENV !== "production") {
