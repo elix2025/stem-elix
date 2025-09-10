@@ -16,7 +16,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-white text-slate-800 relative overflow-hidden">
+    <footer className="bg-[#d9d7d0] text-slate-800 relative overflow-hidden">
       {/* Decorative background elements (subtle on white) */}
       <div className="pointer-events-none absolute inset-0 opacity-40">
         <div className="absolute -top-6 -left-6 w-32 h-32 bg-[#ac6cf4]/30 rounded-full blur-3xl" />
@@ -36,7 +36,7 @@ const Footer = () => {
                   </span>
                   <span className="text-slate-900">Elix</span>
                 </h2>
-                <p className="text-slate-600 text-base leading-relaxed max-w-sm">
+                <p className="text-black-600 text-base leading-relaxed max-w-sm">
                   Empowering the next generation with innovative STEM education.
                   Building brilliant minds for a technological future.
                 </p>

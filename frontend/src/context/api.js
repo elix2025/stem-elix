@@ -123,7 +123,7 @@ export const APIContextProvider = ({ children }) => {
   }, []);
 
   //  Fetch user profile
-  const fetchUserProfile = async (userId, token) => {
+  const fetchUserProfile = async ( userId,token) => {
     try {
       const res = await axios.get(`${BASE_URL}/user/profile/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },

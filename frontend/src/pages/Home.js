@@ -10,6 +10,7 @@ import Hero from "../components/Hero";
 import TinkrionShowcase from "../components/coursecard";
 import NeuroShowcase from "../components/NeuroShowcase";
 import ShowCaseProjects from "../components/ShowCaseProjects";
+import LandingSection from "../components/labs";
 
 const Home = () => {
   const { currentUser } = useAPI();
@@ -64,10 +65,14 @@ const Home = () => {
       {/* TINKRION SHOWCASE - FULL WIDTH */}
       <TinkrionShowcase />
 
+      <section>
+        <LandingSection />
+      </section>
+
       {/* NEURO SHOWCASE (fade-in) */}
       <section
         ref={neuroRef}
-        className={`relative bg-white transition-all duration-500 ${
+        className={`relative bg-none transition-all duration-500 ${
           neuroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
@@ -76,37 +81,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* BACK-TO-SCHOOL — dark band with brand purple accents */}
-      <section className="relative bg-gradient-to-br from-slate-900 to-gray-900">
-        <div className="relative z-10 max-w-6xl mx-auto text-center px-6 py-20">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 via-[#ac6cf4] to-[#ac6cf4]/80">
-              🎒 Our Back-to-School Program
-            </span>
-          </h2>
-          <p className="text-slate-300 max-w-3xl mx-auto mb-12">
-            We partner with schools to bring hands-on, future-ready learning that bridges classroom theory with real-world skills.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {[
-              { icon: "🏫", t: "Partnering with Schools", d: "Technology-driven, hands-on programs for every grade." },
-              { icon: "💡", t: "Future-Ready Skills", d: "STEM, AI, Robotics to spark creativity and innovation." },
-              { icon: "🤝", t: "Empowering Educators", d: "Modern tools and methods to boost engagement." },
-            ].map((c, i) => (
-              <div
-                key={i}
-                className="bg-white/5 border border-white/10 rounded-2xl p-6
-                           backdrop-blur-sm shadow-xl text-left hover:border-[#ac6cf4]/30 transition-all duration-300"
-              >
-                <div className="text-4xl mb-4">{c.icon}</div>
-                <h3 className="text-lg font-semibold text-white mb-2">{c.t}</h3>
-                <p className="text-slate-300">{c.d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
       <section className=" transition-all duration-500">
         <ShowCaseProjects/>
       </section>
