@@ -5,7 +5,7 @@ import {motion} from "framer-motion";
 const cards = [{
     title: "Teacher Training Program", desc: "Empower educators with cutting-edge STEM teaching skills through our comprehensive training program.", color: "bg-white"
 },
- {  title: "STEM Labs", desc: "Explore our innovative STEM labs designed for hands-on learning and experimentation.", color: "bg-gray-100"},]
+ {  title: "STEM Labs", desc: "Explore our innovative STEM labs designed for hands-on learning and experimentation.", color: "bg-gray-50"},]
 
 export default function LandingSection() {
   const [current, setCurrent] = useState(0);

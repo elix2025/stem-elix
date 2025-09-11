@@ -52,7 +52,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
+    <div className="bg-[#efefef] flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -74,21 +74,21 @@ const Login = () => {
 
       <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center relative z-10">
         {/* Left Side - Welcome Content */}
-        <div className="text-white space-y-8 lg:pr-8">
+        <div className="text-black space-y-8 lg:pr-8">
           <div className="space-y-4">
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-              <span>🚀 STEM Learning Platform</span>
+            <div className="inline-flex items-center space-x-2 bg-gray-500 backdrop-blur-sm border border-gray text-white px-4 py-2 rounded-full text-sm font-medium">
+              {/* <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> */}
+              <span> STEM Learning Platform</span>
             </div>
 
-            <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+            <h1 className="text-4xl lg:text-6xl leading-tight">
               Welcome Back to{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-green-400">
                 StemElix
               </span>
             </h1>
 
-            <p className="text-xl text-slate-300 leading-relaxed max-w-lg">
+            <p className="text-xl text-black-300 leading-relaxed max-w-lg">
               Continue your journey in Science, Technology, Engineering, and
               Mathematics. Unlock endless possibilities with hands-on learning.
             </p>

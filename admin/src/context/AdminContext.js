@@ -139,7 +139,7 @@ const addLecture = async (courseId, chapterId, lectureData) => {
     // formData.append("lectureFile", lectureData.lectureFile);
     formData.append("sourceType", lectureData.sourceType);
 
-     if (lectureData.sourceType === 'youtube') {
+     if (lectureData.sourceType === 'youtube' && lectureData.youtubeUrl) {
       formData.append("youtubeUrl", lectureData.youtubeUrl);
     } else if (lectureData.sourceType === 'cloud' && lectureData.lectureFile) {
       formData.append("lectureFile", lectureData.lectureFile);

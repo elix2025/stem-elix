@@ -66,13 +66,29 @@ const CourseContentPage = () => {
                       className="mb-4 p-3 border rounded-lg bg-gray-50"
                     >
                       <h4 className="font-medium mb-2">🎥 {lec.lectureTitle}</h4>
-                      <video
+
+                      {lec.sourceType === "youtube" && lec.youtubeUrl ? (
+                     // ✅ Render YouTube iframe
+                     <div className="aspect-w-16 aspect-h-9">
+                     <iframe
+                      src={lec.youtubeUrl.replace("watch?v=", "embed/")}
+                      title={lec.lectureTitle}
+                      className="w-full h-64 rounded-lg shadow-md"
+                       frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                       ></iframe>
+                       </div>
+                       ) : (
+                        // ✅ Render uploaded video
+                        <video
                         controls
-                        className="w-full rounded-lg shadow-md"
-                      >
-                        <source src={lec.lectureUrl} type="video/mp4" />
-                        Your browser does not support the video tag.
-                      </video>
+                       className="w-full rounded-lg shadow-md"
+                       >
+                         <source src={lec.lectureUrl} type="video/mp4" />
+                         Your browser does not support the video tag.
+                         </video>
+               )}
                     </div>
                   ))
                 ) : (

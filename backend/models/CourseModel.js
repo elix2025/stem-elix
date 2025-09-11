@@ -11,11 +11,16 @@ const lectureSchema = new mongoose.Schema(
     },
     lectureUrl: {
       type: String,
-      required: true,
+      required: function() {
+        return this.sourceType === "cloud";
+      }
     },
 
     youtubeUrl: {
       type: String,
+      required : function() {
+        return this.sourceType === "youtube";
+      },
       
     },
 

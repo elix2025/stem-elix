@@ -123,9 +123,9 @@ export const APIContextProvider = ({ children }) => {
   }, []);
 
   //  Fetch user profile
-  const fetchUserProfile = async ( userId,token) => {
+  const fetchUserProfile = async (token) => {
     try {
-      const res = await axios.get(`${BASE_URL}/user/profile/${userId}`, {
+      const res = await axios.get(`${BASE_URL}/user/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;
@@ -256,6 +256,13 @@ console.log('Razorpay Key:', process.env.REACT_APP_RAZORPAY_KEY_ID);
   } finally {
     setLoadingPayment(false);
   }
+};
+
+ const isCourseEnrolled = (user, courseId) => {
+  if (!user || !user.coursesEnrolled) return false;
+  return user.coursesEnrolled.some(
+    (enrolled) => enrolled.course === courseId
+  );
 };
 
   // //  Mark course as completed
@@ -487,6 +494,7 @@ console.log('Razorpay Key:', process.env.REACT_APP_RAZORPAY_KEY_ID);
         getUserProgress,
 
         buyCourse,
+        isCourseEnrolled,
         loadingPayment,
       }}
     >

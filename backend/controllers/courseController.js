@@ -349,11 +349,8 @@ export const deleteChapter = async (req, res) => {
 export const addLecture = async (req, res) => {
   try {
     const { courseId, chapterId } = req.params;
-    const { lectureTitle, lectureDuration, isPreviewFree, lectureOrder,
-      sourceType,
-      youtubeUrl,
-     } =
-      req.body;
+    const { lectureTitle, sourceType,youtubeUrl } = req.body;
+    let { lectureDuration, lectureOrder, isPreviewFree} = req.body;
     const lectureFile = req.file; //video file comes from frontend via multipart
 
      lectureDuration = Number(lectureDuration);
@@ -414,6 +411,7 @@ export const addLecture = async (req, res) => {
     }
 
     let lectureUrl = "";
+    let finalYoutubeUrl = "";
 
     if (sourceType === 'youtube'){
       const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
@@ -422,7 +420,7 @@ export const addLecture = async (req, res) => {
           message: "Invalid YouTube URL",
         });
       }
-      lectureUrl = youtubeUrl;
+      finalYoutubeUrl = youtubeUrl;
     } else if (sourceType === 'cloud'){
       try {
         const uploadVideo = await new Promise((resolve, reject) => {
@@ -472,7 +470,7 @@ export const addLecture = async (req, res) => {
       lectureTitle,
       lectureDuration,
       lectureUrl, //save cloudinary video url
-      // youtubeUrl: sourceType === "youtube" ? youtubeUrl : null,
+      youtubeUrl: finalYoutubeUrl,
       sourceType,
       isPreviewFree,
       lectureOrder,

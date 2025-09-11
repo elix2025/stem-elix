@@ -47,7 +47,7 @@ const Courses = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { getAllCourses } = useAPI();
+  const { getAllCourses,user,isCourseEnrolled } = useAPI();
 
   useEffect(() => {
     console.log("🔄 useEffect triggered - starting to load courses");
@@ -287,9 +287,13 @@ const Courses = () => {
                 <div
                   key={course._id}
                   className="bg-white rounded-lg shadow hover:shadow-md transition-all duration-300 cursor-pointer flex gap-6 p-5 border border-slate-200"
-                  onClick={() =>
-                    navigate(`/courses/info/${createSlug(course.title)}`)
-                  }
+                  onClick={() =>{
+                    if (user && isCourseEnrolled(user,course._id)){
+                    navigate(`/courses/content/${createSlug(course.title)}`)
+                    } else {
+                      navigate(`/courses/info/${createSlug(course.title)}`)
+                    }
+                  }}
                 >
                   {/* Thumbnail */}
                   <div className="w-48 h-28 flex-shrink-0 overflow-hidden rounded-md bg-slate-100">

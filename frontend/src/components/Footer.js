@@ -16,7 +16,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#d9d7d0] text-slate-800 relative overflow-hidden">
+    <footer className="bg-[#dedddc] text-slate-800 relative overflow-hidden">
       {/* Decorative background elements (subtle on white) */}
       <div className="pointer-events-none absolute inset-0 opacity-40">
         <div className="absolute -top-6 -left-6 w-32 h-32 bg-[#ac6cf4]/30 rounded-full blur-3xl" />
