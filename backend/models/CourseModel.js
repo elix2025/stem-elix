@@ -6,29 +6,35 @@ const lectureSchema = new mongoose.Schema(
     lectureId: { type: String, required: true },
     lectureTitle: { type: String, required: true },
     lectureDuration: {
-      type: Number,
+      type: String,
       required: true,
     },
     lectureUrl: {
       type: String,
-      required: function() {
-        return this.sourceType === "cloud";
+      required: true,
+      validate: {
+        validator: function(v) {
+          // Validate YouTube URL format
+          return /^(https:\/\/)?(www\.)?(youtube\.com\/embed\/)[a-zA-Z0-9_-]{11}$/.test(v);
+        },
+        message: 'Invalid YouTube embed URL'
       }
     },
 
-    youtubeUrl: {
-      type: String,
-      required : function() {
-        return this.sourceType === "youtube";
+    youtubeData: {
+      videoId: {
+        type: String,
+        required: true,
+        match: [/^[a-zA-Z0-9_-]{11}$/, 'Invalid YouTube video ID']
       },
-      
+      isUnlisted: {
+        type: Boolean,
+        default: true,
+        required: true
+      }
     },
 
-    sourceType: {
-      type: String,
-      enum: ["cloud", "youtube"],
-    },
-
+  
     isPreviewFree: {
       type: Boolean,
       required: true,
@@ -97,7 +103,7 @@ const CourseSchema = new mongoose.Schema({
   // programHighlights: [{ type: String, required: true }],
   CourseThumbnail: { type: String, required: true },
   CourseContent: [chapterSchema],
-  duration: { type: Number, required: true },
+  duration: { type: String, required: true },
   gradeRange: {
     min: { type: Number, required: true },
     max: { type: Number, required: true },
@@ -111,7 +117,7 @@ const CourseSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["active", "inactive", "draft"],
-    default: "draft",
+    default: "",
   },
   order: { type: Number, default: 0 },
   featured: { type: Boolean, default: false },

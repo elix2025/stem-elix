@@ -38,7 +38,6 @@ router.post("/:courseId/add-chapter", AdminAuth, addChapter);
 router.post(
   "/:courseId/add-lecture/:chapterId",
   AdminAuth,
-  upload.single("lectureUrl"),
   addLecture
 );
 router.put("/:id", AdminAuth, editCourse);

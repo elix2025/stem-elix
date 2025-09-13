@@ -130,41 +130,52 @@ const addChapter = async (courseId, chapterData) => {
 const addLecture = async (courseId, chapterId, lectureData) => {
   try {
     const token = localStorage.getItem("adminToken");
-    const formData = new FormData();
-
-    formData.append("lectureTitle", lectureData.lectureTitle);
-    formData.append("lectureOrder", lectureData.lectureOrder);
-    formData.append("lectureDuration", lectureData.lectureDuration);
-    formData.append("isPreviewFree", lectureData.isPreviewFree);
-    // formData.append("lectureFile", lectureData.lectureFile);
-    formData.append("sourceType", lectureData.sourceType);
-
-     if (lectureData.sourceType === 'youtube' && lectureData.youtubeUrl) {
-      formData.append("youtubeUrl", lectureData.youtubeUrl);
-    } else if (lectureData.sourceType === 'cloud' && lectureData.lectureFile) {
-      formData.append("lectureFile", lectureData.lectureFile);
+    
+    // Validate required fields
+    if (!lectureData.lectureTitle || !lectureData.lectureDuration || 
+        !lectureData.lectureOrder || !lectureData.lectureUrl) {
+      throw new Error("Missing required fields");
     }
 
-    console.log("📤 Sending lecture data:", [...formData.entries()]);
+    // Validate YouTube URL format
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})$/;
+    if (!youtubeRegex.test(lectureData.lectureUrl)) {
+      throw new Error("Invalid YouTube URL format");
+    }
+
+    const requestData = {
+      lectureTitle: lectureData.lectureTitle,
+      lectureDuration: lectureData.lectureDuration,
+      lectureOrder: Number(lectureData.lectureOrder),
+      isPreviewFree: Boolean(lectureData.isPreviewFree),
+      lectureUrl: lectureData.lectureUrl
+    };
+
+    console.log("📤 Sending lecture data:", requestData);
 
     const res = await axios.post(
-      `${Admin_Base_URL}/courses/${courseId}/add-lecture/${chapterId}`,
-      formData,
+      `${Admin_Base_URL}/courses/${courseId}/chapters/${chapterId}/lectures`,
+      requestData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
       }
     );
 
-    console.log("Lecture added:", res.data);
+    console.log("✅ Lecture added:", res.data);
     return res.data;
   } catch (err) {
-    console.error("Error adding lecture:", err.response?.data?.message);
-    throw err;
+    console.error("❌ Error adding lecture:", {
+      message: err.response?.data?.message || err.message,
+      details: err.response?.data
+    });
+    throw new Error(err.response?.data?.message || "Failed to add lecture");
   }
 };
+
+
 
  
 

@@ -15,9 +15,8 @@ const AddChapterLecture = () => {
   const [lectureTitle, setLectureTitle] = useState("");
   const [lectureOrder, setLectureOrder] = useState("");
   const [lectureDuration, setLectureDuration] = useState("");
-  const [lectureFile, setLectureFile] = useState(null);
-  const [youtubeUrl, setYoutubeUrl] = useState("");
-  const [sourceType, setSourceType] = useState("cloud"); // default
+  const [lectureUrl, setLectureUrl] = useState("");
+  
   const [isPreviewFree, setIsPreviewFree] = useState(false);
 
   // ✅ Load all courses
@@ -53,25 +52,39 @@ const AddChapterLecture = () => {
 
   // ✅ Handle Add Lecture
   const handleAddLecture = async () => {
-    if (!selectedCourse || !selectedChapter)
-      return alert("Select course & chapter first");
+    if (!selectedCourse || !selectedChapter) {
+      return alert("Please select both course and chapter");
+    }
 
-    const lectureData = {
-      lectureTitle,
-      lectureOrder: Number(lectureOrder),
-      lectureDuration: Number(lectureDuration),
-      isPreviewFree,
-      sourceType,
-      lectureFile: sourceType === "cloud" ? lectureFile : null,
-      youtubeUrl: sourceType === "youtube" ? youtubeUrl : null,
-    };
+    // Validate YouTube URL
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})$/;
+    if (!youtubeRegex.test(lectureUrl)) {
+      return alert("Please enter a valid YouTube URL");
+    }
 
     try {
+      const lectureData = {
+        lectureTitle,
+        lectureOrder: Number(lectureOrder),
+        lectureDuration,
+        lectureUrl,
+        isPreviewFree
+      };
+
+      
       await addLecture(selectedCourse, selectedChapter, lectureData);
+      
+      // Reset form
+      setLectureTitle("");
+      setLectureOrder("");
+      setLectureDuration("");
+      setLectureUrl("");
+      setIsPreviewFree(false);
+      
       alert("✅ Lecture added successfully!");
     } catch (err) {
-      console.error("Error adding lecture:", err.response?.data || err.message);
-      alert("❌ Failed to add lecture");
+      console.error("Error adding lecture:", err);
+      alert(err.message || "Failed to add lecture");
     }
   };
 
@@ -137,54 +150,45 @@ const AddChapterLecture = () => {
       </div>
 
       {/* Add Lecture */}
-      <div className="p-4 border rounded">
-        <h3 className="font-semibold mb-2">🎥 Add Lecture</h3>
-        <input
-          type="text"
-          placeholder="Lecture Title"
-          className="w-full border p-2 mb-2 rounded"
-          onChange={(e) => setLectureTitle(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Lecture Order"
-          className="w-full border p-2 mb-2 rounded"
-          onChange={(e) => setLectureOrder(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Duration (minutes)"
-          className="w-full border p-2 mb-2 rounded"
-          onChange={(e) => setLectureDuration(e.target.value)}
-        />
-
-        {/* Source Type Selector */}
-        <label className="block font-semibold mt-2">Source Type</label>
-        <select
-          className="w-full border p-2 mb-2 rounded"
-          value={sourceType}
-          onChange={(e) => setSourceType(e.target.value)}
-        >
-          <option value="cloud">Cloud Upload</option>
-          <option value="youtube">YouTube URL</option>
-        </select>
-
-        {/* Conditional Inputs */}
-        {sourceType === "cloud" && (
-          <input
-            type="file"
-            className="w-full border p-2 mb-2 rounded"
-            onChange={(e) => setLectureFile(e.target.files[0])}
-          />
-        )}
-        {sourceType === "youtube" && (
+       <div className="p-4 border rounded">
+        <h3 className="font-semibold mb-2">📺 Add YouTube Lecture</h3>
+        
+        <div className="space-y-4">
           <input
             type="text"
-            placeholder="YouTube Video URL"
-            className="w-full border p-2 mb-2 rounded"
-            onChange={(e) => setYoutubeUrl(e.target.value)}
+            placeholder="Lecture Title"
+            value={lectureTitle}
+            className="w-full border p-2 rounded"
+            onChange={(e) => setLectureTitle(e.target.value)}
           />
-        )}
+
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="number"
+              placeholder="Lecture Order"
+              value={lectureOrder}
+              className="w-full border p-2 rounded"
+              onChange={(e) => setLectureOrder(e.target.value)}
+            />
+            
+            <input
+              type="text"
+              placeholder="Duration (HH:MM:SS)"
+              value={lectureDuration}
+              className="w-full border p-2 rounded"
+              onChange={(e) => setLectureDuration(e.target.value)}
+            />
+          </div>
+
+           <input
+            type="text"
+            placeholder="YouTube Video URL"
+            value={lectureUrl}
+            className="w-full border p-2 rounded"
+            onChange={(e) => setLectureUrl(e.target.value)}
+          />
+
+       
 
         <label className="flex items-center space-x-2">
           <input
@@ -200,6 +204,7 @@ const AddChapterLecture = () => {
         >
           Add Lecture
         </button>
+        </div>
       </div>
     </div>
   );

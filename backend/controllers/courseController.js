@@ -349,11 +349,11 @@ export const deleteChapter = async (req, res) => {
 export const addLecture = async (req, res) => {
   try {
     const { courseId, chapterId } = req.params;
-    const { lectureTitle, sourceType,youtubeUrl } = req.body;
-    let { lectureDuration, lectureOrder, isPreviewFree} = req.body;
+    const { lectureTitle, lectureUrl } = req.body;
+    let { lectureDuration, lectureOrder, isPreviewFree } = req.body;
     const lectureFile = req.file; //video file comes from frontend via multipart
 
-     lectureDuration = Number(lectureDuration);
+     lectureDuration = String(lectureDuration);
     lectureOrder = Number(lectureOrder);
     isPreviewFree = isPreviewFree === "true" || isPreviewFree === true;
 
@@ -364,7 +364,7 @@ export const addLecture = async (req, res) => {
       // !lectureFile ||
       isPreviewFree === undefined ||
       !lectureOrder ||
-      !sourceType
+      !lectureUrl
     ) {
       return res
         .status(400)
@@ -374,22 +374,11 @@ export const addLecture = async (req, res) => {
           lectureDuration: !!lectureDuration,
           lectureOrder: !!lectureOrder,
           isPreviewFree: isPreviewFree !== undefined,
-          sourceType: !!sourceType
+          lectureUrl: !!lectureUrl,
         },
          });
     }
 
-    if (sourceType === "youtube" && !youtubeUrl) {
-      return res.status(400).json({
-        message: "YouTube URL is required for Youtube source type", 
-      });
-    }
-
-    if(sourceType === 'cloud' && !lectureFile) {
-      return res.status(400).json({
-        message: "Lecture file is required for Cloud source type",
-      });
-    }
 
     // Fond course
     const course = await Course.findById(courseId);
@@ -410,44 +399,17 @@ export const addLecture = async (req, res) => {
       return res.status(400).json({ message: "Lecture order already exists in this chapter" });
     }
 
-    let lectureUrl = "";
-    let finalYoutubeUrl = "";
-
-    if (sourceType === 'youtube'){
-      const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
-      if (!youtubeRegex.test(youtubeUrl)) {
-        return res.status(400).json({
-          message: "Invalid YouTube URL",
-        });
-      }
-      finalYoutubeUrl = youtubeUrl;
-    } else if (sourceType === 'cloud'){
-      try {
-        const uploadVideo = await new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            {
-              resource_type: "video",
-              folder: "course_lectures",
-            },
-            (error, result) => {
-              if (error) reject(error);
-              else resolve(result);
-            }
-          );
-          stream.end(lectureFile.buffer);
-        });
-        lectureUrl = uploadVideo.secure_url;
-      }catch (uploadError){
-       console.error("Cloudinary upload error:", uploadError);
-       return res.status(500).json({
-         message: "Error uploading lecture file",
-       });
-      }
-    } else{
+        const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})$/;
+    if (!youtubeRegex.test(lectureUrl)) {
       return res.status(400).json({
-        message: "Invalid source type",
+        message: "Invalid YouTube URL format. Please provide a valid YouTube URL"
       });
     }
+
+    
+     // Extract video ID and create embed URL if needed
+    const videoId = lectureUrl.match(youtubeRegex)[4];
+    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
 
 
     // const uploadVideo = await new Promise((resolve, reject) => {
@@ -469,9 +431,12 @@ export const addLecture = async (req, res) => {
       lectureId: uuidv4(),
       lectureTitle,
       lectureDuration,
-      lectureUrl, //save cloudinary video url
-      youtubeUrl: finalYoutubeUrl,
-      sourceType,
+      lectureUrl: embedUrl,
+      youtubeData:{
+        videoId,
+        isUnlisted: true
+      },
+     
       isPreviewFree,
       lectureOrder,
     };
@@ -482,7 +447,7 @@ export const addLecture = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "Lecture added successfully",
-      course,
+      lecture: newLecture,
     });
   } catch (error) {
     console.error("Error adding lecture:", error);
