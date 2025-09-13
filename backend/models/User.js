@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-
 const ReviewSchema = new mongoose.Schema({
   user: { type: String, required: true },
   rating: { type: Number, required: true, min: 1, max: 5 },
@@ -64,8 +63,6 @@ const userSchema = new mongoose.Schema(
     updatedAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
-
-
 );
 
 export default mongoose.model("User", userSchema);

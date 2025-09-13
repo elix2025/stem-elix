@@ -5,10 +5,10 @@ import {
   markAttendance,
   submitProject,
   getCourseProgress,
-  getUserProgress
+  getUserProgress,
 } from "../controllers/ProgressController.js";
 import AdminAuth from "../middleware/adminauth.js";
-import {protect} from "../middleware/auth.js";
+import { protect } from "../middleware/auth.js";
 // import {
 //   testProgressAPIs,
 //   testProgressFunction,
@@ -19,7 +19,11 @@ const progressRouter = express.Router();
 // User routes (require authentication)
 progressRouter.post("/initialize", protect, initializeProgress);
 
-progressRouter.put("/:courseId/lecture/:lectureId", protect, updateLectureProgress);
+progressRouter.put(
+  "/:courseId/lecture/:lectureId",
+  protect,
+  updateLectureProgress
+);
 
 progressRouter.put("/:courseId/attendance/:lectureId", protect, markAttendance);
 
@@ -32,11 +36,11 @@ progressRouter.put("/:courseId/project/:projectId", protect, submitProject);
 //   updateLectureProgress
 // );
 
- // Get user's progress for a specific course
- progressRouter.get("/course/:courseId", AdminAuth,getCourseProgress);
+// Get user's progress for a specific course
+progressRouter.get("/course/:courseId", protect, getCourseProgress);
 
- // Get all progress for logged-in user
- progressRouter.get("/:courseId", protect, getUserProgress);
+// Get all progress for logged-in user
+progressRouter.get("/user", protect, getUserProgress);
 
 // // Add quiz score
 // progressRouter.post("/course/:courseId/quiz", protect, addQuizScore);
@@ -91,7 +95,7 @@ progressRouter.put("/:courseId/project/:projectId", protect, submitProject);
 //     }
 //   });
 
-  // Test specific progress function
+// Test specific progress function
 //   progressRouter.post("/test/function", async (req, res) => {
 //     try {
 //       const { functionName, params } = req.body;

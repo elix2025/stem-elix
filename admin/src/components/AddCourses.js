@@ -11,15 +11,36 @@ const AddCourses = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    categoryId: "",        // Replace with category _id (dropdown preferred)
+    categoryId: "",
     levelNumber: 1,
-     duration: "",
-     gradeRangeMin: "",
-     gradeRangeMax: "",
-     price: "",
-     status: "",       // Options: active, inactive, draft
-     CourseThumbnail: "",
-    // videoUrl: "",
+    duration: "",
+    gradeRangeMin: "",
+    gradeRangeMax: "",
+    price: "",
+    originalPrice: "",
+    status: "draft",
+    difficulty: "Beginner",
+    demoVideo: "",
+    language: "English",
+    hasCertificate: true,
+    accessType: "lifetime",
+    highlights: [""],
+    prerequisites: [""],
+    learningOutcomes: [""],
+    tags: [""],
+    // Instructor fields
+    instructorName: "",
+    instructorBio: "",
+    instructorQualifications: [""],
+    instructorExperience: "",
+    instructorLinkedin: "",
+    instructorTwitter: "",
+    instructorWebsite: "",
+  });
+
+  const [files, setFiles] = useState({
+    CourseThumbnail: null,
+    instructorAvatar: null,
   });
 
   const [loading, setLoading] = useState(false);
@@ -27,10 +48,39 @@ const AddCourses = () => {
   const [successMsg, setSuccessMsg] = useState("");
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files: selectedFiles } = e.target;
+    setFiles((prev) => ({
+      ...prev,
+      [name]: selectedFiles[0],
+    }));
+  };
+
+  const handleArrayChange = (field, index, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: prev[field].map((item, i) => (i === index ? value : item)),
+    }));
+  };
+
+  const addArrayField = (field) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: [...prev[field], ""],
+    }));
+  };
+
+  const removeArrayField = (field, index) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: prev[field].filter((_, i) => i !== index),
     }));
   };
 
@@ -40,39 +90,65 @@ const AddCourses = () => {
     setErrorMsg("");
     setSuccessMsg("");
 
-    const coursePayload = {
-      title: formData.title,
-      description: formData.description,
-      //programHighlights: formData.programHighlights.split(',').map(s => s.trim()),
-      categoryId: formData.categoryId,
-      levelNumber: Number(formData.levelNumber),
-      duration: Number(formData.duration),
-      gradeRange: {
-       min: Number(formData.gradeRangeMin),
-       max: Number(formData.gradeRangeMax),
-      },
-      price: Number(formData.price),
-      CourseThumbnail: formData.CourseThumbnail,
-      //videoUrl: formData.videoUrl,
-      //status: formData.status,
-    };
+    // Create FormData for file uploads
+    const courseData = new FormData();
+
+    // Add basic course data
+    Object.keys(formData).forEach((key) => {
+      if (Array.isArray(formData[key])) {
+        formData[key]
+          .filter((item) => item.trim())
+          .forEach((item) => {
+            courseData.append(key, item);
+          });
+      } else {
+        courseData.append(key, formData[key]);
+      }
+    });
+
+    // Add files
+    if (files.CourseThumbnail) {
+      courseData.append("CourseThumbnail", files.CourseThumbnail);
+    }
+    if (files.instructorAvatar) {
+      courseData.append("instructorAvatar", files.instructorAvatar);
+    }
 
     try {
-      await createCourse(coursePayload);
+      await createCourse(courseData);
       setSuccessMsg("Course added successfully!");
+
+      // Reset form
       setFormData({
         title: "",
         description: "",
-         categoryId: "",
-         levelNumber: 1,
-         duration: "",
-         gradeRangeMin: "",
-         gradeRangeMax: "",
-         price: "",
-         CourseThumbnail: "",
-        // videoUrl: "",
-        // status: "draft",
+        categoryId: "",
+        levelNumber: 1,
+        duration: "",
+        gradeRangeMin: "",
+        gradeRangeMax: "",
+        price: "",
+        originalPrice: "",
+        status: "draft",
+        difficulty: "Beginner",
+        demoVideo: "",
+        language: "English",
+        hasCertificate: true,
+        accessType: "lifetime",
+        highlights: [""],
+        prerequisites: [""],
+        learningOutcomes: [""],
+        tags: [""],
+        instructorName: "",
+        instructorBio: "",
+        instructorQualifications: [""],
+        instructorExperience: "",
+        instructorLinkedin: "",
+        instructorTwitter: "",
+        instructorWebsite: "",
       });
+      setFiles({ CourseThumbnail: null, instructorAvatar: null });
+
       setTimeout(() => navigate("/admin-dash"), 2000);
     } catch (error) {
       setErrorMsg(error.response?.data?.message || "Failed to create course.");
@@ -81,176 +157,430 @@ const AddCourses = () => {
     }
   };
 
+  const ArrayField = ({ label, field, placeholder }) => (
+    <div>
+      <label className="block font-medium mb-2">{label}</label>
+      {formData[field].map((item, index) => (
+        <div key={index} className="flex gap-2 mb-2">
+          <input
+            value={item}
+            onChange={(e) => handleArrayChange(field, index, e.target.value)}
+            placeholder={placeholder}
+            className="flex-1 border px-3 py-2 rounded"
+          />
+          {formData[field].length > 1 && (
+            <button
+              type="button"
+              onClick={() => removeArrayField(field, index)}
+              className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Remove
+            </button>
+          )}
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() => addArrayField(field)}
+        className="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+      >
+        Add {label.slice(0, -1)}
+      </button>
+    </div>
+  );
+
   return (
-    <div className="max-w-3xl mx-auto mt-10 p-8 bg-white shadow-md rounded">
-      <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Add New Course</h1>
+    <div className="max-w-6xl mx-auto mt-10 p-8 bg-white shadow-md rounded">
+      <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
+        Create New Course
+      </h1>
 
-      {errorMsg && <p className="text-red-500 mb-4 text-center">{errorMsg}</p>}
-        {successMsg && <p className="text-green-500 mb-4 text-center">{successMsg}</p>}
+      {errorMsg && (
+        <p className="text-red-500 mb-4 text-center font-medium">{errorMsg}</p>
+      )}
+      {successMsg && (
+        <p className="text-green-500 mb-4 text-center font-medium">
+          {successMsg}
+        </p>
+      )}
 
-         <form onSubmit={handleSubmit} className="space-y-4">
-         <div>
-          <label className="block font-medium mb-1">Title</label>
-          <input
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="w-full border px-3 py-2 rounded"
-          />
-         </div>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Basic Course Information */}
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Basic Information
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="md:col-span-2">
+              <label className="block font-medium mb-1">Course Title *</label>
+              <input
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                required
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter course title"
+              />
+            </div>
 
-         <div>
-          <label className="block font-medium mb-1">Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows="3"
-            required
-            className="w-full border px-3 py-2 rounded"
-          />
-         </div>
-         {/* <div>
-          <label className="block font-medium mb-1">Program Highlights</label>
-          <input
-            name="programHighlights"
-            value={formData.programHighlights}
-            onChange={handleChange}
-            required
-            className="w-full border px-3 py-2 rounded"
-            placeholder="e.g. Highlight 1, Highlight 2"
-          />
-         </div> */}
+            <div className="md:col-span-2">
+              <label className="block font-medium mb-1">Description *</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                rows="4"
+                required
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="Describe what this course is about"
+              />
+            </div>
 
-         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium mb-1">Category ID</label>
-            <input
-              name="categoryId"
-              value={formData.categoryId}
-              onChange={handleChange}
-              required
-              className="w-full border px-3 py-2 rounded"
-              placeholder="e.g. 64f89c1a..." // Ideally use a dropdown
-            />
+            <div>
+              <label className="block font-medium mb-1">Category *</label>
+              <select
+                name="categoryId"
+                value={formData.categoryId}
+                onChange={handleChange}
+                required
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Category</option>
+                <option value="Junior">Junior</option>
+                <option value="Explorer">Explorer</option>
+                <option value="Master">Master</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">Difficulty Level</label>
+              <select
+                name="difficulty"
+                value={formData.difficulty}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">Level Number *</label>
+              <input
+                type="number"
+                name="levelNumber"
+                value={formData.levelNumber}
+                onChange={handleChange}
+                min="1"
+                max="10"
+                required
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">Duration *</label>
+              <input
+                name="duration"
+                value={formData.duration}
+                onChange={handleChange}
+                required
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g., 5 hours"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">
+                Grade Range Min *
+              </label>
+              <input
+                type="number"
+                name="gradeRangeMin"
+                value={formData.gradeRangeMin}
+                onChange={handleChange}
+                min="1"
+                max="12"
+                required
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">
+                Grade Range Max *
+              </label>
+              <input
+                type="number"
+                name="gradeRangeMax"
+                value={formData.gradeRangeMax}
+                onChange={handleChange}
+                min="1"
+                max="12"
+                required
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">Price (₹) *</label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                min="0"
+                required
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">
+                Original Price (₹)
+              </label>
+              <input
+                type="number"
+                name="originalPrice"
+                value={formData.originalPrice}
+                onChange={handleChange}
+                min="0"
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="Leave empty if no discount"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">Language</label>
+              <input
+                name="language"
+                value={formData.language}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">Status</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="draft">Draft</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
           </div>
-
-           <div>
-            <label className="block font-medium mb-1">Level Number</label>
-            <input
-              type="number"
-              name="levelNumber"
-              value={formData.levelNumber}
-              onChange={handleChange}
-              min="1"
-              max="10"
-              required
-              className="w-full border px-3 py-2 rounded"
-            />
-          </div>
-         </div>
-
-         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium mb-1">Duration (hours)</label>
-            <input
-              type="number"
-              name="duration"
-              value={formData.duration}
-              onChange={handleChange}
-              required
-              className="w-full border px-3 py-2 rounded"
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Price (₹)</label>
-            <input
-              type="number"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-              required
-              className="w-full border px-3 py-2 rounded"
-            />
-          </div>
-         </div>
-
-         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium mb-1">Grade Range Min</label>
-            <input
-              type="number"
-              name="gradeRangeMin"
-              value={formData.gradeRangeMin}
-              onChange={handleChange}
-              required
-              className="w-full border px-3 py-2 rounded"
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Grade Range Max</label>
-            <input
-              type="number"
-              name="gradeRangeMax"
-              value={formData.gradeRangeMax}
-              onChange={handleChange}
-              required
-              className="w-full border px-3 py-2 rounded"
-            />
-          </div> 
-         </div>
-
-        <div
-           className="block font-medium mb-1">Thumbnail Image
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setFormData({ ...formData, CourseThumbnail: e.target.files[0] })}
-            
-            name="CourseThumbnail"
-           required
-          />
-          <label htmlFor="CourseThumbnail-upload" className="cursor-ponter text blue-600 hover:underline">
-            Click to upload or drag and drop
-          </label>
         </div>
 
-        {/* <div>
-          <label className="block font-medium mb-1">YouTube Video URL</label>
-          <input
-            name="videoUrl"
-            value={formData.videoUrl}
-            onChange={handleChange}
-            placeholder="e.g. https://youtube.com/embed/abc123"
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div> */}
+        {/* Media Files */}
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Media Files
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium mb-1">
+                Course Thumbnail *
+              </label>
+              <input
+                type="file"
+                name="CourseThumbnail"
+                accept="image/*"
+                onChange={handleFileChange}
+                required
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-         <div>
-          <label className="block font-medium mb-1">Status</label>
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
-          >
-            <option value="draft">Draft</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select> 
-         </div> 
+            <div>
+              <label className="block font-medium mb-1">Demo Video URL</label>
+              <input
+                name="demoVideo"
+                value={formData.demoVideo}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="YouTube embed URL"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Instructor Information */}
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Instructor Information
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium mb-1">Instructor Name</label>
+              <input
+                name="instructorName"
+                value={formData.instructorName}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">
+                Instructor Avatar
+              </label>
+              <input
+                type="file"
+                name="instructorAvatar"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="block font-medium mb-1">Instructor Bio</label>
+              <textarea
+                name="instructorBio"
+                value={formData.instructorBio}
+                onChange={handleChange}
+                rows="3"
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="Brief bio about the instructor"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">Experience</label>
+              <input
+                name="instructorExperience"
+                value={formData.instructorExperience}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g., 5+ years in AI/ML"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">LinkedIn Profile</label>
+              <input
+                name="instructorLinkedin"
+                value={formData.instructorLinkedin}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="LinkedIn URL"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">Twitter Profile</label>
+              <input
+                name="instructorTwitter"
+                value={formData.instructorTwitter}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="Twitter URL"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-1">Website</label>
+              <input
+                name="instructorWebsite"
+                value={formData.instructorWebsite}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+                placeholder="Personal website URL"
+              />
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <ArrayField
+              label="Qualifications"
+              field="instructorQualifications"
+              placeholder="e.g., PhD in Computer Science"
+            />
+          </div>
+        </div>
+
+        {/* Course Content */}
+        <div className="bg-gray-50 p-6 rounded-lg space-y-4">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Course Content & Structure
+          </h2>
+
+          <ArrayField
+            label="Course Highlights"
+            field="highlights"
+            placeholder="What will students learn?"
+          />
+
+          <ArrayField
+            label="Prerequisites"
+            field="prerequisites"
+            placeholder="What should students know before taking this course?"
+          />
+
+          <ArrayField
+            label="Learning Outcomes"
+            field="learningOutcomes"
+            placeholder="What will students achieve after completing this course?"
+          />
+
+          <ArrayField
+            label="Tags"
+            field="tags"
+            placeholder="e.g., Machine Learning, Python, AI"
+          />
+        </div>
+
+        {/* Additional Settings */}
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Additional Settings
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium mb-1">Access Type</label>
+              <select
+                name="accessType"
+                value={formData.accessType}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="lifetime">Lifetime Access</option>
+                <option value="1year">1 Year Access</option>
+                <option value="6months">6 Months Access</option>
+              </select>
+            </div>
+
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="hasCertificate"
+                checked={formData.hasCertificate}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              <label className="font-medium">Provides Certificate</label>
+            </div>
+          </div>
+        </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+          className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition font-semibold text-lg"
         >
-          {loading ? "Submitting..." : "Create Course"}
+          {loading ? "Creating Course..." : "Create Course"}
         </button>
       </form>
-      <div>
-        <AddChapterLecture/>
+
+      <div className="mt-12">
+        <AddChapterLecture />
       </div>
     </div>
   );

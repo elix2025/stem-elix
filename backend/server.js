@@ -10,7 +10,6 @@ import orderRouter from "./routes/orderRoutes.js";
 import progressRouter from "./routes/progressRoutes.js";
 import emailRouter from "./routes/emailRoutes.js";
 
-
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -26,7 +25,7 @@ app.use("/api/auth", userRouter);
 app.use("/api/courses", courseRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/user", userRouter);
-app.use("/api/orders",orderRouter);
+app.use("/api/orders", orderRouter);
 app.use("/api/progress", progressRouter);
 app.use("/api/email", emailRouter);
 
