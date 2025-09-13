@@ -17,7 +17,7 @@ const NeuroShowcase = () => {
 
               <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 leading-tight">
                 Explore the Brain with Our
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ac6cf4] to-[#ac6cf4]/80">
+                <span className="text-transparent bg-clip-text bg-gray-800">
                   {" "}
                   Advanced Kit
                 </span>
@@ -37,7 +37,7 @@ const NeuroShowcase = () => {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <button className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#ac6cf4] to-[#ac6cf4]/90 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
+              <button className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
                 <span>Discover More</span>
                 <svg
                   className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"

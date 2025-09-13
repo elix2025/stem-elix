@@ -67,7 +67,7 @@ const Contact = () => {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8 md:mb-16">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-slate-800 via-[#ac6cf4] to-fuchsia-500 bg-clip-text text-transparent mb-4 sm:mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gray-800 bg-clip-text text-transparent mb-4 sm:mb-6">
               Get In Touch
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
@@ -201,7 +201,7 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-[#ac6cf4] to-fuchsia-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-[#ac6cf4] hover:to-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-[#ac6cf4] focus:ring-offset-2 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full bg-gray-800 text-white py-3 px-6 rounded-lg font-semibold hover:from-[#ac6cf4] hover:to-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-[#ac6cf4] focus:ring-offset-2 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
                     {isLoading ? (
                       <div className="flex items-center justify-center">
@@ -366,7 +366,7 @@ const Contact = () => {
           <div className="text-center mt-12">
             <Link
               to="/"
-              className="inline-flex items-center space-x-2 text-[#ac6cf4] hover:text-[#ac6cf4] transition-colors duration-200 group"
+              className="inline-flex items-center space-x-2 text-slate-800 hover:text-[#ac6cf4] transition-colors duration-200 group"
             >
               <svg
                 className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200"
@@ -376,7 +376,7 @@ const Contact = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              <span className="font-medium">Back to Home</span>
+              <span className="font-medium ">Back to Home</span>
             </Link>
           </div>
         </div>

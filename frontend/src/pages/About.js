@@ -90,52 +90,45 @@ const AboutUsPage = () => {
       {/* Hero Section */}
       <section
         id="hero"
-        className={`relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 transition-all duration-1000 ${
+        className={`relative overflow-hidden py-20 transition-all duration-1000 ${
           isVisible.hero ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
-      >
-        {/* Animated Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-[#ac6cf4]/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-fuchsia-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-violet-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
-        </div>
-
+       >
         {/* STEM Icons Floating */}
-        <div className="absolute top-16 right-20 text-white/10 animate-bounce">
+        <div className="absolute top-16 right-20 text-[#ac6cf4]/20 animate-bounce">
           <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7V10C2 16 6 20.9 12 22C18 20.9 22 16 22 10V7L12 2Z" />
           </svg>
         </div>
-        <div className="absolute bottom-32 left-20 text-white/10 animate-bounce delay-300">
+        <div className="absolute bottom-32 left-20 text-[#ac6cf4]/20 animate-bounce delay-300">
           <svg className="w-14 h-14" fill="currentColor" viewBox="0 0 24 24">
             <path d="M9,2V8H11V11H5C3.89,11 3,11.89 3,13V16H5V22H11V16H13V22H19V16H21V13C21,11.89 20.11,11 19,11H13V8H15V2H9M11,4H13V6H11V4Z" />
           </svg>
         </div>
-        <div className="absolute top-1/3 left-10 text-white/10 animate-bounce delay-700">
+        <div className="absolute top-1/3 left-10 text-[#ac6cf4]/20 animate-bounce delay-700">
           <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z" />
           </svg>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-24">
-          <div className="text-center text-white space-y-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center space-y-8">
             {/* Badge */}
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-full text-sm font-medium">
+            <div className="inline-flex items-center space-x-2 bg-[#ac6cf4]/10 text-slate-800 mb-4 px-6 py-3 rounded-full text-sm font-medium border border-[#ac6cf4]/20">
               <span className="w-2 h-2 bg-[#ac6cf4] rounded-full animate-pulse"></span>
               <span>🌟 About StemElix</span>
             </div>
 
             {/* Main Heading */}
             <div className="space-y-6">
-              <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
-                <span className="block">Empowering Tomorrow's</span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#ac6cf4] via-fuchsia-400 to-violet-400">
+              <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+                <span className="block text-slate-800 mb-4">Empowering Tomorrow's</span>
+                <span className="block text-slate-800 mb-4">
                   STEM Innovators
                 </span>
               </h1>
 
-              <p className="text-xl lg:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
+              <p className="text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
                 We're revolutionizing STEM education through interactive
                 learning, cutting-edge technology, and hands-on experiences that
                 inspire the next generation of scientists, engineers, and
@@ -150,10 +143,10 @@ const AboutUsPage = () => {
                 { icon: "🌍", title: "Global Impact", text: "Reaching students worldwide with accessible, engaging STEM education" },
                 { icon: "🔬", title: "Hands-On Learning", text: "Real-world applications and interactive experiments that make learning stick" },
               ].map((c, i) => (
-                <div key={i} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
+                <div key={i} className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <div className="text-3xl mb-3">{c.icon}</div>
-                  <h3 className="text-lg font-semibold mb-2">{c.title}</h3>
-                  <p className="text-slate-300 text-sm">{c.text}</p>
+                  <h3 className="text-lg font-semibold mb-2 text-slate-800">{c.title}</h3>
+                  <p className="text-slate-600 text-sm">{c.text}</p>
                 </div>
               ))}
             </div>
@@ -376,54 +369,6 @@ const AboutUsPage = () => {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-20 px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-[#ac6cf4] to-slate-800 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-40 h-40 bg-[#ac6cf4]/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-40 h-40 bg-fuchsia-500/10 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-            Ready to Start Your{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ac6cf4] to-fuchsia-400">
-              STEM Journey?
-            </span>
-          </h2>
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-            Join thousands of students who are already exploring the exciting
-            world of Science, Technology, Engineering, and Mathematics with
-            StemElix.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#ac6cf4] to-fuchsia-600 text-white font-semibold rounded-2xl shadow-2xl hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-1 transition-all duration-300">
-              <span>Start Learning Today</span>
-              <svg
-                className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </button>
-
-            <button className="inline-flex items-center px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-2xl hover:bg-white/10 backdrop-blur-sm transition-all duration-300">
-              <svg
-                className="mr-2 w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-              Contact Us
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* Mission / Vision / Promise */}
       <section className="bg-zinc-50 py-20 px-6 md:px-24">

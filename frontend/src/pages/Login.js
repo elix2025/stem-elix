@@ -52,20 +52,20 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-[#efefef] flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
+    <div className="bg-gradient-to-br from-slate-50 to-gray-100 flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-[#ac6cf4]/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-fuchsia-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-violet-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
 
         {/* STEM Icons Floating */}
-        <div className="absolute top-16 right-20 text-white/10 animate-bounce">
+        <div className="absolute top-16 right-20 text-[#ac6cf4]/20 animate-bounce">
           <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7V10C2 16 6 20.9 12 22C18 20.9 22 16 22 10V7L12 2Z" />
           </svg>
         </div>
-        <div className="absolute bottom-32 left-20 text-white/10 animate-bounce delay-300">
+        <div className="absolute bottom-32 left-20 text-[#ac6cf4]/20 animate-bounce delay-300">
           <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
             <path d="M9,2V8H11V11H5C3.89,11 3,11.89 3,13V16H5V22H11V16H13V22H19V16H21V13C21,11.89 20.11,11 19,11H13V8H15V2H9M11,4H13V6H11V4Z" />
           </svg>
@@ -74,21 +74,21 @@ const Login = () => {
 
       <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center relative z-10">
         {/* Left Side - Welcome Content */}
-        <div className="text-black space-y-8 lg:pr-8">
+        <div className="text-slate-800 space-y-8 lg:pr-8">
           <div className="space-y-4">
-            <div className="inline-flex items-center space-x-2 bg-gray-500 backdrop-blur-sm border border-gray text-white px-4 py-2 rounded-full text-sm font-medium">
-              {/* <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> */}
-              <span> STEM Learning Platform</span>
+            <div className="inline-flex items-center space-x-2 bg-[#ac6cf4]/10 text-[#ac6cf4] px-4 py-2 rounded-full text-sm font-medium border border-[#ac6cf4]/20">
+              <span className="w-2 h-2  rounded-full animate-pulse"></span>
+              <span>🌟 STEM Learning Platform</span>
             </div>
 
-            <h1 className="text-4xl lg:text-6xl leading-tight">
+            <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
               Welcome Back to{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-green-400">
+              <span className="text-4xl lg:text-6xl font-bold leading-tight">
                 StemElix
               </span>
             </h1>
 
-            <p className="text-xl text-black-300 leading-relaxed max-w-lg">
+            <p className="text-xl text-slate-600 leading-relaxed max-w-lg">
               Continue your journey in Science, Technology, Engineering, and
               Mathematics. Unlock endless possibilities with hands-on learning.
             </p>
@@ -104,10 +104,10 @@ const Login = () => {
             ].map(({ icon, text }) => (
               <div
                 key={text}
-                className="flex items-center space-x-3 bg-white/5 backdrop-blur-sm rounded-lg p-3"
+                className="flex items-center space-x-3 bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-white/50"
               >
                 <span className="text-2xl">{icon}</span>
-                <span className="text-slate-300 text-sm font-medium">
+                <span className="text-slate-600 text-sm font-medium">
                   {text}
                 </span>
               </div>
@@ -117,16 +117,16 @@ const Login = () => {
           {/* Stats */}
           <div className="flex space-x-8">
             <div className="text-center">
-              <div className="text-2xl font-bold text-teal-400">200K+</div>
-              <div className="text-sm text-slate-400">Students</div>
+              <div className="text-2xl font-bold text-[#ac6cf4]">200K+</div>
+              <div className="text-sm text-slate-600">Students</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-emerald-400">120+</div>
-              <div className="text-sm text-slate-400">Courses</div>
+              <div className="text-2xl font-bold text-[#ac6cf4]">120+</div>
+              <div className="text-sm text-slate-600">Courses</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-400">98%</div>
-              <div className="text-sm text-slate-400">Success Rate</div>
+              <div className="text-2xl font-bold text-[#ac6cf4]">98%</div>
+              <div className="text-sm text-slate-600">Success Rate</div>
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@ const Login = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl text-base bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300"
+                    className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl text-base bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#ac6cf4] focus:border-transparent transition-all duration-300"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -223,7 +223,7 @@ const Login = () => {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-xl text-base bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300"
+                    className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-xl text-base bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#ac6cf4] focus:border-transparent transition-all duration-300"
                     placeholder="Enter your password"
                   />
                   <button
@@ -262,7 +262,7 @@ const Login = () => {
                 <label className="flex items-center">
                   <input
                     type="checkbox"
-                    className="rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+                    className="rounded border-slate-300 text-[#ac6cf4] focus:ring-[#ac6cf4]"
                   />
                   <span className="ml-2 text-sm text-slate-600">
                     Remember me
@@ -270,7 +270,7 @@ const Login = () => {
                 </label>
                 <Link
                   to="/forgot-password"
-                  className="text-sm font-medium text-teal-600 hover:text-teal-500"
+                  className="text-sm font-medium text-[#ac6cf4] hover:text-[#ac6cf4]/80 transition-colors duration-200"
                 >
                   Forgot password?
                 </Link>
@@ -280,7 +280,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 px-4 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full py-3 px-4 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center space-x-2">
@@ -317,7 +317,7 @@ const Login = () => {
                 New to StemElix?{" "}
                 <Link
                   to="/register"
-                  className="font-semibold text-teal-600 hover:text-teal-500 transition-colors duration-200"
+                  className="font-semibold text-[#ac6cf4] hover:text-[#ac6cf4]/80 transition-colors duration-200"
                 >
                   Create an account
                 </Link>
