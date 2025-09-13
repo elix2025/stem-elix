@@ -2,6 +2,7 @@ import {useState, useEffect} from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {motion} from "framer-motion";
 
+
 const cards = [{
     title: "Teacher Training Program", desc: "Empower educators with cutting-edge STEM teaching skills through our comprehensive training program.", color: "bg-white"
 },
@@ -13,7 +14,7 @@ export default function LandingSection() {
     useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev === cards.length - 1 ? 0 : prev + 1));
-    }, 7000); // 7 seconds
+    }, 5000); // 5 seconds
     return () => clearInterval(interval);
   }, []);
 
@@ -21,13 +22,14 @@ export default function LandingSection() {
 //   const nextCard = () => setCurrent((prev) => (prev === cards.length - 1 ? 0 : prev + 1));
 
    return (
-    <section className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
+    <section className="max-w-7xl mx-auto px-5 py-12 grid md:grid-cols-2 gap-10 items-center">
       {/* Left side image */}
       <div>
-        <img
-          src="https://images.unsplash.com/photo-1600880292089-90e24c9a20ba?auto=format&fit=crop&w=800&q=80"
+        
+        <img 
+          src={require("../assets/school.png")}
           alt="Learning"
-          className="rounded-2xl shadow-lg"
+          className=""
         />
       </div>
 

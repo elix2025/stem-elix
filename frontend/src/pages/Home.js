@@ -11,6 +11,7 @@ import TinkrionShowcase from "../components/coursecard";
 import NeuroShowcase from "../components/NeuroShowcase";
 import ShowCaseProjects from "../components/ShowCaseProjects";
 import LandingSection from "../components/labs";
+import AnimatedSection from "../components/animatedicon";
 
 const Home = () => {
   const { currentUser } = useAPI();
@@ -34,7 +35,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home-page bg-[#efefef] text-slate-900">
+    <div className="home-page bg-[#f9f8f5] text-slate-900">
       {/* HERO */}
       <Hero handleEnrollNow={handleEnrollNow} />
 
@@ -64,6 +65,11 @@ const Home = () => {
 
       {/* TINKRION SHOWCASE - FULL WIDTH */}
       <TinkrionShowcase />
+
+<section >
+<AnimatedSection/>
+</section>
+
 
       <section>
         <LandingSection />
