@@ -206,35 +206,33 @@ const NeuroShowcase = () => {
                 ))}
               </div>
 
-              {/* Main description */}
-              <div className="relative p-6 bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-sm rounded-2xl border border-primary-blue/20">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-blue/5 to-cyan/5 rounded-2xl opacity-50"></div>
-                <div className="relative z-10">
-                  <p className="text-lg text-charcoal/80 leading-relaxed">
-                    Our interactive{" "}
-                    <span className="font-bold text-primary-blue">
-                      Neuroscience STEM Kit
-                    </span>{" "}
-                    combines cutting-edge learning with hands-on experiments to
-                    build brilliant futures. Students will discover how the
-                    brain works, build neural circuits, and understand the
-                    science behind human consciousness.
-                  </p>
-                </div>
-              </div>
+              <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 leading-tight">
+                Explore the Brain with Our
+                <span className="text-transparent bg-clip-text bg-gray-800">
+                  {" "}
+                  Advanced Kit
+                </span>
+              </h2>
+
+              <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
+                Dive into the fascinating world of neurons, circuits, and the
+                human brain! Designed for curious learners aged 6–18, our
+                interactive
+                <span className="font-semibold text-slate-700">
+                  {" "}
+                  Neuroscience STEM Kit
+                </span>{" "}
+                combines hands-on experiments with cutting-edge learning to
+                build brilliant futures.
+              </p>
             </div>
 
-            {/* Enhanced Action Buttons */}
-            <div className="flex flex-wrap gap-6">
-              <motion.button
-                className="group relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary-blue to-blue-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 overflow-hidden focus-ring"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <span className="relative z-10">Discover More</span>
-                <motion.svg
-                  className="relative z-10 ml-2 w-5 h-5"
+            <div className="flex flex-wrap gap-4">
+              <button className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
+                <span>Discover More</span>
+                <svg
+                  className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
+
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

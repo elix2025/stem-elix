@@ -113,97 +113,51 @@ const AboutUsPage = () => {
       {/* Enhanced Hero Section */}
       <section
         id="hero"
-        className={`relative overflow-hidden bg-gradient-to-br from-navy via-navy/95 to-primary-blue transition-all duration-1000 ${
-          isVisible.hero
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-10"
-        }`}
-      >
-        {/* Enhanced Animated Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            className="absolute top-20 left-10 w-72 h-72 bg-primary-blue/10 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{ duration: 8, repeat: Infinity }}
-          />
-          <motion.div
-            className="absolute bottom-20 right-10 w-96 h-96 bg-cyan/10 rounded-full blur-3xl"
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.4, 0.7, 0.4],
-            }}
-            transition={{ duration: 10, repeat: Infinity, delay: 2 }}
-          />
-          <motion.div
-            className="absolute top-1/2 left-1/3 w-48 h-48 bg-cyan/15 rounded-full blur-2xl"
-            animate={{
-              y: [-20, 20, -20],
-              opacity: [0.2, 0.5, 0.2],
-            }}
-            transition={{ duration: 6, repeat: Infinity, delay: 1 }}
-          />
-        </div>
 
-        {/* Enhanced STEM Icons */}
-        <motion.div
-          className="absolute top-16 right-20 text-white/20"
-          animate={{
-            y: [-10, 10, -10],
-            rotate: [0, 15, 0],
-          }}
-          transition={{ duration: 4, repeat: Infinity }}
-        >
+        className={`relative overflow-hidden py-20 transition-all duration-1000 ${
+          isVisible.hero ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+       >
+        {/* STEM Icons Floating */}
+        <div className="absolute top-16 right-20 text-[#ac6cf4]/20 animate-bounce">
           <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7V10C2 16 6 20.9 12 22C18 20.9 22 16 22 10V7L12 2Z" />
           </svg>
-        </motion.div>
-
-        <motion.div
-          className="absolute bottom-32 left-20 text-white/20"
-          animate={{
-            y: [10, -10, 10],
-            rotate: [0, -15, 0],
-          }}
-          transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-        >
+        </div>
+        <div className="absolute bottom-32 left-20 text-[#ac6cf4]/20 animate-bounce delay-300">
           <svg className="w-14 h-14" fill="currentColor" viewBox="0 0 24 24">
             <path d="M9,2V8H11V11H5C3.89,11 3,11.89 3,13V16H5V22H11V16H13V22H19V16H21V13C21,11.89 20.11,11 19,11H13V8H15V2H9M11,4H13V6H11V4Z" />
           </svg>
-        </motion.div>
+        </div>
+        <div className="absolute top-1/3 left-10 text-[#ac6cf4]/20 animate-bounce delay-700">
+          <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z" />
+          </svg>
+        </div>
 
-        <motion.div
-          className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-24"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isVisible.hero ? "visible" : "hidden"}
-        >
-          <div className="text-center text-white space-y-8">
-            {/* Enhanced Badge */}
-            <motion.div
-              className="inline-flex items-center space-x-2 glass bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-full text-sm font-medium"
-              variants={itemVariants}
-            >
-              <motion.div
-                className="w-2 h-2 bg-cyan rounded-full"
-                animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center space-y-8">
+            {/* Badge */}
+            <div className="inline-flex items-center space-x-2 bg-[#ac6cf4]/10 text-slate-800 mb-4 px-6 py-3 rounded-full text-sm font-medium border border-[#ac6cf4]/20">
+              <span className="w-2 h-2 bg-[#ac6cf4] rounded-full animate-pulse"></span>
+
               <span>🌟 About StemElix</span>
             </motion.div>
+
 
             {/* Enhanced Main Heading */}
             <motion.div className="space-y-6" variants={itemVariants}>
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
                 <span className="block">Empowering Tomorrow's</span>
                 <span className="block text-gradient bg-gradient-to-r from-cyan via-primary-blue to-white bg-clip-text text-transparent">
+
                   STEM Innovators
                 </span>
               </h1>
 
+
               <p className="text-xl lg:text-2xl text-slate-200 max-w-4xl mx-auto leading-relaxed">
+
                 We're revolutionizing STEM education through interactive
                 learning, cutting-edge technology, and hands-on experiences that
                 inspire the next generation of scientists, engineers, and
@@ -233,25 +187,13 @@ const AboutUsPage = () => {
                   text: "Real-world applications and interactive experiments that make learning stick",
                 },
               ].map((c, i) => (
-                <motion.div
-                  key={i}
-                  className="group glass bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-6 hover:bg-white/15 transition-all duration-300"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                >
-                  <motion.div
-                    className="text-4xl mb-4"
-                    whileHover={{ scale: 1.2, rotate: 15 }}
-                  >
-                    {c.icon}
-                  </motion.div>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-cyan transition-colors duration-300">
-                    {c.title}
-                  </h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">
-                    {c.text}
-                  </p>
-                </motion.div>
+
+                <div key={i} className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                  <div className="text-3xl mb-3">{c.icon}</div>
+                  <h3 className="text-lg font-semibold mb-2 text-slate-800">{c.title}</h3>
+                  <p className="text-slate-600 text-sm">{c.text}</p>
+                </div>
+
               ))}
             </motion.div>
           </div>
@@ -650,6 +592,7 @@ const AboutUsPage = () => {
         </motion.div>
       </section>
 
+
       {/* Enhanced Call to Action */}
       <section className="relative overflow-hidden bg-gradient-to-br from-navy via-primary-blue to-cyan section-padding">
         {/* Enhanced Background Elements */}
@@ -732,6 +675,7 @@ const AboutUsPage = () => {
             </motion.button>
           </div>
         </motion.div>
+
       </section>
     </main>
   );
