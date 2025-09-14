@@ -16,7 +16,7 @@ const AddChapterLecture = () => {
   const [lectureOrder, setLectureOrder] = useState("");
   const [lectureDuration, setLectureDuration] = useState("");
   const [lectureUrl, setLectureUrl] = useState("");
-  
+
   const [isPreviewFree, setIsPreviewFree] = useState(false);
 
   // ✅ Load all courses
@@ -25,7 +25,7 @@ const AddChapterLecture = () => {
       const data = await getAllCourses();
       setCourses(data);
     })();
-  }, []);
+  }, [getAllCourses]);
 
   // ✅ Load chapters of selected course
   useEffect(() => {
@@ -57,7 +57,8 @@ const AddChapterLecture = () => {
     }
 
     // Validate YouTube URL
-    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})$/;
+    const youtubeRegex =
+      /^(https?:\/\/)?(www\.)?(youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})$/;
     if (!youtubeRegex.test(lectureUrl)) {
       return alert("Please enter a valid YouTube URL");
     }
@@ -68,19 +69,18 @@ const AddChapterLecture = () => {
         lectureOrder: Number(lectureOrder),
         lectureDuration,
         lectureUrl,
-        isPreviewFree
+        isPreviewFree,
       };
 
-      
       await addLecture(selectedCourse, selectedChapter, lectureData);
-      
+
       // Reset form
       setLectureTitle("");
       setLectureOrder("");
       setLectureDuration("");
       setLectureUrl("");
       setIsPreviewFree(false);
-      
+
       alert("✅ Lecture added successfully!");
     } catch (err) {
       console.error("Error adding lecture:", err);
@@ -150,9 +150,9 @@ const AddChapterLecture = () => {
       </div>
 
       {/* Add Lecture */}
-       <div className="p-4 border rounded">
+      <div className="p-4 border rounded">
         <h3 className="font-semibold mb-2">📺 Add YouTube Lecture</h3>
-        
+
         <div className="space-y-4">
           <input
             type="text"
@@ -170,7 +170,7 @@ const AddChapterLecture = () => {
               className="w-full border p-2 rounded"
               onChange={(e) => setLectureOrder(e.target.value)}
             />
-            
+
             <input
               type="text"
               placeholder="Duration (HH:MM:SS)"
@@ -180,7 +180,7 @@ const AddChapterLecture = () => {
             />
           </div>
 
-           <input
+          <input
             type="text"
             placeholder="YouTube Video URL"
             value={lectureUrl}
@@ -188,22 +188,20 @@ const AddChapterLecture = () => {
             onChange={(e) => setLectureUrl(e.target.value)}
           />
 
-       
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              onChange={(e) => setIsPreviewFree(e.target.checked)}
+            />
+            <span>Free Preview?</span>
+          </label>
 
-        <label className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            onChange={(e) => setIsPreviewFree(e.target.checked)}
-          />
-          <span>Free Preview?</span>
-        </label>
-
-        <button
-          className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-          onClick={handleAddLecture}
-        >
-          Add Lecture
-        </button>
+          <button
+            className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            onClick={handleAddLecture}
+          >
+            Add Lecture
+          </button>
         </div>
       </div>
     </div>

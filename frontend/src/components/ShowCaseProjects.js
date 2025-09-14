@@ -1,141 +1,275 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 const ShowcaseSection = ({ onShowFormClick }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const floatingVariants = {
+    animate: {
+      y: [-10, 10, -10],
+      rotate: [0, 5, 0, -5, 0],
+      transition: {
+        duration: 6,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
+
   return (
-    <section className="w-full bg-[#f9f8f5] py-12 flex justify-center">
-      <div className="max-w-5xl w-full grid md:grid-cols-2 gap-6">
-        {/* Left card */}
-        <div className="bg-white rounded-2xl shadow-sm p-6 flex flex-col items-center justify-center text-center">
-          <div className="relative">
-            {/* Coins */}
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/2906/2906495.png"
-              alt="coin"
-              className="absolute -left-10 top-6 w-10 h-10"
-            />
-            
-          </div>
-          <p className="mt-6 text-xl font-medium text-gray-900">
-            Rewards for everything <br /> school related
-          </p>
-        </div>
+    <section className="relative w-full bg-gradient-to-br from-light-bg via-white to-blue-50/30 section-padding overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-10 w-40 h-40 bg-primary-blue/5 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-40 right-20 w-32 h-32 bg-cyan/5 rounded-full blur-2xl animate-float delay-300"></div>
+        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary-blue/3 rounded-full blur-xl animate-float delay-500"></div>
 
-        {/* Right card */}
-        <div className="flex flex-col gap-4">
-          {/* Top dark box */}
-          <div className="bg-[#2c2c2c] text-white rounded-2xl p-6 flex items-center gap-3">
-            <span className="text-3xl">✨</span>
-            <p className="text-2xl font-semibold">Show's us your innovations</p>
-          </div>
-
-          {/* Bottom white box with tags */}
-          <div className="bg-white rounded-2xl p-6 flex flex-wrap gap-3">
-            {[
-              "Activities",
-              "Events",
-              "Fees",
-              "Canteen",
-              "Transport",
-              "Supplies",
-              "Uniform",
-              "Counselling",
-            ].map((item) => (
-              <span
-                key={item}
-                className="px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
+        {/* Tech pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, #2563EB 1px, transparent 0)`,
+            backgroundSize: "40px 40px",
+          }}
+        ></div>
       </div>
+
+      <motion.div
+        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isVisible ? "visible" : "hidden"}
+      >
+        {/* Enhanced Header */}
+        <motion.div className="text-center mb-16" variants={itemVariants}>
+          <div
+            className="inline-flex items-center space-x-2 glass bg-primary-blue/10 backdrop-blur-sm
+                          border border-primary-blue/20 text-primary-blue px-6 py-3 rounded-full 
+                          text-sm font-medium mb-8"
+          >
+            <motion.div
+              className="w-2 h-2 bg-primary-blue rounded-full"
+              animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            ></motion.div>
+            <span>Student Innovations</span>
+          </div>
+
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8">
+            What Have You{" "}
+            <span className="text-gradient bg-gradient-to-r from-primary-blue via-cyan to-primary-blue bg-clip-text text-transparent">
+              Created?
+            </span>
+          </h2>
+
+          <p className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-4xl mx-auto leading-relaxed">
+            We'd love to see the amazing things you've built! Share your
+            projects, inventions, art, experiments, or anything cool you've made
+            while learning with us.
+          </p>
+        </motion.div>
+
+        {/* Enhanced Cards Grid */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          {/* Left Card - Rewards */}
+          <motion.div
+            className="group relative bg-white rounded-3xl shadow-xl hover:shadow-2xl border border-primary-blue/10 hover:border-primary-blue/30 p-8 transition-all duration-500 hover:scale-105 hover:-translate-y-2 overflow-hidden"
+            variants={itemVariants}
+          >
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+            {/* Floating decorations */}
+            <motion.div
+              className="absolute top-6 right-6 w-12 h-12 bg-gradient-to-br from-primary-blue/20 to-cyan/30 rounded-full"
+              variants={floatingVariants}
+              animate="animate"
+            ></motion.div>
+
+            <div className="relative z-10 flex flex-col items-center justify-center text-center space-y-6">
+              {/* Enhanced icon */}
+              <div className="relative">
+                <div className="w-24 h-24 bg-gradient-to-br from-primary-blue/10 via-cyan/5 to-primary-blue/10 rounded-3xl flex items-center justify-center group-hover:from-primary-blue/20 group-hover:to-cyan/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg group-hover:shadow-xl">
+                  <svg
+                    className="w-12 h-12 text-primary-blue group-hover:text-cyan transition-colors duration-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                    />
+                  </svg>
+                </div>
+                {/* Glow effect */}
+                <div className="absolute inset-0 w-24 h-24 bg-gradient-to-br from-primary-blue/20 to-cyan/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-2xl md:text-3xl font-bold text-charcoal group-hover:text-primary-blue transition-colors duration-300">
+                  Rewards for Everything
+                </h3>
+                <p className="text-charcoal/70 text-lg leading-relaxed">
+                  Get recognized and rewarded for your creativity, innovation,
+                  and learning achievements.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Section */}
+          <motion.div className="space-y-6" variants={itemVariants}>
+            {/* Innovation Card */}
+            <motion.div
+              className="group relative bg-gradient-to-br from-navy to-navy/90 text-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 overflow-hidden"
+              whileHover={{ y: -5 }}
+            >
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/20 to-cyan/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative z-10 flex items-center gap-4">
+                <motion.span
+                  className="text-4xl filter drop-shadow-lg"
+                  animate={{ rotate: [0, 10, 0, -10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                >
+                  ✨
+                </motion.span>
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-2">
+                    Show Us Your Innovations
+                  </h3>
+                  <p className="text-white/80 text-lg">
+                    Transform ideas into reality and inspire others
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Categories Card */}
+            <motion.div
+              className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl border border-primary-blue/10 hover:border-primary-blue/30 transition-all duration-500 hover:scale-105 overflow-hidden"
+              variants={itemVariants}
+            >
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative z-10">
+                <h4 className="text-xl font-bold text-charcoal mb-6 group-hover:text-primary-blue transition-colors duration-300">
+                  Share Your Projects In
+                </h4>
+                <div className="flex flex-wrap gap-3">
+                  {[
+                    "Robotics",
+                    "AI Projects",
+                    "Electronics",
+                    "Programming",
+                    "3D Printing",
+                    "IoT Devices",
+                    "Mobile Apps",
+                    "Web Development",
+                  ].map((item, index) => (
+                    <motion.span
+                      key={item}
+                      className="px-4 py-2 bg-gradient-to-r from-primary-blue/10 to-cyan/10 text-primary-blue border border-primary-blue/20 rounded-full text-sm font-medium hover:from-primary-blue/20 hover:to-cyan/20 hover:scale-105 transition-all duration-300 cursor-default"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ y: -2 }}
+                    >
+                      {item}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Enhanced CTA Section */}
+        <motion.div className="text-center mt-16" variants={itemVariants}>
+          <div className="flex flex-wrap justify-center gap-6">
+            <motion.button
+              onClick={onShowFormClick}
+              className="group relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary-blue to-blue-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 overflow-hidden focus-ring"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-primary-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative z-10">Share Your Creation</span>
+              <motion.svg
+                className="relative z-10 ml-2 w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </motion.svg>
+            </motion.button>
+
+            <motion.button
+              className="group relative inline-flex items-center px-8 py-4 border-2 border-primary-blue/30 hover:border-primary-blue text-charcoal hover:text-primary-blue font-semibold rounded-xl bg-white/50 hover:bg-white/80 backdrop-blur-sm transition-all duration-300 focus-ring"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="relative z-10">View Gallery</span>
+              <svg
+                className="relative z-10 ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+            </motion.button>
+          </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };
-  // return (
-//     <section className="relative overflow-hidden isolate">
-      
-//       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-[#ac6cf4]/10 to-[#ac6cf4]/5" />
-
-//       <div className="relative max-w-7xl mx-auto px-6 py-20 lg:px-8">
-//         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-         
-//           <div className="space-y-8">
-//             <div className="space-y-4">
-//               <div className="inline-flex items-center space-x-2 bg-[#ac6cf4]/20 text-[#ac6cf4] px-3 py-1 rounded-full text-sm font-medium">
-//                 <span>🎨</span>
-//                 <span>Student Creations</span>
-//               </div>
-
-//               <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 leading-tight">
-//                 What Have You
-//                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ac6cf4] to-[#ac6cf4]/80">
-//                   {" "}
-//                   Created?
-//                 </span>
-//               </h2>
-
-//               <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
-//                 We'd love to see the amazing things you've built! Share your 
-//                 projects, inventions, art, experiments, or anything cool you've 
-//                 made while learning with us. Your
-//                 <span className="font-semibold text-slate-700">
-//                   {" "}
-//                   creativity inspires others
-//                 </span>{" "}
-//                 and helps build our community of young innovators.
-//               </p>
-//             </div>
-
-//             <div className="flex flex-wrap gap-4">
-//               <button 
-//                 onClick={onShowFormClick}
-//                 className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#ac6cf4] to-[#ac6cf4]/90 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out"
-//               >
-//                 <span>Share Your Creation</span>
-//                 <svg
-//                   className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
-//                   fill="none"
-//                   stroke="currentColor"
-//                   viewBox="0 0 24 24"
-//                 >
-//                   <path
-//                     strokeLinecap="round"
-//                     strokeLinejoin="round"
-//                     strokeWidth={2}
-//                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-//                   />
-//                 </svg>
-//               </button>
-
-//               <button className="inline-flex items-center px-6 py-3 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-[#ac6cf4] hover:text-[#ac6cf4] transition-all duration-300 ease-out">
-//                 View Gallery
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* Image container */}
-//           <div className="relative">
-            
-//             <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-[#ac6cf4]/40 to-[#ac6cf4]/60 rounded-full opacity-60" />
-//             <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-[#ac6cf4]/30 to-[#ac6cf4]/50 rounded-full opacity-40" />
-
-//             {/* Main image placeholder */}
-//             <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-slate-200">
-             
-//                <img
-//                 src={require("../assets/student-building-project.png")}
-//                 alt="Student Creations Showcase"
-//                 className="w-full max-w-sm mx-auto rounded-xl transform hover:scale-105 transition-transform duration-300"
-//               />
-
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
 
 export default ShowcaseSection;

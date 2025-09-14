@@ -52,20 +52,20 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-[#efefef] flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
+    <div className="bg-gradient-to-br from-light-bg to-blue-50 flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-primary-blue/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-cyan/10 rounded-full blur-3xl animate-float delay-1000"></div>
+        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary-blue/15 rounded-full blur-2xl animate-float delay-500"></div>
 
         {/* STEM Icons Floating */}
-        <div className="absolute top-16 right-20 text-white/10 animate-bounce">
+        <div className="absolute top-16 right-20 text-primary-blue/20 animate-bounce">
           <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7V10C2 16 6 20.9 12 22C18 20.9 22 16 22 10V7L12 2Z" />
           </svg>
         </div>
-        <div className="absolute bottom-32 left-20 text-white/10 animate-bounce delay-300">
+        <div className="absolute bottom-32 left-20 text-cyan/20 animate-bounce delay-300">
           <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
             <path d="M9,2V8H11V11H5C3.89,11 3,11.89 3,13V16H5V22H11V16H13V22H19V16H21V13C21,11.89 20.11,11 19,11H13V8H15V2H9M11,4H13V6H11V4Z" />
           </svg>
@@ -74,21 +74,18 @@ const Login = () => {
 
       <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center relative z-10">
         {/* Left Side - Welcome Content */}
-        <div className="text-black space-y-8 lg:pr-8">
+        <div className="text-charcoal space-y-8 lg:pr-8">
           <div className="space-y-4">
-            <div className="inline-flex items-center space-x-2 bg-gray-500 backdrop-blur-sm border border-gray text-white px-4 py-2 rounded-full text-sm font-medium">
-              {/* <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> */}
-              <span> STEM Learning Platform</span>
+            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-4 py-2 rounded-full text-sm font-medium animate-slideDown">
+              <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
+              <span>Advanced STEM Learning Platform</span>
             </div>
 
-            <h1 className="text-4xl lg:text-6xl leading-tight">
-              Welcome Back to{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-green-400">
-                StemElix
-              </span>
+            <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+              Welcome Back to <span className="text-gradient">StemElix</span>
             </h1>
 
-            <p className="text-xl text-black-300 leading-relaxed max-w-lg">
+            <p className="text-xl text-charcoal/80 leading-relaxed max-w-lg">
               Continue your journey in Science, Technology, Engineering, and
               Mathematics. Unlock endless possibilities with hands-on learning.
             </p>
@@ -97,17 +94,21 @@ const Login = () => {
           {/* Features List */}
           <div className="grid grid-cols-2 gap-4">
             {[
-              { icon: "🧪", text: "Interactive Experiments" },
-              { icon: "🤖", text: "AI-Powered Learning" },
-              { icon: "🔬", text: "Virtual Labs" },
-              { icon: "🏆", text: "Achievement System" },
-            ].map(({ icon, text }) => (
+              {
+                icon: "🧪",
+                text: "Interactive Experiments",
+                color: "primary-blue",
+              },
+              { icon: "🤖", text: "AI-Powered Learning", color: "cyan" },
+              { icon: "🔬", text: "Virtual Labs", color: "primary-blue" },
+              { icon: "🏆", text: "Achievement System", color: "cyan" },
+            ].map(({ icon, text, color }) => (
               <div
                 key={text}
-                className="flex items-center space-x-3 bg-white/5 backdrop-blur-sm rounded-lg p-3"
+                className="flex items-center space-x-3 card bg-white/60 backdrop-blur-sm rounded-xl p-4 hover:shadow-lg transition-all duration-300 animate-fadeIn"
               >
                 <span className="text-2xl">{icon}</span>
-                <span className="text-slate-300 text-sm font-medium">
+                <span className="text-charcoal text-sm font-semibold">
                   {text}
                 </span>
               </div>
@@ -117,32 +118,32 @@ const Login = () => {
           {/* Stats */}
           <div className="flex space-x-8">
             <div className="text-center">
-              <div className="text-2xl font-bold text-teal-400">200K+</div>
-              <div className="text-sm text-slate-400">Students</div>
+              <div className="text-2xl font-bold text-primary-blue">200K+</div>
+              <div className="text-sm text-charcoal/70">Students</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-emerald-400">120+</div>
-              <div className="text-sm text-slate-400">Courses</div>
+              <div className="text-2xl font-bold text-cyan">120+</div>
+              <div className="text-sm text-charcoal/70">Courses</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-400">98%</div>
-              <div className="text-sm text-slate-400">Success Rate</div>
+              <div className="text-2xl font-bold text-primary-blue">98%</div>
+              <div className="text-sm text-charcoal/70">Success Rate</div>
             </div>
           </div>
         </div>
 
         {/* Right Side - Login Form */}
         <div className="w-full max-w-md mx-auto lg:mx-0">
-          <div className="bg-white/95 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-8">
+          <div className="card-gradient backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl p-8 animate-scaleIn">
             <div className="text-center space-y-2 mb-8">
-              <h2 className="text-3xl font-bold text-slate-800">Sign In</h2>
-              <p className="text-slate-600">
+              <h2 className="text-3xl font-bold text-charcoal">Sign In</h2>
+              <p className="text-charcoal/70">
                 Access your STEM learning dashboard
               </p>
             </div>
 
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl animate-slideUp">
                 <div className="flex items-center space-x-2">
                   <svg
                     className="w-5 h-5 text-red-500"
@@ -165,13 +166,13 @@ const Login = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-slate-700">
+                <label className="block text-sm font-semibold text-charcoal">
                   Email Address
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
-                      className="h-5 w-5 text-slate-400"
+                      className="h-5 w-5 text-charcoal/50"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -190,7 +191,7 @@ const Login = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl text-base bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-base bg-white/70 backdrop-blur-sm focus-ring transition-all duration-300"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -198,13 +199,13 @@ const Login = () => {
 
               {/* Password Field */}
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-slate-700">
+                <label className="block text-sm font-semibold text-charcoal">
                   Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
-                      className="h-5 w-5 text-slate-400"
+                      className="h-5 w-5 text-charcoal/50"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -223,7 +224,7 @@ const Login = () => {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-xl text-base bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300"
+                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl text-base bg-white/70 backdrop-blur-sm focus-ring transition-all duration-300"
                     placeholder="Enter your password"
                   />
                   <button
@@ -232,7 +233,7 @@ const Login = () => {
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
                     <svg
-                      className="h-5 w-5 text-slate-400 hover:text-slate-600"
+                      className="h-5 w-5 text-charcoal/50 hover:text-charcoal transition-colors duration-200"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -262,15 +263,15 @@ const Login = () => {
                 <label className="flex items-center">
                   <input
                     type="checkbox"
-                    className="rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+                    className="rounded border-gray-300 text-primary-blue focus:ring-primary-blue"
                   />
-                  <span className="ml-2 text-sm text-slate-600">
+                  <span className="ml-2 text-sm text-charcoal/70">
                     Remember me
                   </span>
                 </label>
                 <Link
                   to="/forgot-password"
-                  className="text-sm font-medium text-teal-600 hover:text-teal-500"
+                  className="text-sm font-medium text-primary-blue hover:text-blue-700 transition-colors duration-200"
                 >
                   Forgot password?
                 </Link>
@@ -280,7 +281,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 px-4 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="btn-primary w-full py-4 text-lg focus-ring disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center space-x-2">
@@ -313,11 +314,11 @@ const Login = () => {
 
             {/* Sign Up Link */}
             <div className="mt-8 text-center">
-              <p className="text-slate-600">
+              <p className="text-charcoal/70">
                 New to StemElix?{" "}
                 <Link
                   to="/register"
-                  className="font-semibold text-teal-600 hover:text-teal-500 transition-colors duration-200"
+                  className="font-semibold text-primary-blue hover:text-blue-700 transition-colors duration-200"
                 >
                   Create an account
                 </Link>
@@ -328,17 +329,17 @@ const Login = () => {
             <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-300" />
+                  <div className="w-full border-t border-gray-300" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-slate-500">
+                  <span className="px-2 bg-white text-charcoal/70">
                     Or continue with
                   </span>
                 </div>
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
-                <button className="w-full inline-flex justify-center py-2 px-4 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors duration-200">
+                <button className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-medium text-charcoal hover:bg-gray-50 transition-all duration-200 transform hover:-translate-y-0.5">
                   <svg
                     className="h-5 w-5"
                     viewBox="0 0 24 24"
@@ -364,7 +365,7 @@ const Login = () => {
                   <span className="ml-2">Google</span>
                 </button>
 
-                <button className="w-full inline-flex justify-center py-2 px-4 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors duration-200">
+                <button className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-medium text-charcoal hover:bg-gray-50 transition-all duration-200 transform hover:-translate-y-0.5">
                   <svg
                     className="h-5 w-5"
                     fill="currentColor"
