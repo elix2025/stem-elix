@@ -153,7 +153,8 @@ const Home = () => {
   return (
     <div
       ref={containerRef}
-      className="home-page bg-light-bg text-charcoal overflow-hidden custom-scrollbar"
+      className="home-page bg-[#f9f8f5] overflow-hidden custom-scrollbar"
+      // -light-bg text-charcoal
     >
       {/* HERO with parallax */}
       <motion.div
@@ -167,7 +168,8 @@ const Home = () => {
       </motion.div>
 
       {/* FEATURES with staggered animation */}
-      <AnimatedSectionWrapper className="relative bg-gradient-to-br from-light-bg to-white" delay={0.2}>
+      <AnimatedSectionWrapper className="relative bg-[#f9f8f5]" delay={0.2}>
+        {/* bg-gradient-to-br from-light-bg to-white */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <motion.div
             variants={staggerContainer}
@@ -218,7 +220,7 @@ const Home = () => {
       {/* TINKRION SHOWCASE */}
       <AnimatedSectionWrapper
         delay={0.1}
-        className="bg-gradient-to-br from-light-bg to-white"
+        className="bg-gradient-to-br from-[#f9f8f5] to-[#f9f8f5]"
       >
         <TinkrionShowcase />
       </AnimatedSectionWrapper>
@@ -237,7 +239,7 @@ const Home = () => {
       </AnimatedSectionWrapper>
 
       {/* NEURO SHOWCASE with enhanced animation */}
-      <AnimatedSectionWrapper className="relative bg-white" delay={0.2}>
+      <AnimatedSectionWrapper className="relative bg-[#f9f8f5]" delay={0.2}>
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}

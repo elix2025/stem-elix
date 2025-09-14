@@ -9,12 +9,12 @@ const AnimatedSection = () => {
     <section className="relative w-full h-[500px] sm:h-[550px] md:h-[600px] my-20 bg-[#f9f8f5] rounded-xl flex items-center justify-center overflow-hidden px-4">
       {/* Background floating boxes */}
       <div className="absolute top-5 left-5 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gray-200 rounded-xl opacity-70"></div>
-      <div className="absolute bottom-10 left-10 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#ecd0ec] rounded-xl opacity-70"></div>
-      <div className="absolute bottom-10 right-10 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#ecd0ec] rounded-xl opacity-70"></div>
-      <div className="absolute top-5 right-5 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#fc8eac] rounded-xl opacity-70"></div>
-      <div className="absolute top-[120px] sm:top-[160px] left-10 w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-[100px] bg-[#fc8eac] rounded-xl opacity-70"></div>
+      <div className="absolute bottom-10 left-10 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#ecd0ec]/40 rounded-xl opacity-70"></div>
+      <div className="absolute bottom-10 right-10 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#ecd0ec]/40 rounded-xl opacity-60"></div>
+      <div className="absolute top-5 right-5 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#fc8eac]/40 rounded-xl opacity-60"></div>
+      <div className="absolute top-[120px] sm:top-[160px] left-10 w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-[100px] bg-[#fc8eac]/50 rounded-xl opacity-70"></div>
       <div className="absolute top-32 right-5 w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-24 bg-gray-300 rounded-xl opacity-70"></div>
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-20 h-16 sm:w-28 sm:h-20 md:w-32 md:h-24 bg-[#c6c2b6] rounded-xl opacity-70"></div>
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-20 h-16 sm:w-28 sm:h-20 md:w-32 md:h-24 bg-[#c6c2b6]/50 rounded-xl opacity-70"></div>
 
       {/* Animated Content */}
       <motion.div

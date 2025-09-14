@@ -117,7 +117,7 @@ const ShowcaseSection = ({ onShowFormClick }) => {
             <div className="relative z-10 flex flex-col items-center justify-center text-center space-y-6">
               {/* Enhanced icon */}
               <div className="relative">
-                <div className="w-24 h-24 bg-gradient-to-br from-primary-blue/10 via-cyan/5 to-primary-blue/10 rounded-3xl flex items-center justify-center group-hover:from-primary-blue/20 group-hover:to-cyan/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg group-hover:shadow-xl">
+                {/* <div className="w-24 h-24 bg-gradient-to-br from-primary-blue/10 via-cyan/5 to-primary-blue/10 rounded-3xl flex items-center justify-center group-hover:from-primary-blue/20 group-hover:to-cyan/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg group-hover:shadow-xl">
                   <svg
                     className="w-12 h-12 text-primary-blue group-hover:text-cyan transition-colors duration-500"
                     fill="none"
@@ -131,15 +131,15 @@ const ShowcaseSection = ({ onShowFormClick }) => {
                       d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
                     />
                   </svg>
-                </div>
+                </div> */}
                 {/* Glow effect */}
-                <div className="absolute inset-0 w-24 h-24 bg-gradient-to-br from-primary-blue/20 to-cyan/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+                {/* <div className="absolute inset-0 w-24 h-24 bg-gradient-to-br from-primary-blue/20 to-cyan/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div> */}
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-2xl md:text-3xl font-bold text-charcoal group-hover:text-primary-blue transition-colors duration-300">
+                {/* <h3 className="text-2xl md:text-3xl font-bold text-charcoal group-hover:text-primary-blue transition-colors duration-300">
                   Rewards for Everything
-                </h3>
+                </h3> */}
                 <p className="text-charcoal/70 text-lg leading-relaxed">
                   Get recognized and rewarded for your creativity, innovation,
                   and learning achievements.
@@ -186,39 +186,7 @@ const ShowcaseSection = ({ onShowFormClick }) => {
               <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               <div className="relative z-10">
-                <h4 className="text-xl font-bold text-charcoal mb-6 group-hover:text-primary-blue transition-colors duration-300">
-                  Share Your Projects In
-                </h4>
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    "Robotics",
-                    "AI Projects",
-                    "Electronics",
-                    "Programming",
-                    "3D Printing",
-                    "IoT Devices",
-                    "Mobile Apps",
-                    "Web Development",
-                  ].map((item, index) => (
-                    <motion.span
-                      key={item}
-                      className="px-4 py-2 bg-gradient-to-r from-primary-blue/10 to-cyan/10 text-primary-blue border border-primary-blue/20 rounded-full text-sm font-medium hover:from-primary-blue/20 hover:to-cyan/20 hover:scale-105 transition-all duration-300 cursor-default"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.1 }}
-                      whileHover={{ y: -2 }}
-                    >
-                      {item}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Enhanced CTA Section */}
-        <motion.div className="text-center mt-16" variants={itemVariants}>
+                 <motion.div className="text-center mt-16" variants={itemVariants}>
           <div className="flex flex-wrap justify-center gap-6">
             <motion.button
               onClick={onShowFormClick}
@@ -267,6 +235,14 @@ const ShowcaseSection = ({ onShowFormClick }) => {
             </motion.button>
           </div>
         </motion.div>
+                
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Enhanced CTA Section */}
+
       </motion.div>
     </section>
   );

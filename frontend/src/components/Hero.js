@@ -97,17 +97,7 @@ const Hero = ({ handleEnrollNow }) => {
               >
                 <p className="text-xl lg:text-2xl text-charcoal/80 max-w-2xl leading-relaxed">
                   Dive into the world full of Coding , Robotics and Innovations.
-                  <span className="text-primary-blue font-semibold">
-                    {" "}
-                    robotics
-                  </span>
-                  ,
-                  <span className="text-cyan font-semibold"> neuroscience</span>
-                  , and
-                  <span className="text-primary-blue font-semibold">
-                    {" "}
-                    innovative technology
-                  </span>
+                 
                   .
                 </p>
               </div>

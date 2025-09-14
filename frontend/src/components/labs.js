@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const cards = [
   {
@@ -9,19 +11,11 @@ const cards = [
     desc: "Empower educators with cutting-edge STEM teaching skills through our comprehensive training program designed for the future of education.",
     accent: "from-primary-blue to-cyan",
     icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-        />
-      </svg>
+      <img
+        className="w-full h-full"
+        src={logo}
+        alt="logo"
+      />
     ),
   },
   {
@@ -30,19 +24,18 @@ const cards = [
     desc: "Transform your teaching methodology with our specialized courses designed for modern STEM education and interactive learning experiences.",
     accent: "from-cyan to-primary-blue",
     icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+      <img
+        className="w-full h-full"
+        src={logo}
+        alt="logo"
       >
-        <path
+        {/* <path
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth={2}
           d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-        />
-      </svg>
+        /> */}
+      </img>
     ),
   },
 ];
@@ -51,6 +44,7 @@ export default function LandingSection() {
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 200);
@@ -102,7 +96,7 @@ export default function LandingSection() {
   };
 
   return (
-    <section className="relative w-full bg-gradient-to-br from-navy/5 via-light-bg to-blue-50/30 section-padding overflow-hidden">
+    <section className="relative w-full bg-gradient-to-br from-[#f9f8f5] via-light-bg to-[#f9f8f5] section-padding overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 right-10 w-32 h-32 bg-cyan/5 rounded-full blur-3xl animate-float"></div>
@@ -142,12 +136,12 @@ export default function LandingSection() {
 
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8">
             <span className="text-gradient bg-gradient-to-r from-primary-blue via-cyan to-navy bg-clip-text text-transparent">
-              Learning Environments
+              Equip Your Institution with STEM Labs & Courses
             </span>
           </h2>
 
           <p className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-4xl mx-auto leading-relaxed">
-            Discover our comprehensive programs designed to enhance STEM
+            Our comprehensive program designed to enhance STEM
             education and empower educators with cutting-edge teaching
             methodologies.
           </p>
@@ -160,7 +154,8 @@ export default function LandingSection() {
             <div className="absolute -top-8 -left-8 w-32 h-32 bg-gradient-to-br from-primary-blue/20 to-cyan/20 rounded-full blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
             <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-gradient-to-br from-cyan/20 to-primary-blue/20 rounded-full blur-3xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
 
-            <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-primary-blue/20 group-hover:border-cyan/30 transition-all duration-500 group-hover:scale-105">
+            <div 
+            className="relative  group-hover:border-cyan/30 transition-all duration-500 group-hover:scale-105">
               <img
                 src={require("../assets/school.png")}
                 alt="Learning Environment"
@@ -247,7 +242,7 @@ export default function LandingSection() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary-blue/10 to-cyan/10 rounded-2xl flex items-center justify-center group-hover:from-primary-blue/20 group-hover:to-cyan/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+                      <div className="w-16 h-16 bg-rounded-2xl flex items-center justify-center group-hover:from-primary-blue/20 group-hover:to-cyan/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
                         <div className="text-primary-blue group-hover:text-cyan transition-colors duration-300">
                           {cards[current].icon}
                         </div>

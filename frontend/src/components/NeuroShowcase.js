@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import gear from "../assets/gear.png";
+import transistor from "../assets/trans.png";
+import sensor from "../assets/sensor.png";
+import bolt from "../assets/bolt.png";
 const NeuroShowcase = () => {
   const [isVisible, setIsVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 200);
@@ -58,7 +64,42 @@ const NeuroShowcase = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-navy/5 via-light-bg to-cyan/5 section-padding">
+    <section className="relative overflow-hidden bg-[#f9f8f5] section-padding">
+    {/* bg-gradient-to-br from-navy/5 via-light-bg to-cyan/5 */}
+     
+     {/* <section className="relative w-full h-[500px] sm:h-[550px] md:h-[600px] my-20 bg-[#f9f8f5] rounded-xl flex items-center justify-center overflow-hidden px-4"> */}
+    {/* Sprinkled floating elements */}
+    <div className="absolute top-8 left-8 w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-xl opacity-60 shadow-lg"></div>
+    <div className="absolute bottom-16 left-16 w-10 h-10 sm:w-14 sm:h-14 bg-[#ecd0ec]/40 rounded-xl opacity-60 shadow-md"></div>
+    <div className="absolute bottom-20 right-16 w-10 h-10 sm:w-14 sm:h-14 bg-[#ecd0ec]/40 rounded-xl opacity-50 shadow-md"></div>
+    <div className="absolute top-10 right-8 w-12 h-12 sm:w-16 sm:h-16 bg-[#fc8eac]/40 rounded-xl opacity-50 shadow-lg"></div>
+    <div className="absolute top-[120px] left-20 w-14 h-10 sm:w-16 sm:h-12 bg-[#fc8eac]/50 rounded-xl opacity-60 shadow"></div>
+    <div className="absolute top-40 right-12 w-12 h-10 sm:w-16 sm:h-12 bg-gray-300 rounded-xl opacity-60 shadow"></div>
+    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-14 h-10 sm:w-20 sm:h-14 bg-[#c6c2b6]/50 rounded-xl opacity-60 shadow"></div>
+
+    {/* Sprinkled icons */}
+    <div className="absolute bottom-20 left-24 ">
+      <img src={gear} alt="gear" className="w-25 h-20 object-contain animate-spin-slow" />
+    </div>
+    {/* <div className="absolute bottom-16 right-32 w-20 h-20 w-12 sm:h-12">
+      <img src={transistor} alt="transistor" className="w-full h-full object-contain animate-slow" />
+    </div> */}
+    <div className="absolute top-1/3 right-24 ">
+      <img src={bolt} alt="bolt" className="w-20 h-20 object-contain animate-slow" />
+    </div>
+    {/* <div className="absolute top-10 left-20 w-20 h-20 w-12 sm:h-12">
+      <img src={sensor} alt="sensor" className="w-full h-full object-contain animate-slow" />
+    </div> */}
+      <motion.div
+        className="relative z-10 text-center max-w-md sm:max-w-lg"
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        viewport={{ once: true, amount: 0.3 }}
+      >
+      
+      </motion.div>
+   
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Animated floating shapes */}
@@ -122,32 +163,28 @@ const NeuroShowcase = () => {
       >
         {/* Enhanced Header */}
         <motion.div className="text-center mb-16" variants={itemVariants}>
-          <div
-            className="inline-flex items-center space-x-2 glass bg-cyan/10 backdrop-blur-sm
-                          border border-cyan/20 text-cyan px-6 py-3 rounded-full 
-                          text-sm font-medium mb-8"
-          >
-            <motion.div
+          <div>
+
+             <h3 className="text-2xl font-semibold text-slate-800">STEM Kits</h3>
+
+             <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 leading-tight">
+                Everything they need to build Dreams
+              </h2>
+
+              <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
+                Delivered at your doorstep!
+              </p>
+            {/* <motion.div
               className="text-2xl filter drop-shadow-lg"
               animate={{ rotate: [0, 15, 0, -15, 0] }}
               transition={{ duration: 4, repeat: Infinity }}
             >
               🧠
             </motion.div>
-            <span>Neuroscience Innovation</span>
+            <span>Neuroscience Innovation</span> */}
           </div>
 
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8">
-            Explore the Brain with Our{" "}
-            <span className="text-gradient bg-gradient-to-r from-primary-blue via-cyan to-navy bg-clip-text text-transparent">
-              Advanced Kit
-            </span>
-          </h2>
-
-          <p className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-4xl mx-auto leading-relaxed">
-            Dive into the fascinating world of neurons, circuits, and the human
-            brain! Designed for curious learners aged 6–18.
-          </p>
+        
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -155,7 +192,7 @@ const NeuroShowcase = () => {
           <motion.div className="space-y-8" variants={itemVariants}>
             <div className="space-y-6">
               {/* Feature highlights */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 {[
                   {
                     icon: "🔬",
@@ -204,32 +241,15 @@ const NeuroShowcase = () => {
                     </div>
                   </motion.div>
                 ))}
-              </div>
+              </div> */}
 
-              <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 leading-tight">
-                Explore the Brain with Our
-                <span className="text-transparent bg-clip-text bg-gray-800">
-                  {" "}
-                  Advanced Kit
-                </span>
-              </h2>
-
-              <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
-                Dive into the fascinating world of neurons, circuits, and the
-                human brain! Designed for curious learners aged 6–18, our
-                interactive
-                <span className="font-semibold text-slate-700">
-                  {" "}
-                  Neuroscience STEM Kit
-                </span>{" "}
-                combines hands-on experiments with cutting-edge learning to
-                build brilliant futures.
-              </p>
+              
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <motion.button className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
-                <span>Discover More</span>
+              <motion.button onClick={() => navigate("/kits")}
+              className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
+                <span>Learn More</span>
                 <motion.svg
                   className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
                   fill="none"
@@ -247,26 +267,7 @@ const NeuroShowcase = () => {
                 </motion.svg>
               </motion.button>
 
-              <motion.button
-                className="group relative inline-flex items-center px-8 py-4 border-2 border-primary-blue/30 hover:border-cyan text-charcoal hover:text-cyan font-semibold rounded-xl bg-white/50 hover:bg-white/80 backdrop-blur-sm transition-all duration-300 focus-ring"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <span className="relative z-10">Learn More</span>
-                <svg
-                  className="relative z-10 ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </motion.button>
+           
             </div>
           </motion.div>
 
@@ -312,16 +313,16 @@ const NeuroShowcase = () => {
             </svg>
 
             {/* Main image container with enhanced effects */}
-            <motion.div
+            {/* <motion.div
               className="relative group bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-primary-blue/20 hover:border-cyan/30 transition-all duration-500"
               whileHover={{ scale: 1.05, rotateY: 5 }}
-            >
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            > */}
+              {/* Gradient overlay
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div> */}
 
               {/* Enhanced image with mask effect */}
               <div className="relative">
-                <img
+                {/* <img
                   src={require("../assets/stem.webp")}
                   alt="Neuroscience Kit - Interactive Brain Learning"
                   className="w-full max-w-sm mx-auto rounded-2xl transform group-hover:scale-110 transition-all duration-500 filter group-hover:brightness-110"
@@ -331,13 +332,13 @@ const NeuroShowcase = () => {
                     WebkitMaskImage:
                       "radial-gradient(ellipse at center, black 60%, transparent 90%)",
                   }}
-                />
+                /> */}
 
                 {/* Floating brain particles */}
                 {[...Array(5)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className="absolute w-3 h-3 bg-gradient-to-r from-primary-blue to-cyan rounded-full"
+                    className="absolute w-3 h-3 bg-gradient-to-r from-[#ac6cf4] to-[#ecd0e5] rounded-full"
                     style={{
                       top: `${20 + i * 15}%`,
                       right: `${10 + i * 5}%`,
@@ -350,7 +351,7 @@ const NeuroShowcase = () => {
                     transition={{
                       duration: 3,
                       repeat: Infinity,
-                      delay: i * 0.6,
+                      delay: i * 0.8,
                       ease: "easeInOut",
                     }}
                   />
@@ -366,20 +367,20 @@ const NeuroShowcase = () => {
             </motion.div>
 
             {/* Status badge */}
-            <motion.div
+            {/* <motion.div
               className="absolute -bottom-4 left-4 bg-gradient-to-r from-primary-blue to-cyan text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5 }}
             >
               ✨ Award-Winning Kit
-            </motion.div>
-          </motion.div>
+            </motion.div> */}
+          {/* </motion.div> */}
         </div>
 
         {/* Enhanced Features Section */}
         <motion.div className="mt-20 text-center" variants={itemVariants}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { number: "50+", label: "Experiments", icon: "🔬" },
               { number: "6-18", label: "Age Range", icon: "👥" },
@@ -406,7 +407,7 @@ const NeuroShowcase = () => {
                 <div className="text-charcoal/70 font-medium">{stat.label}</div>
               </motion.div>
             ))}
-          </div>
+          </div> */}
         </motion.div>
       </motion.div>
     </section>
