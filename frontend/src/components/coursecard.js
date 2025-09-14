@@ -24,14 +24,14 @@ const CourseCard = ({ course }) => {
         <p className="text-gray-600 text-sm md:text-base">
           Level:{course?.levelNumber || "Beginner"}
         </p>
-        {/* <div>{course.CourseThumbnail && (
+        <div>{course.CourseThumbnail && (
               <img
                src={course.CourseThumbnail}
               alt={course.title}
               className="w-full h-40 object-cover rounded mb-3 cursor-pointer hover:opacity-80"
                     
                       />
-          )}</div> */}
+          )}</div>
       </div>
     </div>
   );

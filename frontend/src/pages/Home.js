@@ -188,7 +188,7 @@ const Home = () => {
                 variants={chipAnimation}
                 whileHover="hover"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-3xl
-                           bg-white border border-gray-200 text-slate-800
+                           bg-none backdrop-blur-sm border border-gray/20 text-black px-4 py-2 rounded-full
                            hover:border-[#ac6cf4] hover:bg-[#ac6cf4]/10 transition-colors duration-300
                            cursor-pointer shadow-sm hover:shadow-md"
               >

@@ -10,8 +10,8 @@ const Hero = ({ handleEnrollNow }) => {
   const [showSubtext, setShowSubtext] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
 
-  const fullText = "Let's Start Your STEM Journey";
-  const typingSpeed = 85; // milliseconds per character
+  const fullText = "Cast , Craft & Create";
+  const typingSpeed = 150; // milliseconds per character
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -63,7 +63,7 @@ const Hero = ({ handleEnrollNow }) => {
             </div>
 
             <div className="space-y-4">
-              <h1 className="text-5xl text-black lg:text-7xl font-Dan Sans min-h-[2.5em] lg:min-h-[2em]">
+              <h1 className="text-5xl text-black lg:text-7xl font-Dan Sans min-h-[2em] lg:min-h-[2em]">
                 <span className="block relative">
                   {displayedText}
                   {currentIndex < fullText.length && (
@@ -78,7 +78,7 @@ const Hero = ({ handleEnrollNow }) => {
                   : 'opacity-0 translate-y-4'
               }`}>
                 <p className="text-xl lg:text-2xl text-black max-w-2xl leading-relaxed">
-                  Empower your future with cutting-edge STEM education. Join thousands of students exploring robotics, neuroscience, and innovative technology.
+                  Dive into a exciting world of coding, robotics and innovation.
                 </p>
               </div>
             </div>
@@ -122,12 +122,12 @@ const Hero = ({ handleEnrollNow }) => {
           {/* Right visual */}
           <div className="relative flex justify-center items-center w-full">
             <div className="relative z-20">
-              <img 
+              {/* <img 
                 src={robotImage} 
                 alt="Robot" 
                 className="hover:scale-105 transition-transform duration-700"
-              />
-              {/* <FloatingDroneBot /> */}
+              /> */}
+               <FloatingDroneBot /> 
             </div>
             {/* Enhanced glow effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#ac6cf4]/20 via-blue-500/10 to-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
