@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 const connectCloudinary = async () => {
@@ -10,7 +10,7 @@ const connectCloudinary = async () => {
   });
 
   console.log("Cloudinary connected");
-   console.log("✅ Cloudinary configured");
+  console.log("✅ Cloudinary configured");
   console.log("🔍 Loaded config:", {
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_Key,

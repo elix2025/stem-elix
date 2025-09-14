@@ -3,14 +3,14 @@ import path from "path";
 
 // const storage = multer.diskStorage({
 const storage = multer.memoryStorage();
-  // {
-  // destination: (req, file, cb) => {
-  //   cb(null, path.join("uploads/"));
-  // },
-  // filename: (req, file, cb) => {
-  //   const timestamp = Date.now();
-  //   cb(null, `${timestamp}-${file.originalname}`);
-  // },
+// {
+// destination: (req, file, cb) => {
+//   cb(null, path.join("uploads/"));
+// },
+// filename: (req, file, cb) => {
+//   const timestamp = Date.now();
+//   cb(null, `${timestamp}-${file.originalname}`);
+// },
 // });
 
 const upload = multer({

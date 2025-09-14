@@ -51,15 +51,15 @@ const Navbar = () => {
 
   const navbarClass = isHomePage
     ? scrolled
-      ? "bg-[#efefef] backdrop-blur-md shadow-lg border-b border-gray-200/20"
+      ? "bg-navy/95 backdrop-blur-xl shadow-xl border-b border-primary-blue/20"
       : "bg-transparent"
-    : "bg-white shadow-lg border-b border-gray-200";
+    : "bg-navy shadow-xl border-b border-primary-blue/10";
 
   const textColorClass =
-    isHomePage && !scrolled ? "text-black" : "text-back";
+    isHomePage && !scrolled ? "text-charcoal" : "text-white";
 
   const logoColorClass =
-    isHomePage && !scrolled ? "text-black" : "text-black";
+    isHomePage && !scrolled ? "text-charcoal" : "text-white";
 
   return (
     <>
@@ -69,13 +69,13 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
           {/* Logo */}
           <div
-            className={`text-2xl lg:text-3xl font-bold transition-colors duration-300 ${logoColorClass}`}
+            className={`text-2xl lg:text-3xl font-bold transition-all duration-300 ${logoColorClass}`}
           >
             <Link
               to="/"
               className="hover:scale-105 transform transition-transform duration-200 inline-block"
             >
-              <span className="bg-gradient-to-r from-[#ac6cf4] to-[#ac6cf4] bg-clip-text text-transparent font-extrabold">
+              <span className="bg-gradient-to-r from-primary-blue to-cyan bg-clip-text text-transparent font-extrabold">
                 Stem
               </span>
               <span className={logoColorClass}>Elix</span>
@@ -88,8 +88,8 @@ const Navbar = () => {
               to="/"
               className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                 location.pathname === "/"
-                  ? "border-b-2 border-[#ac6cf4] pb-1"
-                  : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
+                  ? "border-b-2 border-primary-blue pb-1 text-primary-blue"
+                  : "hover:text-primary-blue hover:border-b-2 hover:border-primary-blue hover:pb-1"
               }`}
             >
               Home
@@ -98,8 +98,8 @@ const Navbar = () => {
               to="/about"
               className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                 location.pathname === "/about"
-                  ? "border-b-2 border-[#ac6cf4] pb-1"
-                  : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
+                  ? "border-b-2 border-primary-blue pb-1 text-primary-blue"
+                  : "hover:text-primary-blue hover:border-b-2 hover:border-primary-blue hover:pb-1"
               }`}
             >
               About
@@ -109,8 +109,8 @@ const Navbar = () => {
               to="/courses"
               className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                 location.pathname === "/courses"
-                  ? "border-b-2 border-[#ac6cf4] pb-1"
-                  : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
+                  ? "border-b-2 border-primary-blue pb-1 text-primary-blue"
+                  : "hover:text-primary-blue hover:border-b-2 hover:border-primary-blue hover:pb-1"
               }`}
             >
               Courses
@@ -120,8 +120,8 @@ const Navbar = () => {
               to="/contact"
               className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                 location.pathname === "/contact"
-                  ? "border-b-2 border-[#ac6cf4] pb-1"
-                  : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
+                  ? "border-b-2 border-primary-blue pb-1 text-primary-blue"
+                  : "hover:text-primary-blue hover:border-b-2 hover:border-primary-blue hover:pb-1"
               }`}
             >
               Contact Us
@@ -132,10 +132,10 @@ const Navbar = () => {
               <div className="flex items-center gap-4">
                 <Link
                   to={`/student/${createUserSlug(currentUser)}`}
-                  className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                  className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-primary-blue/25 ${
                     isHomePage && !scrolled
-                      ? "bg-white text-slate-800 hover:bg-[#f3e8fd] shadow-md"
-                      : "bg-[#ac6cf4] text-white hover:bg-[#9b5ee3] shadow-md"
+                      ? "bg-primary-blue text-white hover:bg-blue-700 shadow-md"
+                      : "bg-primary-blue text-white hover:bg-blue-700 shadow-md"
                   }`}
                 >
                   <svg
@@ -157,7 +157,9 @@ const Navbar = () => {
                 <button
                   onClick={handleLogout}
                   className={`inline-flex items-center px-4 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 ${
-                     "text-slate-700 border-2 border-slate-300 hover:bg-slate-50 hover:border-slate-400"
+                    isHomePage && !scrolled
+                      ? "text-charcoal border-2 border-charcoal/30 hover:bg-charcoal/10 hover:border-charcoal/50"
+                      : "text-white border-2 border-white/30 hover:bg-white/10 hover:border-white/50"
                   }`}
                 >
                   <svg
@@ -182,8 +184,8 @@ const Navbar = () => {
                   to="/login"
                   className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                     location.pathname === "/login"
-                      ? "border-b-2 border-[#ac6cf4] pb-1"
-                      : "hover:text-[#ac6cf4] hover:border-b-2 hover:border-[#ac6cf4] hover:pb-1"
+                      ? "border-b-2 border-primary-blue pb-1 text-primary-blue"
+                      : "hover:text-primary-blue hover:border-b-2 hover:border-primary-blue hover:pb-1"
                   }`}
                 >
                   Login
@@ -191,10 +193,10 @@ const Navbar = () => {
 
                 <Link
                   to="/register"
-                  className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                  className={`inline-flex items-center px-6 py-2.5 rounded-full font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-primary-blue/25 ${
                     isHomePage && !scrolled
-                      ? "bg-white text-slate-800 hover:bg-[#f3e8fd] shadow-md"
-                      : "bg-[#ac6cf4] text-white hover:bg-[#9b5ee3] shadow-md"
+                      ? "bg-primary-blue text-white hover:bg-blue-700 shadow-md"
+                      : "bg-primary-blue text-white hover:bg-blue-700 shadow-md"
                   }`}
                 >
                   <svg
@@ -220,7 +222,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`p-2 rounded-lg transition-colors duration-200 ${textColorClass} hover:bg-gray-100/20`}
+              className={`p-2 rounded-lg transition-colors duration-200 ${textColorClass} hover:bg-primary-blue/20`}
             >
               <svg
                 className="w-6 h-6"
@@ -256,43 +258,47 @@ const Navbar = () => {
               : "max-h-0 opacity-0 overflow-hidden"
           } ${
             isHomePage && !scrolled
-              ? "bg-slate-900/95 backdrop-blur-md"
-              : "bg-white/95 backdrop-blur-md"
-          } border-t border-gray-200/20`}
+              ? "bg-navy/95 backdrop-blur-xl"
+              : "bg-navy/95 backdrop-blur-xl"
+          } border-t border-primary-blue/20`}
         >
           <div className="px-6 py-4 space-y-4">
             <Link
               to="/"
-              className={`block text-lg font-semibold transition-colors duration-300 ${
-                isHomePage && !scrolled ? "text-white" : "text-slate-700"
-              } ${
+              className={`block text-lg font-semibold transition-colors duration-300 text-white ${
                 location.pathname === "/"
-                  ? "text-[#ac6cf4]"
-                  : "hover:text-[#ac6cf4]"
+                  ? "text-primary-blue"
+                  : "hover:text-primary-blue"
               }`}
             >
               Home
             </Link>
             <Link
               to="/about"
-              className={`block text-lg font-semibold transition-colors duration-300 ${
-                isHomePage && !scrolled ? "text-white" : "text-slate-700"
-              } ${
+              className={`block text-lg font-semibold transition-colors duration-300 text-white ${
                 location.pathname === "/about"
-                  ? "text-[#ac6cf4]"
-                  : "hover:text-[#ac6cf4]"
+                  ? "text-primary-blue"
+                  : "hover:text-primary-blue"
               }`}
             >
               About
             </Link>
             <Link
+              to="/courses"
+              className={`block text-lg font-semibold transition-colors duration-300 text-white ${
+                location.pathname === "/courses"
+                  ? "text-primary-blue"
+                  : "hover:text-primary-blue"
+              }`}
+            >
+              Courses
+            </Link>
+            <Link
               to="/contact"
-              className={`block text-lg font-semibold transition-colors duration-300 ${
-                isHomePage && !scrolled ? "text-white" : "text-slate-700"
-              } ${
+              className={`block text-lg font-semibold transition-colors duration-300 text-white ${
                 location.pathname === "/contact"
-                  ? "text-[#ac6cf4]"
-                  : "hover:text-[#ac6cf4]"
+                  ? "text-primary-blue"
+                  : "hover:text-primary-blue"
               }`}
             >
               Contact Us
@@ -302,7 +308,7 @@ const Navbar = () => {
               <div className="space-y-4">
                 <Link
                   to={`/student/${createUserSlug(currentUser)}`}
-                  className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-[#ac6cf4] text-white hover:bg-[#9b5ee3] shadow-md"
+                  className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-primary-blue text-white hover:bg-blue-700 shadow-md"
                 >
                   <svg
                     className="w-4 h-4 mr-2"
@@ -322,11 +328,7 @@ const Navbar = () => {
 
                 <button
                   onClick={handleLogout}
-                  className={`inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 border-2 ${
-                    isHomePage && !scrolled
-                      ? "text-white border-white/30 hover:bg-white/10 hover:border-white/50"
-                      : "text-slate-700 border-slate-300 hover:bg-slate-50 hover:border-slate-400"
-                  }`}
+                  className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 border-2 text-white border-white/30 hover:bg-white/10 hover:border-white/50"
                 >
                   <svg
                     className="w-4 h-4 mr-2"
@@ -348,19 +350,17 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login"
-                  className={`block text-lg font-semibold transition-colors duration-300 ${
-                    isHomePage && !scrolled ? "text-white" : "text-slate-700"
-                  } ${
+                  className={`block text-lg font-semibold transition-colors duration-300 text-white ${
                     location.pathname === "/login"
-                      ? "text-[#ac6cf4]"
-                      : "hover:text-[#ac6cf4]"
+                      ? "text-primary-blue"
+                      : "hover:text-primary-blue"
                   }`}
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-[#ac6cf4] text-white hover:bg-[#9b5ee3] shadow-md"
+                  className="inline-flex items-center px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 bg-primary-blue text-white hover:bg-blue-700 shadow-md"
                 >
                   <svg
                     className="w-4 h-4 mr-2"
