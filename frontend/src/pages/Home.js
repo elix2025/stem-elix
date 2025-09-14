@@ -12,7 +12,7 @@ import TinkrionShowcase from "../components/coursecard";
 import NeuroShowcase from "../components/NeuroShowcase";
 import ShowCaseProjects from "../components/ShowCaseProjects";
 import LandingSection from "../components/labs";
-import AnimatedSection from "../components/animatedicon";
+import AnimatedSection from "../components/abotsec";
 
 // Animation variants for reusability
 const fadeInUp = {
@@ -167,7 +167,7 @@ const Home = () => {
       </motion.div>
 
       {/* FEATURES with staggered animation */}
-      <AnimatedSectionWrapper className="relative bg-white" delay={0.2}>
+      <AnimatedSectionWrapper className="relative bg-gradient-to-br from-light-bg to-white" delay={0.2}>
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <motion.div
             variants={staggerContainer}

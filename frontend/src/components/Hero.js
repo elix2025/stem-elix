@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import robotImage from "../assets/3974104.jpg";
+import robotImage from "../assets/3974104.png";
 
 const Hero = ({ handleEnrollNow }) => {
   const heroRef = useRef(null);
@@ -9,8 +9,8 @@ const Hero = ({ handleEnrollNow }) => {
   const [showSubtext, setShowSubtext] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
 
-  const fullText = "Cast , Craft & Create";
-  const typingSpeed = 150; // milliseconds per character
+  const fullText = "Let's Start Your STEM Journey";
+  const typingSpeed = 85; // milliseconds per character
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -49,7 +49,7 @@ const Hero = ({ handleEnrollNow }) => {
       ref={heroRef}
       className={`relative overflow-hidden transition-opacity duration-300 ${
         heroVisible ? "opacity-100" : "opacity-90"
-      } min-h-screen bg-gradient-to-br from-light-bg via-white to-blue-50 isolation-auto pb-0 my-0`}
+      } min-h-screen bg-[#f9f8f5] isolation-auto pb-0 my-0`}
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -75,7 +75,7 @@ const Hero = ({ handleEnrollNow }) => {
           <div className="space-y-8">
             <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-4 py-2 rounded-full text-sm font-medium animate-slideDown">
               <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
-              <span>Cast, Craft & Create</span>
+              <span>Next-Gen STEM Education</span>
             </div>
 
             <div className="space-y-4">
@@ -87,14 +87,28 @@ const Hero = ({ handleEnrollNow }) => {
                   )}
                 </span>
               </h1>
-              
-              <div className={`transition-all duration-700 transform ${
-                showSubtext 
-                  ? 'opacity-100 translate-y-0' 
-                  : 'opacity-0 translate-y-4'
-              }`}>
-                <p className="text-xl lg:text-2xl text-black max-w-2xl leading-relaxed">
-                  Dive into the exciting world of coding, robotics and innovation.
+
+              <div
+                className={`transition-all duration-700 transform ${
+                  showSubtext
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
+                }`}
+              >
+                <p className="text-xl lg:text-2xl text-charcoal/80 max-w-2xl leading-relaxed">
+                  Dive into the world full of Coding , Robotics and Innovations.
+                  <span className="text-primary-blue font-semibold">
+                    {" "}
+                    robotics
+                  </span>
+                  ,
+                  <span className="text-cyan font-semibold"> neuroscience</span>
+                  , and
+                  <span className="text-primary-blue font-semibold">
+                    {" "}
+                    innovative technology
+                  </span>
+                  .
                 </p>
               </div>
             </div>
@@ -161,7 +175,7 @@ const Hero = ({ handleEnrollNow }) => {
                   : "opacity-0 translate-y-4"
               }`}
             >
-              {["Interactive Labs", "Expert Mentors", "24/7 Support"].map(
+              {/* {["Interactive Labs", "Expert Mentors", "24/7 Support"].map(
                 (feature, index) => (
                   <div
                     key={feature}
@@ -174,7 +188,7 @@ const Hero = ({ handleEnrollNow }) => {
                     </span>
                   </div>
                 )
-              )}
+              )} */}
             </div>
           </div>
 

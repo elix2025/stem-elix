@@ -228,11 +228,10 @@ const NeuroShowcase = () => {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <button className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
+              <motion.button className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
                 <span>Discover More</span>
-                <svg
+                <motion.svg
                   className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
-
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

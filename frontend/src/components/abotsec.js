@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
 
 const AnimatedSection = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative w-full h-[500px] sm:h-[550px] md:h-[600px] my-20 bg-[#f9f8f5] rounded-xl flex items-center justify-center overflow-hidden px-4">
       {/* Background floating boxes */}
@@ -20,15 +24,23 @@ const AnimatedSection = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          Unlock your Potential
-        </h1>
-        <p className="text-base sm:text-lg text-gray-600 mb-6">
-          Be the Part of our Family
-        </p>
-        <button className="bg-[#ac6cf4] hover:bg-[#9157d8] text-white px-4 sm:px-6 py-2 rounded-lg shadow-md transition">
-          Register
-        </button>
+        <section></section>
+        <section className="mt-6">
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">About Us</h3>
+          <h2>What Tinkrion is!</h2>
+          <p className="text-gray-600">
+            At Stem-Elix, we believe every child is a natural inventor. 
+            Our hands-on STEM programs in coding, robotics and IoT help students aged 8-18 build real projects while developing critical thinking skills. 
+            Aligned with NEP 2020 and NITI Aayog's vision, we're preparing India's next generation of innovators.
+          </p>
+
+          <button
+            onClick={() => navigate("/about")}
+            className="mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+          >
+            Learn More
+          </button>
+        </section>
       </motion.div>
     </section>
   );
