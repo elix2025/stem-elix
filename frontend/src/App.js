@@ -21,8 +21,8 @@ import TermsAndConditions from "./pages/TermsAndCondition.js";
 import Courses from "./pages/courses/courses.js";
 import CourseInfo from "./pages/courses/courseinfo.js";
 import CourseContent from "./pages/courses/coursecontent.js";
-import Kits from "./pages/LabsandKit.js";
-
+import Kits from "./pages/Kit.js";
+import ForSchool from "./pages/school.js";
 // Component to handle layout with navbar spacing and page transitions
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -170,6 +170,7 @@ function App() {
                 <Route path="/terms" element={<TermsAndConditions />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/kits" element={<Kits />} />
+                <Route path="/labs" element={<ForSchool />} />
                 <Route
                   path="/student"
                   element={<Navigate to="/login" replace />}

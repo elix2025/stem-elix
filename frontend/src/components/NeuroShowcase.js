@@ -5,7 +5,7 @@ import gear from "../assets/gear.png";
 import transistor from "../assets/trans.png";
 import star from "../assets/star.webp";
 import bolt from "../assets/bolt.png";
-// import idea from "../assets/idea.png";
+
 // import testtube from "../assets/testtube.png";
 const NeuroShowcase = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -83,13 +83,13 @@ const NeuroShowcase = () => {
     <div className="absolute bottom-20 left-24 ">
       <img src={gear} alt="gear" className="w-25 h-20 object-contain animate-spin-slow" />
     </div>
-    {/* { <div className="absolute bottom-2 right-5 w-30 h-20 w-12 sm:h-12">
-      <img src={idea} alt="idea" className="w-full h-full object-contain animate-slow" />
-    </div> } */}
+    { <div className="absolute bottom-5 right-1/4 w-20 h-35 ">
+      <img src={star} alt="idea" className="w-full h-full object-contain animate-slow" />
+    </div> }
     <div className="absolute top-1/3 right-24 ">
       <img src={bolt} alt="bolt" className="w-20 h-20 object-contain animate-slow" />
     </div>
-    <div className="absolute top-10 left-20 w-20 h-20 w-12 sm:h-12">
+    <div className="absolute top-10 left-20 w-20 h-20 w-12 ">
       <img src={star} alt="star" className="w-full h-full object-contain animate-slow" />
     </div>
       <motion.div
@@ -337,7 +337,7 @@ const NeuroShowcase = () => {
                 /> */}
 
                 {/* Floating brain particles */}
-                {[...Array(5)].map((_, i) => (
+                {/* {[...Array(5)].map((_, i) => (
                   <motion.div
                     key={i}
                     className="absolute w-3 h-3 bg-gradient-to-r from-[#ac6cf4] to-[#ecd0e5] rounded-full"
@@ -357,7 +357,7 @@ const NeuroShowcase = () => {
                       ease: "easeInOut",
                     }}
                   />
-                ))}
+                ))} */}
               </div>
 
               {/* Interactive hover elements */}

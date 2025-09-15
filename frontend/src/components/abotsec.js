@@ -36,7 +36,7 @@ const AnimatedSection = () => {
 
           <button
             onClick={() => navigate("/about")}
-            className="mt-4 px-6 py-3 bg-black-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+            className="mt-4 px-6 py-3 bg-black text-white rounded-lg hover:bg-blue-700 transition duration-300"
           >
             Learn More
           </button>

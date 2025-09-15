@@ -134,7 +134,7 @@ export default function LandingSection() {
             <span>Educational Excellence</span>
           </div>
 
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8">
+          <h2 className="text-5xl md:text-5xl lg:text-6xl font-bold mb-8">
             <span className="text-gradient bg-gradient-to-r from-primary-blue via-cyan to-navy bg-clip-text text-transparent">
               Equip Your Institution with STEM Labs & Courses
             </span>
@@ -293,9 +293,10 @@ export default function LandingSection() {
 
                     {/* CTA Button */}
                     <motion.button
-                      className={`inline-flex items-center px-6 py-3 bg-gradient-to-r ${cards[current].accent} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 hover:scale-105 hover:-translate-y-1 focus-ring`}
+                      className={`inline-flex items-center px-6 py-3 bg-black ${cards[current].accent} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 hover:scale-105 hover:-translate-y-1 focus-ring`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.98 }}
+                      onClick = {() => navigate("/labs")}
                     >
                       <span>Learn More</span>
                       <svg

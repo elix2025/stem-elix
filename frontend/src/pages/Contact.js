@@ -321,11 +321,11 @@ const Contact = () => {
                         Our Address
                       </h3>
                       <p className="text-charcoal/70 text-sm leading-relaxed">
-                        123 Innovation Drive
+                        A-165 Adarsh Nagar 
                         <br />
-                        STEM City, TC 12345
+                        New Delhi, 110033
                         <br />
-                        United States
+                        India
                       </p>
                     </div>
                   </div>
@@ -351,10 +351,10 @@ const Contact = () => {
                         Phone Number
                       </h3>
                       <a
-                        href="tel:+15551234567"
+                        href="tel:+919417369969"
                         className="text-charcoal/70 text-sm hover:text-primary-blue transition-colors"
                       >
-                        +1 (555) 123-4567
+                        +91 9417369969
                       </a>
                     </div>
                   </div>
@@ -383,40 +383,11 @@ const Contact = () => {
                         href="mailto:hello@stemelixu.com"
                         className="text-charcoal/70 text-sm hover:text-cyan transition-colors"
                       >
-                        hello@stemelixu.com
+                        info.stemelix@gmail.com
                       </a>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-gradient-to-r from-primary-blue to-navy p-3 rounded-xl flex-shrink-0">
-                      <svg
-                        className="w-6 h-6 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-charcoal mb-1">
-                        Office Hours
-                      </h3>
-                      <p className="text-charcoal/70 text-sm leading-relaxed">
-                        Monday - Friday: 9:00 AM - 6:00 PM
-                        <br />
-                        Saturday: 10:00 AM - 4:00 PM
-                        <br />
-                        Sunday: Closed
-                      </p>
-                    </div>
-                  </div>
                 </div>
 
                 <motion.div
