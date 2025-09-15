@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import gear from "../assets/gear.png";
 import transistor from "../assets/trans.png";
-import sensor from "../assets/sensor.png";
+import star from "../assets/star.webp";
 import bolt from "../assets/bolt.png";
+// import idea from "../assets/idea.png";
+// import testtube from "../assets/testtube.png";
 const NeuroShowcase = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -81,15 +83,15 @@ const NeuroShowcase = () => {
     <div className="absolute bottom-20 left-24 ">
       <img src={gear} alt="gear" className="w-25 h-20 object-contain animate-spin-slow" />
     </div>
-    {/* <div className="absolute bottom-16 right-32 w-20 h-20 w-12 sm:h-12">
-      <img src={transistor} alt="transistor" className="w-full h-full object-contain animate-slow" />
-    </div> */}
+    {/* { <div className="absolute bottom-2 right-5 w-30 h-20 w-12 sm:h-12">
+      <img src={idea} alt="idea" className="w-full h-full object-contain animate-slow" />
+    </div> } */}
     <div className="absolute top-1/3 right-24 ">
       <img src={bolt} alt="bolt" className="w-20 h-20 object-contain animate-slow" />
     </div>
-    {/* <div className="absolute top-10 left-20 w-20 h-20 w-12 sm:h-12">
-      <img src={sensor} alt="sensor" className="w-full h-full object-contain animate-slow" />
-    </div> */}
+    <div className="absolute top-10 left-20 w-20 h-20 w-12 sm:h-12">
+      <img src={star} alt="star" className="w-full h-full object-contain animate-slow" />
+    </div>
       <motion.div
         className="relative z-10 text-center max-w-md sm:max-w-lg"
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -246,7 +248,7 @@ const NeuroShowcase = () => {
               
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex justify-center my-8">
               <motion.button onClick={() => navigate("/kits")}
               className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out">
                 <span>Learn More</span>
