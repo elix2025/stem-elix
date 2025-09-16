@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Explorer from "../assets/explorer.png";
 import Master from "../assets/Master.png";
 import Junior from "../assets/junior.png";
-import {createSlug} from '../utils/slugutils.js'
+import Star from "../assets/star.webp";
+import gsap from "gsap";
 
 const CourseCard = ({ course, index }) => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef(null);
+  const cardInnerRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,6 +18,73 @@ const CourseCard = ({ course, index }) => {
     }, index * 100); // staggered animation
     return () => clearTimeout(timer);
   }, [index]);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    const cardInner = cardInnerRef.current;
+
+    // Create intersection observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Card flip animation when scrolled into view
+          gsap.to(cardInner, {
+            rotateY: 180,
+            duration: 0.6,
+            ease: "power2.out",
+            delay: index * 0.2, // Staggered delay
+            onComplete: () => {
+              // Flip back after 1.5 seconds
+              gsap.to(cardInner, {
+                rotateY: 0,
+                duration: 0.6,
+                ease: "power2.out",
+                delay: 1.5
+              });
+            }
+          });
+        }
+      });
+    }, {
+      threshold: 0.5 // Trigger when 50% of the card is visible
+    });
+
+        // Start observing the card
+    if (card) {
+      observer.observe(card);
+    }
+
+
+    const handleMouseEnter = () => {
+      gsap.to(cardInner, {
+        rotateY: 180,
+        duration: 0.6,
+        ease: "power2.out"
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(cardInner, {
+        rotateY: 0,
+        duration: 0.6,
+        ease: "power2.out"
+      });
+    };
+
+        if (card) {
+      card.addEventListener("mouseenter", handleMouseEnter);
+      card.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (card) {
+        observer.unobserve(card);
+        card.removeEventListener("mouseenter", handleMouseEnter);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
+
   
 
   const handleClick = () => {
@@ -41,8 +111,12 @@ const CourseCard = ({ course, index }) => {
   };
   return (
     <div
+      ref={cardRef}
       onClick={handleClick}
-      className={`group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl 
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      className={`group relative h-[350px] perspective-1000 bg-white 
+        rounded-2xl shadow-lg hover:shadow-2xl 
         border border-primary-blue/10 hover:border-primary-blue/30
         transition-all duration-500 cursor-pointer overflow-hidden
         transform ${
@@ -54,11 +128,59 @@ const CourseCard = ({ course, index }) => {
         animationDelay: `${index * 100}ms`,
       }}
     >
+      <div
+        ref={cardInnerRef}
+        className="relative w-full h-full transition-all duration-500 preserve-3d"
+        style ={{ transformStyle: "preserve-3d" }}
+      >
+        {/* Front of the card */}
+        <div className="absolute w-full h-full backface-hidden"
+        style={{ backfaceVisibility: "hidden" }}
+        >
+          <div className="w-full h-full bg-white rounded-2xl shadow-lg border border-primary-blue/10 p-8 flex flex-col items-center justify-center">
+            {/* Original card content */}
+            <div className="relative mb-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-primary-blue/10 via-cyan/5 to-primary-blue/10 
+                rounded-3xl flex items-center justify-center transition-all duration-500">
+                <img src={course.image} alt={course.title} className="w-12 h-12" />
+              </div>
+            </div>
+
+            <h3 className="text-charcoal font-bold text-xl md:text-2xl text-center mb-4">
+              {course.title}
+            </h3>
+
+            <span className="px-4 py-2 bg-gradient-to-r from-primary-blue/10 to-cyan/10 
+              text-primary-blue text-sm font-semibold rounded-full">
+              Level: {course.level}
+            </span>
+          </div>
+        </div>
+
+                {/* Back of the card */}
+        <div className="absolute w-full h-full backface-hidden rotate-y-180"
+        style={{ backfaceVisibility: 'hidden',
+          transform: 'rotateY(180deg)'
+         }}>
+          <div className="w-full h-full bg-gradient-to-br from-primary-blue to-cyan rounded-2xl shadow-lg p-8 flex flex-col items-center justify-center">
+            <h3 className="text-white font-bold text-xl md:text-2xl text-center mb-4">
+              {course.title} Course
+            </h3>
+            <p className="text-white/90 text-center mb-6">
+              Click to explore the {course.title} curriculum and start your learning journey!
+            </p>
+            <button className="px-6 py-3 bg-white text-primary-blue rounded-full font-semibold 
+              hover:bg-opacity-90 transition-all duration-300">
+              Learn More
+            </button>
+          </div>
+        </div>
+      </div>
       {/* Gradient Background Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      {/* <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div> */}
 
       {/* Animated Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-500">
+      {/* <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-500">
         <div
           style={{
             backgroundImage: `radial-gradient(circle at 2px 2px, #2563EB 1px, transparent 0)`,
@@ -66,17 +188,17 @@ const CourseCard = ({ course, index }) => {
           }}
           className="w-full h-full"
         ></div>
-      </div>
+      </div> */}
 
       {/* Floating Decorative Elements */}
-      <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-primary-blue/10 to-cyan/20 rounded-full 
+      {/* <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-primary-blue/10 to-cyan/20 rounded-full 
         group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 animate-pulse"></div>
       <div className="absolute bottom-6 left-4 w-6 h-6 bg-gradient-to-br from-cyan/10 to-primary-blue/20 rounded-full 
-        group-hover:scale-110 group-hover:-rotate-12 transition-all duration-500 animate-pulse delay-200"></div>
+        group-hover:scale-110 group-hover:-rotate-12 transition-all duration-500 animate-pulse delay-200"></div> */}
 
       {/* Card Content */}
-      <div className="relative z-10 p-8 flex flex-col items-center justify-center h-56">
-        {/* Icon */}
+      {/*<div className="relative z-10 p-8 flex flex-col items-center justify-center h-56">
+        {/* Icon 
         <div className="relative mb-6">
           <div className="w-20 h-20 bg-gradient-to-br from-primary-blue/10 via-cyan/5 to-primary-blue/10 
             rounded-3xl flex items-center justify-center
@@ -96,20 +218,20 @@ const CourseCard = ({ course, index }) => {
                 strokeWidth={2}
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
               />
-            </svg> */}
+            </svg> 
           </div>
-          {/* Glow effect */}
+          {/* Glow effect 
           <div className="absolute inset-0 w-20 h-20 bg-gradient-to-br from-primary-blue/20 to-cyan/20 rounded-3xl 
             blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
         </div>
 
-        {/* Course Title */}
+        {/* Course Title 
         <h3 className="text-charcoal font-bold text-xl md:text-2xl text-center mb-4
           group-hover:text-primary-blue transition-colors duration-300 group-hover:scale-105 transform">
           {course.title}
         </h3>
 
-        {/* Level Badge */}
+        {/* Level Badge 
         <span className="px-4 py-2 bg-gradient-to-r from-primary-blue/10 to-cyan/10 
           text-primary-blue text-sm font-semibold rounded-full
           group-hover:from-primary-blue/20 group-hover:to-cyan/20 
@@ -120,7 +242,7 @@ const CourseCard = ({ course, index }) => {
         </span>
 
         
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -133,7 +255,7 @@ export default function TinkrionShowcase() {
   ];
 
   return (
-    <div className="w-full section-padding bg-gradient-to-br from-light-bg to-white relative overflow-hidden">
+    <div className="w-full section-padding bg-[#f9f8f5] relative overflow-hidden">
       {/* Background Circles */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-32 bg-primary-blue/5 rounded-full animate-float blur-xl"></div>
@@ -151,15 +273,23 @@ export default function TinkrionShowcase() {
           </div>
 
           <h2 className="text-5xl md:text-5xl lg:text-6xl font-bold mb-8 animate-fadeIn">
+            <img
+              src={Star}
+              alt="Robot Icon"
+              className="inline-block ml-2 mr-4 w-12 h-12 -mt-2"
+              />
             <span className="text-black font-Dan sans bg-black bg-clip-text text-transparent">
               Tinkrion
             </span>
           </h2>
+          <h4 className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
+           By STEM Elix Introduces students to the exciting world of Robotics, Coding and Electronics.
+          </h4>
 
           <p className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
             Choose your{" "}
-            <span className="text-primary-blue font-semibold">learning path</span>{" "}
-            and embark on an exciting journey of discovery and innovation.
+            <span className="text-primary-blue font-semibold">learning path</span>{" "}-Junior, Explorer, or Master-
+            and embark on an exciting journey of problem-solving and future powered by curiosity.
           </p>
         </div>
 

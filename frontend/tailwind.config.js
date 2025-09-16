@@ -59,6 +59,28 @@ export const theme = {
     fontFamily: {
       sans: ["Inter", "DM Sans", "system-ui", "sans-serif"],
     },
+
+    perspective: {
+      '1000': "1000px",
+    },
   },
+
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.preserve-3d': {
+          'transform-style': 'preserve-3d',
+        },
+        '.backface-hidden': {
+          'backface-visibility': 'hidden',
+        },
+        '.perspective-1000': {
+          'perspective': '1000px',
+        },
+        '.rotate-y-180': {
+          'transform': 'rotateY(180deg)',
+        },
+      });
+    },
+  ],
 };
-export const plugins = [];

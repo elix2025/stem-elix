@@ -19,7 +19,7 @@ const TermsAndConditions = () => {
             1. Introduction
           </h2>
           <p>
-            Welcome to <strong>[Your Platform Name]</strong>. By accessing or
+            Welcome to <strong>Stem Elix</strong>. By accessing or
             using our platform, services, and content, you agree to comply with
             these Terms and Conditions. If you disagree with any part, please
             refrain from using our platform.

@@ -12,19 +12,19 @@ const categories = [
   },
   {
     id: "AI",
-    label: "Artificial Intelligence",
+    label: "Junior",
     icon: "🤖",
     color: "from-primary to-secondary",
   },
   {
     id: "Math",
-    label: "Mathematics",
+    label: "Explorer",
     icon: "📐",
     color: "from-green-500 to-teal-500",
   },
   {
-    id: "Programming",
-    label: "Programming",
+    id: "Master",
+    label: "Master",
     icon: "💻",
     color: "from-orange-500 to-red-500",
   },

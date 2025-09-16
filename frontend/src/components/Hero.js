@@ -9,7 +9,7 @@ const Hero = ({ handleEnrollNow }) => {
   const [showSubtext, setShowSubtext] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
 
-  const fullText = "Let's Start Your STEM Journey";
+  const fullText = "Turn Curiosity into Creation"; //From Ideas to Inventors
   const typingSpeed = 85; // milliseconds per character
 
   useEffect(() => {
@@ -87,6 +87,9 @@ const Hero = ({ handleEnrollNow }) => {
                   )}
                 </span>
               </h1>
+               {/* <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-3xl font-bold text-text leading-tight">
+                Casting Code | Crafting Bots | Creating Futures
+                </h3> */}
 
               <div
                 className={`transition-all duration-700 transform ${
@@ -96,8 +99,7 @@ const Hero = ({ handleEnrollNow }) => {
                 }`}
               >
                 <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-text/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                  Dive into the world full of Coding, Robotics and Innovations.
-                  Master STEM skills with interactive learning experiences.
+                 STEM-Elix  where curiosity meets creation. Igniting innovation in young learners.
                 </p>
               </div>
             </div>
@@ -158,7 +160,7 @@ const Hero = ({ handleEnrollNow }) => {
 
             {/* Feature badges */}
             <div
-              className={`flex flex-wrap gap-3 pt-4 justify-center lg:justify-start transition-all duration-700 delay-300 transform ${
+              className={`flex flex-wrap gap-3 pt-4 justify-center lg:justify-start transition-all duration-700 delay-300 transform lg:hidden ${
                 showButtons
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-4"

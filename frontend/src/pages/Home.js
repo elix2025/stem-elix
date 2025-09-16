@@ -299,6 +299,7 @@ const Home = () => {
       </motion.div>
 
       {/* FEATURES with optimized animation */}
+      <div className="hidden lg:block">
       <AnimatedSectionWrapper className="relative bg-[#f9f8f5]" delay={0.1}>
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <motion.div
@@ -325,6 +326,7 @@ const Home = () => {
           </motion.div>
         </div>
       </AnimatedSectionWrapper>
+      </div>
 
       {/* Simplified section components with enhanced scroll snap */}
       <AnimatedSectionWrapper delay={0.1} className="bg-[#f9f8f5] scroll-mt-16">
