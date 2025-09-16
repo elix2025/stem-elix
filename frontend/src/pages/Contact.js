@@ -295,7 +295,7 @@ const Contact = () => {
 
                 <div className="space-y-6 mb-8">
                   <div className="flex items-start space-x-4">
-                    <div className="bg-gradient-to-r from-primary-blue to-cyan p-3 rounded-xl flex-shrink-0">
+                    {/* <div className="bg-gradient-to-r from-primary-blue to-cyan p-3 rounded-xl flex-shrink-0">
                       <svg
                         className="w-6 h-6 text-white"
                         fill="none"
@@ -315,8 +315,8 @@ const Contact = () => {
                           d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                         />
                       </svg>
-                    </div>
-                    <div>
+                    </div> */}
+                    {/* <div>
                       <h3 className="font-semibold text-charcoal mb-1">
                         Our Address
                       </h3>
@@ -327,7 +327,7 @@ const Contact = () => {
                         <br />
                         India
                       </p>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="flex items-start space-x-4">
@@ -354,7 +354,7 @@ const Contact = () => {
                         href="tel:+919417369969"
                         className="text-charcoal/70 text-sm hover:text-primary-blue transition-colors"
                       >
-                        +91 9417369969
+                        +91 8287591144
                       </a>
                     </div>
                   </div>
