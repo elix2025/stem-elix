@@ -14,7 +14,7 @@ const categories = [
     id: "AI",
     label: "Artificial Intelligence",
     icon: "🤖",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-primary to-secondary",
   },
   {
     id: "Math",
@@ -114,19 +114,20 @@ const Courses = () => {
 
     return (
       <div
-        className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl 
-                   border border-slate-200 hover:border-primary-blue/30
-                   transition-all duration-500 cursor-pointer overflow-hidden
-                   transform hover:scale-105 hover:-translate-y-2"
-        onClick={handleCourseClick}
+        className={`group relative bg-white rounded-2xl overflow-hidden shadow-sm 
+                   border border-slate-200 hover:border-primary/30
+                   hover:shadow-xl hover:-translate-y-2 
+                   transition-all duration-500 cursor-pointer
+                   backdrop-blur-sm bg-white/90`}
+        onClick={() => handleCourseClick(course)}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-        <div className="relative overflow-hidden bg-slate-100 w-full h-56 rounded-t-2xl">
+        <div className="relative overflow-hidden bg-slate-100 w-full h-48 sm:h-56 rounded-t-2xl">
           <img
             src={
               course.CourseThumbnail ||
-              `https://via.placeholder.com/400x300/2563EB/FFFFFF?text=${encodeURIComponent(
+              `https://via.placeholder.com/400x300/6366F1/FFFFFF?text=${encodeURIComponent(
                 course.title.substring(0, 20)
               )}`
             }
@@ -134,28 +135,28 @@ const Courses = () => {
             className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
           />
 
-          <div className="absolute top-4 left-4 flex flex-col gap-2">
+          <div className="absolute top-3 sm:top-4 left-3 sm:left-4 flex flex-col gap-2">
             {isEnrolled && (
-              <span className="px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full">
+              <span className="px-2 sm:px-3 py-1 bg-success text-white text-xs font-semibold rounded-full">
                 Enrolled
               </span>
             )}
             {course.isBestSeller && (
-              <span className="px-3 py-1 bg-yellow-500 text-white text-xs font-semibold rounded-full">
+              <span className="px-2 sm:px-3 py-1 bg-yellow-500 text-white text-xs font-semibold rounded-full">
                 Bestseller
               </span>
             )}
           </div>
         </div>
 
-        <div className="p-6 flex flex-col">
-          <div className="flex items-center justify-between mb-3">
-            <span className="px-3 py-1 bg-primary-blue/10 text-primary-blue text-sm font-medium rounded-full">
+        <div className="p-4 sm:p-6 flex flex-col">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <span className="px-2 sm:px-3 py-1 bg-primary/10 text-primary text-xs sm:text-sm font-medium rounded-full">
               {course.categoryId}
             </span>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-800 mb-2 line-clamp-2 group-hover:text-primary-blue transition-colors duration-300">
+          <h3 className="text-lg sm:text-xl font-bold text-text mb-2 line-clamp-2 group-hover:text-primary transition-colors duration-300">
             {course.title}
           </h3>
 
@@ -203,7 +204,7 @@ const Courses = () => {
               className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
                 isEnrolled
                   ? "bg-green-100 text-green-800 hover:bg-green-200"
-                  : "bg-primary-blue text-white hover:bg-primary-blue/90 hover:scale-105"
+                  : "bg-primary text-white hover:bg-primary/90 hover:scale-105"
               }`}
             >
               {isEnrolled ? "Continue" : "Enroll Now"}
@@ -215,20 +216,20 @@ const Courses = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-background via-white to-primary/5">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-primary-blue via-cyan to-primary-blue overflow-hidden">
+      <div className="relative bg-gradient-to-r from-primary via-secondary to-primary overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute inset-0">
           <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full animate-float blur-xl"></div>
           <div className="absolute bottom-20 right-20 w-24 h-24 bg-white/10 rounded-full animate-float delay-300 blur-xl"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 py-20 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fadeIn">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center text-white">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 animate-fadeIn">
             Discover Amazing Courses
           </h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto animate-slideUp">
+          <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-90 max-w-3xl mx-auto animate-slideUp">
             Unlock your potential with our comprehensive collection of STEM
             courses
           </p>
@@ -239,12 +240,12 @@ const Courses = () => {
               placeholder="Search for courses, topics, or instructors..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-6 py-4 pl-14 pr-6 rounded-2xl text-slate-800 text-lg 
+              className="w-full px-4 sm:px-6 py-3 sm:py-4 pl-12 sm:pl-14 pr-4 sm:pr-6 rounded-2xl text-text text-base sm:text-lg 
                         border-0 focus:ring-4 focus:ring-white/30 transition-all duration-300
                         shadow-2xl backdrop-blur-sm"
             />
             <svg
-              className="absolute left-5 top-1/2 transform -translate-y-1/2 w-6 h-6 text-slate-400"
+              className="absolute left-4 sm:left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 text-slate-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -260,34 +261,37 @@ const Courses = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Category Pills */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-slate-800 mb-6">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-text mb-4 sm:mb-6">
             Browse by Category
           </h2>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-2 sm:gap-4">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-semibold 
+                className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base
                           transition-all duration-300 hover:scale-105 ${
                             selectedCategory === category.id
                               ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
                               : "bg-white text-slate-700 hover:bg-slate-50 border border-slate-200"
                           }`}
               >
-                <span className="text-xl">{category.icon}</span>
-                <span>{category.label}</span>
+                <span className="text-base sm:text-xl">{category.icon}</span>
+                <span className="hidden sm:inline">{category.label}</span>
+                <span className="sm:hidden">
+                  {category.label.split(" ")[0]}
+                </span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Course Results */}
-        <div className="mb-8">
-          <div className="text-slate-600">
+        <div className="mb-6 sm:mb-8">
+          <div className="text-slate-600 text-sm sm:text-base">
             <span className="font-semibold">{filteredCourses.length}</span>{" "}
             courses found
           </div>
@@ -295,14 +299,14 @@ const Courses = () => {
 
         {/* Courses Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            {[...Array(8)].map((_, index) => (
               <div
                 key={index}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse"
               >
-                <div className="w-full h-56 bg-slate-200"></div>
-                <div className="p-6 space-y-4">
+                <div className="w-full h-48 sm:h-56 bg-slate-200"></div>
+                <div className="p-4 sm:p-6 space-y-4">
                   <div className="h-4 bg-slate-200 rounded w-3/4"></div>
                   <div className="h-6 bg-slate-200 rounded w-full"></div>
                   <div className="h-4 bg-slate-200 rounded w-1/2"></div>
@@ -319,7 +323,7 @@ const Courses = () => {
             <p className="text-slate-600 mb-6">{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-primary-blue text-white rounded-xl hover:bg-primary-blue/90 
+              className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 
                        transition-colors duration-200"
             >
               Try Again
@@ -336,7 +340,7 @@ const Courses = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredCourses.map((course) => (
               <CourseCard
                 key={`${course._id}-${course.title}`}

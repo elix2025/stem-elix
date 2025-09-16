@@ -51,15 +51,13 @@ const Navbar = () => {
 
   const navbarClass = isHomePage
     ? scrolled
-      ? "bg-navy/95 backdrop-blur-xl shadow-xl border-b border-primary-blue/20"
+      ? "bg-text/95 backdrop-blur-xl shadow-xl border-b border-primary/20"
       : "bg-transparent"
-    : "bg-navy shadow-xl border-b border-primary-blue/10";
+    : "bg-text shadow-xl border-b border-primary/10";
 
-  const textColorClass =
-    isHomePage && !scrolled ? "text-charcoal" : "text-white";
+  const textColorClass = isHomePage && !scrolled ? "text-text" : "text-white";
 
-  const logoColorClass =
-    isHomePage && !scrolled ? "text-charcoal" : "text-white";
+  const logoColorClass = isHomePage && !scrolled ? "text-text" : "text-white";
 
   return (
     <>
@@ -75,9 +73,7 @@ const Navbar = () => {
               to="/"
               className="hover:scale-105 transform transition-transform duration-200 inline-block"
             >
-              <span className="bg-gradient-to-r from-primary-blue to-cyan bg-clip-text text-transparent font-extrabold">
-                Stem
-              </span>
+              <span className="text-primary font-extrabold">Stem</span>
               <span className={logoColorClass}>Elix</span>
             </Link>
           </div>
@@ -88,8 +84,8 @@ const Navbar = () => {
               to="/"
               className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                 location.pathname === "/"
-                  ? "border-b-2 border-primary-blue pb-1 text-primary-blue"
-                  : "hover:text-primary-blue hover:border-b-2 hover:border-primary-blue hover:pb-1"
+                  ? "border-b-2 border-primary pb-1 text-primary"
+                  : "hover:text-primary hover:border-b-2 hover:border-primary hover:pb-1"
               }`}
             >
               Home
@@ -98,8 +94,8 @@ const Navbar = () => {
               to="/about"
               className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                 location.pathname === "/about"
-                  ? "border-b-2 border-primary-blue pb-1 text-primary-blue"
-                  : "hover:text-primary-blue hover:border-b-2 hover:border-primary-blue hover:pb-1"
+                  ? "border-b-2 border-primary pb-1 text-primary"
+                  : "hover:text-primary hover:border-b-2 hover:border-primary hover:pb-1"
               }`}
             >
               About
@@ -109,8 +105,8 @@ const Navbar = () => {
               to="/courses"
               className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                 location.pathname === "/courses"
-                  ? "border-b-2 border-primary-blue pb-1 text-primary-blue"
-                  : "hover:text-primary-blue hover:border-b-2 hover:border-primary-blue hover:pb-1"
+                  ? "border-b-2 border-primary pb-1 text-primary"
+                  : "hover:text-primary hover:border-b-2 hover:border-primary hover:pb-1"
               }`}
             >
               Courses
@@ -120,8 +116,8 @@ const Navbar = () => {
               to="/contact"
               className={`text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 transform ${textColorClass} ${
                 location.pathname === "/contact"
-                  ? "border-b-2 border-primary-blue pb-1 text-primary-blue"
-                  : "hover:text-primary-blue hover:border-b-2 hover:border-primary-blue hover:pb-1"
+                  ? "border-b-2 border-primary pb-1 text-primary"
+                  : "hover:text-primary hover:border-b-2 hover:border-primary hover:pb-1"
               }`}
             >
               Contact Us

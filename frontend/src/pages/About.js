@@ -59,29 +59,29 @@ const AboutUsPage = () => {
       number: "200K+",
       label: "Students Enrolled",
       icon: "🎓",
-      wrap: "bg-gradient-to-br from-white to-blue-50/50 border-primary-blue/20",
-      numberCls: "text-primary-blue",
+      wrap: "bg-gradient-to-br from-white to-blue-50/50 border-primary/20",
+      numberCls: "text-primary",
     },
     {
       number: "120+",
       label: "Courses Available",
       icon: "📚",
-      wrap: "bg-gradient-to-br from-cyan/10 to-primary-blue/10 border-cyan/30",
-      numberCls: "text-cyan",
+      wrap: "bg-gradient-to-br from-secondary/10 to-primary/10 border-secondary/30",
+      numberCls: "text-secondary",
     },
     {
       number: "98%",
       label: "Student Satisfaction",
       icon: "⭐",
-      wrap: "bg-gradient-to-br from-primary-blue/10 to-navy/10 border-primary-blue/20",
+      wrap: "bg-gradient-to-br from-primary/10 to-text/10 border-primary/20",
       numberCls: "text-navy",
     },
     {
       number: "50+",
       label: "Partner Schools",
       icon: "🏫",
-      wrap: "bg-gradient-to-br from-white to-cyan/10 border-cyan/20",
-      numberCls: "text-primary-blue",
+      wrap: "bg-gradient-to-br from-white to-secondary/10 border-secondary/20",
+      numberCls: "text-primary",
     },
   ];
 
@@ -91,29 +91,29 @@ const AboutUsPage = () => {
       description:
         "Recognized as 'Best STEM Education Platform' by EdTech Awards 2024",
       icon: "🏆",
-      wrap: "bg-gradient-to-br from-primary-blue/10 to-cyan/10 border-primary-blue/30",
+      wrap: "bg-gradient-to-br from-primary/10 to-secondary/10 border-primary/30",
     },
     {
       title: "Global Reach",
       description:
         "Students from over 50 countries actively learning on our platform",
       icon: "🌎",
-      wrap: "bg-gradient-to-br from-cyan/10 to-navy/10 border-cyan/30",
+      wrap: "bg-gradient-to-br from-secondary/10 to-text/10 border-secondary/30",
     },
     {
       title: "Research-Backed",
       description: "Our methods are proven to increase STEM engagement by 300%",
       icon: "📈",
-      wrap: "bg-gradient-to-br from-navy/10 to-primary-blue/10 border-navy/30",
+      wrap: "bg-gradient-to-br from-text/10 to-primary/10 border-text/30",
     },
   ];
 
   return (
-    <main className="bg-gradient-to-br from-light-bg to-blue-50/30 min-h-screen">
+    <main className="bg-gradient-to-br from-background to-blue-50/30 min-h-screen">
       {/* Enhanced Hero Section */}
       <section
         id="hero"
-        className={`relative overflow-hidden bg-gradient-to-br from-navy via-navy/95 to-primary-blue transition-all duration-1000 ${
+        className={`relative overflow-hidden bg-gradient-to-br from-text via-text/95 to-primary transition-all duration-1000 ${
           isVisible.hero
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-10"
@@ -122,7 +122,7 @@ const AboutUsPage = () => {
         {/* Enhanced Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute top-20 left-10 w-72 h-72 bg-primary-blue/10 rounded-full blur-3xl"
+            className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
             animate={{
               scale: [1, 1.2, 1],
               opacity: [0.3, 0.6, 0.3],
@@ -130,7 +130,7 @@ const AboutUsPage = () => {
             transition={{ duration: 8, repeat: Infinity }}
           />
           <motion.div
-            className="absolute bottom-20 right-10 w-96 h-96 bg-cyan/10 rounded-full blur-3xl"
+            className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"
             animate={{
               scale: [1.2, 1, 1.2],
               opacity: [0.4, 0.7, 0.4],
@@ -287,7 +287,7 @@ const AboutUsPage = () => {
             </p>
           </motion.div>
 
-          < motion.div className="grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Enhanced Mission & Vision Cards */}
             <motion.div className="space-y-8" variants={itemVariants}>
               <motion.div
@@ -619,7 +619,9 @@ const AboutUsPage = () => {
                     >
                       {s.number}
                     </div>
-                    <div className="text-charcoal/70 font-medium">{s.label}</div>
+                    <div className="text-charcoal/70 font-medium">
+                      {s.label}
+                    </div>
                   </div>
                 </>
               </motion.div>

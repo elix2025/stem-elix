@@ -52,20 +52,20 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-light-bg to-blue-50 flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
+    <div className="bg-gradient-to-br from-background to-blue-50 flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-primary-blue/10 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-cyan/10 rounded-full blur-3xl animate-float delay-1000"></div>
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary-blue/15 rounded-full blur-2xl animate-float delay-500"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl animate-float delay-1000"></div>
+        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary/15 rounded-full blur-2xl animate-float delay-500"></div>
 
         {/* STEM Icons Floating */}
-        <div className="absolute top-16 right-20 text-primary-blue/20 animate-bounce">
+        <div className="absolute top-16 right-20 text-primary/20 animate-bounce">
           <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7V10C2 16 6 20.9 12 22C18 20.9 22 16 22 10V7L12 2Z" />
           </svg>
         </div>
-        <div className="absolute bottom-32 left-20 text-cyan/20 animate-bounce delay-300">
+        <div className="absolute bottom-32 left-20 text-secondary/20 animate-bounce delay-300">
           <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
             <path d="M9,2V8H11V11H5C3.89,11 3,11.89 3,13V16H5V22H11V16H13V22H19V16H21V13C21,11.89 20.11,11 19,11H13V8H15V2H9M11,4H13V6H11V4Z" />
           </svg>
@@ -74,18 +74,18 @@ const Login = () => {
 
       <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center relative z-10">
         {/* Left Side - Welcome Content */}
-        <div className="text-charcoal space-y-8 lg:pr-8">
+        <div className="text-text space-y-8 lg:pr-8">
           <div className="space-y-4">
-            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-4 py-2 rounded-full text-sm font-medium animate-slideDown">
-              <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
+            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary/20 text-primary px-4 py-2 rounded-full text-sm font-medium animate-slideDown">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
               <span>Advanced STEM Learning Platform</span>
             </div>
 
             <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-              Welcome Back to <span className="text-gradient">StemElix</span>
+              Welcome Back to <span className="text-primary">StemElix</span>
             </h1>
 
-            <p className="text-xl text-charcoal/80 leading-relaxed max-w-lg">
+            <p className="text-xl text-text/80 leading-relaxed max-w-lg">
               Continue your journey in Science, Technology, Engineering, and
               Mathematics. Unlock endless possibilities with hands-on learning.
             </p>
@@ -97,20 +97,18 @@ const Login = () => {
               {
                 icon: "🧪",
                 text: "Interactive Experiments",
-                color: "primary-blue",
+                color: "primary",
               },
-              { icon: "🤖", text: "AI-Powered Learning", color: "cyan" },
-              { icon: "🔬", text: "Virtual Labs", color: "primary-blue" },
-              { icon: "🏆", text: "Achievement System", color: "cyan" },
+              { icon: "🤖", text: "AI-Powered Learning", color: "secondary" },
+              { icon: "🔬", text: "Virtual Labs", color: "primary" },
+              { icon: "🏆", text: "Achievement System", color: "secondary" },
             ].map(({ icon, text, color }) => (
               <div
                 key={text}
                 className="flex items-center space-x-3 card bg-white/60 backdrop-blur-sm rounded-xl p-4 hover:shadow-lg transition-all duration-300 animate-fadeIn"
               >
                 <span className="text-2xl">{icon}</span>
-                <span className="text-charcoal text-sm font-semibold">
-                  {text}
-                </span>
+                <span className="text-text text-sm font-semibold">{text}</span>
               </div>
             ))}
           </div>
@@ -118,16 +116,16 @@ const Login = () => {
           {/* Stats */}
           <div className="flex space-x-8">
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary-blue">200K+</div>
-              <div className="text-sm text-charcoal/70">Students</div>
+              <div className="text-2xl font-bold text-primary">200K+</div>
+              <div className="text-sm text-text/70">Students</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-cyan">120+</div>
-              <div className="text-sm text-charcoal/70">Courses</div>
+              <div className="text-2xl font-bold text-secondary">120+</div>
+              <div className="text-sm text-text/70">Courses</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary-blue">98%</div>
-              <div className="text-sm text-charcoal/70">Success Rate</div>
+              <div className="text-2xl font-bold text-primary">98%</div>
+              <div className="text-sm text-text/70">Success Rate</div>
             </div>
           </div>
         </div>
@@ -136,8 +134,8 @@ const Login = () => {
         <div className="w-full max-w-md mx-auto lg:mx-0">
           <div className="card-gradient backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl p-8 animate-scaleIn">
             <div className="text-center space-y-2 mb-8">
-              <h2 className="text-3xl font-bold text-charcoal">Sign In</h2>
-              <p className="text-charcoal/70">
+              <h2 className="text-3xl font-bold text-text">Sign In</h2>
+              <p className="text-text/70">
                 Access your STEM learning dashboard
               </p>
             </div>
@@ -166,13 +164,13 @@ const Login = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-charcoal">
+                <label className="block text-sm font-semibold text-text">
                   Email Address
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
-                      className="h-5 w-5 text-charcoal/50"
+                      className="h-5 w-5 text-text/50"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -199,13 +197,13 @@ const Login = () => {
 
               {/* Password Field */}
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-charcoal">
+                <label className="block text-sm font-semibold text-text">
                   Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
-                      className="h-5 w-5 text-charcoal/50"
+                      className="h-5 w-5 text-text/50"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -233,7 +231,7 @@ const Login = () => {
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
                     <svg
-                      className="h-5 w-5 text-charcoal/50 hover:text-charcoal transition-colors duration-200"
+                      className="h-5 w-5 text-text/50 hover:text-text transition-colors duration-200"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -263,15 +261,13 @@ const Login = () => {
                 <label className="flex items-center">
                   <input
                     type="checkbox"
-                    className="rounded border-gray-300 text-primary-blue focus:ring-primary-blue"
+                    className="rounded border-gray-300 text-primary focus:ring-primary"
                   />
-                  <span className="ml-2 text-sm text-charcoal/70">
-                    Remember me
-                  </span>
+                  <span className="ml-2 text-sm text-text/70">Remember me</span>
                 </label>
                 <Link
                   to="/forgot-password"
-                  className="text-sm font-medium text-primary-blue hover:text-blue-700 transition-colors duration-200"
+                  className="text-sm font-medium text-primary hover:text-indigo-700 transition-colors duration-200"
                 >
                   Forgot password?
                 </Link>
@@ -314,11 +310,11 @@ const Login = () => {
 
             {/* Sign Up Link */}
             <div className="mt-8 text-center">
-              <p className="text-charcoal/70">
+              <p className="text-text/70">
                 New to StemElix?{" "}
                 <Link
                   to="/register"
-                  className="font-semibold text-primary-blue hover:text-blue-700 transition-colors duration-200"
+                  className="font-semibold text-primary hover:text-indigo-700 transition-colors duration-200"
                 >
                   Create an account
                 </Link>
@@ -332,14 +328,14 @@ const Login = () => {
                   <div className="w-full border-t border-gray-300" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-charcoal/70">
+                  <span className="px-2 bg-white text-text/70">
                     Or continue with
                   </span>
                 </div>
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
-                <button className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-medium text-charcoal hover:bg-gray-50 transition-all duration-200 transform hover:-translate-y-0.5">
+                <button className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-medium text-text hover:bg-gray-50 transition-all duration-200 transform hover:-translate-y-0.5">
                   <svg
                     className="h-5 w-5"
                     viewBox="0 0 24 24"
@@ -365,7 +361,7 @@ const Login = () => {
                   <span className="ml-2">Google</span>
                 </button>
 
-                <button className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-medium text-charcoal hover:bg-gray-50 transition-all duration-200 transform hover:-translate-y-0.5">
+                <button className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-medium text-text hover:bg-gray-50 transition-all duration-200 transform hover:-translate-y-0.5">
                   <svg
                     className="h-5 w-5"
                     fill="currentColor"

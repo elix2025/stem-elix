@@ -80,11 +80,12 @@ function App() {
     document.documentElement.style.scrollBehavior = "smooth";
 
     // Set up global CSS custom properties for consistent theming
-    document.documentElement.style.setProperty("--primary-blue", "#2563EB");
-    document.documentElement.style.setProperty("--cyan", "#06B6D4");
-    document.documentElement.style.setProperty("--navy", "#0F172A");
-    document.documentElement.style.setProperty("--light-bg", "#F9FAFB");
-    document.documentElement.style.setProperty("--charcoal", "#111827");
+    document.documentElement.style.setProperty("--primary", "#6366F1");
+    document.documentElement.style.setProperty("--secondary", "#06B6D4");
+    document.documentElement.style.setProperty("--background", "#F9FAFB");
+    document.documentElement.style.setProperty("--text", "#111827");
+    document.documentElement.style.setProperty("--success", "#22C55E");
+    document.documentElement.style.setProperty("--error", "#EF4444");
 
     // Add custom CSS for enhanced UX
     const style = document.createElement("style");
@@ -102,7 +103,7 @@ function App() {
       textarea:focus,
       select:focus,
       a:focus {
-        outline: 2px solid var(--primary-blue);
+        outline: 2px solid var(--primary);
         outline-offset: 2px;
       }
 
@@ -113,7 +114,7 @@ function App() {
 
       /* Custom selection color */
       ::selection {
-        background-color: var(--primary-blue);
+        background-color: var(--primary);
         color: white;
       }
 
@@ -157,7 +158,7 @@ function App() {
   return (
     <BrowserRouter>
       <APIContextProvider>
-        <div className="bg-light-bg text-charcoal min-h-screen">
+        <div className="bg-background text-text min-h-screen">
           <Navbar />
           <Layout>
             <main className="relative z-10">

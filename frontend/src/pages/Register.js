@@ -76,11 +76,11 @@ const Register = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-light-bg via-white to-cyan/10 flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
+    <div className="bg-gradient-to-br from-background via-white to-secondary/10 flex items-center justify-center p-4 relative overflow-hidden min-h-screen">
       {/* Enhanced Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute top-20 left-10 w-40 h-40 bg-primary-blue/10 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl"
           animate={{
             x: [0, 50, 0],
             y: [0, -30, 0],
@@ -89,7 +89,7 @@ const Register = () => {
           transition={{ duration: 8, repeat: Infinity }}
         />
         <motion.div
-          className="absolute bottom-20 right-10 w-32 h-32 bg-cyan/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-32 h-32 bg-secondary/10 rounded-full blur-3xl"
           animate={{
             x: [0, -40, 0],
             y: [0, 20, 0],
@@ -98,7 +98,7 @@ const Register = () => {
           transition={{ duration: 6, repeat: Infinity, delay: 2 }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary-blue/15 rounded-full blur-2xl"
+          className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary/15 rounded-full blur-2xl"
           animate={{
             rotate: [0, 360],
             scale: [1, 1.3, 1],
@@ -108,7 +108,7 @@ const Register = () => {
 
         {/* Floating STEM Icons */}
         <motion.div
-          className="absolute top-16 right-20 text-primary-blue/20"
+          className="absolute top-16 right-20 text-primary/20"
           animate={{
             y: [-10, 10, -10],
             rotate: [0, 15, 0],
@@ -121,7 +121,7 @@ const Register = () => {
         </motion.div>
 
         <motion.div
-          className="absolute bottom-32 left-20 text-cyan/20"
+          className="absolute bottom-32 left-20 text-secondary/20"
           animate={{
             y: [10, -10, 10],
             rotate: [0, -15, 0],
@@ -137,15 +137,15 @@ const Register = () => {
       <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center relative z-10">
         {/* Left Side - Welcome Content */}
         <motion.div
-          className="text-charcoal space-y-8 lg:pr-8"
+          className="text-text space-y-8 lg:pr-8"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
         >
           <motion.div className="space-y-4" variants={itemVariants}>
-            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-6 py-3 rounded-full text-sm font-medium">
+            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary/20 text-primary px-6 py-3 rounded-full text-sm font-medium">
               <motion.div
-                className="w-2 h-2 bg-primary-blue rounded-full"
+                className="w-2 h-2 bg-primary rounded-full"
                 animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
@@ -153,13 +153,10 @@ const Register = () => {
             </div>
 
             <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-              Start Your{" "}
-              <span className="text-gradient bg-gradient-to-r from-primary-blue via-cyan to-navy bg-clip-text text-transparent">
-                STEM Journey
-              </span>
+              Start Your <span className="text-primary">STEM Journey</span>
             </h1>
 
-            <p className="text-xl text-charcoal/80 leading-relaxed max-w-lg">
+            <p className="text-xl text-text/80 leading-relaxed max-w-lg">
               Join thousands of students exploring Science, Technology,
               Engineering, and Mathematics through interactive learning and
               hands-on experiences.
@@ -172,14 +169,14 @@ const Register = () => {
             variants={containerVariants}
           >
             {[
-              { icon: "🧪", text: "Interactive Labs", color: "primary-blue" },
-              { icon: "🤖", text: "AI-Powered Learning", color: "cyan" },
+              { icon: "🧪", text: "Interactive Labs", color: "primary" },
+              { icon: "🤖", text: "AI-Powered Learning", color: "secondary" },
               {
                 icon: "🔬",
                 text: "Virtual Experiments",
-                color: "primary-blue",
+                color: "primary",
               },
-              { icon: "🏆", text: "Skill Certification", color: "cyan" },
+              { icon: "🏆", text: "Skill Certification", color: "secondary" },
             ].map(({ icon, text, color }, index) => (
               <motion.div
                 key={text}
@@ -193,7 +190,7 @@ const Register = () => {
                 >
                   {icon}
                 </motion.span>
-                <span className="text-charcoal text-sm font-semibold group-hover:text-primary-blue transition-colors duration-300">
+                <span className="text-text text-sm font-semibold group-hover:text-primary transition-colors duration-300">
                   {text}
                 </span>
               </motion.div>
@@ -206,10 +203,10 @@ const Register = () => {
               {
                 number: "200K+",
                 label: "Students",
-                color: "text-primary-blue",
+                color: "text-primary",
               },
-              { number: "120+", label: "Courses", color: "text-cyan" },
-              { number: "98%", label: "Success Rate", color: "text-navy" },
+              { number: "120+", label: "Courses", color: "text-secondary" },
+              { number: "98%", label: "Success Rate", color: "text-text" },
             ].map(({ number, label, color }) => (
               <motion.div
                 key={label}
@@ -217,7 +214,7 @@ const Register = () => {
                 whileHover={{ scale: 1.1 }}
               >
                 <div className={`text-2xl font-bold ${color}`}>{number}</div>
-                <div className="text-sm text-charcoal/70">{label}</div>
+                <div className="text-sm text-text/70">{label}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -237,12 +234,8 @@ const Register = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <h2 className="text-3xl font-bold text-charcoal">
-                Create Account
-              </h2>
-              <p className="text-charcoal/70">
-                Begin your STEM learning adventure
-              </p>
+              <h2 className="text-3xl font-bold text-text">Create Account</h2>
+              <p className="text-text/70">Begin your STEM learning adventure</p>
             </motion.div>
 
             {error && (
@@ -278,13 +271,13 @@ const Register = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
               >
-                <label className="block text-sm font-semibold text-charcoal">
+                <label className="block text-sm font-semibold text-text">
                   Full Name
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
-                      className="h-5 w-5 text-charcoal/50"
+                      className="h-5 w-5 text-text/50"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -316,13 +309,13 @@ const Register = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 }}
               >
-                <label className="block text-sm font-semibold text-charcoal">
+                <label className="block text-sm font-semibold text-text">
                   Email Address
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
-                      className="h-5 w-5 text-charcoal/50"
+                      className="h-5 w-5 text-text/50"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -354,13 +347,13 @@ const Register = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.8 }}
               >
-                <label className="block text-sm font-semibold text-charcoal">
+                <label className="block text-sm font-semibold text-text">
                   Phone Number
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
-                      className="h-5 w-5 text-charcoal/50"
+                      className="h-5 w-5 text-text/50"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -392,13 +385,13 @@ const Register = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.9 }}
               >
-                <label className="block text-sm font-semibold text-charcoal">
+                <label className="block text-sm font-semibold text-text">
                   Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
-                      className="h-5 w-5 text-charcoal/50"
+                      className="h-5 w-5 text-text/50"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -426,7 +419,7 @@ const Register = () => {
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
                     <svg
-                      className="h-5 w-5 text-charcoal/50 hover:text-charcoal transition-colors duration-200"
+                      className="h-5 w-5 text-text/50 hover:text-text transition-colors duration-200"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"

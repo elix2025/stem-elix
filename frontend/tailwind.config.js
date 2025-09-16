@@ -3,8 +3,15 @@ export const content = ["./src/**/*.{js,jsx,ts,tsx,html}"];
 export const theme = {
   extend: {
     colors: {
+      primary: "#6366F1",
+      secondary: "#06B6D4",
+      background: "#F9FAFB",
+      text: "#111827",
+      success: "#22C55E",
+      error: "#EF4444",
+      // Keep legacy colors for gradual transition
       navy: "#0F172A",
-      "primary-blue": "#2563EB",
+      "primary-blue": "#6366F1",
       cyan: "#06B6D4",
       "light-bg": "#F9FAFB",
       charcoal: "#111827",
@@ -26,8 +33,8 @@ export const theme = {
         "50%": { transform: "translateY(-20px)" },
       },
       glow: {
-        "0%": { boxShadow: "0 0 20px #2563EB" },
-        "100%": { boxShadow: "0 0 30px #06B6D4, 0 0 40px #2563EB" },
+        "0%": { boxShadow: "0 0 20px #6366F1" },
+        "100%": { boxShadow: "0 0 30px #06B6D4, 0 0 40px #6366F1" },
       },
       slideUp: {
         "0%": { transform: "translateY(100px)", opacity: "0" },

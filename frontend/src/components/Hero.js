@@ -49,41 +49,41 @@ const Hero = ({ handleEnrollNow }) => {
       ref={heroRef}
       className={`relative overflow-hidden transition-opacity duration-300 ${
         heroVisible ? "opacity-100" : "opacity-90"
-      } min-h-screen bg-[#f9f8f5] isolation-auto pb-0 my-0`}
+      } min-h-screen bg-background isolation-auto pb-0 my-0`}
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Animated geometric shapes */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-primary-blue/10 rounded-full animate-float"></div>
-        <div className="absolute top-40 right-20 w-16 h-16 bg-cyan/10 rounded-full animate-float delay-200"></div>
-        <div className="absolute bottom-40 left-20 w-12 h-12 bg-primary-blue/20 rounded-full animate-float delay-400"></div>
-        <div className="absolute bottom-20 right-40 w-24 h-24 bg-cyan/15 rounded-full animate-float delay-300"></div>
+        <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-16 sm:w-20 h-16 sm:h-20 bg-primary/10 rounded-full animate-float"></div>
+        <div className="absolute top-20 sm:top-40 right-10 sm:right-20 w-12 sm:w-16 h-12 sm:h-16 bg-secondary/10 rounded-full animate-float delay-200"></div>
+        <div className="absolute bottom-20 sm:bottom-40 left-10 sm:left-20 w-10 sm:w-12 h-10 sm:h-12 bg-primary/20 rounded-full animate-float delay-400"></div>
+        <div className="absolute bottom-10 sm:bottom-20 right-20 sm:right-40 w-20 sm:w-24 h-20 sm:h-24 bg-secondary/15 rounded-full animate-float delay-300"></div>
 
         {/* Tech grid pattern */}
         <div
           className="absolute inset-0 opacity-[0.02]"
           style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #2563EB 1px, transparent 0)`,
+            backgroundImage: `radial-gradient(circle at 1px 1px, #6366F1 1px, transparent 0)`,
             backgroundSize: "40px 40px",
           }}
         ></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 pb-0">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
-          {/* Left copy */}
-          <div className="space-y-8">
-            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-4 py-2 rounded-full text-sm font-medium animate-slideDown">
-              <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
-              <span>Next-Gen STEM Education</span>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-screen py-16 sm:py-20 lg:py-0">
+          {/* Left Content */}
+          <div className="text-center lg:text-left space-y-6 lg:space-y-8 order-2 lg:order-1">
+            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary/20 text-primary px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium animate-slideDown">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+              <span>Advanced STEM Learning Platform</span>
             </div>
 
-            <div className="space-y-4">
-              <h1 className="text-5xl text-charcoal lg:text-7xl font-bold min-h-[2.5em] lg:min-h-[2em] leading-tight">
+            <div className="space-y-4 sm:space-y-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-text leading-tight">
                 <span className="block relative">
-                  <span className="text-gradient">{displayedText}</span>
+                  <span className="text-primary">{displayedText}</span>
                   {currentIndex < fullText.length && (
-                    <span className="inline-block w-1 h-16 lg:h-20 bg-primary-blue ml-2 animate-pulse"></span>
+                    <span className="inline-block w-1 h-12 sm:h-16 lg:h-20 bg-primary ml-2 animate-pulse"></span>
                   )}
                 </span>
               </h1>
@@ -95,16 +95,15 @@ const Hero = ({ handleEnrollNow }) => {
                     : "opacity-0 translate-y-4"
                 }`}
               >
-                <p className="text-xl lg:text-2xl text-charcoal/80 max-w-2xl leading-relaxed">
-                  Dive into the world full of Coding , Robotics and Innovations.
-                 
-                  .
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-text/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                  Dive into the world full of Coding, Robotics and Innovations.
+                  Master STEM skills with interactive learning experiences.
                 </p>
               </div>
             </div>
 
             <div
-              className={`flex flex-wrap gap-4 transition-all duration-700 transform ${
+              className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transition-all duration-700 transform ${
                 showButtons
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -112,9 +111,9 @@ const Hero = ({ handleEnrollNow }) => {
             >
               <button
                 onClick={handleEnrollNow}
-                className="group relative inline-flex items-center px-8 py-4 bg-black  text-white font-semibold rounded-xl shadow-xl hover:shadow-primary-blue/25 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 overflow-hidden focus-ring"
+                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white font-semibold rounded-xl shadow-xl hover:shadow-primary/25 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 overflow-hidden focus-ring w-full sm:w-auto"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-primary-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative z-10">Start Learning</span>
                 <svg
                   className="relative z-10 ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300"
@@ -134,9 +133,9 @@ const Hero = ({ handleEnrollNow }) => {
 
               <button
                 onClick={handleWatchDemo}
-                className="group relative inline-flex items-center px-8 py-4 border-2 border-primary-blue/30 hover:border-primary-blue text-charcoal hover:text-primary-blue font-semibold rounded-xl bg-white/50 hover:bg-white/80 backdrop-blur-sm transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:scale-105 focus-ring"
+                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-primary/30 hover:border-primary text-text hover:text-primary font-semibold rounded-xl bg-white/50 hover:bg-white/80 backdrop-blur-sm transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:scale-105 focus-ring w-full sm:w-auto"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-blue/5 to-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <svg
                   className="relative z-10 mr-2 w-5 h-5 group-hover:scale-110 transition-transform duration-300"
                   fill="none"
@@ -153,47 +152,47 @@ const Hero = ({ handleEnrollNow }) => {
                 <span className="relative z-10 transition-colors duration-300">
                   Watch Demo
                 </span>
-                <div className="absolute inset-0 rounded-xl border border-primary-blue/20 scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500"></div>
+                <div className="absolute inset-0 rounded-xl border border-primary/20 scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500"></div>
               </button>
             </div>
 
             {/* Feature badges */}
             <div
-              className={`flex flex-wrap gap-3 pt-4 transition-all duration-700 delay-300 transform ${
+              className={`flex flex-wrap gap-3 pt-4 justify-center lg:justify-start transition-all duration-700 delay-300 transform ${
                 showButtons
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-4"
               }`}
             >
-              {/* {["Interactive Labs", "Expert Mentors", "24/7 Support"].map(
+              {["Interactive Labs", "Expert Mentors", "24/7 Support"].map(
                 (feature, index) => (
                   <div
                     key={feature}
-                    className="flex items-center space-x-2 bg-white/40 backdrop-blur-sm border border-primary-blue/20 rounded-full px-4 py-2 animate-fadeIn"
+                    className="flex items-center space-x-2 bg-white/40 backdrop-blur-sm border border-primary/20 rounded-full px-3 sm:px-4 py-2 animate-fadeIn"
                     style={{ animationDelay: `${(index + 1) * 200}ms` }}
                   >
-                    <div className="w-2 h-2 bg-cyan rounded-full"></div>
-                    <span className="text-sm font-medium text-charcoal">
+                    <div className="w-2 h-2 bg-secondary rounded-full"></div>
+                    <span className="text-xs sm:text-sm font-medium text-text">
                       {feature}
                     </span>
                   </div>
                 )
-              )} */}
+              )}
             </div>
           </div>
 
           {/* Right visual */}
-          <div className="relative flex justify-center items-center w-full">
+          <div className="relative flex justify-center items-center w-full order-1 lg:order-2 mb-8 lg:mb-0">
             {/* Enhanced background effects */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-blue/10 via-cyan/5 to-primary-blue/10 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan/20 via-transparent to-primary-blue/20 rounded-full blur-2xl animate-glow"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/5 to-primary/10 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-transparent to-primary/20 rounded-full blur-2xl animate-glow"></div>
 
-            <div className="relative z-20">
+            <div className="relative z-20 w-full max-w-md lg:max-w-lg xl:max-w-xl">
               <div className="relative">
                 <img
                   src={robotImage}
                   alt="Advanced STEM Robot"
-                  className="hover:scale-105 transition-transform duration-700 filter drop-shadow-2xl mask-fade-edges opacity-80"
+                  className="w-full h-auto hover:scale-105 transition-transform duration-700 filter drop-shadow-2xl mask-fade-edges opacity-80"
                   style={{
                     maskImage:
                       "radial-gradient(ellipse at center, black 40%, transparent 80%)",
@@ -202,26 +201,26 @@ const Hero = ({ handleEnrollNow }) => {
                   }}
                 />
                 {/* Gradient overlay for better blending */}
-                <div className="absolute inset-0 bg-gradient-to-br from-light-bg/30 via-transparent to-light-bg/50 rounded-full opacity-60"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-background/30 via-transparent to-background/50 rounded-full opacity-60"></div>
               </div>
 
               {/* Tech circles around robot */}
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-primary-blue/20 rounded-full animate-bounce-slow"></div>
-              <div className="absolute top-1/4 -right-6 w-6 h-6 bg-cyan/30 rounded-full animate-bounce-slow delay-200"></div>
-              <div className="absolute -bottom-2 left-1/4 w-5 h-5 bg-primary-blue/25 rounded-full animate-bounce-slow delay-400"></div>
+              <div className="absolute -top-2 sm:-top-4 -left-2 sm:-left-4 w-6 sm:w-8 h-6 sm:h-8 bg-primary/20 rounded-full animate-bounce-slow"></div>
+              <div className="absolute top-1/4 -right-3 sm:-right-6 w-4 sm:w-6 h-4 sm:h-6 bg-secondary/30 rounded-full animate-bounce-slow delay-200"></div>
+              <div className="absolute -bottom-1 sm:-bottom-2 left-1/4 w-4 sm:w-5 h-4 sm:h-5 bg-primary/25 rounded-full animate-bounce-slow delay-400"></div>
             </div>
 
             {/* Orbital elements */}
             <div className="absolute inset-0 animate-spin-slow">
-              <div className="absolute top-10 left-10 w-3 h-3 bg-primary-blue rounded-full opacity-60"></div>
-              <div className="absolute bottom-10 right-10 w-2 h-2 bg-cyan rounded-full opacity-80"></div>
+              <div className="absolute top-10 left-10 w-2 sm:w-3 h-2 sm:h-3 bg-primary rounded-full opacity-60"></div>
+              <div className="absolute bottom-10 right-10 w-1.5 sm:w-2 h-1.5 sm:h-2 bg-secondary rounded-full opacity-80"></div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Bottom wave decoration */}
-      <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-r from-primary-blue/5 to-cyan/5 transform skew-y-1"></div>
+      <div className="absolute bottom-0 left-0 w-full h-10 sm:h-20 bg-gradient-to-r from-primary/5 to-secondary/5 transform skew-y-1"></div>
     </section>
   );
 };

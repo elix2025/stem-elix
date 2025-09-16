@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useState, useMemo, useCallback } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { AiOutlineFundProjectionScreen } from "react-icons/ai";
@@ -49,36 +55,38 @@ const chipAnimation = {
 };
 
 // Memoized Animated Section Wrapper
-const AnimatedSectionWrapper = React.memo(({ children, className = "", delay = 0 }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, {
-    margin: "-50px 0px",
-    once: true,
-  });
+const AnimatedSectionWrapper = React.memo(
+  ({ children, className = "", delay = 0 }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, {
+      margin: "-50px 0px",
+      once: true,
+    });
 
-  return (
-    <motion.section
-      ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={{
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.8,
-            delay,
-            ease: "easeOut",
+    return (
+      <motion.section
+        ref={ref}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        variants={{
+          hidden: { opacity: 0, y: 20 },
+          visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: 0.8,
+              delay,
+              ease: "easeOut",
+            },
           },
-        },
-      }}
-      className={className}
-    >
-      {children}
-    </motion.section>
-  );
-});
+        }}
+        className={className}
+      >
+        {children}
+      </motion.section>
+    );
+  }
+);
 
 const Home = () => {
   const { currentUser } = useAPI();
@@ -86,7 +94,7 @@ const Home = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const containerRef = useRef(null);
-  
+
   // Optimize scroll tracking with throttling
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -98,28 +106,31 @@ const Home = () => {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   // Memoized features data
-  const featuresData = useMemo(() => [
-    {
-      icon: AiOutlineFundProjectionScreen,
-      label: "Interactive Learning",
-      color: "text-primary-blue",
-    },
-    {
-      icon: GrUserExpert,
-      label: "Expert Instructors",
-      color: "text-cyan",
-    },
-    {
-      icon: LiaProjectDiagramSolid,
-      label: "Hands-on Projects",
-      color: "text-primary-blue",
-    },
-    {
-      icon: MdOutlineSupportAgent,
-      label: "24/7 Support",
-      color: "text-cyan",
-    },
-  ], []);
+  const featuresData = useMemo(
+    () => [
+      {
+        icon: AiOutlineFundProjectionScreen,
+        label: "Interactive Learning",
+        color: "text-primary",
+      },
+      {
+        icon: GrUserExpert,
+        label: "Expert Instructors",
+        color: "text-secondary",
+      },
+      {
+        icon: LiaProjectDiagramSolid,
+        label: "Hands-on Projects",
+        color: "text-primary",
+      },
+      {
+        icon: MdOutlineSupportAgent,
+        label: "24/7 Support",
+        color: "text-secondary",
+      },
+    ],
+    []
+  );
 
   // Throttled scroll handler for scroll-to-top button
   const handleScroll = useCallback(() => {
@@ -153,14 +164,14 @@ const Home = () => {
       }
       
       ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #2563EB, #06B6D4);
+        background: linear-gradient(135deg, #6366F1, #06B6D4);
         border-radius: 6px;
         border: 2px solid rgba(249, 248, 245, 0.3);
         transition: all 0.3s ease;
       }
       
       ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #1d4ed8, #0891b2);
+        background: linear-gradient(135deg, #5855eb, #0891b2);
         border-color: rgba(249, 248, 245, 0.5);
         transform: scale(1.1);
       }
@@ -196,13 +207,13 @@ const Home = () => {
     `;
 
     // Create and inject styles
-    const styleElement = document.createElement('style');
+    const styleElement = document.createElement("style");
     styleElement.textContent = smoothScrollStyles;
-    styleElement.setAttribute('data-smooth-scroll', 'true');
+    styleElement.setAttribute("data-smooth-scroll", "true");
     document.head.appendChild(styleElement);
 
     // Add smooth scroll class to body
-    document.body.classList.add('smooth-scroll', 'scroll-smooth');
+    document.body.classList.add("smooth-scroll", "scroll-smooth");
 
     // Enhanced throttled scroll handler
     const throttledScroll = () => {
@@ -213,9 +224,9 @@ const Home = () => {
     };
 
     // Use passive listeners for better performance
-    window.addEventListener('scroll', throttledScroll, { 
+    window.addEventListener("scroll", throttledScroll, {
       passive: true,
-      capture: false 
+      capture: false,
     });
 
     // Smooth wheel event handling for better mouse wheel experience
@@ -227,19 +238,21 @@ const Home = () => {
       }
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener("wheel", handleWheel, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', throttledScroll);
-      window.removeEventListener('wheel', handleWheel);
-      document.body.classList.remove('smooth-scroll', 'scroll-smooth');
-      
+      window.removeEventListener("scroll", throttledScroll);
+      window.removeEventListener("wheel", handleWheel);
+      document.body.classList.remove("smooth-scroll", "scroll-smooth");
+
       // Clean up styles
-      const existingStyles = document.querySelector('style[data-smooth-scroll]');
+      const existingStyles = document.querySelector(
+        "style[data-smooth-scroll]"
+      );
       if (existingStyles) {
         existingStyles.remove();
       }
-      
+
       if (window.scrollTimeout) {
         clearTimeout(window.scrollTimeout);
       }
@@ -254,11 +267,11 @@ const Home = () => {
   // Enhanced smooth scroll to top function
   const scrollToTop = useCallback(() => {
     // Use both methods for maximum compatibility
-    if ('scrollBehavior' in document.documentElement.style) {
-      window.scrollTo({ 
-        top: 0, 
+    if ("scrollBehavior" in document.documentElement.style) {
+      window.scrollTo({
+        top: 0,
         behavior: "smooth",
-        block: "start" 
+        block: "start",
       });
     } else {
       // Fallback for older browsers with custom smooth animation
@@ -274,20 +287,23 @@ const Home = () => {
   }, []);
 
   // Smooth navigation helper
-  const smoothNavigate = useCallback((path) => {
-    // Add a small delay to ensure smooth transition
-    requestAnimationFrame(() => {
-      navigate(path);
-    });
-  }, [navigate]);
+  const smoothNavigate = useCallback(
+    (path) => {
+      // Add a small delay to ensure smooth transition
+      requestAnimationFrame(() => {
+        navigate(path);
+      });
+    },
+    [navigate]
+  );
 
   return (
     <div
       ref={containerRef}
-      className="home-page bg-[#f9f8f5] overflow-hidden smooth-scroll"
+      className="home-page bg-background overflow-hidden smooth-scroll"
       style={{
-        scrollBehavior: 'smooth',
-        overscrollBehavior: 'contain'
+        scrollBehavior: "smooth",
+        overscrollBehavior: "contain",
       }}
     >
       {/* HERO with optimized parallax */}
@@ -299,7 +315,7 @@ const Home = () => {
       </motion.div>
 
       {/* FEATURES with optimized animation */}
-      <AnimatedSectionWrapper className="relative bg-[#f9f8f5]" delay={0.1}>
+      <AnimatedSectionWrapper className="relative bg-background" delay={0.1}>
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <motion.div
             variants={staggerContainer}
@@ -314,12 +330,16 @@ const Home = () => {
                 variants={chipAnimation}
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-3xl
                            bg-none backdrop-blur-sm border border-gray/20 text-black
-                           hover:border-[#ac6cf4] hover:bg-[#ac6cf4]/10 
+                           hover:border-primary hover:bg-primary/10 
                            transition-all duration-300 cursor-pointer shadow-sm
                            hover:shadow-md hover:-translate-y-1 transform"
               >
-                <Icon className={`w-6 h-6 ${color} transition-transform duration-200 group-hover:scale-110`} />
-                <span className="text-base font-semibold transition-colors duration-200">{label}</span>
+                <Icon
+                  className={`w-6 h-6 ${color} transition-transform duration-200 group-hover:scale-110`}
+                />
+                <span className="text-base font-semibold transition-colors duration-200">
+                  {label}
+                </span>
               </motion.div>
             ))}
           </motion.div>
@@ -327,7 +347,10 @@ const Home = () => {
       </AnimatedSectionWrapper>
 
       {/* Simplified section components with enhanced scroll snap */}
-      <AnimatedSectionWrapper delay={0.1} className="bg-[#f9f8f5] scroll-mt-16">
+      <AnimatedSectionWrapper
+        delay={0.1}
+        className="bg-background scroll-mt-16"
+      >
         <TinkrionShowcase />
       </AnimatedSectionWrapper>
 
@@ -335,11 +358,17 @@ const Home = () => {
         <AnimatedSection />
       </AnimatedSectionWrapper>
 
-      <AnimatedSectionWrapper delay={0.1} className="bg-gradient-to-br from-primary-blue/5 to-cyan/5 scroll-mt-16">
+      <AnimatedSectionWrapper
+        delay={0.1}
+        className="bg-gradient-to-br from-primary/5 to-secondary/5 scroll-mt-16"
+      >
         <LandingSection />
       </AnimatedSectionWrapper>
 
-      <AnimatedSectionWrapper className="relative bg-[#f9f8f5] scroll-mt-16" delay={0.1}>
+      <AnimatedSectionWrapper
+        className="relative bg-background scroll-mt-16"
+        delay={0.1}
+      >
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <motion.div
             initial={{ opacity: 0 }}
@@ -352,7 +381,10 @@ const Home = () => {
         </div>
       </AnimatedSectionWrapper>
 
-      <AnimatedSectionWrapper className="bg-gradient-to-br from-light-bg to-white scroll-mt-16" delay={0.1}>
+      <AnimatedSectionWrapper
+        className="bg-gradient-to-br from-background to-white scroll-mt-16"
+        delay={0.1}
+      >
         <ShowCaseProjects />
       </AnimatedSectionWrapper>
 
@@ -366,13 +398,13 @@ const Home = () => {
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <motion.div
-            className="w-14 h-14 rounded-2xl bg-gradient-to-r from-primary-blue to-blue-700 
+            className="w-14 h-14 rounded-2xl bg-gradient-to-r from-primary to-indigo-700 
                        shadow-xl flex items-center justify-center cursor-pointer
                        backdrop-blur-sm border border-white/20"
-            whileHover={{ 
+            whileHover={{
               scale: 1.1,
-              boxShadow: "0 20px 40px rgba(37, 99, 235, 0.3)",
-              rotate: -5 
+              boxShadow: "0 20px 40px rgba(99, 102, 241, 0.3)",
+              rotate: -5,
             }}
             whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
@@ -406,21 +438,21 @@ const Home = () => {
       >
         <motion.button
           onClick={() => smoothNavigate("/courses")}
-          className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-cyan to-cyan/80 
+          className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-secondary to-secondary/80 
                      text-white font-semibold rounded-2xl shadow-xl transition-all duration-300
                      backdrop-blur-sm border border-white/20"
-          whileHover={{ 
+          whileHover={{
             scale: 1.05,
             x: 10,
-            boxShadow: "0 15px 30px rgba(6, 182, 212, 0.4)"
+            boxShadow: "0 15px 30px rgba(6, 182, 212, 0.4)",
           }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <motion.svg 
-            className="w-5 h-5" 
-            fill="none" 
-            stroke="currentColor" 
+          <motion.svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24"
             whileHover={{ rotate: 5 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
