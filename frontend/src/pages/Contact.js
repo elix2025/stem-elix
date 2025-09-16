@@ -53,15 +53,15 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-background via-white/50 to-secondary/5">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-light-bg to-cyan/5">
       <div className="pointer-events-none absolute inset-0">
         <motion.div
-          className="absolute -top-10 -left-10 w-40 h-40 bg-primary/30 rounded-full blur-3xl"
+          className="absolute -top-10 -left-10 w-40 h-40 bg-primary-blue/30 rounded-full blur-3xl"
           animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
           transition={{ duration: 8, repeat: Infinity }}
         />
         <motion.div
-          className="absolute top-1/3 right-10 w-48 h-48 bg-secondary/20 rounded-full blur-3xl"
+          className="absolute top-1/3 right-10 w-48 h-48 bg-cyan/20 rounded-full blur-3xl"
           animate={{ scale: [1.2, 1, 1.2], opacity: [0.4, 0.7, 0.4] }}
           transition={{ duration: 6, repeat: Infinity, delay: 2 }}
         />
@@ -69,6 +69,7 @@ const Contact = () => {
 
       <div className="relative z-10 pt-16 md:pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
+
           <motion.div
             className="text-center mb-8 md:mb-16"
             initial={{ opacity: 0, y: 30 }}
@@ -76,18 +77,19 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
           >
             <motion.div
-              className="inline-flex items-center space-x-2 bg-primary/10 text-primary px-6 py-3 rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center space-x-2 bg-primary-blue/10 text-primary-blue px-6 py-3 rounded-full text-sm font-medium mb-6"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
               <span>Contact StemElix</span>
             </motion.div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gradient mb-4 sm:mb-6">
+
               Get In Touch
             </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-text/80 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-charcoal/80 max-w-3xl mx-auto leading-relaxed">
               Ready to start your STEM journey? We're here to help you unlock
               your potential and transform your future with cutting-edge
               education.
@@ -102,7 +104,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="card-gradient backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl p-6 sm:p-8">
-                <h2 className="text-2xl sm:text-3xl font-bold text-text mb-6">
+                <h2 className="text-2xl sm:text-3xl font-bold text-charcoal mb-6">
                   Send us a Message
                 </h2>
 
@@ -138,7 +140,7 @@ const Contact = () => {
                     <div>
                       <label
                         htmlFor="name"
-                        className="block text-sm font-medium text-text mb-2"
+                        className="block text-sm font-medium text-charcoal mb-2"
                       >
                         Full Name *
                       </label>
@@ -165,7 +167,7 @@ const Contact = () => {
                     <div>
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-text mb-2"
+                        className="block text-sm font-medium text-charcoal mb-2"
                       >
                         Email Address *
                       </label>
@@ -263,7 +265,9 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={isLoading}
+
                     className="w-full bg-gray-800 text-white py-3 px-6 rounded-lg font-semibold hover:from-[#ac6cf4] hover:to-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-[#ac6cf4] focus:ring-offset-2 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+
                   >
                     {isLoading ? (
                       <div className="flex items-center justify-center">
@@ -317,7 +321,7 @@ const Contact = () => {
                         Our Address
                       </h3>
                       <p className="text-charcoal/70 text-sm leading-relaxed">
-                        A-165 Adarsh Nagar
+                        A-165 Adarsh Nagar 
                         <br />
                         New Delhi, 110033
                         <br />
@@ -383,6 +387,7 @@ const Contact = () => {
                       </a>
                     </div>
                   </div>
+
                 </div>
 
                 <motion.div
@@ -409,7 +414,9 @@ const Contact = () => {
           >
             <Link
               to="/"
+
               className="inline-flex items-center space-x-2 text-slate-800 hover:text-[#ac6cf4] transition-colors duration-200 group"
+
             >
               <svg
                 className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-200"
