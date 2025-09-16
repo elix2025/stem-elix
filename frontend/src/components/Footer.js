@@ -75,20 +75,19 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3">
                 {[
-                  "About Us",
-                  "STEM Labs",
-                  "Contact",
-                  "Blog",
-                  "Careers",
-                  "Shipping Policy",
+                  { label: "About Us", path: "/about" },
+                  { label: "STEM Labs", path: "/labs" },
+                  { label: "Contact", path: "/contact" },
+                  { label: "Blog", path: "/blog" },
+                  { label: "Shipping Policy", path: "/shipping-policy" },
                 ].map((item) => (
-                  <li key={item}>
+                  <li key={item.label}>
                     <a
-                      href="#"
+                      href={item.path}
                       className="text-gray-300 hover:text-primary-blue transition-colors duration-300 text-base flex items-center group"
                     >
                       <span className="w-2 h-2 bg-primary-blue rounded-full mr-3 group-hover:bg-cyan group-hover:scale-125 transition-all duration-300" />
-                      {item}
+                      {item.label}
                     </a>
                   </li>
                 ))}
@@ -102,8 +101,8 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3">
                 {[
-                  { to: "/resources", text: "Learning Resources" },
-                  { to: "/refund-policy", text: "Refund Policy" },
+                  { to: "/faq", text: "FAQ" },
+                  
                   { to: "/terms", text: "Terms & Conditions" },
                   { to: "/policy", text: "Privacy Policy" },
                 ].map(({ to, text }) => (
@@ -126,18 +125,18 @@ const Footer = () => {
                 Get In Touch
               </h3>
               <ul className="space-y-4">
-                <li className="flex items-start gap-3 text-gray-300 group hover:text-primary-blue transition-colors duration-300">
+                {/* <li className="flex items-start gap-3 text-gray-300 group hover:text-primary-blue transition-colors duration-300">
                   <FaMapMarkerAlt className="text-primary-blue mt-1 flex-shrink-0 group-hover:text-cyan group-hover:scale-110 transition-all duration-300" />
                   <span className="text-base leading-relaxed">
                     A-165 Adarsh Nagaar,
                     <br />
                     New Delhi, India 110033
                   </span>
-                </li>
+                </li> */}
                 <li className="flex items-center gap-3 text-gray-300 group hover:text-primary-blue transition-colors duration-300">
                   <FaPhone className="text-primary-blue flex-shrink-0 group-hover:text-cyan group-hover:scale-110 transition-all duration-300" />
                   <a href="tel:+919876543210" className="text-base">
-                    +91-941769969
+                    +91-8287591144
                   </a>
                 </li>
                 <li className="flex items-center gap-3 text-gray-300 group hover:text-primary-blue transition-colors duration-300">
