@@ -78,7 +78,6 @@ const Footer = () => {
                   { label: "About Us", path: "/about" },
                   { label: "STEM Labs", path: "/labs" },
                   { label: "Contact", path: "/contact" },
-                  { label: "Blog", path: "/blog" },
                   { label: "Shipping Policy", path: "/shipping-policy" },
                 ].map((item) => (
                   <li key={item.label}>
