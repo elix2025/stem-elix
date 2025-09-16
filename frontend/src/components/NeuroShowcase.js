@@ -92,6 +92,9 @@ const NeuroShowcase = () => {
     <div className="absolute top-10 left-20 w-20 h-20 w-12 ">
       <img src={star} alt="star" className="w-full h-full object-contain animate-slow" />
     </div>
+      {/* <div className="absolute bottom-1/3 right-60 w-20 h-20  ">
+      <img src={transistor} alt="transistor" className="w-full h-full object-contain animate-slow" />
+    </div> */}
       <motion.div
         className="relative z-10 text-center max-w-md sm:max-w-lg"
         initial={{ opacity: 0, y: 40, scale: 0.95 }}

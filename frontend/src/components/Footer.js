@@ -129,21 +129,21 @@ const Footer = () => {
                 <li className="flex items-start gap-3 text-gray-300 group hover:text-primary-blue transition-colors duration-300">
                   <FaMapMarkerAlt className="text-primary-blue mt-1 flex-shrink-0 group-hover:text-cyan group-hover:scale-110 transition-all duration-300" />
                   <span className="text-base leading-relaxed">
-                    123 STEM Innovation Hub
+                    A-165 Adarsh Nagaar,
                     <br />
-                    Tech City, India 110001
+                    New Delhi, India 110033
                   </span>
                 </li>
                 <li className="flex items-center gap-3 text-gray-300 group hover:text-primary-blue transition-colors duration-300">
                   <FaPhone className="text-primary-blue flex-shrink-0 group-hover:text-cyan group-hover:scale-110 transition-all duration-300" />
                   <a href="tel:+919876543210" className="text-base">
-                    +91-9876543210
+                    +91-941769969
                   </a>
                 </li>
                 <li className="flex items-center gap-3 text-gray-300 group hover:text-primary-blue transition-colors duration-300">
                   <FaEnvelope className="text-primary-blue flex-shrink-0 group-hover:text-cyan group-hover:scale-110 transition-all duration-300" />
                   <a href="mailto:support@stemelixu.com" className="text-base">
-                    support@stemelixu.com
+                    info.stemelix@gmail.com
                   </a>
                 </li>
               </ul>

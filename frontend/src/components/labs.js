@@ -8,7 +8,7 @@ const cards = [
   {
     title: "STEM Labs",
     subTitle: "Building the Environment for Learning",
-    desc: "Empower educators with cutting-edge STEM teaching skills through our comprehensive training program designed for the future of education.",
+    desc: "We design and set up fully equipped STEM Labs that bring science, technology, engineering, and mathematics to life in classrooms.From robotics and electronics to coding and innovation kits, our labs provide students with hands-on experiences that spark creativity and problem-solving. Partner with us to transform your institution into a hub of future-ready learning.",
     accent: "from-primary-blue to-cyan",
     icon: (
       <img
@@ -54,7 +54,7 @@ export default function LandingSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       handleNextCard();
-    }, 8000);
+    }, 11000);
     return () => clearInterval(interval);
   }, []);
 
