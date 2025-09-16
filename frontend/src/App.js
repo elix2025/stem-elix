@@ -23,6 +23,10 @@ import CourseInfo from "./pages/courses/courseinfo.js";
 import CourseContent from "./pages/courses/coursecontent.js";
 import Kits from "./pages/Kit.js";
 import ForSchool from "./pages/school.js";
+import FAQ from "./pages/FAQ.js";
+import CourseJunior from "./pages/CourseJunior.js";
+import CourseExplorer from "./pages/CourseExplorer.js";
+import CourseMaster from "./pages/CourseMaster.js";
 // Component to handle layout with navbar spacing and page transitions
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -80,12 +84,11 @@ function App() {
     document.documentElement.style.scrollBehavior = "smooth";
 
     // Set up global CSS custom properties for consistent theming
-    document.documentElement.style.setProperty("--primary", "#6366F1");
-    document.documentElement.style.setProperty("--secondary", "#06B6D4");
-    document.documentElement.style.setProperty("--background", "#F9FAFB");
-    document.documentElement.style.setProperty("--text", "#111827");
-    document.documentElement.style.setProperty("--success", "#22C55E");
-    document.documentElement.style.setProperty("--error", "#EF4444");
+    document.documentElement.style.setProperty("--primary-blue", "#2563EB");
+    document.documentElement.style.setProperty("--cyan", "#06B6D4");
+    document.documentElement.style.setProperty("--navy", "#0F172A");
+    document.documentElement.style.setProperty("--light-bg", "#F9FAFB");
+    document.documentElement.style.setProperty("--charcoal", "#111827");
 
     // Add custom CSS for enhanced UX
     const style = document.createElement("style");
@@ -103,7 +106,7 @@ function App() {
       textarea:focus,
       select:focus,
       a:focus {
-        outline: 2px solid var(--primary);
+        outline: 2px solid var(--primary-blue);
         outline-offset: 2px;
       }
 
@@ -114,7 +117,7 @@ function App() {
 
       /* Custom selection color */
       ::selection {
-        background-color: var(--primary);
+        background-color: var(--primary-blue);
         color: white;
       }
 
@@ -158,7 +161,7 @@ function App() {
   return (
     <BrowserRouter>
       <APIContextProvider>
-        <div className="bg-background text-text min-h-screen">
+        <div className="bg-light-bg text-charcoal min-h-screen">
           <Navbar />
           <Layout>
             <main className="relative z-10">
@@ -172,6 +175,10 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/kits" element={<Kits />} />
                 <Route path="/labs" element={<ForSchool />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/coursejunior" element={<CourseJunior />} />
+                <Route path="/coursexplorer" element={<CourseExplorer />} />
+                <Route path="/coursemaster" element={<CourseMaster />} />
                 <Route
                   path="/student"
                   element={<Navigate to="/login" replace />}
