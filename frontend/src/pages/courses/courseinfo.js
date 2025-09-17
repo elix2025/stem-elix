@@ -263,7 +263,7 @@ const CourseInfo = () => {
                       height="100%"
                       src={
                         course.demoVideo ||
-                        "https://www.youtube.com/embed/dQw4w9WgXcQ"
+                        "https://www.youtube.com/embed/tiGw9PQbvrg?si=-DFCM9JcQNigsJbZ"
                       }
                       title="Course Preview"
                       frameBorder="0"
