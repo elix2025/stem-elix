@@ -199,7 +199,7 @@ const Register = () => {
 
           {/* Enhanced Stats */}
           <motion.div className="flex space-x-8" variants={itemVariants}>
-            {[
+            {/* {[
               {
                 number: "200K+",
                 label: "Students",
@@ -216,7 +216,7 @@ const Register = () => {
                 <div className={`text-2xl font-bold ${color}`}>{number}</div>
                 <div className="text-sm text-text/70">{label}</div>
               </motion.div>
-            ))}
+            ))} */}
           </motion.div>
         </motion.div>
 
