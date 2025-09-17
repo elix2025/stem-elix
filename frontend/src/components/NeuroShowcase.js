@@ -87,7 +87,7 @@ const NeuroShowcase = () => {
       <img src={star} alt="idea" className="w-full h-full object-contain animate-slow" />
     </div> }
     <div className="absolute top-1/3 right-24 ">
-      <img src={bolt} alt="bolt" className="w-20 h-20 object-contain animate-slow" />
+      <img src={gear} alt="gear" className="w-20 h-20 object-contain animate-spin-slow" />
     </div>
     <div className="absolute top-10 left-20 w-20 h-20 w-12 ">
       <img src={star} alt="star" className="w-full h-full object-contain animate-slow" />

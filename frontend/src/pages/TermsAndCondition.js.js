@@ -117,7 +117,7 @@ const TermsAndConditions = () => {
           </h2>
           <p>
             For questions or concerns, contact us at{" "}
-            <strong>edvenger@email.com</strong>.
+            <strong>info.stemelix@gmail.com</strong>.
           </p>
         </section>
       </div>

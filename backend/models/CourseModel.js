@@ -129,6 +129,7 @@ const ProjectSchema = new mongoose.Schema(
       trim: true,
       maxlength: [1000, "Project description cannot exceed 1000 characters"],
     },
+    
     projectupload: {
       type: String,
       required: true,

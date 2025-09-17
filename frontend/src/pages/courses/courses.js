@@ -2,7 +2,9 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAPI } from "../../context/api";
 import { createSlug } from "../../utils/slugutils";
-
+// import junior from "../../assets/images/junior.png";
+// import explorer from "../../assets/images/explorer.png";
+// import master from "../../assets/images/master.png";
 const categories = [
   {
     id: "All",
@@ -11,15 +13,15 @@ const categories = [
     color: "from-purple-500 to-pink-500",
   },
   {
-    id: "AI",
+    id: "Junior",
     label: "Junior",
     icon: "🤖",
     color: "from-primary to-secondary",
   },
   {
-    id: "Math",
+    id: "Explorer",
     label: "Explorer",
-    icon: "📐",
+    icon: "🚀",
     color: "from-green-500 to-teal-500",
   },
   {
@@ -91,9 +93,9 @@ const Courses = () => {
     if (!Array.isArray(courses) || courses.length === 0) return [];
 
     return courses.filter((course) => {
-      if (!course || !course.title) return false;
+      if (!course || !course.categoryId) return false;
 
-      const matchesSearch = course.title
+      const matchesSearch = course.categoryId
         .toLowerCase()
         .includes(debouncedSearchQuery.toLowerCase().trim());
       const matchesCategory =
@@ -131,7 +133,7 @@ const Courses = () => {
                 course.title.substring(0, 20)
               )}`
             }
-            alt={course.title}
+            alt={course.categoryId}
             className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
           />
 
@@ -141,6 +143,10 @@ const Courses = () => {
                 Enrolled
               </span>
             )}
+             <span className="px-2 py-1 bg-primary text-white text-xs font-semibold rounded-full">
+            Level {course.levelNumber}
+          </span>
+        
             {course.isBestSeller && (
               <span className="px-2 sm:px-3 py-1 bg-yellow-500 text-white text-xs font-semibold rounded-full">
                 Bestseller
@@ -150,14 +156,14 @@ const Courses = () => {
         </div>
 
         <div className="p-4 sm:p-6 flex flex-col">
-          <div className="flex items-center justify-between mb-2 sm:mb-3">
+          {/* <div className="flex items-center justify-between mb-2 sm:mb-3">
             <span className="px-2 sm:px-3 py-1 bg-primary/10 text-primary text-xs sm:text-sm font-medium rounded-full">
               {course.categoryId}
             </span>
-          </div>
+          </div> */}
 
           <h3 className="text-lg sm:text-xl font-bold text-text mb-2 line-clamp-2 group-hover:text-primary transition-colors duration-300">
-            {course.title}
+            {course.categoryId}
           </h3>
 
           <p className="text-slate-600 text-sm mb-4 line-clamp-2">

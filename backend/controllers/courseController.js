@@ -143,8 +143,8 @@ export const createCourse = async (req, res) => {
       CourseThumbnail: thumbnailUpload.secure_url,
       duration: duration.trim(),
       gradeRange: {
-        min: minGrade,
-        max: maxGrade,
+      min: minGrade,
+      max: maxGrade,
       },
       price: parseFloat(price),
       originalPrice: originalPrice ? parseFloat(originalPrice) : null,
@@ -153,32 +153,32 @@ export const createCourse = async (req, res) => {
       featured: Boolean(featured),
       tags: Array.isArray(tags) ? tags.filter((tag) => tag.trim()) : [],
       highlights: Array.isArray(highlights)
-        ? highlights.filter((h) => h.trim())
-        : [],
+      ? highlights.filter((h) => h.trim())
+      : [],
       difficulty,
-      demoVideo: demoVideo?.trim() || null,
+      demoVideo: demoVideo?.trim() || undefined, // Make demoVideo optional
       prerequisites: Array.isArray(prerequisites)
-        ? prerequisites.filter((p) => p.trim())
-        : [],
+      ? prerequisites.filter((p) => p.trim())
+      : [],
       learningOutcomes: Array.isArray(learningOutcomes)
-        ? learningOutcomes.filter((l) => l.trim())
-        : [],
+      ? learningOutcomes.filter((l) => l.trim())
+      : [],
       language,
       hasCertificate: Boolean(hasCertificate),
       accessType,
       instructor: {
-        name: instructorName?.trim() || null,
-        bio: instructorBio?.trim() || null,
-        avatar: instructorAvatarUrl,
-        qualifications: Array.isArray(instructorQualifications)
-          ? instructorQualifications.filter((q) => q.trim())
-          : [],
-        experience: instructorExperience?.trim() || null,
-        socialLinks: {
-          linkedin: instructorLinkedin?.trim() || null,
-          twitter: instructorTwitter?.trim() || null,
-          website: instructorWebsite?.trim() || null,
-        },
+      name: instructorName?.trim() || null,
+      bio: instructorBio?.trim() || null,
+      avatar: instructorAvatarUrl,
+      qualifications: Array.isArray(instructorQualifications)
+        ? instructorQualifications.filter((q) => q.trim())
+        : [],
+      experience: instructorExperience?.trim() || null,
+      socialLinks: {
+        linkedin: instructorLinkedin?.trim() || null,
+        twitter: instructorTwitter?.trim() || null,
+        website: instructorWebsite?.trim() || null,
+      },
       },
       CourseContent: [],
     });

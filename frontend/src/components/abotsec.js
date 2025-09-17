@@ -1,47 +1,169 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
+// Configuration constants
+const ANIMATION_CONFIG = {
+  initial: { opacity: 0, y: 40, scale: 0.95 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  transition: { duration: 0.8, ease: "easeOut" },
+  viewport: { once: true, amount: 0.3 }
+};
 
+const BACKGROUND_BOXES = [
+  { position: "top-5 left-5", color: "bg-gray-200", opacity: "opacity-70" },
+  { position: "bottom-10 left-10", color: "bg-[#ecd0ec]/40", opacity: "opacity-70" },
+  { position: "bottom-10 right-10", color: "bg-[#ecd0ec]/40", opacity: "opacity-60" },
+  { position: "top-5 right-5", color: "bg-[#fc8eac]/40", opacity: "opacity-60" },
+  { position: "top-[120px] sm:top-[160px] left-10", color: "bg-[#fc8eac]/50", opacity: "opacity-70", size: "w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-[100px]" },
+  { position: "top-32 right-5", color: "bg-gray-300", opacity: "opacity-70", size: "w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-24" },
+  { position: "bottom-5 left-1/2 -translate-x-1/2", color: "bg-[#c6c2b6]/50", opacity: "opacity-70", size: "w-20 h-16 sm:w-28 sm:h-20 md:w-32 md:h-24" }
+];
+
+// Background decorative boxes component
+const BackgroundBoxes = () => (
+  <>
+    {BACKGROUND_BOXES.map((box, index) => (
+      <div
+        key={index}
+        className={`
+          absolute rounded-xl
+          ${box.position}
+          ${box.color}
+          ${box.opacity}
+          ${box.size || 'w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24'}
+        `}
+      />
+    ))}
+  </>
+);
+
+// Content section component
+const ContentSection = ({ onLearnMore }) => (
+  <motion.div
+    className="relative z-10 text-center max-w-md sm:max-w-lg lg:max-w-2xl px-4"
+    initial={ANIMATION_CONFIG.initial}
+    whileInView={ANIMATION_CONFIG.animate}
+    transition={ANIMATION_CONFIG.transition}
+    viewport={ANIMATION_CONFIG.viewport}
+  >
+    <header className="mb-6">
+      <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
+        About Us
+      </h3>
+      <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+        Where Youth Tinker, Think and Transform!
+      </h2>
+    </header>
+    
+    <div className="mb-6">
+      <p className="text-gray-600 text-sm sm:text-base font-medium leading-relaxed text-left sm:text-center">
+        Stem-Elix, is a future-focused STEM Learning Platform. We teach coding, 
+        robotics and electronics through mentor-led, hands-on labs and progressive 
+        learning paths—so learners don't just study concepts; they design, build 
+        and ship real projects. Our approach develops technical skills and the 
+        creative problem-solving, logical thinking and engineering confidence young 
+        people need to shape the future. Our programs Aligned with NEP 2020 and 
+        NITI Aayog's vision, we're ready preparing India's next generation of innovators.
+      </p>
+    </div>
+
+    <button
+      onClick={onLearnMore}
+      className="
+        inline-flex items-center justify-center
+        px-6 py-3 sm:px-8 sm:py-4
+        bg-black text-white font-semibold
+        rounded-lg hover:bg-gray-800 
+        transition-colors duration-300
+        focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
+        active:transform active:scale-95
+      "
+      type="button"
+      aria-label="Learn more about Stem-Elix"
+    >
+      Learn More
+    </button>
+  </motion.div>
+);
+
+// Globe with tagline component
+const GlobeSection = () => (
+  <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
+    {/* Globe background */}
+    <div className="
+      w-80 h-40 
+      sm:w-[420px] sm:h-48 
+      md:w-[500px] md:h-[250px] 
+      lg:w-[560px] lg:h-[280px]
+      bg-gradient-to-b from-[#d6d3cc] via-[#d6d3cc] to-[#f9f8f5] 
+      rounded-t-full 
+      pointer-events-none
+      relative
+    ">
+      {/* Centered tagline */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <svg 
+          viewBox="0 0 400 200" 
+          className="w-full h-full max-w-[350px] max-h-[175px]"
+          role="img" 
+          aria-label="Cast, Craft, Create tagline"
+        >
+          <defs>
+            <path
+              id="tagline-curve"
+              d="M 75 125 A 125 125 0 0 1 325 125"
+              fill="transparent"
+            />
+          </defs>
+          <text 
+            fill="#333" 
+            fontSize="18" 
+            fontWeight="600" 
+            textAnchor="middle"
+            className="sm:text-xl md:text-2xl"
+          >
+            <textPath href="#tagline-curve" startOffset="50%">
+              Cast | Craft | Create
+            </textPath>
+          </text>
+        </svg>
+      </div>
+    </div>
+  </div>
+);
+
+// Main component
 const AnimatedSection = () => {
   const navigate = useNavigate();
 
+  const handleLearnMore = () => {
+    navigate("/about");
+  };
+
   return (
-    <section className="relative w-full h-[500px] sm:h-[550px] md:h-[600px] my-20 bg-[#f9f8f5] rounded-xl flex items-center justify-center overflow-hidden px-4">
-      {/* Background floating boxes */}
-      <div className="absolute top-5 left-5 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gray-200 rounded-xl opacity-70"></div>
-      <div className="absolute bottom-10 left-10 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#ecd0ec]/40 rounded-xl opacity-70"></div>
-      <div className="absolute bottom-10 right-10 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#ecd0ec]/40 rounded-xl opacity-60"></div>
-      <div className="absolute top-5 right-5 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#fc8eac]/40 rounded-xl opacity-60"></div>
-      <div className="absolute top-[120px] sm:top-[160px] left-10 w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-[100px] bg-[#fc8eac]/50 rounded-xl opacity-70"></div>
-      <div className="absolute top-32 right-5 w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-24 bg-gray-300 rounded-xl opacity-70"></div>
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-20 h-16 sm:w-28 sm:h-20 md:w-32 md:h-24 bg-[#c6c2b6]/50 rounded-xl opacity-70"></div>
-
-      {/* Animated Content */}
-      <motion.div
-        className="relative z-10 text-center max-w-md sm:max-w-lg"
-        initial={{ opacity: 0, y: 40, scale: 0.95 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <section></section>
-        <section className="mt-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">About Us</h3>
-          <h2>What Tinkrion is!</h2>
-          <p className="text-gray-600">
-            At Stem-Elix, we believe every child is a natural inventor. 
-            Our hands-on STEM programs in coding, robotics and IoT help students aged 8-18 build real projects while developing critical thinking skills. 
-            Aligned with NEP 2020 and NITI Aayog's vision, we're preparing India's next generation of innovators.
-          </p>
-
-          <button
-            onClick={() => navigate("/about")}
-            className="mt-4 px-6 py-3 bg-black text-white rounded-lg hover:bg-blue-700 transition duration-300"
-          >
-            Learn More
-          </button>
-        </section>
-      </motion.div>
+    <section 
+      className="
+        relative w-full 
+        h-[500px] sm:h-[550px] md:h-[600px] lg:h-[650px]
+        my-20 
+        bg-[#f9f8f5] 
+        rounded-xl 
+        flex flex-col items-center justify-start
+        overflow-hidden 
+        px-4 sm:px-6 lg:px-8 
+        pt-8 sm:pt-12
+      "
+      role="region"
+      aria-labelledby="about-us-heading"
+    >
+      {/* Background decorative elements */}
+      <BackgroundBoxes />
+      
+      {/* Main content */}
+      <ContentSection onLearnMore={handleLearnMore} />
+      
+      {/* Globe with tagline */}
+      {/* <GlobeSection /> */}
     </section>
   );
 };

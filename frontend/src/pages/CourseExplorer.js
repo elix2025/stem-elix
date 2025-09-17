@@ -117,6 +117,11 @@ const CourseExplorer = () => {
               )}
             </div>
 
+            <div className="mt-4">
+              <p>All necessary materials and components for the projects will be included in the <a className="text-purple-600 hover:underline" href="/kits">kits</a>.</p>
+              
+            </div>
+
             <button
               className="mt-6 bg-black text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
               onClick={() => navigate('/courses')}

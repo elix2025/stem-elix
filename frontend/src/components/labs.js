@@ -96,7 +96,7 @@ export default function LandingSection() {
   };
 
   return (
-    <section className="relative w-full bg-gradient-to-br from-[#f9f8f5] via-light-bg to-[#f9f8f5] section-padding overflow-hidden">
+    <section className="relative w-full bg-[#f9f8f5] section-padding overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 right-10 w-32 h-32 bg-cyan/5 rounded-full blur-3xl animate-float"></div>
