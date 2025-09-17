@@ -99,7 +99,7 @@ const Hero = ({ handleEnrollNow }) => {
                 }`}
               >
                 <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-text/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                 STEM-Elix  where curiosity meets creation. Igniting innovation in young learners.
+                 STEMElix  where curiosity meets creation. Igniting innovation in young learners.
                 </p>
               </div>
             </div>

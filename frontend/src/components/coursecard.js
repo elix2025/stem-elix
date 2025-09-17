@@ -11,7 +11,6 @@ const CourseCard = ({ course, index }) => {
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef(null);
   const cardInnerRef = useRef(null);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -283,7 +282,7 @@ export default function TinkrionShowcase() {
             </span>
           </h2>
           <h4 className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
-           By STEM-Elix Introduces students to the exciting world of Robotics, Coding and Electronics.
+           By STEMElix Introduces students to the exciting world of Robotics, Coding and Electronics.
           </h4>
 
           <p className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
