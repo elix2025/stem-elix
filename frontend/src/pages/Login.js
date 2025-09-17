@@ -113,7 +113,7 @@ const Login = () => {
             ))}
           </div>
 
-          {/* Stats */}
+          {/* Stats
           <div className="flex space-x-8">
             <div className="text-center">
               <div className="text-2xl font-bold text-primary">200K+</div>
@@ -127,7 +127,7 @@ const Login = () => {
               <div className="text-2xl font-bold text-primary">98%</div>
               <div className="text-sm text-text/70">Success Rate</div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Right Side - Login Form */}
