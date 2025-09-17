@@ -100,7 +100,7 @@ export const AdminProvider = ({ children }) => {
       console.log("Sending chapter data:", chapterData);
 
       const res = await axios.post(
-        `${Admin_Base_URL}/courses/${courseId}/add-chapter`,
+        `${Admin_Base_URL}/courses/${courseId}/chapters`,
         chapterData,
         { headers: { Authorization: `Bearer ${token}` } }
       );

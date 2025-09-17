@@ -103,7 +103,7 @@ const AddChapterLecture = () => {
           <option value="">-- Select Course --</option>
           {courses.map((course) => (
             <option key={course._id} value={course._id}>
-              {course.title}
+              {course.categoryId}
             </option>
           ))}
         </select>
@@ -142,8 +142,8 @@ const AddChapterLecture = () => {
         >
           <option value="">-- Select Chapter --</option>
           {chapters.map((ch) => (
-            <option key={ch.chapterId} value={ch.chapterId}>
-              {ch.ChapterTitle}
+            <option key={ch.chapter._id} value={ch.chapter._id}>
+              {ch.chapter.title}
             </option>
           ))}
         </select>

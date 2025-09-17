@@ -130,10 +130,10 @@ const CourseContent = () => {
       currentLectureProgress?.watchPercentage >= 90 &&
       !currentLectureProgress?.isCompleted
     ) {
-      markAsCompleted();
+      markAsCompleted(); 
     }
   }, [currentLectureProgress, markAsCompleted]);
-
+ 
   if (courseLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 flex items-center justify-center">
@@ -225,7 +225,7 @@ const CourseContent = () => {
               </Link>
               <div>
                 <h1 className="text-xl font-bold text-gray-800 mb-1">
-                  {course?.title}
+                  {course?.categoryId}
                 </h1>
                 <div className="flex items-center gap-4 text-sm text-gray-600">
                   <div className="flex items-center gap-1">
@@ -234,10 +234,10 @@ const CourseContent = () => {
                       {course?.instructor?.name || "Expert Instructor"}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1">
+                  {/* <div className="flex items-center gap-1">
                     <MdTimer className="text-blue-500" />
                     <span>{course?.duration}</span>
-                  </div>
+                  </div> */}
                   <div className="flex items-center gap-1">
                     <FaGraduationCap className="text-purple-500" />
                     <span>{course?.categoryId} Level</span>
