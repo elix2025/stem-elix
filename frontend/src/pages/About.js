@@ -133,7 +133,7 @@ const AboutUsPage = () => {
             problems, and creating change. The future belongs to those who
             tinker—and we’re here to guide them every step of the way.”
           </p>
-          <p className="font-semibold">— [Founder’s Name], Founder of StemElix</p>
+          <p className="font-semibold">— Founder of StemElix</p>
         </motion.div>
       </section>
     </main>

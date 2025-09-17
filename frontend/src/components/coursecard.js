@@ -283,7 +283,7 @@ export default function TinkrionShowcase() {
             </span>
           </h2>
           <h4 className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
-           By STEM Elix Introduces students to the exciting world of Robotics, Coding and Electronics.
+           By STEM-Elix Introduces students to the exciting world of Robotics, Coding and Electronics.
           </h4>
 
           <p className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
