@@ -196,124 +196,124 @@ export const APIContextProvider = ({ children }) => {
     }
   };
 
-  const buyCourse = async (courseId) => {
-    // Add this near the start of buyCourse function
-    console.log("Razorpay Key:", process.env.REACT_APP_RAZORPAY_KEY_ID);
-    if (!currentUser) {
-      return { success: false, message: "Please login first" };
-    }
+  // const buyCourse = async (courseId) => {
+  //   // Add this near the start of buyCourse function
+  //   console.log("Razorpay Key:", process.env.REACT_APP_RAZORPAY_KEY_ID);
+  //   if (!currentUser) {
+  //     return { success: false, message: "Please login first" };
+  //   }
 
-    try {
-      setLoadingPayment(true);
+  //   try {
+  //     setLoadingPayment(true);
 
-      console.log("Creating order with:", {
-        courseId,
-        userId: currentUser._id,
-        token: currentUser.token?.substring(0, 10) + "...",
-      });
+  //     console.log("Creating order with:", {
+  //       courseId,
+  //       userId: currentUser._id,
+  //       token: currentUser.token?.substring(0, 10) + "...",
+  //     });
 
-      // Step 1: Create order on backend
-      const orderResponse = await axios.post(
-        `${BASE_URL}/orders/create`,
-        { courseId, userId: currentUser._id },
-        {
-          headers: {
-            Authorization: `Bearer ${currentUser.token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+  //     // Step 1: Create order on backend
+  //     const orderResponse = await axios.post(
+  //       `${BASE_URL}/orders/create`,
+  //       { courseId, userId: currentUser._id },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${currentUser.token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
 
-      if (!orderResponse.data?.order) {
-        throw new Error("Invalid order response from server");
-      }
+  //     if (!orderResponse.data?.order) {
+  //       throw new Error("Invalid order response from server");
+  //     }
 
-      const { order } = orderResponse.data;
+  //     const { order } = orderResponse.data;
 
-      if (!process.env.REACT_APP_RAZORPAY_KEY_ID) {
-        throw new Error("Razorpay Key ID is not configured");
-      }
+  //     if (!process.env.REACT_APP_RAZORPAY_KEY_ID) {
+  //       throw new Error("Razorpay Key ID is not configured");
+  //     }
 
-      // Step 2: Setup Razorpay checkout
-      const options = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-        amount: order.amount,
-        currency: order.currency,
-        name: "Stem Elix",
-        description: "Course Purchase",
-        order_id: order.id,
+  //     // Step 2: Setup Razorpay checkout
+  //     const options = {
+  //       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+  //       amount: order.amount,
+  //       currency: order.currency,
+  //       name: "Stem Elix",
+  //       description: "Course Purchase",
+  //       order_id: order.id,
 
-        handler: async function (response) {
-          console.log("Razorpay Response:", response);
-          try {
-            const verifyData = {
-              courseId,
-              userId: currentUser._id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            };
+  //       handler: async function (response) {
+  //         console.log("Razorpay Response:", response);
+  //         try {
+  //           const verifyData = {
+  //             courseId,
+  //             userId: currentUser._id,
+  //             razorpay_order_id: response.razorpay_order_id,
+  //             razorpay_payment_id: response.razorpay_payment_id,
+  //             razorpay_signature: response.razorpay_signature,
+  //           };
 
-            console.log("Sending verification data:", verifyData);
+  //           console.log("Sending verification data:", verifyData);
 
-            // Step 3: Verify payment with backend
-            const verifyRes = await axios.post(
-              `${BASE_URL}/orders/verify`,
-              verifyData,
-              {
-                courseId,
-                userId: currentUser._id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${currentUser.token}`,
-                  "Content-Type": "application/json",
-                },
-              }
-            );
+  //           // Step 3: Verify payment with backend
+  //           const verifyRes = await axios.post(
+  //             `${BASE_URL}/orders/verify`,
+  //             verifyData,
+  //             {
+  //               courseId,
+  //               userId: currentUser._id,
+  //               razorpay_order_id: response.razorpay_order_id,
+  //               razorpay_payment_id: response.razorpay_payment_id,
+  //               razorpay_signature: response.razorpay_signature,
+  //             },
+  //             {
+  //               headers: {
+  //                 Authorization: `Bearer ${currentUser.token}`,
+  //                 "Content-Type": "application/json",
+  //               },
+  //             }
+  //           );
 
-            if (verifyRes.data.success) {
-              // 🟢 Update local user state instantly
-              setCurrentUser((prev) => ({
-                ...prev,
-                coursesEnrolled: [
-                  ...(prev.coursesEnrolled || []),
-                  { course: courseId, status: "in-progress" },
-                ],
-              }));
-              alert("✅ Course purchased and enrolled successfully!");
-            } else {
-              throw new Error(
-                verifyRes.data?.message || "Payment verification failed"
-              );
-            }
-          } catch (verifyError) {
-            console.error("Payment Verification Error:", verifyError);
-            throw new Error(
-              "Payment verification failed: " + verifyError.message
-            );
-          }
-        },
-        prefill: {
-          name: currentUser.name,
-          email: currentUser.email,
-        },
-        theme: { color: "#3399cc" },
-      };
+  //           if (verifyRes.data.success) {
+  //             // 🟢 Update local user state instantly
+  //             setCurrentUser((prev) => ({
+  //               ...prev,
+  //               coursesEnrolled: [
+  //                 ...(prev.coursesEnrolled || []),
+  //                 { course: courseId, status: "in-progress" },
+  //               ],
+  //             }));
+  //             alert("✅ Course purchased and enrolled successfully!");
+  //           } else {
+  //             throw new Error(
+  //               verifyRes.data?.message || "Payment verification failed"
+  //             );
+  //           }
+  //         } catch (verifyError) {
+  //           console.error("Payment Verification Error:", verifyError);
+  //           throw new Error(
+  //             "Payment verification failed: " + verifyError.message
+  //           );
+  //         }
+  //       },
+  //       prefill: {
+  //         name: currentUser.name,
+  //         email: currentUser.email,
+  //       },
+  //       theme: { color: "#3399cc" },
+  //     };
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-      return { success: true };
-    } catch (error) {
-      console.error("Payment Error:", error);
-      return { success: false, message: "Payment failed. Try again." };
-    } finally {
-      setLoadingPayment(false);
-    }
-  };
+  //     const rzp = new window.Razorpay(options);
+  //     rzp.open();
+  //     return { success: true };
+  //   } catch (error) {
+  //     console.error("Payment Error:", error);
+  //     return { success: false, message: "Payment failed. Try again." };
+  //   } finally {
+  //     setLoadingPayment(false);
+  //   }
+  // };
 
   const isCourseEnrolled = (user, courseId) => {
     if (!user || !user.coursesEnrolled) return false;
@@ -337,19 +337,19 @@ export const APIContextProvider = ({ children }) => {
     }
   };
 
-  // //  Mark course as completed
-  // const completeCourse = async (userId, courseId, token) => {
-  //   try {
-  //     const res = await axios.post(
-  //       `${BASE_URL}/user/complete`,
-  //       { userId, courseId },
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-  //     return res.data;
-  //   } catch (error) {
-  //     return error.response?.data || { message: "Failed to complete course" };
-  //   }
-  // };
+  //  Mark course as completed
+  const completeCourse = async (userId, courseId, token) => {
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/user/complete`,
+        { userId, courseId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (error) {
+      return error.response?.data || { message: "Failed to complete course" };
+    }
+  };
 
   // ===== PROGRESS API FUNCTIONS =====
 
@@ -563,9 +563,9 @@ export const APIContextProvider = ({ children }) => {
         markAttendance,
         submitProject,
         getCourseProgress,
-        getUserProgress: getUserProgressWrapper,
+       getUserProgress: getUserProgressWrapper,
 
-        buyCourse,
+       
         isCourseEnrolled,
         loadingPayment,
       }}

@@ -14,7 +14,7 @@ export const createCourse = async (req, res) => {
     console.log("incoming course data:", req.body);
     const {
       title,
-      categoryId,
+      coursename,
       levelNumber,
       description,
       price,
@@ -50,7 +50,7 @@ export const createCourse = async (req, res) => {
     // Validate required fields
     const missingFields = [];
     if (!title?.trim()) missingFields.push("title");
-    if (!categoryId) missingFields.push("categoryId");
+    if (!coursename) missingFields.push("coursename");
     if (!levelNumber) missingFields.push("levelNumber");
     if (!description?.trim()) missingFields.push("description");
     if (!duration?.trim()) missingFields.push("duration");
@@ -86,7 +86,7 @@ export const createCourse = async (req, res) => {
     }
 
     // Validate category
-    if (!["Junior", "Explorer", "Master"].includes(categoryId)) {
+    if (!["Junior", "Explorer", "Master"].includes(coursename)) {
       return res.status(400).json({
         success: false,
         message: "Category must be Junior, Explorer, or Master",
@@ -137,7 +137,7 @@ export const createCourse = async (req, res) => {
 
     const newCourse = new Course({
       title: title.trim(),
-      categoryId,
+      coursename,
       levelNumber: parseInt(levelNumber),
       description: description.trim(),
       CourseThumbnail: thumbnailUpload.secure_url,
@@ -195,7 +195,7 @@ export const createCourse = async (req, res) => {
         _id: savedCourse._id,
         title: savedCourse.title,
         slug: savedCourse.slug,
-        categoryId: savedCourse.categoryId,
+        coursename: savedCourse.coursename,
         levelNumber: savedCourse.levelNumber,
         description: savedCourse.description,
         CourseThumbnail: savedCourse.CourseThumbnail,
@@ -242,7 +242,7 @@ export const getAllCourses = async (req, res) => {
 
     const courses = await Course.find(query)
       .select(
-        "title slug categoryId levelNumber description CourseThumbnail duration gradeRange price status order featured tags enrollmentCount rating createdAt updatedAt"
+        "title slug coursename levelNumber description CourseThumbnail duration gradeRange price status order featured tags enrollmentCount rating createdAt updatedAt"
       )
       .lean();
 
@@ -262,7 +262,6 @@ export const getAllCourses = async (req, res) => {
     });
   }
 };
-
 //  Fetch single course by ID
 export const getCourseById = async (req, res) => {
   try {
@@ -430,7 +429,7 @@ export const editCourse = async (req, res) => {
     const {
       title,
       description,
-      categoryId,
+      coursename,
       levelNumber,
       duration,
       gradeRangeMin,
@@ -446,8 +445,8 @@ export const editCourse = async (req, res) => {
 
     if (title?.trim()) updateData.title = title.trim();
     if (description?.trim()) updateData.description = description.trim();
-    if (categoryId && ["Junior", "Explorer", "Master"].includes(categoryId)) {
-      updateData.categoryId = categoryId;
+    if (coursename && ["Junior", "Explorer", "Master"].includes(coursename)) {
+      updateData.coursename = coursename;
     }
     if (levelNumber) updateData.levelNumber = parseInt(levelNumber);
     if (duration?.trim()) updateData.duration = duration.trim();
@@ -1232,7 +1231,7 @@ export const searchCourses = async (req, res) => {
 
     const filters = { status: "active" };
 
-    if (category) filters.categoryId = category;
+    if (category) filters.coursename = category;
     if (minPrice || maxPrice) {
       filters.price = {};
       if (minPrice) filters.price.$gte = parseFloat(minPrice);
@@ -1308,10 +1307,10 @@ export const getFeaturedCourses = async (req, res) => {
 // Get courses by category
 export const getCoursesByCategory = async (req, res) => {
   try {
-    const { categoryId } = req.params;
+    const { coursename } = req.params;
     const { page = 1, limit = 10, sortBy = "order" } = req.query;
 
-    if (!["Junior", "Explorer", "Master"].includes(categoryId)) {
+    if (!["Junior", "Explorer", "Master"].includes(coursename)) {
       return res.status(400).json({
         success: false,
         message: "Invalid category. Must be Junior, Explorer, or Master",
@@ -1321,14 +1320,14 @@ export const getCoursesByCategory = async (req, res) => {
     const options = {
       limit: parseInt(limit),
       select:
-        "title slug categoryId levelNumber description CourseThumbnail duration gradeRange price rating totalChapters totalLectures createdAt",
+        "title slug coursename levelNumber description CourseThumbnail duration gradeRange price rating totalChapters totalLectures createdAt",
     };
 
-    const courses = await Course.findActiveByCategory(categoryId, options);
+    const courses = await Course.findActiveByCategory(coursename, options);
 
     res.status(200).json({
       success: true,
-      category: categoryId,
+      category: coursename,
       courses,
       total: courses.length,
     });

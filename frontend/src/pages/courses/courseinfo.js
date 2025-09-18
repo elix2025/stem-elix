@@ -6,7 +6,7 @@ import { createSlug } from "../../utils/slugutils";
 const CourseInfo = () => {
   const { courseName } = useParams();
   const navigate = useNavigate();
-  const { getCourseByTitle, enrollCourse, currentUser, buyCourse } = useAPI();
+  const { getCourseByTitle, enrollCourse, currentUser, } = useAPI();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -51,16 +51,23 @@ const CourseInfo = () => {
 
     setIsEnrolling(true);
     try {
-      const response = await buyCourse(course._id, userId);
-      if (!response.success) {
-        throw new Error(response.message || "Failed to initiate payment");
-      }
-    } catch (error) {
-      console.error("Payment/Enrollment error:", error);
-      alert(error.message || "Failed to process enrollment. Please try again.");
-    } finally {
-      setIsEnrolling(false);
+    // ✅ Pass all three arguments
+    const response = await enrollCourse(userId, course._id, token);
+
+    if (response.message === "Already enrolled") {
+      alert("You are already enrolled in this course.");
+      navigate(`/courses/content/${createSlug(course.title)}`);
+    } else {
+      alert("Enrollment successful! 🎉");
+      navigate(`/courses/content/${createSlug(course.title)}`);
     }
+  } catch (error) {
+    console.error("Enrollment error:", error);
+    alert(error.message || "Failed to enroll. Please try again.");
+  } finally {
+    setIsEnrolling(false);
+  }
+ 
   };
 
   if (loading) {
@@ -112,8 +119,8 @@ const CourseInfo = () => {
     // { id: "reviews", label: "Reviews", icon: "⭐" },
   ];
 
- 
-
+  const mockCurriculum = []; 
+  const mockReviews = [];
 
 
   return (
@@ -125,7 +132,7 @@ const CourseInfo = () => {
           <img
             src={
               course.CourseThumbnail ||
-              `https://via.placeholder.com/1200x600/2563EB/FFFFFF?text=${encodeURIComponent(
+              `${encodeURIComponent(
                 course.title
               )}`
             }
@@ -138,17 +145,13 @@ const CourseInfo = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             <div className="lg:col-span-2 text-white">
               <div className="mb-4">
-                {/* <span className="px-4 py-2 bg-primary-blue/20 backdrop-blur-sm border border-primary-blue/30 text-primary-blue text-sm font-medium rounded-full">
-                  {course.categoryId}
-                </span> */}
+                <span className="px-4 py-2 bg-primary-blue/20 backdrop-blur-sm border border-primary-blue/30 text-primary-blue text-sm font-medium rounded-full">
+                  {course.coursename}
+                </span>
               </div>
 
-                <h1 className="text-small md:text-3xl  mb-6 leading-tight">
-                  {course.title}
-                </h1>
-
               <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                {course.categoryId}
+                {course.title}
               </h1>
 
               <p className="text-xl text-slate-300 mb-8 leading-relaxed">
@@ -164,8 +167,8 @@ const CourseInfo = () => {
                   >
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
-                   <span className="font-medium">{course.rating || "4.8"}</span>
-                  <span>({course.reviews || "2,847"} reviews)</span> 
+                  <span className="font-medium">{course.rating || "4.8"}</span>
+                  <span>({course.reviews || "2,847"} reviews)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg
@@ -186,7 +189,7 @@ const CourseInfo = () => {
                 <div className="flex items-center gap-2">
                   <svg
                     className="w-5 h-5"
-                    fill="none" 
+                    fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -212,7 +215,7 @@ const CourseInfo = () => {
                       height="100%"
                       src={
                         course.demoVideo ||
-                        "https://www.youtube.com/embed/tiGw9PQbvrg?si=-DFCM9JcQNigsJbZ"
+                       "https://www.youtube.com/embed/tiGw9PQbvrg?si=ZKwnqhExCSeZq9zB"
                       }
                       title="Course Preview"
                       frameBorder="0"
@@ -224,7 +227,7 @@ const CourseInfo = () => {
                 </div>
 
                 <div className="text-center">
-                  {/* <div className="text-white mb-4">
+                  <div className="text-white mb-4">
                     <span className="text-3xl font-bold">
                       {course.price === 0 ? "Free" : `₹${course.price}`}
                     </span>
@@ -232,14 +235,13 @@ const CourseInfo = () => {
                       course.originalPrice > course.price && (
                         <span className="text-lg text-slate-400 line-through ml-2">
                           ₹{course.originalPrice}
-                        </span> 
+                        </span>
                       )}
-                  </div> */}
+                  </div>
 
                   <button
-                    // onClick={handleEnrollment}
-                    // disabled={isEnrolling}
-                    onClick= {() => navigate(`/courses/content/${courseName}`)}
+                    onClick={handleEnrollment}
+                    disabled={isEnrolling}
                     className="w-full py-4 bg-gradient-to-r from-primary-blue to-cyan text-white font-bold rounded-xl
                              hover:from-primary-blue/90 hover:to-cyan/90 transition-all duration-300
                              transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
@@ -407,7 +409,7 @@ const CourseInfo = () => {
                     <h3 className="text-2xl font-bold text-slate-800 mb-4">
                       Course Curriculum
                     </h3>
-                    {/* {mockCurriculum.map((section, idx) => (
+                    {mockCurriculum.map((section, idx) => (
                       <div
                         key={idx}
                         className="border border-slate-200 rounded-xl overflow-hidden"
@@ -446,7 +448,7 @@ const CourseInfo = () => {
                           ))}
                         </div>
                       </div>
-                    ))} */}
+                    ))}
                   </div>
                 )}
 
@@ -486,7 +488,7 @@ const CourseInfo = () => {
                             "Experienced professional with years of industry expertise. Passionate about teaching and helping students achieve their goals through practical, hands-on learning approaches."}
                         </p>
                         <div className="flex items-center gap-6 text-sm text-slate-600">
-                          {/* <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2">
                             <svg
                               className="w-4 h-4 text-yellow-500"
                               fill="currentColor"
@@ -495,8 +497,8 @@ const CourseInfo = () => {
                               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                             </svg>
                             <span>4.9 Instructor Rating</span>
-                          </div> */}
-                          {/* <div className="flex items-center gap-2">
+                          </div>
+                          <div className="flex items-center gap-2">
                             <svg
                               className="w-4 h-4"
                               fill="none"
@@ -511,7 +513,7 @@ const CourseInfo = () => {
                               />
                             </svg>
                             <span>25,000+ Students</span>
-                          </div> */}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -548,7 +550,7 @@ const CourseInfo = () => {
                     </div>
 
                     <div className="space-y-6">
-                      {/* {mockReviews.map((review) => (
+                      {mockReviews.map((review) => (
                         <div
                           key={review.id}
                           className="border border-slate-200 rounded-xl p-6"
@@ -588,7 +590,7 @@ const CourseInfo = () => {
                             </div>
                           </div>
                         </div>
-                      ))} */}
+                      ))}
                     </div>
                   </div>
                 )}
@@ -616,12 +618,12 @@ const CourseInfo = () => {
                   <span className="font-medium text-slate-800">
                     {course.difficulty || "Beginner"}
                   </span>
-                </div> 
+                </div>
 
                 <div className="flex items-center justify-between py-3 border-b border-slate-100">
                   <span className="text-slate-600">Category</span>
                   <span className="font-medium text-slate-800">
-                    {course.categoryId}
+                    {course.coursename}
                   </span>
                 </div>
 
@@ -641,7 +643,7 @@ const CourseInfo = () => {
                 </div>
               </div>
 
-              {/* <div className="mt-8 pt-6 border-t border-slate-200">
+              <div className="mt-8 pt-6 border-t border-slate-200">
                 <h4 className="font-semibold text-slate-800 mb-4">
                   Share this course
                 </h4>
@@ -674,7 +676,7 @@ const CourseInfo = () => {
                     </svg>
                   </button>
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

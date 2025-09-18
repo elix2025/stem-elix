@@ -179,20 +179,18 @@ const CourseSchema = new mongoose.Schema(
       trim: true,
       maxlength: [200, "Course title cannot exceed 200 characters"],
       index: "text", // Text index for search
+       values: ["Junior", "Explorer", "Master"],
+        message: "Category must be Junior, Explorer, or Master",
     },
     slug: {
       type: String,
       unique: true,
       index: true,
     },
-    categoryId: {
+    coursename: {
       type: String,
       required: true,
-      enum: {
-        values: ["Junior", "Explorer", "Master"],
-        message: "Category must be Junior, Explorer, or Master",
-      },
-      index: true,
+     
     },
     levelNumber: {
       type: Number,
