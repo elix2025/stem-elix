@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useAPI } from "../context/api";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const Register = () => {
-  const { registerUser } = useAPI();
+  const { registerUser ,BASE_URL} = useAPI();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -43,11 +44,27 @@ const Register = () => {
 
     const result = await registerUser(formData);
     console.log("📥 Register API response:", result);
+    console.log("jay was here and this code is the one shich is working")
 
     setIsLoading(false);
 
     if (result.success) {
       alert("Registered successfully!");
+
+      try {
+        console.log("inside the try block")
+        await fetch(`${BASE_URL}/email/send-register`,{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            to:formData.email,
+            
+          })
+        })
+        console.log("welcome email sent ")
+      } catch (err) {
+         console.log("error sending in email : ",err.message)
+      }
       navigate("/");
     } else {
       setError(result.message || "Registration failed. Please try again.");

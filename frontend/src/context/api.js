@@ -16,11 +16,12 @@ import {
 } from "./progressapi.js";
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_API_BASE || "http://localhost:4000/api";
+
 
 const APIContext = createContext();
 
 export const APIContextProvider = ({ children }) => {
+  const BASE_URL = process.env.REACT_APP_API_BASE || "http://localhost:4000/api";
   const [currentUser, setCurrentUser] = useState(null);
   const [courses, setCourses] = useState([]);
   const [loadingPayment, setLoadingPayment] = useState(true);
@@ -545,6 +546,7 @@ export const APIContextProvider = ({ children }) => {
   return (
     <APIContext.Provider
       value={{
+        BASE_URL,
         registerUser,
         loginUser,
         logoutUser,
