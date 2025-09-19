@@ -27,6 +27,7 @@ import FAQ from "./pages/FAQ.js";
 import CourseJunior from "./pages/CourseJunior.js";
 import CourseExplorer from "./pages/CourseExplorer.js";
 import CourseMaster from "./pages/CourseMaster.js";
+import CartPage from "./pages/cart.js";
 // Component to handle layout with navbar spacing and page transitions
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -193,7 +194,9 @@ function App() {
                   path="/courses/content/:courseName"
                   element={<CourseContent />}
                 />
+                 <Route path="/courses/cart/:courseName" element={<CartPage />} />
               </Routes>
+             
             </main>
           </Layout>
           <Footer />

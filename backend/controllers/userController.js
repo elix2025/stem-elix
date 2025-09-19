@@ -10,12 +10,14 @@ export const getUserProfile = async (req, res) => {
     // Use req.user._id from protect middleware
     const user = await User.findById(req.user._id)
       .select(
-        "name email role coursesEnrolled totalCoursesEnrolled coursesCompleted"
+        "name email role institute"
       )
-      .populate("coursesEnrolled.course", "title");
-    if (!user || !req.user._id) {return res.status(404).json({ message: "User not found" });
-    res.json(user);
+      // .populate("coursesEnrolled.course", "title");
+    if (!user || !req.user._id) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    res.json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

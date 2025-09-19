@@ -29,7 +29,7 @@ export const APIContextProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     if (token) {
       axios
-        .get(`${BASE_URL}/user/me`, {
+        .get(`${BASE_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
@@ -71,7 +71,7 @@ export const APIContextProvider = ({ children }) => {
       if (res.data.success && res.data.token) {
         localStorage.setItem("token", res.data.token);
         // Fetch user profile after login
-        const profileRes = await axios.get(`${BASE_URL}/user/me`, {
+        const profileRes = await axios.get(`${BASE_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${res.data.token}` },
         });
         const userObj = { ...profileRes.data, token: res.data.token };
@@ -173,7 +173,7 @@ export const APIContextProvider = ({ children }) => {
   //  Fetch user profile
   const fetchUserProfile = async (token) => {
     try {
-      const res = await axios.get(`${BASE_URL}/user/me`, {
+      const res = await axios.get(`${BASE_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;

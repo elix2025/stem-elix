@@ -59,7 +59,7 @@ const CourseInfo = () => {
       navigate(`/courses/content/${createSlug(course.title)}`);
     } else {
       alert("Enrollment successful! 🎉");
-      navigate(`/courses/content/${createSlug(course.title)}`);
+      navigate(`/courses/cart/${createSlug(course.title)}`);
     }
   } catch (error) {
     console.error("Enrollment error:", error);
