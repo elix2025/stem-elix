@@ -213,7 +213,7 @@ const Courses = () => {
                   : "bg-primary-blue text-white hover:bg-primary-blue/90 hover:scale-105"
               }`}
             >
-              {isEnrolled ? "Continue" : "Enroll Now"}
+              {isEnrolled ? "Continue" : "Know More"}
             </button>
           </div>
         </div>

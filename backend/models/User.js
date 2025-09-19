@@ -56,7 +56,10 @@ const userSchema = new mongoose.Schema(
     },
     // Student-specific fields
     totalCoursesEnrolled: { type: Number, default: 0 },
-    coursesEnrolled: [courseProgressSchema],
+    coursesEnrolled: { 
+      type: [courseProgressSchema],
+      default: [],
+    },
     coursesCompleted: { type: Number, default: 0 },
     // Add other info as needed
     createdAt: { type: Date, default: Date.now },

@@ -3,7 +3,7 @@ import { sendEmail } from "../config/mailer.js";
 
 const router = express.Router();
 
-router.post("/send-test", async (req, res) => {
+router.post("/send-register", async (req, res) => {
   try {
     const { to } = req.body;
 
@@ -20,4 +20,47 @@ router.post("/send-test", async (req, res) => {
   }
 });
 
+router.post("/send-enroll", async (req, res) => {
+  try {
+    const { to, courseTitle } = req.body;
+
+    await sendEmail({
+      to,
+      subject: `Enrolled in ${courseTitle} - Tinkrion`,
+      text: `You have successfully enrolled in the course: ${courseTitle}.`,
+      html: `<h2>Enrollment Successful!</h2><p>You have successfully enrolled in the course: <strong>${courseTitle}</strong>.</p>`,
+    });
+    res.json({ success: true, message: "Enrollment email sent successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+router.post("/send-invoice", async (req, res) => {
+  try {
+    const { to, invoiceDetails } = req.body;
+    await sendEmail({
+      to,
+      subject: "Your Invoice from Tinkrion",
+      text: `Here are your invoice details: ${invoiceDetails}`,
+      html: `<h2>Your Invoice</h2><p>Here are your invoice details:</p><pre>${invoiceDetails}</pre>`,
+    });
+  }catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+router.post("/send-meeting-link", async (req, res) => {
+  try {
+    const { to, meetingLink, meetingTime } = req.body;
+    await sendEmail({
+      to,
+      subject: "Your Meeting Link from Tinkrion",
+      text: `Your meeting is scheduled at ${meetingTime}. Join using this link: ${meetingLink}`,
+      html: `<h2>Your Meeting Link</h2><p>Your meeting is scheduled at <strong>${meetingTime}</strong>.</p><p>Join using this link: <a href="${meetingLink}">${meetingLink}</a></p>`,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 export default router;
