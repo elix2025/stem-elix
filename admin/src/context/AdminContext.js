@@ -284,6 +284,21 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
+    const verifyPayment = async() =>{
+      try{
+      const res = await axios.post(
+        `${BASE_URL}/orders/verify`,
+        {},
+        {headers: {Authorization: `Bearer ${token}`}}
+      );
+      return res.data;
+      }catch(error){
+       return error.response?.data || {message: "Filed to verify"};
+      }
+  
+    };
+  
+
   return (
     <AdminContext.Provider
       value={{
@@ -302,6 +317,7 @@ export const AdminProvider = ({ children }) => {
         editLecture,
         createProject,
         getUserProjects,
+        verifyPayment
       }}
     >
       {children}
