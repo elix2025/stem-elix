@@ -48,7 +48,7 @@ const Hero = ({ handleEnrollNow }) => {
   return (
     <section
       ref={heroRef}
-      className="relative overflow-hidden min-h-screen bg-background pb-0 my-0"
+      className="relative overflow-hidden min-h-screen bg-[#f9f8f5] pb-0 my-0"
     >
       {/* Static Background Elements */}
       <div className="absolute inset-0 overflow-hidden">

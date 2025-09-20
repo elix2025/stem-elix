@@ -40,7 +40,7 @@ const Courses = () => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   const navigate = useNavigate();
-  const { getAllCourses, user, isCourseEnrolled } = useAPI();
+  const { getAllCourses, user, isCourseEnrolled,currentUser } = useAPI();
 
   // Debounce search query
   useEffect(() => {
@@ -107,11 +107,21 @@ const Courses = () => {
     const isEnrolled = user && isCourseEnrolled(user, course._id);
 
     const handleCourseClick = () => {
-      if (!user) {
-        alert("Log in to view course details")
-        navigate("/login");
-        return;
-      }
+      let userId = currentUser?._id;
+      let token = currentUser?.token || localStorage.getItem("token");
+
+          if (!userId) {
+      try {
+        const userObj = JSON.parse(localStorage.getItem("user"));
+        userId = userObj?._id;
+      } catch {}
+    }
+
+        if (!userId || !token) {
+      alert("You must be logged in to enroll.");
+      navigate("/login");
+      return;
+    }
       if (isEnrolled) {
         navigate(`/courses/content/${createSlug(course.title)}`);
       } else {

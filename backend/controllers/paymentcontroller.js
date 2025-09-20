@@ -9,9 +9,9 @@ import {v2 as cloudinary} from "cloudinary";
 export const createPayment = async (req, res) => {
   try {
     const { userId, courseId, amount } = req.body;
-    // const file = req.file;
+    const reciept = req.file;
 
-    if (!userId || !courseId || !amount ) {
+    if (!userId || !courseId || !amount || !reciept ) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -21,37 +21,39 @@ export const createPayment = async (req, res) => {
 
     if (!user || !course) 
       return res.status(404).json({ message: "User or course not found." });
+
+    const recieptUpload = await new (() => {
+      const stream = cloudinary.uploader.upload_stream({
+        resource_type: "image",
+        folder: "payment_proofs",
+        transformation: [],
+      },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    stream.end(reciept.buffer);
+    });
     
 
-    // Connect Cloudinary
-     connectCloudinary();
-
-    // Upload buffer to Cloudinary
-    // const uploadedImage = await new Promise((resolve, reject) => {
-    //   const uploadStream = cloudinary.uploader.upload_stream(
-    //     { folder: "payments" },
-    //     (error, result) => {
-    //       if (error) return reject(error);
-    //       resolve(result);
-    //     }
-    //   );
-    //   streamifier.createReadStream(file.buffer).pipe(uploadStream);
-    // });
-
     // Create payment record
-    const payment = new Payment({
+    const newpayment = new Payment({
       user: userId,
       course: courseId,
       amount,
-      // screenshotUrl: uploadedImage.secure_url,
+      reciept: recieptUpload.secure_url,
+      status: "pending",
     });
 
-    await payment.save();
+    const savedpayent = await newpayment.save();
+    console.log(`Payment Done Sucessfully:`);
 
     res.status(201).json({
+      sucess: true,
       message:
         "Payment submitted successfully. Your enrollment will be completed once verified by us.",
-      payment,
+       newpayment:{},
     });
   } catch (err) {
     console.error(err);

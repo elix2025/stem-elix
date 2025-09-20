@@ -18,7 +18,7 @@ const NeuroShowcase = () => {
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-14 h-10 sm:w-20 sm:h-14 bg-[#c6c2b6]/50 rounded-xl opacity-60 shadow"></div>
 
       {/* Static icons */}
-      <div className="absolute bottom-20 left-24">
+      {/* <div className="absolute bottom-20 left-24">
         <img src={gear} alt="gear" className="w-20 h-20 object-contain" />
       </div>
       <div className="absolute bottom-5 right-1/4 w-20 h-35">
@@ -29,7 +29,7 @@ const NeuroShowcase = () => {
       </div>
       <div className="absolute top-10 left-20 w-20 h-20">
         <img src={star} alt="star" className="w-full h-full object-contain" />
-      </div>
+      </div> */}
 
       {/* Static Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -68,7 +68,7 @@ const NeuroShowcase = () => {
             <div className=" my-8  ">
               <button 
                 onClick={() => navigate("/kits")}
-                className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out hover:scale-105 "
+                className="group inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out hover:scale-105 "
               >
                 <span className="mx-auto">Learn More</span>
                 <svg

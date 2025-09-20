@@ -88,21 +88,21 @@ const ShowcaseSection = ({ onShowFormClick }) => {
             </div>
 
             {/* Categories Card */}
-            <div className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl border border-primary-blue/10 hover:border-primary-blue/30 transition-all duration-500 hover:scale-105 overflow-hidden">
+            <div className="group bg-[#f9f8f5] rounded-3xl p-8 shadow-xl hover:shadow-2xl border border-primary-blue/10 hover:border-primary-blue/30 transition-all duration-500 hover:scale-105 overflow-hidden">
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               <div className="relative z-10">
-                <div className="text-center mt-16">
+                <div className="text-center ">
                   <div className="flex flex-wrap justify-center gap-6">
                     <button
                       onClick={onShowFormClick}
-                      className="group relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary-blue to-blue-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 overflow-hidden hover:scale-105 hover:-translate-y-2"
+                      className="group relative inline-flex items-center px-8 py-4 bg-primary text-white font-semibold rounded-xl shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 overflow-hidden hover:scale-105 hover:-translate-y-2"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-primary-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <span className="relative z-10">Share Your Creation</span>
                       <svg
-                        className="relative z-10 ml-2 w-5 h-5"
+                        className="relative z-10 ml-2 w-5 h-5 bg-primary"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"

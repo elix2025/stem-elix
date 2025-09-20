@@ -195,11 +195,18 @@ export const APIContextProvider = ({ children }) => {
     }
   };
 
-   const createPayment = async (userId,courseId,token) => {
+   const createPayment = async (userId,courseId,amount,file,token) => {
     try{
+      const formData = new FormData();
+    formData.append("userId", userId);
+    formData.append("courseId", courseId);
+    formData.append("amount", amount);
+    formData.append("reciept", file);
      const res = await axios.post(`${BASE_URL}/orders/create`,
-      { userId, courseId},
-      {headers: {Authorization: `Bearer ${token}`}}
+      formData,
+      {headers: {Authorization: `Bearer ${token}`,
+    "Content-Type": "multipart/form-data",},
+  }
      );
      return res.data;
     }catch(error){
