@@ -62,15 +62,15 @@ const NeuroShowcase = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-1 gap-12 lg:gap-16 items-center ">
           {/* Text Content */}
-          <div className="space-y-8">
-            <div className="flex justify-center my-8">
+          <div className="space-y-8 mx-auto">
+            <div className=" my-8  ">
               <button 
                 onClick={() => navigate("/kits")}
-                className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out hover:scale-105"
+                className="group inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-[#ac6cf4]/25 transform hover:-translate-y-0.5 transition-all duration-300 ease-out hover:scale-105 "
               >
-                <span>Learn More</span>
+                <span className="mx-auto">Learn More</span>
                 <svg
                   className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
                   fill="none"

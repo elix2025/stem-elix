@@ -35,7 +35,7 @@ const Footer = () => {
                   <span className="bg-gradient-to-r from-primary-blue to-cyan bg-clip-text text-transparent">
                     Stem
                   </span>
-                  <span className="text-white">Elix</span>
+                  <span className="text-white">elix</span>
                 </h2>
                 <p className="text-gray-300 text-base leading-relaxed max-w-sm">
                   Empowering the next generation with innovative STEM education.

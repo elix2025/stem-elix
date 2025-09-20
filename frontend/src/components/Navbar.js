@@ -74,7 +74,7 @@ const Navbar = () => {
               className="hover:scale-105 transform transition-transform duration-200 inline-block"
             >
               <span className="text-primary font-extrabold">Stem</span>
-              <span className={logoColorClass}>Elix</span>
+              <span className={logoColorClass}>elix</span>
             </Link>
           </div>
 

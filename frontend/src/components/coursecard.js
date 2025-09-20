@@ -131,7 +131,7 @@ export default function TinkrionShowcase() {
           </h2>
           
           <h4 className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed">
-           By STEMElix Introduces students to the exciting world of Robotics, Coding and Electronics.
+            Stemelix introduces students to the exciting world of Robotics, Coding and Electronics.
           </h4>
 
           <p className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed">

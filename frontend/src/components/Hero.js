@@ -72,7 +72,7 @@ const Hero = ({ handleEnrollNow }) => {
           {/* Left Content */}
           <div className="text-center lg:text-left space-y-6 lg:space-y-8 order-2 lg:order-1">
             <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary/20 text-primary px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
+              
               <span>Advanced STEM Learning Platform</span>
             </div>
 
@@ -90,7 +90,7 @@ const Hero = ({ handleEnrollNow }) => {
                   showSubtext ? "opacity-100" : "opacity-0"
                 }`}>
                 <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-text/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                 STEMElix  where curiosity meets creation. Igniting innovation in young learners.
+                 Stemelix where curiosity meets creation. Igniting innovation in young learners.
                 </p>
               </div>
             </div>
