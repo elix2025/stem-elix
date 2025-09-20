@@ -284,7 +284,21 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
-    const verifyPayment = async() =>{
+
+    const getreciept = async() => {
+     try{
+     const res = await axios.get(
+     `${BASE_URL}/orders/getreciept`,
+      {},
+      {headers: {Authorization: `Beare ${token}`}}
+     );
+     return res.data;
+     }catch(error){
+      return error.response?.data || {message: "failed to get the payment"};
+     }
+    };
+
+     const verifyPayment = async() =>{
       try{
       const res = await axios.post(
         `${BASE_URL}/orders/verify`,
@@ -317,7 +331,8 @@ export const AdminProvider = ({ children }) => {
         editLecture,
         createProject,
         getUserProjects,
-        verifyPayment
+        verifyPayment,
+        getreciept
       }}
     >
       {children}

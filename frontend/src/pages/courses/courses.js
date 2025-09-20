@@ -107,6 +107,11 @@ const Courses = () => {
     const isEnrolled = user && isCourseEnrolled(user, course._id);
 
     const handleCourseClick = () => {
+      if (!user) {
+        alert("Log in to view course details")
+        navigate("/login");
+        return;
+      }
       if (isEnrolled) {
         navigate(`/courses/content/${createSlug(course.title)}`);
       } else {

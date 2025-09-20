@@ -252,7 +252,7 @@ const CourseInfo = () => {
                         Processing...
                       </div>
                     ) : (
-                      "Enroll Now"
+                      "Proceed To Buy"
                     )}
                   </button>
 

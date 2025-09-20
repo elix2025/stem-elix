@@ -59,6 +59,16 @@ export const createPayment = async (req, res) => {
   }
 };
 
+// get the user , course and screenshot of the payment done by user
+export const getPayment = async (req, res) => {
+ try{
+
+  const {id} = req.params;
+ }catch(error){
+
+ }
+};
+
 // 2️⃣ Admin verifies a payment
 export const verifyPayment = async (req, res) => {
   try {
@@ -117,7 +127,7 @@ export const rejectPayment = async (req, res) => {
 };
 
 // 4️⃣ Get all payments (optional: admin view)
-export const getPayments = async (req, res) => {
+export const getAllPayments = async (req, res) => {
   try {
     const payments = await Payment.find()
       .populate("user", "name email")

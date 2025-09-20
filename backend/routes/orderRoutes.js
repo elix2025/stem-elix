@@ -10,7 +10,8 @@ import express from "express";
 import { createPayment,
        verifyPayment,
        rejectPayment,
-       getPayments
+       getPayment,
+       getAllPayments
  } from "../controllers/paymentcontroller.js";
 import { protect } from "../middleware/auth.js";
 import upload from "../middleware/multer.js";
@@ -44,7 +45,9 @@ orderRouter.post("/verify", AdminAuth, verifyPayment );
 
 orderRouter.post("/reject", AdminAuth, rejectPayment );
 
-orderRouter.get("/payments", AdminAuth, getPayments);
+orderRouter.get("/payments", AdminAuth, getAllPayments);
+
+orderRouter.get("/getreciept", AdminAuth, getPayment);
 
 // User routes with validation
 
