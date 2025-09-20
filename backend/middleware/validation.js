@@ -43,23 +43,23 @@ export const validateCreateOrder = [
  * Validation rules for payment verification
  */
 export const validatePaymentVerification = [
-  body("razorpay_order_id")
-    .notEmpty()
-    .withMessage("Razorpay order ID is required")
-    .isLength({ min: 1 })
-    .withMessage("Invalid order ID"),
+  // body("razorpay_order_id")
+  //   .notEmpty()
+  //   .withMessage("Razorpay order ID is required")
+  //   .isLength({ min: 1 })
+  //   .withMessage("Invalid order ID"),
 
-  body("razorpay_payment_id")
-    .notEmpty()
-    .withMessage("Razorpay payment ID is required")
-    .isLength({ min: 1 })
-    .withMessage("Invalid payment ID"),
+  // body("razorpay_payment_id")
+  //   .notEmpty()
+  //   .withMessage("Razorpay payment ID is required")
+  //   .isLength({ min: 1 })
+  //   .withMessage("Invalid payment ID"),
 
-  body("razorpay_signature")
-    .notEmpty()
-    .withMessage("Razorpay signature is required")
-    .isLength({ min: 1 })
-    .withMessage("Invalid signature"),
+  // body("razorpay_signature")
+  //   .notEmpty()
+  //   .withMessage("Razorpay signature is required")
+  //   .isLength({ min: 1 })
+  //   .withMessage("Invalid signature"),
 
   handleValidationErrors,
 ];

@@ -284,6 +284,35 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
+
+    const getreciept = async() => {
+     try{
+     const res = await axios.get(
+     `${BASE_URL}/orders/getreciept`,
+      {},
+      {headers: {Authorization: `Beare ${token}`}}
+     );
+     return res.data;
+     }catch(error){
+      return error.response?.data || {message: "failed to get the payment"};
+     }
+    };
+
+     const verifyPayment = async() =>{
+      try{
+      const res = await axios.post(
+        `${BASE_URL}/orders/verify`,
+        {},
+        {headers: {Authorization: `Bearer ${token}`}}
+      );
+      return res.data;
+      }catch(error){
+       return error.response?.data || {message: "Filed to verify"};
+      }
+  
+    };
+  
+
   return (
     <AdminContext.Provider
       value={{
@@ -302,6 +331,8 @@ export const AdminProvider = ({ children }) => {
         editLecture,
         createProject,
         getUserProjects,
+        verifyPayment,
+        getreciept
       }}
     >
       {children}

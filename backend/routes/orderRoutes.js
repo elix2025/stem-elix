@@ -1,21 +1,28 @@
 import express from "express";
-import {
-  createOrder,
-  verifyPayment,
-  getOrderHistory,
-  getOrderDetails,
-  cancelOrder,
-  getAllOrders,
-} from "../controllers/orderController.js";
+// import {
+//   createOrder,
+//   verifyPayment,
+//   getOrderHistory,
+//   getOrderDetails,
+//   cancelOrder,
+//   getAllOrders,
+// } from "../controllers/orderController.js";
+import { createPayment,
+       verifyPayment,
+       rejectPayment,
+       getPayment,
+       getAllPayments
+ } from "../controllers/paymentcontroller.js";
 import { protect } from "../middleware/auth.js";
+import upload from "../middleware/multer.js";
 import AdminAuth from "../middleware/adminauth.js";
-import {
-  validateCreateOrder,
-  validatePaymentVerification,
-  validateOrderId,
-  validateOrderHistoryQuery,
-  validateAdminOrderQuery,
-} from "../middleware/validation.js";
+// import {
+//   validateCreateOrder,
+//   validatePaymentVerification,
+//   validateOrderId,
+//   validateOrderHistoryQuery,
+//   validateAdminOrderQuery,
+// } from "../middleware/validation.js";
 
 const orderRouter = express.Router();
 
@@ -32,14 +39,24 @@ orderRouter.get("/health", (req, res) => {
 // Apply authentication to all other routes
 orderRouter.use(protect);
 
-// User routes with validation
-orderRouter.post("/create", validateCreateOrder, createOrder);
-orderRouter.post("/verify", validatePaymentVerification, verifyPayment);
-orderRouter.get("/history", validateOrderHistoryQuery, getOrderHistory);
-orderRouter.get("/:orderId", validateOrderId, getOrderDetails);
-orderRouter.patch("/:orderId/cancel", validateOrderId, cancelOrder);
+orderRouter.post("/create", protect,createPayment);
 
-// Admin routes with validation
-orderRouter.get("/admin/all", AdminAuth, validateAdminOrderQuery, getAllOrders);
+orderRouter.post("/verify", AdminAuth, verifyPayment );
+
+orderRouter.post("/reject", AdminAuth, rejectPayment );
+
+orderRouter.get("/payments", AdminAuth, getAllPayments);
+
+orderRouter.get("/getreciept", AdminAuth, getPayment);
+
+// User routes with validation
+
+
+// orderRouter.get("/history", validateOrderHistoryQuery, getOrderHistory);
+// orderRouter.get("/:orderId", validateOrderId, getOrderDetails);
+// orderRouter.patch("/:orderId/cancel", validateOrderId, cancelOrder);
+
+// // Admin routes with validation
+// orderRouter.get("/admin/all", AdminAuth, validateAdminOrderQuery, getAllOrders);
 
 export default orderRouter;
