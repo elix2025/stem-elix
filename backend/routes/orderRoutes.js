@@ -38,7 +38,7 @@ orderRouter.get("/health", (req, res) => {
 // Apply authentication to all other routes
 orderRouter.use(protect);
 
-orderRouter.post("/create", upload.single("file"),protect,createPayment);
+orderRouter.post("/create", protect,createPayment);
 
 orderRouter.post("/verify", AdminAuth, verifyPayment );
 

@@ -3,15 +3,15 @@ import User from "../models/User.js";
 import Course from "../models/CourseModel.js";
 import connectCloudinary from "../config/cloudinary.js";
 import {v2 as cloudinary} from "cloudinary";
-import streamifier from "sreamifier";
+
 
 // 1️⃣ Create a new payment (user uploads screenshot)
 export const createPayment = async (req, res) => {
   try {
     const { userId, courseId, amount } = req.body;
-    const file = req.file;
+    // const file = req.file;
 
-    if (!userId || !courseId || !amount || !file) {
+    if (!userId || !courseId || !amount ) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -27,23 +27,23 @@ export const createPayment = async (req, res) => {
      connectCloudinary();
 
     // Upload buffer to Cloudinary
-    const uploadedImage = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: "payments" },
-        (error, result) => {
-          if (error) return reject(error);
-          resolve(result);
-        }
-      );
-      streamifier.createReadStream(file.buffer).pipe(uploadStream);
-    });
+    // const uploadedImage = await new Promise((resolve, reject) => {
+    //   const uploadStream = cloudinary.uploader.upload_stream(
+    //     { folder: "payments" },
+    //     (error, result) => {
+    //       if (error) return reject(error);
+    //       resolve(result);
+    //     }
+    //   );
+    //   streamifier.createReadStream(file.buffer).pipe(uploadStream);
+    // });
 
     // Create payment record
     const payment = new Payment({
       user: userId,
       course: courseId,
       amount,
-      screenshotUrl: uploadedImage.secure_url,
+      // screenshotUrl: uploadedImage.secure_url,
     });
 
     await payment.save();
