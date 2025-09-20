@@ -1,14 +1,6 @@
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-// Configuration constants
-const ANIMATION_CONFIG = {
-  initial: { opacity: 0, y: 40, scale: 0.95 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  transition: { duration: 0.8, ease: "easeOut" },
-  viewport: { once: true, amount: 0.3 }
-};
-
+// Static background boxes configuration
 const BACKGROUND_BOXES = [
   { position: "top-5 left-5", color: "bg-gray-200", opacity: "opacity-70" },
   { position: "bottom-10 left-10", color: "bg-[#ecd0ec]/40", opacity: "opacity-70" },
@@ -37,27 +29,21 @@ const BackgroundBoxes = () => (
   </>
 );
 
-// Content section component
+// Content section component - no animations
 const ContentSection = ({ onLearnMore }) => (
-  <motion.div
-    className="relative z-10 text-center max-w-md sm:max-w-lg lg:max-w-2xl px-4"
-    initial={ANIMATION_CONFIG.initial}
-    whileInView={ANIMATION_CONFIG.animate}
-    transition={ANIMATION_CONFIG.transition}
-    viewport={ANIMATION_CONFIG.viewport}
-  >
+  <div className="relative z-10 text-center max-w-md sm:max-w-lg lg:max-w-2xl px-4">
     <header className="mb-6">
-      <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
+      <h3 className="text-3xl sm:text-5xl font-bold text-gray-800 mb-3">
         About Us
       </h3>
-      <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+      <h2 className="text-xl sm:text-xl lg:text-3xl font-bold text-gray-900 mb-4">
         Where Youth Tinker, Think and Transform!
       </h2>
     </header>
     
     <div className="mb-6">
-      <p className="text-gray-600 text-sm sm:text-base font-medium leading-relaxed text-left sm:text-center">
-        Stem-Elix, is a future-focused STEM Learning Platform. We teach coding, 
+      <p className="text-gray-600 text-sm sm:text-xl font-medium leading-relaxed text-left sm:text-center">
+        Stemelix, is a future-focused STEM Learning Platform. We teach coding, 
         robotics and electronics through mentor-led, hands-on labs and progressive 
         learning paths—so learners don't just study concepts; they design, build 
         and ship real projects. Our approach develops technical skills and the 
@@ -77,16 +63,17 @@ const ContentSection = ({ onLearnMore }) => (
         transition-colors duration-300
         focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
         active:transform active:scale-95
+        hover:scale-105
       "
       type="button"
       aria-label="Learn more about Stem-Elix"
     >
       Learn More
     </button>
-  </motion.div>
+  </div>
 );
 
-// Globe with tagline component
+// Globe with tagline component - simplified
 const GlobeSection = () => (
   <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
     {/* Globe background */}
@@ -132,7 +119,7 @@ const GlobeSection = () => (
   </div>
 );
 
-// Main component
+// Main component - no Framer Motion
 const AnimatedSection = () => {
   const navigate = useNavigate();
 
@@ -162,7 +149,7 @@ const AnimatedSection = () => {
       {/* Main content */}
       <ContentSection onLearnMore={handleLearnMore} />
       
-      {/* Globe with tagline */}
+      {/* Globe with tagline - uncomment if needed */}
       {/* <GlobeSection /> */}
     </section>
   );

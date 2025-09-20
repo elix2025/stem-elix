@@ -21,6 +21,7 @@ const Hero = ({ handleEnrollNow }) => {
     return () => observer.disconnect();
   }, []);
 
+  // Typewriter effect - KEEPING THIS
   useEffect(() => {
     if (heroVisible && currentIndex < fullText.length) {
       const timer = setTimeout(() => {
@@ -47,17 +48,14 @@ const Hero = ({ handleEnrollNow }) => {
   return (
     <section
       ref={heroRef}
-      className={`relative overflow-hidden transition-opacity duration-300 ${
-        heroVisible ? "opacity-100" : "opacity-90"
-      } min-h-screen bg-background isolation-auto pb-0 my-0`}
+      className="relative overflow-hidden min-h-screen bg-background pb-0 my-0"
     >
-      {/* Animated Background Elements */}
+      {/* Static Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Animated geometric shapes */}
-        <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-16 sm:w-20 h-16 sm:h-20 bg-primary/10 rounded-full animate-float"></div>
-        <div className="absolute top-20 sm:top-40 right-10 sm:right-20 w-12 sm:w-16 h-12 sm:h-16 bg-secondary/10 rounded-full animate-float delay-200"></div>
-        <div className="absolute bottom-20 sm:bottom-40 left-10 sm:left-20 w-10 sm:w-12 h-10 sm:h-12 bg-primary/20 rounded-full animate-float delay-400"></div>
-        <div className="absolute bottom-10 sm:bottom-20 right-20 sm:right-40 w-20 sm:w-24 h-20 sm:h-24 bg-secondary/15 rounded-full animate-float delay-300"></div>
+        <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-16 sm:w-20 h-16 sm:h-20 bg-primary/10 rounded-full"></div>
+        <div className="absolute top-20 sm:top-40 right-10 sm:right-20 w-12 sm:w-16 h-12 sm:h-16 bg-secondary/10 rounded-full"></div>
+        <div className="absolute bottom-20 sm:bottom-40 left-10 sm:left-20 w-10 sm:w-12 h-10 sm:h-12 bg-primary/20 rounded-full"></div>
+        <div className="absolute bottom-10 sm:bottom-20 right-20 sm:right-40 w-20 sm:w-24 h-20 sm:h-24 bg-secondary/15 rounded-full"></div>
 
         {/* Tech grid pattern */}
         <div
@@ -73,13 +71,13 @@ const Hero = ({ handleEnrollNow }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-screen py-16 sm:py-20 lg:py-0">
           {/* Left Content */}
           <div className="text-center lg:text-left space-y-6 lg:space-y-8 order-2 lg:order-1">
-            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary/20 text-primary px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium animate-slideDown">
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary/20 text-primary px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium">
+              
               <span>Advanced STEM Learning Platform</span>
             </div>
 
             <div className="space-y-4 sm:space-y-6">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-text leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-text leading-tight">
                 <span className="block relative">
                   <span className="text-primary">{displayedText}</span>
                   {currentIndex < fullText.length && (
@@ -87,33 +85,22 @@ const Hero = ({ handleEnrollNow }) => {
                   )}
                 </span>
               </h1>
-               {/* <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-3xl font-bold text-text leading-tight">
-                Casting Code | Crafting Bots | Creating Futures
-                </h3> */}
 
-              <div
-                className={`transition-all duration-700 transform ${
-                  showSubtext
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
-              >
+              <div className={`transition-opacity duration-700 ${
+                  showSubtext ? "opacity-100" : "opacity-0"
+                }`}>
                 <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-text/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                 STEMElix  where curiosity meets creation. Igniting innovation in young learners.
+                 Stemelix where curiosity meets creation. Igniting innovation in young learners.
                 </p>
               </div>
             </div>
 
-            <div
-              className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transition-all duration-700 transform ${
-                showButtons
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-            >
+            <div className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transition-opacity duration-700 ${
+                showButtons ? "opacity-100" : "opacity-0"
+              }`}>
               <button
                 onClick={handleEnrollNow}
-                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white font-semibold rounded-xl shadow-xl hover:shadow-primary/25 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 overflow-hidden focus-ring w-full sm:w-auto"
+                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white font-semibold rounded-xl shadow-xl hover:shadow-primary/25 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 overflow-hidden w-full sm:w-auto"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative z-10">Start Learning</span>
@@ -135,7 +122,7 @@ const Hero = ({ handleEnrollNow }) => {
 
               <button
                 onClick={handleWatchDemo}
-                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-primary/30 hover:border-primary text-text hover:text-primary font-semibold rounded-xl bg-white/50 hover:bg-white/80 backdrop-blur-sm transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:scale-105 focus-ring w-full sm:w-auto"
+                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-primary/30 hover:border-primary text-text hover:text-primary font-semibold rounded-xl bg-white/50 hover:bg-white/80 backdrop-blur-sm transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:scale-105 w-full sm:w-auto"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <svg
@@ -159,19 +146,14 @@ const Hero = ({ handleEnrollNow }) => {
             </div>
 
             {/* Feature badges */}
-            <div
-              className={`flex flex-wrap gap-3 pt-4 justify-center lg:justify-start transition-all duration-700 delay-300 transform lg:hidden ${
-                showButtons
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-            >
+            <div className={`flex flex-wrap gap-3 pt-4 justify-center lg:justify-start transition-opacity duration-700 delay-300 lg:hidden ${
+                showButtons ? "opacity-100" : "opacity-0"
+              }`}>
               {["Interactive Labs", "Expert Mentors", "24/7 Support"].map(
                 (feature, index) => (
                   <div
                     key={feature}
-                    className="flex items-center space-x-2 bg-white/40 backdrop-blur-sm border border-primary/20 rounded-full px-3 sm:px-4 py-2 animate-fadeIn"
-                    style={{ animationDelay: `${(index + 1) * 200}ms` }}
+                    className="flex items-center space-x-2 bg-white/40 backdrop-blur-sm border border-primary/20 rounded-full px-3 sm:px-4 py-2"
                   >
                     <div className="w-2 h-2 bg-secondary rounded-full"></div>
                     <span className="text-xs sm:text-sm font-medium text-text">
@@ -185,16 +167,16 @@ const Hero = ({ handleEnrollNow }) => {
 
           {/* Right visual */}
           <div className="relative flex justify-center items-center w-full order-1 lg:order-2 mb-8 lg:mb-0">
-            {/* Enhanced background effects */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/5 to-primary/10 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-transparent to-primary/20 rounded-full blur-2xl animate-glow"></div>
+            {/* Static background effects */}
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/5 to-primary/10 rounded-full blur-3xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-transparent to-primary/20 rounded-full blur-2xl"></div>
 
             <div className="relative z-20 w-full max-w-md lg:max-w-lg xl:max-w-xl">
               <div className="relative">
                 <img
                   src={robotImage}
                   alt="Advanced STEM Robot"
-                  className="w-full h-auto hover:scale-105 transition-transform duration-700 filter drop-shadow-2xl mask-fade-edges opacity-80"
+                  className="w-full h-auto hover:scale-105 transition-transform duration-700 filter drop-shadow-2xl opacity-80"
                   style={{
                     maskImage:
                       "radial-gradient(ellipse at center, black 40%, transparent 80%)",
@@ -206,14 +188,14 @@ const Hero = ({ handleEnrollNow }) => {
                 <div className="absolute inset-0 bg-gradient-to-br from-background/30 via-transparent to-background/50 rounded-full opacity-60"></div>
               </div>
 
-              {/* Tech circles around robot */}
-              <div className="absolute -top-2 sm:-top-4 -left-2 sm:-left-4 w-6 sm:w-8 h-6 sm:h-8 bg-primary/20 rounded-full animate-bounce-slow"></div>
-              <div className="absolute top-1/4 -right-3 sm:-right-6 w-4 sm:w-6 h-4 sm:h-6 bg-secondary/30 rounded-full animate-bounce-slow delay-200"></div>
-              <div className="absolute -bottom-1 sm:-bottom-2 left-1/4 w-4 sm:w-5 h-4 sm:h-5 bg-primary/25 rounded-full animate-bounce-slow delay-400"></div>
+              {/* Static tech circles around robot */}
+              <div className="absolute -top-2 sm:-top-4 -left-2 sm:-left-4 w-6 sm:w-8 h-6 sm:h-8 bg-primary/20 rounded-full"></div>
+              <div className="absolute top-1/4 -right-3 sm:-right-6 w-4 sm:w-6 h-4 sm:h-6 bg-secondary/30 rounded-full"></div>
+              <div className="absolute -bottom-1 sm:-bottom-2 left-1/4 w-4 sm:w-5 h-4 sm:h-5 bg-primary/25 rounded-full"></div>
             </div>
 
-            {/* Orbital elements */}
-            <div className="absolute inset-0 animate-spin-slow">
+            {/* Static orbital elements */}
+            <div className="absolute inset-0">
               <div className="absolute top-10 left-10 w-2 sm:w-3 h-2 sm:h-3 bg-primary rounded-full opacity-60"></div>
               <div className="absolute bottom-10 right-10 w-1.5 sm:w-2 h-1.5 sm:h-2 bg-secondary rounded-full opacity-80"></div>
             </div>
