@@ -228,15 +228,15 @@ const CourseInfo = () => {
 
                 <div className="text-center">
                   <div className="text-white mb-4">
-                    <span className="text-3xl font-bold">
+                    {/* <span className="text-3xl font-bold">
                       {course.price === 0 ? "Free" : `₹${course.price}`}
-                    </span>
-                    {course.originalPrice &&
+                    </span> */}
+                    {/* {course.originalPrice &&
                       course.originalPrice > course.price && (
                         <span className="text-lg text-slate-400 line-through ml-2">
                           ₹{course.originalPrice}
                         </span>
-                      )}
+                      )} */}
                   </div>
 
                   <button
@@ -256,9 +256,7 @@ const CourseInfo = () => {
                     )}
                   </button>
 
-                  <p className="text-sm text-slate-300 mt-3">
-                    30-day money-back guarantee
-                  </p>
+                  
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { razorpayinstance } from "../config/razorpay.js";
+// import { razorpayinstance } from "../config/razorpay.js";
 import crypto from "crypto";
 import mongoose from "mongoose";
 import Course from "../models/CourseModel.js";

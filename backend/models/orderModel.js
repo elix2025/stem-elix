@@ -4,6 +4,11 @@ import mongoosePaginate from "mongoose-paginate-v2";
 
 const paymentSchema = new mongoose.Schema(
   {
+     orderId: {
+      type: String,
+      unique: true,
+      index: true,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -16,17 +21,12 @@ const paymentSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    orderId: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true,
-    },
-    paymentId: {
-      type: String,
-      index: true,
-    },
-    signature: { type: String },
+  
+    // paymentId: {
+    //   type: String,
+    //   index: true,
+    // },
+    // signature: { type: String },
     amount: {
       type: Number,
       required: true,
@@ -37,18 +37,26 @@ const paymentSchema = new mongoose.Schema(
       default: "INR",
       enum: ["INR"],
     },
+
+    gpayTransactionId: {
+      type: String,
+    },
+
+    screenshotUrl: {
+      type: String,
+    },
     status: {
       type: String,
-      enum: ["created", "paid", "failed", "cancelled", "refunded"],
-      default: "created",
+      enum: ["pending", "verified", "rejected"],
+      default: "",
       index: true,
     },
 
     // Payment gateway data
-    razorpayOrderData: {
-      type: mongoose.Schema.Types.Mixed, // Store complete Razorpay order response
-    },
-
+    // razorpayOrderData: {
+    //   type: mongoose.Schema.Types.Mixed, // Store complete Razorpay order response
+    // },
+    // paymentId: { type: String, index: true },
     // Timestamps
     createdAt: {
       type: Date,
@@ -60,13 +68,15 @@ const paymentSchema = new mongoose.Schema(
       default: Date.now,
     },
     paidAt: { type: Date },
-    cancelledAt: { type: Date },
-    refundedAt: { type: Date },
+    // cancelledAt: { type: Date },
+    // refundedAt: { type: Date },
+
+    verifiedAt: { type: Date },   
 
     // Additional fields
     failureReason: { type: String },
-    refundId: { type: String },
-    refundAmount: { type: Number },
+    // refundId: { type: String },
+    // refundAmount: { type: Number },
     notes: {
       type: Map,
       of: String,
@@ -147,15 +157,23 @@ paymentSchema.statics.getRevenueByPeriod = async function (startDate, endDate) {
 };
 
 // Instance methods
-paymentSchema.methods.markAsPaid = function (paymentId, signature) {
-  this.status = "paid";
-  this.paymentId = paymentId;
-  this.signature = signature;
-  this.paidAt = new Date();
+// paymentSchema.methods.markAsPaid = function (paymentId, signature) {
+//   this.status = "paid";
+//   this.paymentId = paymentId;
+//   // this.signature = signature;
+//   this.paidAt = new Date();
+//   this.updatedAt = new Date();
+//   this.verifiedAt = new Date();
+//   return this.save();
+// };
+
+paymentSchema.methods.markAsVerified = function (gpayTransactionId) {
+  this.status = "verified";
+  this.gpayTransactionId = gpayTransactionId;
+  this.verifiedAt = new Date();
   this.updatedAt = new Date();
   return this.save();
 };
-
 paymentSchema.methods.markAsFailed = function (reason) {
   this.status = "failed";
   this.failureReason = reason;
@@ -176,7 +194,10 @@ paymentSchema.methods.cancel = function (reason) {
 
 // Pre-save middleware
 paymentSchema.pre("save", function (next) {
-  this.updatedAt = new Date();
+  if (!this.orderId) {
+    this.orderId = "ORDER-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
+  }
+  // this.updatedAt = new Date();
   next();
 });
 
