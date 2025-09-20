@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { AiOutlineFundProjectionScreen } from "react-icons/ai";
 import { LiaProjectDiagramSolid } from "react-icons/lia";
 import { GrUserExpert } from "react-icons/gr";
@@ -14,88 +13,12 @@ import ShowCaseProjects from "../components/ShowCaseProjects";
 import LandingSection from "../components/labs";
 import AnimatedSection from "../components/abotsec";
 
-// Simplified animation variants for better performance
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-// Simplified chip animation
-const chipAnimation = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: "easeOut" },
-  },
-};
-
-// Memoized Animated Section Wrapper
-const AnimatedSectionWrapper = React.memo(({ children, className = "", delay = 0 }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, {
-    margin: "-50px 0px",
-    once: true,
-  });
-
-  return (
-    <motion.section
-      ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={{
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.8,
-            delay,
-            ease: "easeOut",
-          },
-        },
-      }}
-      className={className}
-    >
-      {children}
-    </motion.section>
-  );
-});
-
 const Home = () => {
   const { currentUser } = useAPI();
   const navigate = useNavigate();
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const containerRef = useRef(null);
-  
-  // Optimize scroll tracking with throttling
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-
-  // Memoize transform values to prevent recalculation
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   // Memoized features data
   const featuresData = useMemo(() => [
@@ -165,11 +88,6 @@ const Home = () => {
         transform: scale(1.1);
       }
       
-      /* Smooth transitions for all elements */
-      * {
-        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
       /* Enhanced body scrolling */
       body {
         overflow-x: hidden;
@@ -209,7 +127,7 @@ const Home = () => {
       if (window.scrollTimeout) {
         clearTimeout(window.scrollTimeout);
       }
-      window.scrollTimeout = setTimeout(handleScroll, 50); // Reduced timeout for smoother response
+      window.scrollTimeout = setTimeout(handleScroll, 50);
     };
 
     // Use passive listeners for better performance
@@ -218,20 +136,8 @@ const Home = () => {
       capture: false 
     });
 
-    // Smooth wheel event handling for better mouse wheel experience
-    const handleWheel = (e) => {
-      // Allow default behavior but ensure smooth scrolling
-      if (!e.ctrlKey && !e.shiftKey) {
-        // Optional: Add custom smooth scrolling logic here if needed
-        // For now, rely on CSS scroll-behavior: smooth
-      }
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: true });
-
     return () => {
       window.removeEventListener('scroll', throttledScroll);
-      window.removeEventListener('wheel', handleWheel);
       document.body.classList.remove('smooth-scroll', 'scroll-smooth');
       
       // Clean up styles
@@ -290,103 +196,73 @@ const Home = () => {
         overscrollBehavior: 'contain'
       }}
     >
-      {/* HERO with optimized parallax */}
-      <motion.div
-        style={{ y: heroY, opacity: heroOpacity }}
-        className="relative z-10"
-      >
+      {/* HERO - No animations */}
+      <div className="relative z-10">
         <Hero handleEnrollNow={handleEnrollNow} />
-      </motion.div>
-
-      {/* FEATURES with optimized animation */}
-      <div className="hidden lg:block">
-      <AnimatedSectionWrapper className="relative bg-[#f9f8f5]" delay={0.1}>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            className="flex flex-wrap gap-4 justify-center"
-          >
-            {featuresData.map(({ icon: Icon, label, color }, i) => (
-              <motion.div
-                key={i}
-                variants={chipAnimation}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-3xl
-                           bg-none backdrop-blur-sm border border-gray/20 text-black
-                           hover:border-[#ac6cf4] hover:bg-[#ac6cf4]/10 
-                           transition-all duration-300 cursor-pointer shadow-sm
-                           hover:shadow-md hover:-translate-y-1 transform"
-              >
-                <Icon className={`w-6 h-6 ${color} transition-transform duration-200 group-hover:scale-110`} />
-                <span className="text-base font-semibold transition-colors duration-200">{label}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </AnimatedSectionWrapper>
       </div>
 
-      {/* Simplified section components with enhanced scroll snap */}
-      <AnimatedSectionWrapper delay={0.1} className="bg-[#f9f8f5] scroll-mt-16">
-        <TinkrionShowcase />
-      </AnimatedSectionWrapper>
-
-      <AnimatedSectionWrapper delay={0.1} className="bg-white scroll-mt-16">
-        <AnimatedSection />
-      </AnimatedSectionWrapper>
-
-      <AnimatedSectionWrapper delay={0.1} className="bg-gradient-to-br from-primary-blue/5 to-cyan/5 scroll-mt-16">
-        <LandingSection />
-      </AnimatedSectionWrapper>
-
-      <AnimatedSectionWrapper className="relative bg-[#f9f8f5] scroll-mt-16" delay={0.1}>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <NeuroShowcase />
-          </motion.div>
+      {/* FEATURES - No animations */}
+      <div className="hidden lg:block">
+        <div className="relative bg-[#f9f8f5]">
+          <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
+            <div className="flex flex-wrap gap-4 justify-center">
+              {featuresData.map(({ icon: Icon, label, color }, i) => (
+                <div
+                  key={i}
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-3xl
+                             bg-none backdrop-blur-sm border border-gray/20 text-black
+                             hover:border-[#ac6cf4] hover:bg-[#ac6cf4]/10 
+                             transition-all duration-300 cursor-pointer shadow-sm
+                             hover:shadow-md hover:-translate-y-1 transform"
+                >
+                  <Icon className={`w-6 h-6 ${color} transition-transform duration-200 group-hover:scale-110`} />
+                  <span className="text-base font-semibold transition-colors duration-200">{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </AnimatedSectionWrapper>
+      </div>
 
-      <AnimatedSectionWrapper className="bg-gradient-to-br from-light-bg to-white scroll-mt-16" delay={0.1}>
+      {/* Sections without animations */}
+      <div className="bg-[#f9f8f5] scroll-mt-16">
+        <TinkrionShowcase />
+      </div>
+
+      <div className="bg-white scroll-mt-16">
+        <AnimatedSection />
+      </div>
+
+      <div className="bg-gradient-to-br from-primary-blue/5 to-cyan/5 scroll-mt-16">
+        <LandingSection />
+      </div>
+
+      <div className="relative bg-[#f9f8f5] scroll-mt-16">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
+          <div>
+            <NeuroShowcase />
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-gradient-to-br from-light-bg to-white scroll-mt-16">
         <ShowCaseProjects />
-      </AnimatedSectionWrapper>
+      </div>
 
-      {/* Enhanced scroll to top button with smooth animation */}
+      {/* Scroll to top button - Simple version */}
       {showScrollTop && (
-        <motion.div
-          className="fixed bottom-8 right-8 z-50"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-        >
-          <motion.div
+        <div className="fixed bottom-8 right-8 z-50">
+          <div
             className="w-14 h-14 rounded-2xl bg-gradient-to-r from-primary-blue to-blue-700 
                        shadow-xl flex items-center justify-center cursor-pointer
-                       backdrop-blur-sm border border-white/20"
-            whileHover={{ 
-              scale: 1.1,
-              boxShadow: "0 20px 40px rgba(37, 99, 235, 0.3)",
-              rotate: -5 
-            }}
-            whileTap={{ scale: 0.9 }}
+                       backdrop-blur-sm border border-white/20 hover:scale-110 transition-transform duration-300"
             onClick={scrollToTop}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
-            <motion.svg
+            <svg
               className="w-6 h-6 text-white transform rotate-180"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              whileHover={{ y: -2 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               <path
                 strokeLinecap="round"
@@ -394,38 +270,24 @@ const Home = () => {
                 strokeWidth={2}
                 d="M19 14l-7-7m0 0l-7 7m7-7v18"
               />
-            </motion.svg>
-          </motion.div>
-        </motion.div>
+            </svg>
+          </div>
+        </div>
       )}
 
-      {/* Enhanced floating action button */}
-      <motion.div
-        className="fixed bottom-8 left-8 z-50 hidden lg:block"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
-      >
-        <motion.button
+      {/* Floating action button - Simple version */}
+      <div className="fixed bottom-8 left-8 z-50 hidden lg:block">
+        <button
           onClick={() => smoothNavigate("/courses")}
           className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-cyan to-cyan/80 
                      text-white font-semibold rounded-2xl shadow-xl transition-all duration-300
-                     backdrop-blur-sm border border-white/20"
-          whileHover={{ 
-            scale: 1.05,
-            x: 10,
-            boxShadow: "0 15px 30px rgba(6, 182, 212, 0.4)"
-          }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                     backdrop-blur-sm border border-white/20 hover:scale-105"
         >
-          <motion.svg 
+          <svg 
             className="w-5 h-5" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
-            whileHover={{ rotate: 5 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
             <path
               strokeLinecap="round"
@@ -433,10 +295,10 @@ const Home = () => {
               strokeWidth={2}
               d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
             />
-          </motion.svg>
+          </svg>
           <span>Explore Courses</span>
-        </motion.button>
-      </motion.div>
+        </button>
+      </div>
     </div>
   );
 };
