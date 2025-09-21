@@ -1,4 +1,4 @@
-import Course from"../models/CourseModel.js";
+import Course from "../models/CourseModel.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import validator from "validator";
@@ -10,15 +10,77 @@ export const getUserProfile = async (req, res) => {
     // Use req.user._id from protect middleware
     const user = await User.findById(req.user._id)
       .select(
-        "name email role institute payments coursesEnrolled"
+        "name email role institute coursesEnrolled totalCoursesEnrolled coursesCompleted createdAt phone"
       )
-      .populate("payments", "status amount createdAt")
-      // .populate("coursesEnrolled.course", "title");
+      .populate({
+        path: "coursesEnrolled.course",
+        select: "title status",
+        match: { status: "active" }, // Only include active courses
+      });
+
     if (!user || !req.user._id) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json(user);
+    // Filter out enrolled courses where the course is null (inactive/deleted courses)
+    const activeEnrolledCourses = user.coursesEnrolled.filter(
+      (enrollment) => enrollment.course !== null
+    );
+
+    // Update the user object with filtered data
+    const userProfile = {
+      ...user.toObject(),
+      coursesEnrolled: activeEnrolledCourses,
+      totalCoursesEnrolled: activeEnrolledCourses.length,
+      coursesCompleted: activeEnrolledCourses.filter(
+        (c) => c.status === "completed"
+      ).length,
+    };
+
+    res.json(userProfile);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Get user enrollment statistics
+export const getUserEnrollmentStats = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id)
+      .select("coursesEnrolled totalCoursesEnrolled coursesCompleted")
+      .populate({
+        path: "coursesEnrolled.course",
+        select: "title status",
+        match: { status: "active" }, // Only include active courses
+      });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Filter out enrolled courses where the course is null (inactive/deleted courses)
+    const activeEnrolledCourses = user.coursesEnrolled.filter(
+      (enrollment) => enrollment.course !== null
+    );
+
+    const stats = {
+      totalEnrolled: activeEnrolledCourses.length,
+      totalCompleted: activeEnrolledCourses.filter(
+        (c) => c.status === "completed"
+      ).length,
+      inProgress: activeEnrolledCourses.filter(
+        (c) => c.status === "in-progress"
+      ).length,
+      enrolledCourses: activeEnrolledCourses.map((enrollment) => ({
+        courseId: enrollment.course._id,
+        title: enrollment.course.title,
+        status: enrollment.status,
+        enrolledAt: enrollment.enrolledAt,
+        progress: enrollment.progress,
+      })),
+    };
+
+    res.json({ success: true, stats });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -28,104 +90,20 @@ export const getUserProfile = async (req, res) => {
 export const enrollCourse = async (req, res) => {
   try {
     const { userId, courseId } = req.body;
-
-    // Input validation
-    if (!userId || !courseId) {
-      return res.status(400).json({
-        success: false,
-        message: "User ID and Course ID are required"
-      });
-    }
-
-    // Find user and course in parallel for better performance
-    const [user, course] = await Promise.all([
-      User.findById(userId),
-      Course.findById(courseId)
-    ]);
-
-    // Check if user exists
+    let user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found"
-      });
+      return res.status(404).json({ message: "User not found" });
     }
-
-    // Check if course exists
-    if (!course) {
-      return res.status(404).json({
-        success: false,
-        message: "Course not found"
-      });
-    }
-
     // Prevent duplicate enrollment
     if (user.coursesEnrolled.some((c) => c.course.toString() === courseId)) {
-      return res.status(409).json({
-        success: false,
-        message: "User is already enrolled in this course"
-      });
+      return res.status(400).json({ message: "Already enrolled" });
     }
-
-    // Import Payment model at the top of the file
-    const Payment = (await import("../models/orderModel.js")).default;
-
-    // Check for verified payment
-    const verifiedPayment = await Payment.findOne({
-      user: userId,
-      course: courseId,
-      status: "verified"
-    });
-
-    if (!verifiedPayment) {
-      return res.status(403).json({
-        success: false,
-        message: "Course enrollment requires payment verification first",
-        requiresPayment: true
-      });
-    }
-
-    // Proceed with enrollment
-    user.coursesEnrolled.push({
-      course: courseId,
-      status: "in-progress",
-      enrolledAt: new Date(),
-      paymentId: verifiedPayment._id
-    });
-
-    // Update user statistics
+    user.coursesEnrolled.push({ course: courseId, status: "in-progress" });
     user.totalCoursesEnrolled = user.coursesEnrolled.length;
-    
-    // Update payment references
-    if (!user.payments.includes(verifiedPayment._id)) {
-      user.payments.push(verifiedPayment._id);
-    }
-
-    // Save user with new enrollment
     await user.save();
-
-    // Update course enrollment count
-    course.enrollmentCount = (course.enrollmentCount || 0) + 1;
-    await course.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Successfully enrolled in the course",
-      enrollment: {
-        courseId,
-        courseName: course.title,
-        enrollmentDate: new Date(),
-        status: "in-progress",
-        paymentId: verifiedPayment._id
-      }
-    });
+    res.json(user);
   } catch (err) {
-    console.error("Course enrollment error:", err);
-    res.status(500).json({
-      success: false,
-      message: "Failed to process course enrollment",
-      error: err.message
-    });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -264,8 +242,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-
-
 // Route for admin login
 export const adminLogin = async (req, res) => {
   try {
@@ -275,8 +251,7 @@ export const adminLogin = async (req, res) => {
       email === process.env.ADMIN_EMAIL &&
       password === process.env.ADMIN_PASSWORD
     ) {
-      const token = jwt.sign(
-        {email, isAdmin: true},  process.env.JWT_SECRET);
+      const token = jwt.sign({ email, isAdmin: true }, process.env.JWT_SECRET);
       res.json({ success: true, token });
     } else {
       res.json({ success: false, message: "Invalid credentials" });
@@ -285,15 +260,4 @@ export const adminLogin = async (req, res) => {
     console.error(error);
     res.status(500)({ success: false, message: error.message });
   }
-};
-
-// Add to courseController - content access
-const checkCourseAccess = async (userId, courseId) => {
-  const Payment = (await import("../models/orderModel.js")).default;
-  const payment = await Payment.findOne({
-    user: userId,
-    course: courseId,
-    status: "verified"
-  });
-  return !!payment;
 };

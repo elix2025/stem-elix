@@ -12,32 +12,44 @@ const calculateOverallProgress = (progressDoc) => {
   let projectCompletion = 0;
 
   // Lectures
-  const allLectures = progressDoc.chapters.flatMap(c => c.lectures);
+  const allLectures = progressDoc.chapters.flatMap((c) => c.lectures);
   if (allLectures.length > 0) {
-    const completedLectures = allLectures.filter(l => l.isCompleted).length;
+    const completedLectures = allLectures.filter((l) => l.isCompleted).length;
     lectureCompletion = (completedLectures / allLectures.length) * 100;
   }
 
   // Chapters
   if (progressDoc.chapters.length > 0) {
-    const completedChapters = progressDoc.chapters.filter(c => c.isCompleted).length;
+    const completedChapters = progressDoc.chapters.filter(
+      (c) => c.isCompleted
+    ).length;
     chapterCompletion = (completedChapters / progressDoc.chapters.length) * 100;
   }
 
   // Attendance
   if (progressDoc.attendance.length > 0) {
-    const attendedClasses = progressDoc.attendance.filter(a => a.attended).length;
-    attendanceCompletion = (attendedClasses / progressDoc.attendance.length) * 100;
+    const attendedClasses = progressDoc.attendance.filter(
+      (a) => a.attended
+    ).length;
+    attendanceCompletion =
+      (attendedClasses / progressDoc.attendance.length) * 100;
   }
 
   // Projects
   if (progressDoc.project.length > 0) {
-    const submittedProjects = progressDoc.project.filter(p => p.submitted).length;
+    const submittedProjects = progressDoc.project.filter(
+      (p) => p.submitted
+    ).length;
     projectCompletion = (submittedProjects / progressDoc.project.length) * 100;
   }
 
   // Simple average (you could add weights here)
-  const overall = (lectureCompletion + chapterCompletion + attendanceCompletion + projectCompletion) / 4;
+  const overall =
+    (lectureCompletion +
+      chapterCompletion +
+      attendanceCompletion +
+      projectCompletion) /
+    4;
   return Math.round(overall);
 };
 
@@ -58,15 +70,15 @@ export const initializeProgress = async (req, res) => {
     if (!course) return res.status(404).json({ message: "Course not found" });
 
     // Build initial structure
-    const chapters = course.CourseContent.map(ch => ({
+    const chapters = course.CourseContent.map((ch) => ({
       chapterId: ch.chapterId,
       totalLectures: ch.chapterContent.length,
-      lectures: ch.chapterContent.map(l => ({
+      lectures: ch.chapterContent.map((l) => ({
         lectureId: l.lectureId,
       })),
     }));
 
-    const projects = course.project.map(p => ({
+    const projects = course.project.map((p) => ({
       projectId: p.projectId,
     }));
 
@@ -91,25 +103,32 @@ export const initializeProgress = async (req, res) => {
 export const updateLectureProgress = async (req, res) => {
   try {
     const { courseId, lectureId } = req.params;
-    const { timeSpent, watchPercentage, lastWatchedPosition, isCompleted } = req.body;
+    const { timeSpent, watchPercentage, lastWatchedPosition, isCompleted } =
+      req.body;
     const userId = req.user._id;
 
     const progress = await Progress.findOne({ userId, courseId });
-    if (!progress) return res.status(404).json({ message: "Progress not found" });
+    if (!progress)
+      return res.status(404).json({ message: "Progress not found" });
 
     // Find lecture
     for (const chapter of progress.chapters) {
-      const lecture = chapter.lectures.find(l => l.lectureId === lectureId);
+      const lecture = chapter.lectures.find((l) => l.lectureId === lectureId);
       if (lecture) {
         lecture.timeSpent += timeSpent || 0;
-        lecture.watchPercentage = Math.max(lecture.watchPercentage, watchPercentage || 0);
-        lecture.lastWatchedPosition = lastWatchedPosition ?? lecture.lastWatchedPosition;
+        lecture.watchPercentage = Math.max(
+          lecture.watchPercentage,
+          watchPercentage || 0
+        );
+        lecture.lastWatchedPosition =
+          lastWatchedPosition ?? lecture.lastWatchedPosition;
 
         if (isCompleted && !lecture.isCompleted) {
           lecture.isCompleted = true;
           lecture.completedAt = new Date();
           chapter.completedLectures += 1;
-          chapter.completionPercentage = (chapter.completedLectures / chapter.totalLectures) * 100;
+          chapter.completionPercentage =
+            (chapter.completedLectures / chapter.totalLectures) * 100;
           if (chapter.completedLectures === chapter.totalLectures) {
             chapter.isCompleted = true;
           }
@@ -138,9 +157,10 @@ export const markAttendance = async (req, res) => {
     const userId = req.user._id;
 
     const progress = await Progress.findOne({ userId, courseId });
-    if (!progress) return res.status(404).json({ message: "Progress not found" });
+    if (!progress)
+      return res.status(404).json({ message: "Progress not found" });
 
-    let attendance = progress.attendance.find(a => a.lectureId === lectureId);
+    let attendance = progress.attendance.find((a) => a.lectureId === lectureId);
     if (!attendance) {
       attendance = { lectureId, attended, totalSeconds };
       progress.attendance.push(attendance);
@@ -169,9 +189,10 @@ export const submitProject = async (req, res) => {
     const userId = req.user._id;
 
     const progress = await Progress.findOne({ userId, courseId });
-    if (!progress) return res.status(404).json({ message: "Progress not found" });
+    if (!progress)
+      return res.status(404).json({ message: "Progress not found" });
 
-    const project = progress.project.find(p => p.projectId === projectId);
+    const project = progress.project.find((p) => p.projectId === projectId);
     if (!project) return res.status(404).json({ message: "Project not found" });
 
     project.submitted = true;
@@ -196,11 +217,20 @@ export const getCourseProgress = async (req, res) => {
     const userId = req.user._id;
 
     const progress = await Progress.findOne({ userId, courseId })
-      .populate("courseId", "title thumbnail") // optional: course info
+      .populate({
+        path: "courseId",
+        select: "title thumbnail status",
+        match: { status: "active" }, // Only include active courses
+      })
       .lean();
 
     if (!progress) {
       return res.status(404).json({ message: "Progress not found" });
+    }
+
+    // Check if course is still active
+    if (!progress.courseId) {
+      return res.status(404).json({ message: "Course is no longer available" });
     }
 
     res.status(200).json(progress);
@@ -215,10 +245,19 @@ export const getUserProgress = async (req, res) => {
     const userId = req.user._id;
 
     const progresses = await Progress.find({ userId })
-      .populate("courseId", "title thumbnail") // optional
+      .populate({
+        path: "courseId",
+        select: "title thumbnail status",
+        match: { status: "active" }, // Only include active courses
+      })
       .lean();
 
-    res.status(200).json(progresses);
+    // Filter out progress records where courseId is null (inactive/deleted courses)
+    const activeProgresses = progresses.filter(
+      (progress) => progress.courseId !== null
+    );
+
+    res.status(200).json(activeProgresses);
   } catch (err) {
     console.error("Get User Progress Error:", err);
     res.status(500).json({ message: "Server error" });

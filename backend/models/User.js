@@ -54,6 +54,11 @@ const userSchema = new mongoose.Schema(
       type: [ReviewSchema],
       default: [],
     },
+
+    payments: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Payment'
+    }],
     // Student-specific fields
     totalCoursesEnrolled: { type: Number, default: 0 },
     coursesEnrolled: { 

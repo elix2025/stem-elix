@@ -264,6 +264,9 @@ const CourseSchema = new mongoose.Schema(
       required: true,
       min: [0, "Price cannot be negative"],
     },
+    enrollmentRequirements: {
+    requiresPayment: { type: Boolean, default: true }
+   },
     originalPrice: {
       type: Number,
       min: [0, "Original price cannot be negative"],

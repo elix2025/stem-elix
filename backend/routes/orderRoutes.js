@@ -9,9 +9,10 @@ import express from "express";
 // } from "../controllers/orderController.js";
 import { createPayment,
        verifyPayment,
-       rejectPayment,
+        
        getPayment,
-       getAllPayments
+       getAllPayments,
+        getUserPayments
  } from "../controllers/paymentcontroller.js";
 import { protect } from "../middleware/auth.js";
 import upload from "../middleware/multer.js";
@@ -41,13 +42,17 @@ orderRouter.use(protect);
 
 orderRouter.post("/create", protect, upload.single("reciept"),createPayment);
 
-orderRouter.post("/verify", AdminAuth, verifyPayment );
+// Admin: Verify or reject payment
+orderRouter.post("/verify/:paymentId", AdminAuth, verifyPayment);
 
-orderRouter.post("/reject", AdminAuth, rejectPayment );
-
+// Admin: Get all payments
 orderRouter.get("/payments", AdminAuth, getAllPayments);
 
-orderRouter.get("/getreciept", AdminAuth, getPayment);
+// Get payment details
+orderRouter.get("/payment/:id", protect, getPayment);
+
+// Get user payments with pagination
+orderRouter.get("/user/:userId/payments", protect, getUserPayments);
 
 // User routes with validation
 

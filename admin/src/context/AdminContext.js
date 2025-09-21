@@ -285,31 +285,77 @@ export const AdminProvider = ({ children }) => {
   };
 
 
-    const getreciept = async() => {
-     try{
-     const res = await axios.get(
-     `${BASE_URL}/orders/getreciept`,
-      {},
-      {headers: {Authorization: `Beare ${token}`}}
-     );
-     return res.data;
-     }catch(error){
-      return error.response?.data || {message: "failed to get the payment"};
-     }
+    // Get all pending payments
+    const getAllPayments = async (status = 'pending') => {
+      try {
+        const adminToken = localStorage.getItem('adminToken');
+        const res = await axios.get(`${Admin_Base_URL}/orders/payments`, {
+          headers: { Authorization: `Bearer ${adminToken}` },
+          params: { status }
+        });
+        
+        return {
+          success: true,
+          payments: res.data.payments || []
+        };
+      } catch (error) {
+        console.error('Failed to fetch payments:', error);
+        return {
+          success: false,
+          message: error.response?.data?.message || 'Failed to fetch payments'
+        };
+      }
     };
 
-     const verifyPayment = async() =>{
-      try{
-      const res = await axios.post(
-        `${BASE_URL}/orders/verify`,
-        {},
-        {headers: {Authorization: `Bearer ${token}`}}
-      );
-      return res.data;
-      }catch(error){
-       return error.response?.data || {message: "Filed to verify"};
+    // Get specific payment details
+    const getPaymentDetails = async (paymentId) => {
+      try {
+        const adminToken = localStorage.getItem('adminToken');
+        const res = await axios.get(`${Admin_Base_URL}/orders/payment/${paymentId}`, {
+          headers: { Authorization: `Bearer ${adminToken}` }
+        });
+        
+        return {
+          success: true,
+          payment: res.data.payment
+        };
+      } catch (error) {
+        console.error('Failed to fetch payment details:', error);
+        return {
+          success: false,
+          message: error.response?.data?.message || 'Failed to fetch payment details'
+        };
       }
-  
+    };
+
+    // Verify or reject payment
+    const verifyPayment = async (paymentId, action, data) => {
+      try {
+        const adminToken = localStorage.getItem('adminToken');
+        const res = await axios.post(
+          `${Admin_Base_URL}/orders/verify/${paymentId}`,
+          {
+            action, // 'verify' or 'reject'
+            gpayTransactionId: data.gpayTransactionId, // required for verification
+            rejectionReason: data.rejectionReason // required for rejection
+          },
+          {
+            headers: { Authorization: `Bearer ${adminToken}` }
+          }
+        );
+
+        return {
+          success: true,
+          message: res.data.message,
+          payment: res.data.payment
+        };
+      } catch (error) {
+        console.error('Payment verification failed:', error);
+        return {
+          success: false,
+          message: error.response?.data?.message || 'Failed to process payment'
+        };
+      }
     };
   
 
@@ -332,7 +378,8 @@ export const AdminProvider = ({ children }) => {
         createProject,
         getUserProjects,
         verifyPayment,
-        getreciept
+        getAllPayments,
+        getPaymentDetails
       }}
     >
       {children}

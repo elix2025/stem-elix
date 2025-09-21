@@ -195,24 +195,153 @@ export const APIContextProvider = ({ children }) => {
     }
   };
 
-   const createPayment = async (userId,courseId,amount,file,token) => {
-    try{
+  //  const createPayment = async (userId, courseId, amount, file, token) => {
+  //   try {
+  //     setLoadingPayment(true);
+
+  //     // Validate inputs
+  //     if (!userId || !courseId || !amount || !file) {
+  //       throw new Error("Missing required fields");
+  //     }
+
+  //     // Validate file type and size
+  //     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+  //     const maxSize = 5 * 1024 * 1024; // 5MB
+
+  //     if (!allowedTypes.includes(file.type)) {
+  //       throw new Error("Invalid file type. Please upload a JPG or PNG image");
+  //     }
+
+  //     if (file.size > maxSize) {
+  //       throw new Error("File size too large. Maximum size is 5MB");
+  //     }
+
+  //     // Create form data
+  //     const formData = new FormData();
+  //     formData.append("userId", userId);
+  //     formData.append("courseId", courseId);
+  //     formData.append("amount", amount);
+  //     formData.append("reciept", file);
+
+  //     // Make API call
+  //     const response = await axios.post(
+  //       `${BASE_URL}/orders/create`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //         onUploadProgress: (progressEvent) => {
+  //           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+  //           console.log('Upload Progress:', percentCompleted);
+  //         }
+  //       }
+  //     );
+
+  //     if (!response.data.success) {
+  //       throw new Error(response.data.message || "Payment submission failed");
+  //     }
+
+  //     // Return success response
+  //     return {
+  //       success: true,
+  //       message: response.data.message || "Payment submitted successfully",
+  //       payment: response.data.payment
+  //     };
+
+  //   } catch (error) {
+  //     console.error("Payment creation error:", error);
+      
+  //     // Return formatted error response
+  //     return {
+  //       success: false,
+  //       message: error.response?.data?.message || error.message || "Failed to submit payment",
+  //       error: process.env.NODE_ENV === 'development' ? error.toString() : undefined
+  //     };
+  //   } finally {
+  //     setLoadingPayment(false);
+  //   }
+  // };
+
+  const createPayment = async (userId, courseId, amount, file, token) => {
+    console.log('CreatePayment called with:', {
+      userId,
+      courseId,
+      amount,
+      fileInfo: file ? {
+        name: file.name,
+        type: file.type,
+        size: file.size
+      } : null,
+      hasToken: !!token
+    });
+
+    try {
+      // Validate all required fields
+      if (!file || !userId || !courseId || !amount || !token) {
+        console.error('Missing required fields:', { 
+          file: !!file, 
+          userId: !!userId, 
+          courseId: !!courseId, 
+          amount: !!amount, 
+          token: !!token 
+        });
+        throw new Error('Missing required fields for payment');
+      }
+
+      // Create FormData and append all fields exactly as backend expects
       const formData = new FormData();
-    formData.append("userId", userId);
-    formData.append("courseId", courseId);
-    formData.append("amount", amount);
-    formData.append("reciept", file);
-     const res = await axios.post(`${BASE_URL}/orders/create`,
-      formData,
-      {headers: {Authorization: `Bearer ${token}`,
-    "Content-Type": "multipart/form-data",},
-  }
-     );
-     return res.data;
-    }catch(error){
-    return error.response?.data || {message: "Failed to submit"};
+      formData.append('userId', userId);
+      formData.append('courseId', courseId);
+      formData.append('amount', amount.toString()); // Convert amount to string
+      formData.append('reciept', file); // This must match the multer field name in backend
+
+      // Log FormData contents for debugging
+      for (let pair of formData.entries()) {
+        console.log('FormData entry:', pair[0], pair[1]);
+      }
+
+      console.log('Sending payment request to:', `${BASE_URL}/orders/create`);
+      
+      const response = await axios.post(
+        `${BASE_URL}/orders/create`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // Let axios set the correct multipart/form-data Content-Type with boundary
+            // Don't set Content-Type manually for FormData
+          }
+        }
+      );
+
+      console.log('Server Response:', response.data);
+
+      if (response.data.success) {
+        return {
+          success: true,
+          message: response.data.message || 'Payment submitted successfully',
+          payment: response.data.payment
+        };
+      } else {
+        throw new Error(response.data.message || 'Failed to create payment');
+      }
+    } catch (error) {
+      console.error('Payment creation error:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        data: error.response?.data
+      });
+
+      return {
+        success: false,
+        message: error.response?.data?.message || error.message || 'Failed to create payment'
+      };
     }
   };
+
 
   // const buyCourse = async (courseId) => {
   //   // Add this near the start of buyCourse function

@@ -88,14 +88,22 @@ const StudentDash = () => {
   const getOverallStats = () => {
     if (!progressData.length) return null;
 
-    const totalCourses = 1;
-    const completedCourses = progressData.filter((p) => p.isCompleted).length;
-    const totalTime = progressData.reduce(
+    // Filter for only valid courses with courseId
+    const validProgressData = progressData.filter(
+      (p) => p.courseId && p.courseId.title
+    );
+    if (!validProgressData.length) return null;
+
+    const totalCourses = validProgressData.length; // Use actual enrolled course count
+    const completedCourses = validProgressData.filter(
+      (p) => p.isCompleted
+    ).length;
+    const totalTime = validProgressData.reduce(
       (sum, p) => sum + (p.totalTimeSpent || 0),
       0
     );
     const avgProgress =
-      progressData.reduce((sum, p) => sum + (p.overallProgress || 0), 0) /
+      validProgressData.reduce((sum, p) => sum + (p.overallProgress || 0), 0) /
       totalCourses;
 
     return {
@@ -397,7 +405,7 @@ const StudentDash = () => {
                               <div
                                 className="bg-gradient-to-r from-teal-500 to-blue-500 h-2 rounded-full transition-all duration-500 ease-out"
                                 style={{
-                                  width: `${progress.overallProgress}%`,
+                                  width: ${progress.overallProgress}%,
                                 }}
                               ></div>
                             </div>
@@ -511,13 +519,17 @@ const StudentDash = () => {
                 <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/20">
                   <FaBookOpen className="text-teal-500 text-sm" />
                   <span className="text-sm font-medium text-gray-700">
-                    {progressData.length} Enrolled
+                    {
+                      progressData.filter((p) => p.courseId && p.courseId.title)
+                        .length
+                    }{" "}
+                    Enrolled
                   </span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/20">
                   <FaCheckCircle className="text-green-500 text-sm" />
                   <span className="text-sm font-medium text-gray-700">
-                    {overallStats.completedCourses} Completed
+                    {overallStats?.completedCourses || 0} Completed
                   </span>
                 </div>
               </div>
@@ -525,122 +537,132 @@ const StudentDash = () => {
 
             {progressData.length > 0 ? (
               <div className="grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-                {progressData.map((progress, idx) => (
-                  <div
-                    key={idx}
-                    className="group bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                  >
-                    {/* Course Header */}
-                    <div className="bg-gradient-to-br from-teal-500 to-blue-600 p-6 text-white relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-                      <div className="relative z-10">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex-1">
-                            <h3 className="font-bold text-lg mb-2 line-clamp-2">
-                              {progress.courseId?.title || "Course Title"}
-                            </h3>
-                            <p className="text-teal-100 text-sm flex items-center gap-1">
-                              <MdSchool className="text-sm" />
-                              {progress.courseId?.instructor || "Instructor"}
-                            </p>
-                          </div>
-                          {progress.isCompleted && (
-                            <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center">
-                              <FaAward className="text-white text-sm" />
+                {progressData
+                  .filter(
+                    (progress) => progress.courseId && progress.courseId.title
+                  ) // Only show courses with valid courseId
+                  .map((progress, idx) => (
+                    <div
+                      key={idx}
+                      className="group bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                    >
+                      {/* Course Header */}
+                      <div className="bg-gradient-to-br from-teal-500 to-blue-600 p-6 text-white relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                        <div className="relative z-10">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <h3 className="font-bold text-lg mb-2 line-clamp-2">
+                                {progress.courseId?.title || "Course Title"}
+                              </h3>
+                              <p className="text-teal-100 text-sm flex items-center gap-1">
+                                <MdSchool className="text-sm" />
+                                {progress.courseId?.instructor?.name ||
+                                  "Instructor"}
+                              </p>
                             </div>
-                          )}
-                        </div>
-
-                        {/* Progress Bar */}
-                        <div className="space-y-2">
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-teal-100">
-                              Progress
-                            </span>
-                            <span className="text-sm font-bold">
-                              {progress.overallProgress}%
-                            </span>
+                            {progress.isCompleted && (
+                              <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center">
+                                <FaAward className="text-white text-sm" />
+                              </div>
+                            )}
                           </div>
-                          <div className="w-full bg-white/20 rounded-full h-2">
-                            <div
-                              className="bg-white h-2 rounded-full transition-all duration-500 ease-out"
-                              style={{ width: `${progress.overallProgress}%` }}
-                            ></div>
+
+                          {/* Progress Bar */}
+                          <div className="space-y-2">
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-teal-100">
+                                Progress
+                              </span>
+                              <span className="text-sm font-bold">
+                                {progress.overallProgress || 0}%
+                              </span>
+                            </div>
+                            <div className="w-full bg-white/20 rounded-full h-2">
+                              <div
+                                className="bg-white h-2 rounded-full transition-all duration-500 ease-out"
+                                style={{
+                                  width: `${progress.overallProgress || 0}%`,
+                                }}
+                              ></div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Course Body */}
-                    <div className="p-6">
-                      <div className="space-y-4">
-                        {/* Course Stats */}
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="text-center p-3 bg-gray-50/80 rounded-xl">
-                            <div className="text-lg font-bold text-gray-800">
-                              {progress.chaptersCompleted || 0}
+                      {/* Course Body */}
+                      <div className="p-6">
+                        <div className="space-y-4">
+                          {/* Course Stats */}
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="text-center p-3 bg-gray-50/80 rounded-xl">
+                              <div className="text-lg font-bold text-gray-800">
+                                {progress.chaptersCompleted || 0}
+                              </div>
+                              <div className="text-xs text-gray-600">
+                                Chapters Done
+                              </div>
                             </div>
-                            <div className="text-xs text-gray-600">
-                              Chapters Done
+                            <div className="text-center p-3 bg-gray-50/80 rounded-xl">
+                              <div className="text-lg font-bold text-gray-800">
+                                {Math.round(
+                                  (progress.totalTimeSpent || 0) / 60
+                                )}
+                                h
+                              </div>
+                              <div className="text-xs text-gray-600">
+                                Time Spent
+                              </div>
                             </div>
                           </div>
-                          <div className="text-center p-3 bg-gray-50/80 rounded-xl">
-                            <div className="text-lg font-bold text-gray-800">
-                              {Math.round((progress.totalTimeSpent || 0) / 60)}h
-                            </div>
-                            <div className="text-xs text-gray-600">
-                              Time Spent
-                            </div>
-                          </div>
-                        </div>
 
-                        {/* Last Accessed */}
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <FaCalendarAlt className="text-xs" />
-                          <span>
-                            Last accessed:{" "}
-                            {new Date(
-                              progress.lastAccessedDate
-                            ).toLocaleDateString()}
-                          </span>
-                        </div>
-
-                        {/* Certificate Badge */}
-                        {progress.certificateEarned && (
-                          <div className="flex items-center gap-2 text-sm text-yellow-600 bg-yellow-50 px-3 py-2 rounded-lg">
-                            <FaTrophy className="text-sm" />
-                            <span className="font-medium">
-                              Certificate Earned
+                          {/* Last Accessed */}
+                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <FaCalendarAlt className="text-xs" />
+                            <span>
+                              Last accessed:{" "}
+                              {new Date(
+                                progress.lastAccessedDate
+                              ).toLocaleDateString()}
                             </span>
                           </div>
-                        )}
 
-                        {/* Action Button */}
-                        <Link
-                          to={`/courses/content/${createSlug(
-                            progress.courseId?.title ||
-                              progress.courseId?.slug ||
-                              "course"
-                          )}`}
-                          className="w-full bg-gradient-to-r from-teal-500 to-blue-500 text-white py-3 px-4 rounded-xl font-medium hover:from-teal-600 hover:to-blue-600 transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-lg"
-                        >
-                          {progress.isCompleted ? (
-                            <>
-                              <FaCheckCircle className="text-sm" />
-                              Review Course
-                            </>
-                          ) : (
-                            <>
-                              <FaPlay className="text-sm" />
-                              Continue Learning
-                              <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform duration-200" />
-                            </>
+                          {/* Certificate Badge */}
+                          {progress.certificateEarned && (
+                            <div className="flex items-center gap-2 text-sm text-yellow-600 bg-yellow-50 px-3 py-2 rounded-lg">
+                              <FaTrophy className="text-sm" />
+                              <span className="font-medium">
+                                Certificate Earned
+                              </span>
+                            </div>
                           )}
-                        </Link>
+
+                          {/* Action Button */}
+                          <Link
+                            to={`/courses/content/${createSlug(
+                              progress.courseId?.title ||
+                                progress.courseId?.slug ||
+                                "course"
+                            )}`}
+                            className="w-full bg-gradient-to-r from-teal-500 to-blue-500 text-white py-3 px-4 rounded-xl font-medium hover:from-teal-600 hover:to-blue-600 transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-lg"
+                          >
+                            {progress.isCompleted ? (
+                              <>
+                                <FaCheckCircle className="text-sm" />
+                                Review Course
+                              </>
+                            ) : (
+                              <>
+                                <FaPlay className="text-sm" />
+                                Continue Learning
+                                <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform duration-200" />
+                              </>
+                            )}
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             ) : (
               <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-12 text-center">

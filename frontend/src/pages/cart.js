@@ -16,62 +16,175 @@ const Cart = () => {
 
   useEffect(() => {
     const loadCourse = async () => {
+      if (!courseName) {
+        setError("Course name is missing");
+        return;
+      }
+
       setLoading(true);
+      setError(""); // Clear any previous errors
+      
       try {
         const foundCourse = await getCourseByTitle(courseName);
-        if (foundCourse && !foundCourse.message) {
-          setCourse(foundCourse);
-          setAmount(foundCourse.price || 0);
-        } else {
-          setError(foundCourse?.message || "Course not found");
+        
+        if (!foundCourse) {
+          throw new Error("Failed to fetch course details");
         }
+
+        if (foundCourse.message) {
+          throw new Error(foundCourse.message);
+        }
+
+        if (!foundCourse.price) {
+          throw new Error("Course price information is missing");
+        }
+
+        setCourse(foundCourse);
+        setAmount(foundCourse.price);
       } catch (err) {
-        setError(err?.message || "Failed to load course");
+        setError(err?.message || "Failed to load course details");
+        setCourse(null);
+        setAmount(0);
       } finally {
         setLoading(false);
       }
     };
+
     loadCourse();
   }, [courseName, getCourseByTitle]);
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    console.log('File selected:', selectedFile ? {
+      name: selectedFile.name,
+      type: selectedFile.type,
+      size: `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB`
+    } : 'No file');
+    
+    // Reset message when new file is selected
+    setMessage("");
+
+    // File validation
+    if (selectedFile) {
+      // Check file type
+      const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+      if (!validTypes.includes(selectedFile.type)) {
+        console.log('Invalid file type:', selectedFile.type);
+        setMessage("Please upload a valid image file (JPG or PNG)");
+        e.target.value = ''; // Reset input
+        return;
+      }
+
+      // Check file size (5MB limit)
+      const maxSize = 5 * 1024 * 1024;
+      if (selectedFile.size > maxSize) {
+        console.log('File too large:', selectedFile.size);
+        setMessage("File is too large. Maximum size is 5MB");
+        e.target.value = ''; // Reset input
+        return;
+      }
+
+      console.log('File validation passed, setting file');
+      setFile(selectedFile);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Payment submission started...');
+    
+    // Pre-submission validation
+    if (!currentUser?._id) {
+      console.log('Validation failed: User not logged in');
+      setMessage("Please log in to continue with the payment");
+      return;
+    }
+
+    if (!course?._id) {
+      console.log('Validation failed: Course information missing');
+      setMessage("Course information is missing");
+      return;
+    }
+
     if (!file) {
-      setMessage("Please upload a screenshot of your payment.");
-      return;
-    }
-    if (!currentUser || !currentUser.token) {
-      setMessage("You must be logged in to submit payment.");
+      console.log('Validation failed: No file uploaded');
+      setMessage("Please upload a screenshot of your payment");
       return;
     }
 
-    setLoading(true);
+    if (!amount || amount <= 0) {
+      console.log('Validation failed: Invalid amount', amount);
+      setMessage("Invalid course amount");
+      return;
+    }
 
-    console.log("User in Cart:", currentUser);
-    console.log("Token in Cart:", currentUser.token);
-    console.log("Course in Cart:", course);
-    console.log("Amount in Cart:", amount);
-    console.log("File in Cart:", file);
+    console.log('Payment submission data:', {
+      userId: currentUser._id,
+      courseId: course._id,
+      amount: amount,
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      token: currentUser.token ? 'Present' : 'Missing'
+    });
 
-    const response = await createPayment(
-      currentUser._id,
-      course._id,
-      amount,
-      file,
-      currentUser.token
-    );
-    setLoading(false);
+    try {
+      setLoading(true);
+      setMessage(""); // Clear any previous messages
 
-    console.log("Response from createPayment:", response);
+      // Additional validation
+      if (!currentUser.token) {
+        console.error('Token missing');
+        throw new Error('Authentication token is missing. Please log in again.');
+      }
 
-    if (response?.success) {
-      setMessage(response.message);
-    } else {
-      setMessage(response.message || "Failed to submit payment.");
+      // Validate file type again
+      if (!file.type.match(/^image\/(jpeg|png|jpg)$/)) {
+        console.error('Invalid file type:', file.type);
+        throw new Error('Please upload a valid image file (JPG or PNG)');
+      }
+
+      console.log('Sending payment request to server...', {
+        userId: currentUser._id,
+        courseId: course._id,
+        amount: amount,
+        file: {
+          name: file.name,
+          type: file.type,
+          size: file.size
+        }
+      });
+
+      const response = await createPayment(
+        currentUser._id,
+        course._id,
+        amount,
+        file,
+        currentUser.token
+      );
+
+      console.log('Server response:', response);
+
+      if (response?.success) {
+        console.log('Payment submitted successfully');
+        setMessage(response.message || "Payment submitted successfully! Our team will verify it shortly.");
+        setFile(null); // Clear the file input
+        // Reset file input element
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) fileInput.value = '';
+        
+        // You might want to redirect after a successful submission
+        // setTimeout(() => navigate("/dashboard"), 3000);
+      } else {
+        console.error('Payment submission failed:', response);
+        throw new Error(response?.message || "Failed to submit payment");
+      }
+    } catch (error) {
+      console.error('Payment submission error:', error);
+      setMessage(error.message || "An error occurred while submitting your payment");
+    } finally {
+      setLoading(false);
+      console.log('Payment submission process completed');
     }
   };
 
@@ -153,7 +266,7 @@ const Cart = () => {
                     <span className="text-gray-600 text-base">Course Price:</span>
                     <div className="text-right">
                       <div className="text-2xl sm:text-3xl font-bold text-green-600">
-                        {/* ₹{amount.toLocaleString()} */}
+                        ₹{amount?.toLocaleString() || '0'}
                       </div>
                       <p className="text-xs text-gray-500">One-time payment</p>
                     </div>
@@ -205,7 +318,7 @@ const Cart = () => {
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed">
                     Pay 
-                    {/* ₹{amount.toLocaleString()}  */}
+                    ₹{amount?.toLocaleString() || '0'}
                     and take a screenshot of successful payment
                   </p>
                 </div>
@@ -229,8 +342,7 @@ const Cart = () => {
                   />
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
-                  Scan with any UPI app to pay 
-                  {/* ₹{amount.toLocaleString()} */}
+                  Scan with any UPI app to pay ₹{amount?.toLocaleString() || '0'}
                 </p>
               </div>
 

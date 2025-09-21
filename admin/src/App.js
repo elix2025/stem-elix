@@ -5,6 +5,7 @@ import AdminDash from './Pages/AdminDash';
 import Courses from './Pages/Courses';
 import CourseContentPage from './Pages/Coursecontent';
 import AdminProgressDemo from './Pages/AdminProgressDemo';
+import PaymentManagement from "./Pages/payment.js";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/courses" element={<Courses />} />
           <Route path="/admin/course-content/:courseId" element={<CourseContentPage/>}/>
           <Route path="/admin/progress" element={<AdminProgressDemo />} />
+          <Route path="/payments" element={<PaymentManagement />} />
         </Routes>
       </BrowserRouter>
     </AdminProvider>
