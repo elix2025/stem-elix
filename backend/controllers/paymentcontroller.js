@@ -63,12 +63,90 @@ export const createPayment = async (req, res) => {
 
 // get the user , course and screenshot of the payment done by user
 export const getPayment = async (req, res) => {
- try{
+  try {
+    const { id } = req.params;
 
-  const {id} = req.params;
- }catch(error){
+    if (!id) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Payment ID is required." 
+      });
+    }
 
- }
+    const payment = await Payment.findById(id)
+      .populate("user", "name email")
+      .populate("course", "title price thumbnail");
+
+    if (!payment) {
+      return res.status(404).json({ 
+        success: false,
+        message: "Payment not found." 
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      payment
+    });
+
+  } catch (error) {
+    console.error("Get payment error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Internal server error." 
+    });
+  }
+};
+
+export const getUserPayments = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { status, page = 1, limit = 10 } = req.query;
+
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false,
+        message: "User ID is required." 
+      });
+    }
+
+    // Build query
+    const query = { user: userId };
+    if (status) {
+      query.status = status;
+    }
+
+    // Pagination options
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      populate: [
+        { path: 'course', select: 'title price thumbnail' }
+      ],
+      sort: { createdAt: -1 }
+    };
+
+    const payments = await Payment.paginate(query, options);
+
+    res.status(200).json({
+      success: true,
+      payments: payments.docs,
+      pagination: {
+        currentPage: payments.page,
+        totalPages: payments.totalPages,
+        totalPayments: payments.totalDocs,
+        hasNext: payments.hasNextPage,
+        hasPrev: payments.hasPrevPage
+      }
+    });
+
+  } catch (error) {
+    console.error("Get user payments error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Internal server error." 
+    });
+  }
 };
 
 // 2️⃣ Admin verifies a payment

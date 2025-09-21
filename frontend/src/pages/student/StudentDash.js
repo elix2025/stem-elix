@@ -88,7 +88,7 @@ const StudentDash = () => {
   const getOverallStats = () => {
     if (!progressData.length) return null;
 
-    const totalCourses = progressData.length;
+    const totalCourses = 1;
     const completedCourses = progressData.filter((p) => p.isCompleted).length;
     const totalTime = progressData.reduce(
       (sum, p) => sum + (p.totalTimeSpent || 0),
@@ -298,7 +298,7 @@ const StudentDash = () => {
                     </div>
                   </div>
 
-                  <div className="group">
+                  {/* <div className="group">
                     <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                       <div className="flex items-center justify-between">
                         <div>
@@ -317,9 +317,9 @@ const StudentDash = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div className="group">
+                  {/* <div className="group">
                     <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                       <div className="flex items-center justify-between">
                         <div>
@@ -338,10 +338,10 @@ const StudentDash = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>{" "}
                 {/* Recent Progress */}
-                <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 lg:p-8">
+                {/* <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 lg:p-8">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl font-bold text-gray-800 flex items-center gap-3">
                       <div className="w-8 h-8 bg-gradient-to-br from-teal-500 to-blue-500 rounded-lg flex items-center justify-center">
@@ -406,7 +406,7 @@ const StudentDash = () => {
                       </div>
                     ))}
                   </div>
-                </div>{" "}
+                </div>{" "} */}
                 {/* Profile Information */}
                 <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4">
