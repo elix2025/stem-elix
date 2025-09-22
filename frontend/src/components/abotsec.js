@@ -43,7 +43,7 @@ const ContentSection = ({ onLearnMore }) => (
     
     <div className="mb-6">
       <p className="text-gray-600 text-sm sm:text-xl font-medium leading-relaxed text-left sm:text-center">
-        Stemelix, is a future-focused STEM Learning Platform. We teach coding, 
+        STEMelix, is a future-focused STEM Learning Platform. We teach coding, 
         robotics and electronics through mentor-led, hands-on labs and progressive 
         learning paths—so learners don't just study concepts; they design, build 
         and ship real projects. Our approach develops technical skills and the 
