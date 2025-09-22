@@ -90,7 +90,7 @@ const Hero = ({ handleEnrollNow }) => {
                   showSubtext ? "opacity-100" : "opacity-0"
                 }`}>
                 <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-text/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                 Stemelix where curiosity meets creation. Igniting innovation in young learners.
+                 STEMelix where curiosity meets creation. Igniting innovation in young learners.
                 </p>
               </div>
             </div>
