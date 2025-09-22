@@ -5,13 +5,41 @@ const router = express.Router();
 
 router.post("/send-register", async (req, res) => {
   try {
-    const { to } = req.body;
+    const { to, name } = req.body;
 
     await sendEmail({
       to,
-      subject: "Tinkrion Test Email",
-      text: "This is a test email from your e-learning platform 🚀",
-      html: "<h2>Welcome to Tinkrion!</h2><p>This is a test email.</p>",
+      subject: "Welcome to Stemelix 🎉",
+      text: `Hi ${name || ""}, welcome to Stemelix! Start your learning journey today.`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eaeaea; border-radius: 10px; overflow: hidden;">
+          <!-- Logo -->
+          <div style="background: #4f46e5; padding: 20px; text-align: center;">
+            <img src="https://stemelix.com/images/stemelix-email-logo.jpg" alt="stemelix Logo" style="height: 50px;" />
+          </div>
+
+          <!-- Content -->
+          <div style="padding: 20px;">
+            <h2 style="color: #333;">Welcome to Tinkrion, ${name || "Learner"} 👋</h2>
+            <p style="font-size: 16px; color: #555;">
+              We’re thrilled to have you on board! 🚀  
+              Get ready to explore amazing courses and start your learning journey.
+            </p>
+
+            <!-- Button -->
+            <a href="https://stemelix.com/" 
+               style="display: inline-block; background: #4f46e5; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none; margin-top: 20px;">
+              Start Learning
+            </a>
+          </div>
+
+          <!-- Footer -->
+          <div style="background: #f9f9f9; padding: 15px; text-align: center; font-size: 13px; color: #888;">
+            <p>Need help? Contact us at <a href="mailto:info.stemelix@gmail.com">support@Stemelix.com</a></p>
+            <p>&copy; ${new Date().getFullYear()} Stemelix. All rights reserved.</p>
+          </div>
+        </div>
+      `,
     });
 
     res.json({ success: true, message: "Email sent successfully" });
@@ -19,6 +47,7 @@ router.post("/send-register", async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
 
 router.post("/send-enroll", async (req, res) => {
   try {

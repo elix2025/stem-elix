@@ -14,7 +14,7 @@ export const sendEmail = async ({ to, subject, text, html }) => {
 
     // send mail
     const info = await transporter.sendMail({
-      from: `"Tinkrion Team" <${process.env.EMAIL_USER}>`,
+      from: `"Stemelix Team" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       text,
