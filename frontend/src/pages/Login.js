@@ -311,7 +311,7 @@ const Login = () => {
             {/* Sign Up Link */}
             <div className="mt-8 text-center">
               <p className="text-text/70">
-                New to StemElix?{" "}
+                New to STEMelix?{" "}
                 <Link
                   to="/register"
                   className="font-semibold text-primary hover:text-indigo-700 transition-colors duration-200"
