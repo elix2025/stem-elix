@@ -33,7 +33,7 @@ const Footer = () => {
               <div>
                 <h2 className="text-3xl lg:text-4xl font-bold mb-3">
                   <span className="bg-gradient-to-r from-primary-blue to-cyan bg-clip-text text-transparent">
-                    Stem
+                    STEM
                   </span>
                   <span className="text-white">elix</span>
                 </h2>
