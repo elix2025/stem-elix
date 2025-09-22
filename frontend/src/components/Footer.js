@@ -150,7 +150,7 @@ const Footer = () => {
           {/* Bottom Bar */}
           <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-base">
-              © 2025 StemElix. All rights reserved. Empowering futures through
+              © 2025 STEMelix. All rights reserved. Empowering futures through
               STEM education.
             </p>
 
