@@ -374,7 +374,7 @@ export default function ForSchool () {
       {/* Final CTA - Become Our Learning Partner */}
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto text-center bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-10 text-white shadow-lg">
-          <h3 className="text-2xl font-bold mb-3">Partner with STEM-Elix to Build a Future-Ready Lab</h3>
+          <h3 className="text-2xl font-bold mb-3">Partner with STEMelix to Build a Future-Ready Lab</h3>
           <p className="mb-6 text-slate-100 max-w-2xl mx-auto">
             Join hands with us to design, equip and operate a STEM Lab that fits your school’s objectives.
             We provide full project management, teacher training, and ongoing technical support.
