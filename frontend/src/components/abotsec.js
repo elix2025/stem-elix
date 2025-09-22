@@ -164,7 +164,7 @@ const AnimatedSection = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <p className="sm:text-lg md:text-xl text-charcoal/80 leading-relaxed">
-                STEMElix is a future-focused STEM Learning Platform. We teach coding, 
+                Stemlix is a future-focused STEM Learning Platform. We teach coding, 
                 robotics and electronics through mentor-led, hands-on labs and progressive 
                 learning paths—so learners don't just study concepts; they design, build 
                 and ship real projects.

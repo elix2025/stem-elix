@@ -81,11 +81,11 @@ const Contact = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
-              <span>Contact STEMelix</span>
+              <div className="w-2 h-2 bg-[#6366f1] rounded-full animate-pulse"></div>
+              <span >Contact STEMelix</span>
             </motion.div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gradient mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#6366F1] mb-4 sm:mb-6">
 
               Get In Touch
             </h1>
@@ -104,7 +104,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="card-gradient backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl p-6 sm:p-8">
-                <h2 className="text-2xl sm:text-3xl font-bold text-charcoal mb-6">
+                <h2 className="text-2xl sm:text-3xl font-bold text-[#6366F1] mb-6">
                   Send us a Message
                 </h2>
 
@@ -266,7 +266,7 @@ const Contact = () => {
                     type="submit"
                     disabled={isLoading}
 
-                    className="w-full bg-gray-800 text-white py-3 px-6 rounded-lg font-semibold hover:from-[#ac6cf4] hover:to-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-[#ac6cf4] focus:ring-offset-2 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full bg-[#6366f1] text-white py-3 px-6 rounded-lg font-semibold hover:from-[#ac6cf4] hover:to-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-[#ac6cf4] focus:ring-offset-2 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
 
                   >
                     {isLoading ? (
@@ -289,7 +289,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <div className="card-gradient backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl p-6 sm:p-8 h-full">
-                <h2 className="text-2xl font-bold text-charcoal mb-6">
+                <h2 className="text-2xl font-bold text-[#6366F1] mb-6">
                   Contact Information
                 </h2>
 
@@ -407,7 +407,7 @@ const Contact = () => {
           </div>
 
           <motion.div
-            className="text-center mt-12"
+            className="text-center mt-12 text-[#6366F1]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
@@ -415,7 +415,7 @@ const Contact = () => {
             <Link
               to="/"
 
-              className="inline-flex items-center space-x-2 text-slate-800 hover:text-[#ac6cf4] transition-colors duration-200 group"
+              className="inline-flex items-center space-x-2 text-[#6366F1] hover:text-[#ac6cf4] transition-colors duration-200 group"
 
             >
               <svg

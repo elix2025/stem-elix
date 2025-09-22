@@ -24,18 +24,18 @@ const AboutUsPage = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <div className="inline-flex items-center space-x-2 glass bg-primary-blue/10 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-6 py-3 rounded-full font-medium mb-8">
             <div className="w-2 h-2 bg-primary-blue rounded-full"></div>
-            <span>About STEMelix </span>
+            <span>About Stemelix </span>
           </div>
 
           <div className="space-y-6">
-            <h1 className="text-4xl lg:text-5xl font-bold leading-tight text-charcoal">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#6366F1] font-bold leading-tight ">
               <span className="block">Tinkering Minds,</span>
-              <span className="block text-gradient bg-gradient-to-r from-primary-blue via-cyan to-primary-blue bg-clip-text text-transparent">
+              <span className="block text-[#6366F1] bg-clip-text ">
                 Empowering Youth
               </span>
             </h1>
-            <p className="text-lg lg:text-xl text-charcoal/80 max-w-4xl mx-auto leading-relaxed">
-              At STEMelix, we're reimagining education by blending science,
+            <p className="sm:text-lg md:text-xl text-charcoal/80 max-w-4xl mx-auto leading-relaxed">
+              At Stemelix, we're reimagining education by blending science,
               technology, engineering, and mathematics with hands-on creativity.
               Our mission is simple: ignite curiosity and transform young learners
               into innovators who will shape tomorrow.
@@ -48,15 +48,15 @@ const AboutUsPage = () => {
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 glass bg-cyan/10 backdrop-blur-sm border border-cyan/20 text-cyan px-6 py-3 rounded-full text-sm font-medium mb-8">
-              <div className="w-2 h-2 bg-cyan rounded-full"></div>
-              <span>Our Mission</span>
+            <div className="inline-flex items-center space-x-2 glass bg-[#6366f1]/10 backdrop-blur-sm border border-cyan/20 text-cyan px-6 py-3 rounded-full text-sm font-medium mb-8">
+              <div className="w-2 h-2 bg-[#6366f1] rounded-full"></div>
+              <span className="text-[#6366F1]">Our Mission</span>
             </div>
             
-            <h2 className="text-3xl lg:text-4xl font-bold text-charcoal mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#6366F1] mb-6">
               Transforming STEM Education
             </h2>
-            <p className="text-lg text-charcoal/80 max-w-3xl mx-auto leading-relaxed">
+            <p className="sm:text-lg md:text-xl text-charcoal/80 max-w-3xl mx-auto leading-relaxed">
               We believe in making STEM accessible, engaging, and future-ready.
               By combining digital learning with hands-on tinkering, we help
               students move from learners to creators.
@@ -87,7 +87,7 @@ const AboutUsPage = () => {
                 className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-primary-blue/10 hover:border-primary-blue/30 transition-all duration-300 hover:scale-105"
               >
                 <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="text-xl font-bold text-charcoal mb-4 group-hover:text-primary-blue transition-colors duration-300">
+                <h3 className="text-xl font-bold text-[#6366F1] mb-4 group-hover:text-primary-blue transition-colors duration-300">
                   {item.title}
                 </h3>
                 <p className="text-charcoal/70 leading-relaxed">
@@ -110,13 +110,13 @@ const AboutUsPage = () => {
                 <span>Our Story</span>
               </div>
               
-              <h2 className="text-3xl lg:text-4xl font-bold text-charcoal">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#6366F1]">
                 Where Youth Tinker, Think and Transform
               </h2>
               
               <div className="space-y-4">
                 <p className="text-lg text-charcoal/80 leading-relaxed">
-                  STEMelix is a future-focused STEM Learning Platform. We teach coding, 
+                  Stemelix is a future-focused STEM Learning Platform. We teach coding, 
                   robotics and electronics through mentor-led, hands-on labs and progressive 
                   learning paths—so learners don't just study concepts; they design, build 
                   and ship real projects.
@@ -133,15 +133,15 @@ const AboutUsPage = () => {
 
             {/* Image/Visual Content */}
             <div className="relative">
-              <div className="bg-white rounded-2xl p-8 shadow-xl border border-primary-blue/10">
+              <div className="bg-white rounded-2xl p-8 shadow-xl border border-[#6366f1]/10">
                 <div className="text-center space-y-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-primary-blue/10 to-cyan/10 rounded-3xl flex items-center justify-center mx-auto">
-                    <svg className="w-10 h-10 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-20 h-20 bg-[#6366f1]/10 rounded-3xl flex items-center justify-center mx-auto">
+                    <svg className="w-10 h-10 text-[#6366F1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-charcoal">Igniting Innovation</h3>
+                  <h3 className="text-xl font-bold text-[#6366F1]">Igniting Innovation</h3>
                   
                   <p className="text-charcoal/70 leading-relaxed">
                     From curious beginners to confident creators, we guide every 
@@ -159,12 +159,12 @@ const AboutUsPage = () => {
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 glass bg-cyan/10 backdrop-blur-sm border border-cyan/20 text-cyan px-6 py-3 rounded-full text-sm font-medium mb-8">
-              <div className="w-2 h-2 bg-cyan rounded-full"></div>
-              <span>Our Values</span>
+            <div className="inline-flex items-center space-x-2 glass bg-[#6366f1]/10 backdrop-blur-sm border border-cyan/20 text-cyan px-6 py-3 rounded-full text-sm font-medium mb-8">
+              <div className="w-2 h-2 bg-[#6366f1] rounded-full"></div>
+              <span className="text-[#6366F1]">Our Values</span>
             </div>
             
-            <h2 className="text-3xl lg:text-4xl font-bold text-charcoal mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#6366F1] mb-6">
               What Drives Us Forward
             </h2>
             <p className="text-lg text-charcoal/80 max-w-3xl mx-auto">
@@ -210,7 +210,7 @@ const AboutUsPage = () => {
       {/* Call to Action */}
       <section className="section-padding bg-gradient-to-br from-primary-blue/5 to-cyan/5">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center space-y-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-charcoal">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#6366F1]">
             Ready to Start Your STEM Journey?
           </h2>
           <p className="text-lg text-charcoal/80 max-w-2xl mx-auto">

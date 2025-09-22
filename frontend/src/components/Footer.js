@@ -32,8 +32,8 @@ const Footer = () => {
             <div className="lg:col-span-1 space-y-6">
               <div>
                 <h2 className="text-3xl lg:text-4xl font-bold mb-3">
-                  <span className="bg-gradient-to-r from-primary-blue to-cyan bg-clip-text text-transparent">
-                    STEM
+                  <span className="bg-[#6366f1] bg-clip-text text-transparent">
+                    Stem
                   </span>
                   <span className="text-white">elix</span>
                 </h2>
@@ -150,7 +150,7 @@ const Footer = () => {
           {/* Bottom Bar */}
           <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-center items-center gap-4">
             <p className="text-gray-400 text-base">
-              © 2025 STEMelix. All rights reserved. Empowering futures through
+              © 2025 Stemelix. All rights reserved. Empowering futures through
               STEM education.
             </p>
 

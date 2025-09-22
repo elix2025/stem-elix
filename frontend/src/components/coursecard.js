@@ -215,7 +215,7 @@ export default function TinkrionShowcase() {
             
             <div className="space-y-3 sm:space-y-4">
               <h4 className="text-charcoal/80 text-base sm:text-lg md:text-xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
-               By STEMElix Introduces students to the exciting world of Robotics, Coding and Electronics.
+               By Stemelix Introduces students to the exciting world of Robotics, Coding and Electronics.
               </h4>
 
               <p className="text-charcoal/80 text-base sm:text-lg md:text-xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
