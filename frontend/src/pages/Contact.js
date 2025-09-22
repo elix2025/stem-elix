@@ -82,7 +82,7 @@ const Contact = () => {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
-              <span>Contact Stemelix</span>
+              <span>Contact STEMelix</span>
             </motion.div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gradient mb-4 sm:mb-6">
