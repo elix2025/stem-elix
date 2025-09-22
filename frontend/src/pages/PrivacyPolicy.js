@@ -94,7 +94,7 @@ const PrivacyPolicy = () => {
             <li>Opt out of marketing</li>
           </ul>
           <p className="mt-2">
-            Contact us at <strong>edvenger@email.com</strong>.
+            Contact us at <strong>info.stemelix@gmail.com</strong>.
           </p>
         </section>
 
