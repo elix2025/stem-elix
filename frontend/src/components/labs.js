@@ -84,17 +84,17 @@ export default function LandingSection() {
                           border border-cyan/20 text-cyan px-6 py-3 rounded-full 
                           text-sm font-medium mb-8"
           >
-            <div className="w-2 h-2 bg-cyan rounded-full"></div>
-            <span>Educational Excellence</span>
+            <div className="w-2 h-2 bg-[#6366f1] rounded-full"></div>
+            <span className="text-[#6366F1]">Educational Excellence</span>
           </div>
 
-          <h2 className="text-4xl md:text-4xl lg:text-5xl font-bold mb-8">
-            <span className="text-gradient bg-gradient-to-r from-primary-blue via-cyan to-navy bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
+            <span className="text-[#6366F1] bg-gradient-to-r from-primary-blue via-cyan to-navy bg-clip-text text-transparent">
               Equip Your Institution with STEM Labs & Courses
             </span>
           </h2>
 
-          <p className="text-charcoal/80 text-lg md:text-xl px-2 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-charcoal/80 sm:text-lg md:text-xl px-2 max-w-4xl mx-auto leading-relaxed">
             Our comprehensive program designed to enhance STEM
             education and empower educators with cutting-edge teaching
             methodologies.
@@ -163,7 +163,7 @@ export default function LandingSection() {
               >
                 {/* Dynamic gradient background */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${cards[current].accent} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}
+                  className={`absolute inset-0 bg-[#6366f1] opacity-5 group-hover:opacity-10 transition-opacity duration-500`}
                 ></div>
 
                 {/* Background pattern */}
@@ -195,14 +195,14 @@ export default function LandingSection() {
                     </div>
 
                     {/* Title */}
-                    <h2 className="text-3xl md:text-4xl font-bold text-charcoal mb-3 leading-tight group-hover:text-primary-blue transition-colors duration-300">
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#6366F1] mb-3 leading-tight group-hover:text-primary-blue transition-colors duration-300">
                       {cards[current].title}
                     </h2>
 
                     {/* Subtitle */}
                     {cards[current].subTitle && (
                       <h3
-                        className={`text-lg md:text-xl font-semibold mb-6 bg-gradient-to-r ${cards[current].accent} bg-clip-text text-transparent`}
+                        className={`text-[#6366F1] text-lg md:text-xl font-semibold mb-6 bg-gradient-to-r ${cards[current].accent} bg-clip-text text-transparent`}
                       >
                         {cards[current].subTitle}
                       </h3>
@@ -220,10 +220,10 @@ export default function LandingSection() {
 
                     {/* CTA Button */}
                     <button
-                      className={`inline-flex items-center px-6 py-3 bg-black ${cards[current].accent} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 hover:scale-105 hover:-translate-y-1`}
+                      className={`inline-flex items-center px-6 py-3 bg-[#6366f1] ${cards[current].accent} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 hover:scale-105 hover:-translate-y-1`}
                       onClick={() => navigate("/labs")}
                     >
-                      <span>Learn More</span>
+                      <span className="">Learn More</span>
                       <svg
                         className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
                         fill="none"
