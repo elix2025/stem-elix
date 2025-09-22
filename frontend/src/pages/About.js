@@ -24,7 +24,7 @@ const AboutUsPage = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <div className="inline-flex items-center space-x-2 glass bg-primary-blue/10 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-6 py-3 rounded-full text-sm font-medium mb-8">
             <div className="w-2 h-2 bg-primary-blue rounded-full"></div>
-            <span>About STEMelix</span>
+            <span>About STEMelix </span>
           </div>
 
           <div className="space-y-6">
