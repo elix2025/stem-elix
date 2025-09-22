@@ -47,7 +47,7 @@ const StemKitsPage = () => {
             A Complete Learning Experience in Every Box
           </h2>
           <p className="text-lg text-slate-600 mb-12 max-w-3xl mx-auto">
-            Each STEM-Elix Kit is thoughtfully curated with high-quality
+            Each STEMelix Kit is thoughtfully curated with high-quality
             components and engaging guides to make learning fun and effective.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
