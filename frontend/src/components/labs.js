@@ -190,7 +190,7 @@ export default function LandingSection() {
                       <div
                         className={`text-sm font-bold tracking-wider uppercase bg-gradient-to-r ${cards[current].accent} bg-clip-text text-transparent`}
                       >
-                        STEM Elix
+                        STEMelix
                       </div>
                     </div>
 
