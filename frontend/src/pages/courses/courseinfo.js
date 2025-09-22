@@ -58,7 +58,7 @@ const CourseInfo = () => {
       alert("You are already enrolled in this course.");
       navigate(`/courses/content/${createSlug(course.title)}`);
     } else {
-      alert("Enrollment successful! 🎉");
+      // alert("Enrollment successful! 🎉");
       navigate(`/courses/cart/${createSlug(course.title)}`);
     }
   } catch (error) {

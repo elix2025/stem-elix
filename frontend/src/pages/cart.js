@@ -263,12 +263,12 @@ const Cart = () => {
                 {/* Price Section */}
                 <div className="border-t pt-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600 text-base">Course Price:</span>
+                    {/* <span className="text-gray-600 text-base">Course Price:</span> */}
                     <div className="text-right">
                       <div className="text-2xl sm:text-3xl font-bold text-green-600">
-                        ₹{amount?.toLocaleString() || '0'}
+                        {/* ₹{amount?.toLocaleString() || '0'} */}
                       </div>
-                      <p className="text-xs text-gray-500">One-time payment</p>
+                      {/* <p className="text-xs text-gray-500">One-time payment</p> */}
                     </div>
                   </div>
                 </div>
@@ -317,9 +317,8 @@ const Cart = () => {
                     2
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Pay 
-                    ₹{amount?.toLocaleString() || '0'}
-                    and take a screenshot of successful payment
+                    Pay and take a screenshot of successful payment
+                    {/* ₹{amount?.toLocaleString() || '0'} */}
                   </p>
                 </div>
                 <div className="flex items-start space-x-3 mb-6">
