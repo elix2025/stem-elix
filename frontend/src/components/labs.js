@@ -188,7 +188,7 @@ export default function LandingSection() {
                         </div>
                       </div>
                       <div
-                        className={`text-sm font-bold tracking-wider uppercase bg-gradient-to-r ${cards[current].accent} bg-clip-text text-transparent`}
+                        className={`text-sm font-bold tracking-wider bg-gradient-to-r ${cards[current].accent} bg-clip-text text-transparent`}
                       >
                       STEMelix
                       </div>
