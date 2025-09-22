@@ -397,7 +397,7 @@ export default function ForSchool () {
       </section>
 
       <footer className="py-10 text-center text-sm text-slate-500">
-        © {new Date().getFullYear()} STEM-Elix — STEM Labs, Teacher Training & Ongoing Support
+        © {new Date().getFullYear()} STEMelix — STEM Labs, Teacher Training & Ongoing Support
       </footer>
     </main>
   );
