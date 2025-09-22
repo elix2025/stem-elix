@@ -24,7 +24,7 @@ const AboutUsPage = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <div className="inline-flex items-center space-x-2 glass bg-primary-blue/10 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-6 py-3 rounded-full text-sm font-medium mb-8">
             <div className="w-2 h-2 bg-primary-blue rounded-full"></div>
-            <span>About Stemelix</span>
+            <span>About STEMelix</span>
           </div>
 
           <div className="space-y-6">
@@ -35,7 +35,7 @@ const AboutUsPage = () => {
               </span>
             </h1>
             <p className="text-lg lg:text-xl text-charcoal/80 max-w-4xl mx-auto leading-relaxed">
-              At Stemelix, we're reimagining education by blending science,
+              At STEMelix, we're reimagining education by blending science,
               technology, engineering, and mathematics with hands-on creativity.
               Our mission is simple: ignite curiosity and transform young learners
               into innovators who will shape tomorrow.
@@ -116,7 +116,7 @@ const AboutUsPage = () => {
               
               <div className="space-y-4">
                 <p className="text-lg text-charcoal/80 leading-relaxed">
-                  Stemelix is a future-focused STEM Learning Platform. We teach coding, 
+                  STEMelix is a future-focused STEM Learning Platform. We teach coding, 
                   robotics and electronics through mentor-led, hands-on labs and progressive 
                   learning paths—so learners don't just study concepts; they design, build 
                   and ship real projects.
