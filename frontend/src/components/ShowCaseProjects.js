@@ -31,14 +31,14 @@ const ShowcaseSection = ({ onShowFormClick }) => {
             <span>Student Innovations</span>
           </div>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-[#6366F1]">
             What Have You{" "}
-            <span className="text-gradient bg-gradient-to-r from-primary-blue via-cyan to-primary-blue bg-clip-text text-transparent">
+            <span className="text-[#6366F1] bg-clip-text text-transparent">
               Created?
             </span>
           </h2>
 
-          <p className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-charcoal/80 sm:text-lg md:text-xl px-2 max-w-4xl mx-auto leading-relaxed">
             We'd love to see the amazing things you've built! Share your
             projects, inventions, art, experiments, or anything cool you've made
             while learning with us.
@@ -57,7 +57,7 @@ const ShowcaseSection = ({ onShowFormClick }) => {
 
             <div className="relative z-10 flex flex-col items-center justify-center text-center space-y-6">
               <div className="space-y-4">
-                <p className="text-charcoal/70 text-lg leading-relaxed">
+                <p className="text-charcoal/70 sm:text-lg md:text-xl leading-relaxed">
                   Get recognized and rewarded for your creativity, innovation,
                   and learning achievements.
                 </p>
@@ -77,10 +77,10 @@ const ShowcaseSection = ({ onShowFormClick }) => {
                   ✨
                 </span>
                 <div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-2">
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2">
                     Show Us Your Innovations
                   </h3>
-                  <p className="text-white/80 text-lg">
+                  <p className="text-white/80 sm:text-lg md:text-xl">
                     Transform ideas into reality and inspire others
                   </p>
                 </div>
@@ -99,7 +99,7 @@ const ShowcaseSection = ({ onShowFormClick }) => {
                       onClick={onShowFormClick}
                       className="group relative inline-flex items-center px-8 py-4 bg-primary text-white font-semibold rounded-xl shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 overflow-hidden hover:scale-105 hover:-translate-y-2"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-primary-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-[#6366f1] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <span className="relative z-10">Share Your Creation</span>
                       <svg
                         className="relative z-10 ml-2 w-5 h-5 bg-primary"
