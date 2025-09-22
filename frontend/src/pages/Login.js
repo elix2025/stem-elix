@@ -82,7 +82,7 @@ const Login = () => {
             </div>
 
             <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-              Welcome Back to <span className="text-primary">StemElix</span>
+              Welcome Back to <span className="text-primary">STEMelix</span>
             </h1>
 
             <p className="text-xl text-text/80 leading-relaxed max-w-lg">
