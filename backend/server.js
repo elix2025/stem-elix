@@ -17,6 +17,9 @@ const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:3000";
 dotenv.config();
 connectDB();
 connectCloudinary();
+
+app.use(express.static("public"));
+
 // middleware
 app.use(express.json());
 app.use(cors(
