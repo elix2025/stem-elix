@@ -48,21 +48,21 @@ const NeuroShowcase = () => {
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-2 lg:px-6">
         {/* Header - Reduced font sizes */}
-        <div className="text-center mb-16">
-          <h3 className="text-5xl font-bold text-slate-800">STEM KIT</h3>
+        <div className="text-center mb-5">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#6366F1]">STEM KIT</h3>
           
-          <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 leading-tight m-5">
+          <h2 className="sm:text-lg md:text-xl font-bold text-[#6366F1] leading-tight m-5">
             Everything they need to build Dreams
           </h2>
 
-          <p className="text-base text-slate-600 leading-relaxed max-w-xl m-auto">
+          <p className="sm:text-lg md:text-xl text-slate-800 leading-relaxed max-w-xl mx-auto">
             Delivered at your doorstep!
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-1 gap-12 lg:gap-16 items-center ">
+        <div className="grid lg:grid-cols-1 gap-12 lg:gap-16 items-center my-0">
           {/* Text Content */}
           <div className="space-y-8 mx-auto">
             <div className=" my-8  ">

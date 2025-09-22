@@ -251,15 +251,15 @@ const Home = () => {
 
       {/* Scroll to top button - Simple version */}
       {showScrollTop && (
-        <div className="fixed bottom-8 right-8 z-50">
+        <div className="fixed bottom-8 right-1 z-50 ">
           <div
-            className="w-14 h-14 rounded-2xl bg-gradient-to-r from-primary-blue to-blue-700 
+            className="w-14 h-14 rounded-2xl bg-[#6366f1] 
                        shadow-xl flex items-center justify-center cursor-pointer
                        backdrop-blur-sm border border-white/20 hover:scale-110 transition-transform duration-300"
             onClick={scrollToTop}
           >
             <svg
-              className="w-6 h-6 text-white transform rotate-180"
+              className="w-6 h-6 text-white transform rotate-360"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -279,7 +279,7 @@ const Home = () => {
       <div className="fixed bottom-8 left-8 z-50 hidden lg:block">
         <button
           onClick={() => smoothNavigate("/courses")}
-          className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-cyan to-cyan/80 
+          className="flex items-center gap-3 px-6 py-4 bg-[#6366f1] 
                      text-white font-semibold rounded-2xl shadow-xl transition-all duration-300
                      backdrop-blur-sm border border-white/20 hover:scale-105"
         >

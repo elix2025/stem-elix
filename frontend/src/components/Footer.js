@@ -24,7 +24,7 @@ const Footer = () => {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-primary-blue/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 pt-16 pb-8 px-6 lg:px-8">
+      <div className="relative z-1 pt-16 pb-8 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Main Footer Content */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
@@ -148,20 +148,23 @@ const Footer = () => {
           </div>
 
           {/* Bottom Bar */}
-          <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-center items-center gap-4">
             <p className="text-gray-400 text-base">
               © 2025 StemElix. All rights reserved. Empowering futures through
               STEM education.
             </p>
 
             {/* Back to Top Button */}
-            <button
+            
+            {/* we already have a arrow so we dont need it */}
+
+            {/* <button
               onClick={scrollToTop}
               className="group flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-blue to-cyan hover:from-cyan hover:to-primary-blue text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary-blue/25 focus-ring"
             >
               <span className="text-sm font-medium">Back to Top</span>
               <FaArrowUp className="text-sm group-hover:animate-bounce" />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
