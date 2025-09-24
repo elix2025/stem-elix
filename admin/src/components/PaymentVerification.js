@@ -17,14 +17,17 @@ const PaymentVerification = () => {
   const loadPayments = async () => {
     try {
       setLoading(true);
+      setError(''); // Clear previous errors
       const result = await getAllPayments();
+      console.log('📊 Payments loaded:', result);
       if (result.success) {
-        setPayments(result.payments);
+        setPayments(result.payments || []);
       } else {
-        setError(result.message);
+        setError(result.message || 'Failed to load payments');
       }
     } catch (err) {
-      setError('Failed to load payments');
+      console.error('Error loading payments:', err);
+      setError('Failed to load payments: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -108,25 +111,30 @@ const PaymentVerification = () => {
 
         {/* Payments List */}
         <div className="bg-white shadow rounded-lg overflow-hidden mb-8">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
+          {payments.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500">No payments found</p>
+            </div>
+          ) : (
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {payments.map((payment) => (
                 <tr key={payment._id}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{payment.user.name}</div>
-                    <div className="text-sm text-gray-500">{payment.user.email}</div>
+                    <div className="text-sm text-gray-900">{payment.user?.name || 'N/A'}</div>
+                    <div className="text-sm text-gray-500">{payment.user?.email || 'N/A'}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{payment.course.title}</div>
+                    <div className="text-sm text-gray-900">{payment.course?.title || 'Course not found'}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">₹{payment.amount}</div>
@@ -150,7 +158,8 @@ const PaymentVerification = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          )}
         </div>
 
         {/* Payment Details Modal */}
@@ -185,11 +194,12 @@ const PaymentVerification = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <h4 className="text-sm font-medium text-gray-500">User</h4>
-                    <p className="mt-1">{selectedPayment.user.name}</p>
+                    <p className="mt-1">{selectedPayment.user?.name || 'N/A'}</p>
+                    <p className="text-sm text-gray-400">{selectedPayment.user?.email || 'N/A'}</p>
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-gray-500">Course</h4>
-                    <p className="mt-1">{selectedPayment.course.title}</p>
+                    <p className="mt-1">{selectedPayment.course?.title || 'Course not found'}</p>
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-gray-500">Amount</h4>
@@ -198,6 +208,14 @@ const PaymentVerification = () => {
                   <div>
                     <h4 className="text-sm font-medium text-gray-500">Status</h4>
                     <p className="mt-1">{selectedPayment.status}</p>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500">Order ID</h4>
+                    <p className="mt-1 text-sm">{selectedPayment.orderId || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500">Created At</h4>
+                    <p className="mt-1 text-sm">{new Date(selectedPayment.createdAt).toLocaleString()}</p>
                   </div>
                 </div>
 

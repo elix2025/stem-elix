@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import robotImage from "../assets/3974104.png";
+import hero from "../assets/hero-removebg.png";
 
 const Hero = ({ handleEnrollNow }) => {
   const heroRef = useRef(null);
@@ -48,7 +49,7 @@ const Hero = ({ handleEnrollNow }) => {
   return (
     <section
       ref={heroRef}
-      className="relative overflow-hidden min-h-screen bg-[#f9f8f5] pb-0 my-0"
+      className="relative overflow-hidden min-h-screen bg-[#F8F9FA] pb-0 my-0"
     >
       {/* Static Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -71,7 +72,7 @@ const Hero = ({ handleEnrollNow }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-screen py-16 sm:py-20 lg:py-0">
           {/* Left Content */}
           <div className="text-center lg:text-left space-y-6 lg:space-y-8 order-2 lg:order-1">
-            <div className="inline-flex items-center space-x-2 glass bg-white/20 backdrop-blur-sm border border-primary/20 text-primary px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium">
+            <div className="inline-flex items-center space-x-2 glass bg-[#F8F9FA] backdrop-blur-sm border border-primary/20 text-primary px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium">
               
               <span>Advanced STEM Learning Platform</span>
             </div>
@@ -168,21 +169,21 @@ const Hero = ({ handleEnrollNow }) => {
           {/* Right visual */}
           <div className="relative flex justify-center items-center w-full order-1 lg:order-2 mb-8 lg:mb-0">
             {/* Static background effects */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/5 to-primary/10 rounded-full blur-3xl"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-transparent to-primary/20 rounded-full blur-2xl"></div>
+            {/* <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/5 to-primary/10 rounded-full blur-3xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-transparent to-primary/20 rounded-full blur-2xl"></div> */}
 
-            <div className="relative z-20 w-full max-w-md lg:max-w-lg xl:max-w-xl">
+            <div className="relative z-18 w-full max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
               <div className="relative">
                 <img
-                  src={robotImage}
+                  src={hero}
                   alt="Advanced STEM Robot"
-                  className="w-full h-auto hover:scale-105 transition-transform duration-700 filter drop-shadow-2xl opacity-80"
-                  style={{
-                    maskImage:
-                      "radial-gradient(ellipse at center, black 40%, transparent 80%)",
-                    WebkitMaskImage:
-                      "radial-gradient(ellipse at center, black 40%, transparent 80%)",
-                  }}
+                  className="w-full h-auto hover:scale-105 transition-transform duration-700"
+                  // style={{
+                  //   maskImage:
+                  //     "radial-gradient(ellipse at center, black 40%, transparent 80%)",
+                  //   WebkitMaskImage:
+                  //     "radial-gradient(ellipse at center, black 40%, transparent 80%)",
+                  // }}
                 />
                 {/* Gradient overlay for better blending */}
                 <div className="absolute inset-0 bg-gradient-to-br from-background/30 via-transparent to-background/50 rounded-full opacity-60"></div>

@@ -181,17 +181,47 @@ export const APIContextProvider = ({ children }) => {
     }
   };
 
-  //  Enroll in a course
+  //  Enroll in a course (now uses verified payment system)
   const enrollCourse = async (userId, courseId, token) => {
     try {
+      console.log('🎯 Enrolling user in course:', { userId, courseId });
+      
       const res = await axios.post(
-        `${BASE_URL}/user/enroll`,
+        `${BASE_URL}/auth/enroll`,
         { userId, courseId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      console.log('✅ Enrollment response:', res.data);
+      
+      if (res.data.success) {
+        // Update current user state with new enrollment
+        setCurrentUser(prevUser => {
+          if (!prevUser) return prevUser;
+          
+          const newEnrollment = {
+            course: courseId,
+            status: "in-progress",
+            enrolledAt: new Date(),
+            paymentId: res.data.enrollment?.paymentId
+          };
+          
+          return {
+            ...prevUser,
+            coursesEnrolled: [...(prevUser.coursesEnrolled || []), newEnrollment],
+            totalCoursesEnrolled: (prevUser.totalCoursesEnrolled || 0) + 1
+          };
+        });
+      }
+      
       return res.data;
     } catch (error) {
-      return error.response?.data || { message: "Failed to enroll course" };
+      console.error('❌ Enrollment error:', error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to enroll in course",
+        requiresPayment: error.response?.data?.requiresPayment || false
+      };
     }
   };
 
@@ -462,11 +492,115 @@ export const APIContextProvider = ({ children }) => {
   //   }
   // };
 
+  // Check if user is enrolled in a course (compatible with payment-based enrollment)
   const isCourseEnrolled = (user, courseId) => {
-    if (!user || !user.coursesEnrolled) return false;
-    return user.coursesEnrolled.some(
-      (enrolled) => enrolled.course === courseId
-    );
+    console.log('🔍 Checking enrollment for:', { 
+      userId: user?._id, 
+      courseId,
+      coursesEnrolled: user?.coursesEnrolled
+    });
+    
+    if (!user || !user.coursesEnrolled || !Array.isArray(user.coursesEnrolled)) {
+      console.log('❌ User or coursesEnrolled not found');
+      return false;
+    }
+
+    const isEnrolled = user.coursesEnrolled.some(enrolled => {
+      // Handle both string and object formats
+      const enrolledCourseId = typeof enrolled === 'object' ? enrolled.course : enrolled;
+      const match = enrolledCourseId?.toString() === courseId?.toString();
+      
+      if (match) {
+        console.log('✅ Course enrollment found:', {
+          enrolledCourseId,
+          courseId,
+          enrollmentDetails: enrolled
+        });
+      }
+      
+      return match;
+    });
+
+    console.log('🎯 Enrollment check result:', { isEnrolled, courseId });
+    return isEnrolled;
+  };
+
+  // Check if user has a verified payment for a specific course
+  const hasVerifiedPayment = async (userId, courseId, token) => {
+    try {
+      console.log('💳 Checking verified payment for:', { userId, courseId });
+      
+      const res = await axios.get(
+        `${BASE_URL}/orders/check-payment/${userId}/${courseId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      console.log('💳 Payment check response:', res.data);
+      return res.data.hasPayment || false;
+    } catch (error) {
+      console.error('❌ Error checking payment:', error);
+      return false;
+    }
+  };
+
+  // Check if user can access course content (enrolled + verified payment)
+  const canAccessCourse = async (courseId, token) => {
+    try {
+      if (!currentUser) {
+        return { 
+          canAccess: false, 
+          reason: 'not_logged_in',
+          message: 'Please log in to access course content' 
+        };
+      }
+
+      // First check if user is enrolled
+      const isEnrolled = isCourseEnrolled(currentUser, courseId);
+      
+      if (isEnrolled) {
+        return { 
+          canAccess: true, 
+          reason: 'enrolled',
+          message: 'Course access granted' 
+        };
+      }
+
+      // If not enrolled, check if they have verified payment
+      const hasPayment = await hasVerifiedPayment(currentUser._id, courseId, token);
+      
+      if (hasPayment) {
+        // Try to enroll them automatically
+        const enrollResult = await enrollCourse(currentUser._id, courseId, token);
+        
+        if (enrollResult.success) {
+          return { 
+            canAccess: true, 
+            reason: 'auto_enrolled',
+            message: 'Enrollment completed successfully' 
+          };
+        } else {
+          return { 
+            canAccess: false, 
+            reason: 'enrollment_failed',
+            message: enrollResult.message || 'Failed to complete enrollment' 
+          };
+        }
+      }
+
+      return { 
+        canAccess: false, 
+        reason: 'payment_required',
+        message: 'Payment verification required to access this course' 
+      };
+
+    } catch (error) {
+      console.error('❌ Error checking course access:', error);
+      return { 
+        canAccess: false, 
+        reason: 'error',
+        message: 'Unable to verify course access' 
+      };
+    }
   };
 
   // Wrapper for getUserProgress to handle the response format expected by StudentDash
@@ -523,10 +657,11 @@ export const APIContextProvider = ({ children }) => {
         submitProject,
         createPayment,
         getCourseProgress,
-       getUserProgress: getUserProgressWrapper,
-
-       
+        getUserProgress: getUserProgressWrapper,
+        // Enhanced enrollment functions
         isCourseEnrolled,
+        hasVerifiedPayment,
+        canAccessCourse,
         loadingPayment,
       }}
     >

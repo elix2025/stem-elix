@@ -37,21 +37,26 @@ orderRouter.get("/health", (req, res) => {
   });
 });
 
-// Apply authentication to all other routes
-orderRouter.use(protect);
+// Debug endpoint to test admin auth
+orderRouter.get("/test-admin", AdminAuth, (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Admin authentication successful!",
+    user: req.user,
+    timestamp: new Date().toISOString(),
+  });
+});
 
+// User routes (require user authentication)
 orderRouter.post("/create", protect, upload.single("reciept"),createPayment);
 
-// Admin: Verify or reject payment
+// Admin routes (require admin authentication only)
 orderRouter.post("/verify/:paymentId", AdminAuth, verifyPayment);
-
-// Admin: Get all payments
 orderRouter.get("/payments", AdminAuth, getAllPayments);
+orderRouter.get("/payment/:id", AdminAuth, getPayment);
 
-// Get payment details
-orderRouter.get("/payment/:id", protect, getPayment);
-
-// Get user payments with pagination
+// User routes (require user authentication)
+orderRouter.post("/create", protect, upload.single("reciept"),createPayment);
 orderRouter.get("/user/:userId/payments", protect, getUserPayments);
 
 // User routes with validation

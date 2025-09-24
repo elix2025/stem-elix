@@ -190,7 +190,7 @@ const Home = () => {
   return (
     <div
       ref={containerRef}
-      className="home-page bg-[#f9f8f5] overflow-hidden smooth-scroll"
+      className="home-page bg-[#F8F9FA] overflow-hidden smooth-scroll"
       style={{
         scrollBehavior: 'smooth',
         overscrollBehavior: 'contain'

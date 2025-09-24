@@ -40,7 +40,7 @@ const Courses = () => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   const navigate = useNavigate();
-  const { getAllCourses, user, isCourseEnrolled,currentUser } = useAPI();
+  const { getAllCourses, currentUser, isCourseEnrolled, canAccessCourse } = useAPI();
 
   // Debounce search query
   useEffect(() => {
@@ -104,28 +104,42 @@ const Courses = () => {
     });
   }, [courses, debouncedSearchQuery, selectedCategory]);
   const CourseCard = React.memo(({ course }) => {
-    const isEnrolled = user && isCourseEnrolled(user, course._id);
+    const [checkingAccess, setCheckingAccess] = useState(false);
+    const isEnrolled = currentUser && isCourseEnrolled(currentUser, course._id);
 
-    const handleCourseClick = () => {
-      let userId = currentUser?._id;
-      let token = currentUser?.token || localStorage.getItem("token");
+    const handleCourseClick = async () => {
+      const token = currentUser?.token || localStorage.getItem("token");
 
-          if (!userId) {
-      try {
-        const userObj = JSON.parse(localStorage.getItem("user"));
-        userId = userObj?._id;
-      } catch {}
-    }
+      if (!currentUser || !token) {
+        alert("You must be logged in to access courses.");
+        navigate("/login");
+        return;
+      }
 
-        if (!userId || !token) {
-      alert("You must be logged in to enroll.");
-      navigate("/login");
-      return;
-    }
+      // If already enrolled, go directly to content
       if (isEnrolled) {
         navigate(`/courses/content/${createSlug(course.title)}`);
-      } else {
+        return;
+      }
+
+      // Check if user can access the course (handles auto-enrollment for verified payments)
+      setCheckingAccess(true);
+      try {
+        const accessResult = await canAccessCourse(course._id, token);
+        
+        if (accessResult.canAccess) {
+          // User can access - either was enrolled or got auto-enrolled
+          navigate(`/courses/content/${createSlug(course.title)}`);
+        } else {
+          // User needs to see course info/payment page
+          navigate(`/courses/info/${createSlug(course.title)}`);
+        }
+      } catch (error) {
+        console.error('Error checking course access:', error);
+        // Fallback to info page
         navigate(`/courses/info/${createSlug(course.title)}`);
+      } finally {
+        setCheckingAccess(false);
       }
     };
 
@@ -223,12 +237,15 @@ const Courses = () => {
 
             <button
               className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
-                isEnrolled
+                checkingAccess
+                  ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                  : isEnrolled
                   ? "bg-green-100 text-green-800 hover:bg-green-200"
                   : "bg-primary-blue text-white hover:bg-primary-blue/90 hover:scale-105"
               }`}
+              disabled={checkingAccess}
             >
-              {isEnrolled ? "Continue" : "Know More"}
+              {checkingAccess ? "Checking..." : isEnrolled ? "Continue" : "Know More"}
             </button>
           </div>
         </div>

@@ -17,7 +17,7 @@ const paymentSchema = new mongoose.Schema(
     },
     course: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Course",
+      ref: "CourseModel",
       required: true,
       index: true,
     },
@@ -48,7 +48,7 @@ const paymentSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["pending", "verified", "rejected"],
-      default: "",
+      default: "pending",
       index: true,
     },
 

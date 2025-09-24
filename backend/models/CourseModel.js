@@ -407,16 +407,25 @@ const CourseSchema = new mongoose.Schema(
 
 // Virtual fields
 CourseSchema.virtual("totalLectures").get(function () {
+  if (!this.CourseContent || !Array.isArray(this.CourseContent)) {
+    return 0;
+  }
   return this.CourseContent.reduce((total, chapter) => {
     return total + (chapter.chapterContent ? chapter.chapterContent.length : 0);
   }, 0);
 });
 
 CourseSchema.virtual("totalChapters").get(function () {
+  if (!this.CourseContent || !Array.isArray(this.CourseContent)) {
+    return 0;
+  }
   return this.CourseContent.length;
 });
 
 CourseSchema.virtual("previewLectures").get(function () {
+  if (!this.CourseContent || !Array.isArray(this.CourseContent)) {
+    return [];
+  }
   const previews = [];
   this.CourseContent.forEach((chapter) => {
     if (chapter.chapterContent) {

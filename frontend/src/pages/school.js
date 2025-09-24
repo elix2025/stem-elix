@@ -6,9 +6,9 @@ import gsap from "gsap";
  * Replace these imports with your real assets.
  * e.g. import labPhoto1 from "../assets/lab1.jpg";
  */
-import labPhoto1 from "../assets/lab1.jpg";
-import labPhoto2 from "../assets/lab2.jpg";
-import labPhoto3 from "../assets/lab3.jpg";
+import labPhoto1 from "../assets/machine.jpg";
+import labPhoto2 from "../assets/component1.jpg";
+import labPhoto3 from "../assets/star.webp";
 // import kitImg from "../assets/stemkit-box.png";
 
 const steps = [

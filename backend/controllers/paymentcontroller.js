@@ -55,6 +55,15 @@ const uploadToCloudinary = async (file) => {
 // 1️⃣ Create a new payment (user uploads screenshot)
 export const createPayment = async (req, res) => {
   try {
+    console.log("🔍 Payment creation request received");
+    console.log("📝 Request body:", req.body);
+    console.log("📁 Request file:", req.file ? {
+      fieldname: req.file.fieldname,
+      originalname: req.file.originalname,
+      mimetype: req.file.mimetype,
+      size: req.file.size
+    } : "No file received");
+
     const { userId, courseId, amount } = req.body;
     const receipt = req.file;
 
@@ -95,9 +104,12 @@ export const createPayment = async (req, res) => {
     }
 
     // Upload screenshot to Cloudinary
+    console.log("📤 Uploading screenshot to Cloudinary...");
     const uploadResult = await uploadToCloudinary(receipt);
+    console.log("✅ Cloudinary upload successful:", uploadResult.public_id);
 
     // Create payment record
+    console.log("💳 Creating payment record...");
     const newPayment = new Payment({
       user: userId,
       course: courseId,
@@ -113,7 +125,15 @@ export const createPayment = async (req, res) => {
       ])
     });
 
-    await newPayment.save();
+    console.log("💾 Saving payment to database...");
+    const savedPayment = await newPayment.save();
+    console.log("✅ Payment saved successfully with ID:", savedPayment._id);
+    console.log("📄 Payment details:", {
+      id: savedPayment._id,
+      orderId: savedPayment.orderId,
+      status: savedPayment.status,
+      screenshotUrl: savedPayment.screenshotUrl ? "✅ Present" : "❌ Missing"
+    });
 
     // Send notification to admin (you can implement this based on your notification system)
     // notifyAdmin(newPayment._id, "New payment verification required");
@@ -122,10 +142,11 @@ export const createPayment = async (req, res) => {
       success: true,
       message: "Payment submitted successfully. Your enrollment will be completed once verified by us.",
       payment: {
-        id: newPayment._id,
-        amount: newPayment.amount,
-        status: newPayment.status,
-        screenshotUrl: newPayment.screenshotUrl
+        id: savedPayment._id,
+        orderId: savedPayment.orderId,
+        amount: savedPayment.amount,
+        status: savedPayment.status,
+        screenshotUrl: savedPayment.screenshotUrl
       }
     });
   } catch (err) {
@@ -350,14 +371,44 @@ export const getUserPayments = async (req, res) => {
 // 4️⃣ Get all payments (optional: admin view)
 export const getAllPayments = async (req, res) => {
   try {
+    console.log("🔍 getAllPayments endpoint hit");
+    console.log("👤 Admin user from middleware:", req.user);
+    console.log("📋 Query params:", req.query);
+    
+    console.log("🔍 Fetching all payments from database...");
+    
     const payments = await Payment.find()
       .populate("user", "name email")
       .populate("course", "title")
       .sort({ createdAt: -1 });
 
-    res.status(200).json(payments);
+    console.log(`📊 Found ${payments.length} payments in database`);
+    
+    // Debug: Log detailed info about first few payments
+    payments.slice(0, 3).forEach((payment, index) => {
+      console.log(`Payment ${index + 1}:`, {
+        id: payment._id,
+        orderId: payment.orderId,
+        status: payment.status,
+        amount: payment.amount,
+        screenshotUrl: payment.screenshotUrl ? "✅ Present" : "❌ Missing",
+        user: payment.user?.name || "No user data",
+        course: payment.course?.title || "No course data",
+        createdAt: payment.createdAt
+      });
+    });
+
+    res.status(200).json({
+      success: true,
+      count: payments.length,
+      payments: payments
+    });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error." });
+    console.error("❌ Error fetching payments:", err);
+    res.status(500).json({ 
+      success: false,
+      message: "Server error.",
+      error: err.message
+    });
   }
 };

@@ -13,7 +13,7 @@ export const AdminProvider = ({ children }) => {
     process.env.REACT_APP_API_BASE || "http://localhost:4000/api";
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     console.log("Token received from backend", token);
     if (token) {
       console.log("Token found in localStorage", token);
@@ -59,6 +59,45 @@ export const AdminProvider = ({ children }) => {
     setIsAdminLoggedIn(false);
     setAdminToken(null);
     localStorage.removeItem("adminToken");
+  };
+
+  // Debug function to check authentication status
+  const checkAuthStatus = () => {
+    const token = localStorage.getItem("adminToken");
+    console.log('🔍 Current Auth Status:', {
+      isAdminLoggedIn,
+      adminToken: adminToken ? adminToken.substring(0, 20) + '...' : null,
+      localStorageToken: token ? token.substring(0, 20) + '...' : null,
+      tokensMatch: adminToken === token
+    });
+    return { isAdminLoggedIn, adminToken, localStorageToken: token };
+  };
+
+  // Test admin authentication with backend
+  const testAdminAuth = async () => {
+    try {
+      const adminToken = localStorage.getItem('adminToken');
+      console.log('🧪 Testing admin authentication...');
+      
+      if (!adminToken) {
+        console.error('❌ No admin token found for testing');
+        return { success: false, message: 'No token found' };
+      }
+
+      const res = await axios.get(`${Admin_Base_URL}/orders/test-admin`, {
+        headers: { Authorization: `Bearer ${adminToken}` }
+      });
+      
+      console.log('✅ Admin auth test successful:', res.data);
+      return { success: true, data: res.data };
+    } catch (error) {
+      console.error('❌ Admin auth test failed:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data
+      });
+      return { success: false, error: error.response?.data };
+    }
   };
 
   const createCourse = async (courseData) => {
@@ -289,17 +328,46 @@ export const AdminProvider = ({ children }) => {
     const getAllPayments = async (status = 'pending') => {
       try {
         const adminToken = localStorage.getItem('adminToken');
+        console.log('🔍 getAllPayments called with:', {
+          status,
+          hasToken: !!adminToken,
+          tokenPreview: adminToken ? adminToken.substring(0, 20) + '...' : null,
+          isAdminLoggedIn,
+          URL: `${Admin_Base_URL}/orders/payments`
+        });
+
+        if (!adminToken) {
+          console.error('❌ No admin token found in localStorage');
+          return {
+            success: false,
+            message: 'No authentication token found. Please login as admin.'
+          };
+        }
+
+        console.log('📡 Making API call to:', `${Admin_Base_URL}/orders/payments`);
+        console.log('🔐 Using authorization header:', `Bearer ${adminToken.substring(0, 30)}...`);
+
         const res = await axios.get(`${Admin_Base_URL}/orders/payments`, {
           headers: { Authorization: `Bearer ${adminToken}` },
           params: { status }
         });
+        
+        console.log('✅ Payments fetched successfully:', res.data);
         
         return {
           success: true,
           payments: res.data.payments || []
         };
       } catch (error) {
-        console.error('Failed to fetch payments:', error);
+        console.error('❌ Failed to fetch payments:', {
+          message: error.message,
+          status: error.response?.status,
+          data: error.response?.data,
+          config: {
+            url: error.config?.url,
+            headers: error.config?.headers
+          }
+        });
         return {
           success: false,
           message: error.response?.data?.message || 'Failed to fetch payments'
@@ -367,6 +435,8 @@ export const AdminProvider = ({ children }) => {
         loading,
         loginAdmin,
         logoutAdmin,
+        checkAuthStatus,
+        testAdminAuth,
         createCourse,
         getAllCourses,
         addChapter,
