@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
+import tinker from "../assets/tinker.png";
 
-// Static background boxes configuration
+// Static background boxes configuration - Updated to match NeuroShowcase
 const BACKGROUND_BOXES = [
-  { position: "top-5 left-5", color: "bg-gray-200", opacity: "opacity-70" },
-  { position: "bottom-10 left-10", color: "bg-[#ecd0ec]/40", opacity: "opacity-70" },
-  { position: "bottom-10 right-10", color: "bg-[#ecd0ec]/40", opacity: "opacity-60" },
-  { position: "top-5 right-5", color: "bg-[#fc8eac]/40", opacity: "opacity-60" },
-  { position: "top-[120px] sm:top-[160px] left-10", color: "bg-[#fc8eac]/50", opacity: "opacity-70", size: "w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-[100px]" },
-  { position: "top-32 right-5", color: "bg-gray-300", opacity: "opacity-70", size: "w-20 h-16 sm:w-24 sm:h-20 md:w-28 md:h-24" },
-  { position: "bottom-5 left-1/2 -translate-x-1/2", color: "bg-[#c6c2b6]/50", opacity: "opacity-70", size: "w-20 h-16 sm:w-28 sm:h-20 md:w-32 md:h-24" }
+  { position: "top-8 left-8", color: "bg-gray-200", opacity: "opacity-60", size: "w-12 h-12 sm:w-16 sm:h-16", shadow: "shadow-lg" },
+  { position: "bottom-16 left-16", color: "bg-[#ecd0ec]/40", opacity: "opacity-60", size: "w-10 h-10 sm:w-14 sm:h-14", shadow: "shadow-md" },
+  { position: "bottom-20 right-16", color: "bg-[#ecd0ec]/40", opacity: "opacity-50", size: "w-10 h-10 sm:w-14 sm:h-14", shadow: "shadow-md" },
+  { position: "top-10 right-8", color: "bg-[#fc8eac]/40", opacity: "opacity-50", size: "w-12 h-12 sm:w-16 sm:h-16", shadow: "shadow-lg" },
+  { position: "top-[120px] left-20", color: "bg-[#fc8eac]/50", opacity: "opacity-60", size: "w-14 h-10 sm:w-16 sm:h-12", shadow: "shadow" },
+  { position: "top-40 right-12", color: "bg-gray-300", opacity: "opacity-60", size: "w-12 h-10 sm:w-16 sm:h-12", shadow: "shadow" },
+  { position: "bottom-8 left-1/2 -translate-x-1/2", color: "bg-[#c6c2b6]/50", opacity: "opacity-60", size: "w-14 h-10 sm:w-20 sm:h-14", shadow: "shadow" }
 ];
 
 // Background decorative boxes component
@@ -22,7 +23,8 @@ const BackgroundBoxes = () => (
           ${box.position}
           ${box.color}
           ${box.opacity}
-          ${box.size || 'w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24'}
+          ${box.size}
+          ${box.shadow}
         `}
       />
     ))}

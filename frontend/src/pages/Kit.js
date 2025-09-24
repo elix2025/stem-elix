@@ -4,7 +4,7 @@ import Img1 from "../assets/projectcamera.jpg";
 import Img2 from "../assets/project2.jpg";
 import Img3 from "../assets/kit1.jpg";
 import Img4 from "../assets/kitbox3.jpg";
-import Img5 from "../assets/kitbox3.jpg";
+import Img8 from "../assets/kitbox2.jpg";
 import img5 from "../assets/sensors.jpg";
 import img6 from "../assets/car1.jpg";
 import img7 from "../assets/car2.jpg";
@@ -16,28 +16,28 @@ const StemKitsPage = () => {
   const kitData = {
     components: [
       {
-        title: "Arduino Microcontroller",
+        title: " Microcontroller",
         description: "The brain of your projects - programmable controller with multiple I/O pins",
-        features: ["Digital & Analog pins", "USB connectivity", "Easy programming"],
+        features: ["Arduino Uno", "Arduino Mega 2560", "Raspberry Pi"],
         image: img5
       },
       {
-        title: "LED Matrix Display",
-        description: "8x8 programmable LED matrix for creating patterns, text, and animations",
-        features: ["64 individually controllable LEDs", "Multiple color options", "Pattern programming"],
-        image: Img1
-      },
-      {
-        title: "Servo Motors",
-        description: "Precision motors for movement and positioning in robotics projects",
-        features: ["180° rotation control", "High torque", "Easy integration"],
+        title: "Distance Sensing Alert System",
+        description: "Detects obstacles and alerts users with visual and audio signals",
+        features: ["Ultrasonic distance sensor", "Buzzer for alerts", "LED indicators"],
         image: Img2
       },
+      // {
+      //   title: "Servo Motors",
+      //   description: "Precision motors for movement and positioning in robotics projects",
+      //   features: ["180° rotation control", "High torque", "Easy integration"],
+      //   image: Img2
+      // },
       {
         title: "Sensors Kit",
         description: "Complete sensor collection for environmental monitoring and interaction",
         features: ["Temperature sensor", "Light sensor", "Motion detector", "Sound sensor"],
-        image: img5
+        image: Img8
       },
       {
         title: "Breadboards & Wires",
@@ -56,38 +56,32 @@ const StemKitsPage = () => {
       {
         title: "Smart Home Automation",
         difficulty: "Intermediate",
-        duration: "2-3 hours",
+       
         description: "Build a miniature smart home with automated lights, temperature control, and security system",
         skills: ["Sensor integration", "Programming logic", "Circuit design"],
         image: Img1,
         steps: ["Setup Arduino controller", "Connect sensors", "Program automation logic", "Test and calibrate"]
       },
+    
+     
       {
-        title: "Line Following Robot",
-        difficulty: "Advanced",
-        duration: "3-4 hours",
-        description: "Create an autonomous robot that follows a black line using infrared sensors",
-        skills: ["Robotics", "Sensor calibration", "Motor control"],
-        image: Img2,
-        steps: ["Assemble chassis", "Mount sensors", "Program navigation", "Test track performance"]
-      },
-      {
-        title: "Electric Car",
+        title: "Quadruped Robot",
         difficulty: "Beginner",
-        duration: "1-2 hours",
-        description: "Monitor temperature, humidity, and light levels with real-time display",
-        skills: ["Data collection", "Display programming", "Environmental monitoring"],
+
+        description: "Build a walking robot with four legs that can navigate obstacles",
+        skills: ["Robotics", "Programming", "Mechanical design"],
         image: img6,
-        steps: ["Connect sensors", "Setup display", "Program readings", "Calibrate measurements"]
-      },
-      {
-        title: "Electric Machine",
-        difficulty: "Beginner",
-        duration: "1 hour",
-        description: "Build a working traffic light with pedestrian crossing functionality",
-        skills: ["LED control", "Timing sequences", "Basic programming"],
-        image: img7,
         steps: ["Wire LED circuits", "Program sequences", "Add button control", "Test timing"]
+      },
+
+        {
+        title: "4WD Robot Car",
+        difficulty: "Beginner",
+
+        description: " Programmed for Autonomous navigation - avoiding obstacles using the ultrasonic sensor Line following - to follow marked paths",
+        skills: ["Data collection", "Display programming", "Environmental monitoring"],
+        image: img7,
+        steps: ["Connect sensors", "Setup display", "Program readings", "Calibrate measurements"]
       },
    
     ]
@@ -139,10 +133,10 @@ const StemKitsPage = () => {
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                // transition={{ duration: 0.6, delay: idx * 0.1 }}
                 className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300"
               >
-                <div className="text-4xl mb-4">{item.icon}</div>
+                {/* <div className="text-4xl mb-4">{item.icon}</div> */}
                 <h3 className="text-xl font-bold mb-3 text-slate-800">{item.title}</h3>
                 <p className="text-slate-600 leading-relaxed">{item.description}</p>
               </motion.div>
@@ -245,14 +239,14 @@ const StemKitsPage = () => {
                   </div>
                   <div className="p-8">
                     <div className="flex items-center gap-2 mb-3">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      {/* <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         project.difficulty === 'Beginner' ? 'bg-green-100 text-green-700' :
                         project.difficulty === 'Intermediate' ? 'bg-yellow-100 text-yellow-700' :
                         'bg-red-100 text-red-700'
                       }`}>
                         {project.difficulty}
-                      </span>
-                      <span className="text-xs text-slate-500">⏱ {project.duration}</span>
+                      </span> */}
+                      {/* <span className="text-xs text-slate-500">⏱ {project.duration}</span> */}
                     </div>
                     <h3 className="text-xl font-bold mb-3 text-slate-800">{project.title}</h3>
                     <p className="text-slate-600 mb-4 leading-relaxed">{project.description}</p>
@@ -373,9 +367,9 @@ const StemKitsPage = () => {
                     <div key={idx} className="border-l-4 border-indigo-400 pl-4">
                       <div className="flex items-center gap-2 mb-2">
                         <h4 className="font-bold text-slate-800">{category.category}</h4>
-                        <span className="text-sm bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
+                        {/* <span className="text-sm bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
                           {category.count} items
-                        </span>
+                        </span> */}
                       </div>
                       <ul className="text-sm text-slate-600 space-y-1">
                         {category.items.map((item, itemIdx) => (
@@ -542,7 +536,7 @@ const StemKitsPage = () => {
       )}
 
       {/* Call to Action */}
-      <section className="py-20 px-6 bg-gradient-to-br from-indigo-600 to-purple-700 text-white">
+      <section className="py-20 px-6 bg-gradient-to-br from-primary to-purple-700 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -557,17 +551,17 @@ const StemKitsPage = () => {
               Give your child the tools to build tomorrow's technology today. 
               STEMelix kits combine fun with learning to create unforgettable educational experiences.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="px-8 py-4 bg-white text-indigo-600 rounded-xl font-bold hover:bg-gray-50 transition-colors duration-300">
                 Order Kit Now - ₹2,999
               </button>
               <button className="px-8 py-4 border-2 border-white text-white rounded-xl font-bold hover:bg-white hover:text-indigo-600 transition-colors duration-300">
                 Download Sample Projects
               </button>
-            </div>
-            <p className="mt-6 text-sm opacity-75">
+            </div> */}
+            {/* <p className="mt-6 text-sm opacity-75">
               ✅ Free shipping nationwide • 🔄 30-day money-back guarantee • 🎁 Bonus project ideas included
-            </p>
+            </p> */}
           </motion.div>
         </div>
       </section>

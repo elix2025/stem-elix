@@ -49,7 +49,7 @@ const Hero = ({ handleEnrollNow }) => {
   return (
     <section
       ref={heroRef}
-      className="relative overflow-hidden min-h-screen bg-[#F8F9FA] pb-0 my-0"
+      className="relative overflow-hidden min-h-screen bg-[#f9f8f5] pb-0 my-0"
     >
       {/* Static Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -72,7 +72,7 @@ const Hero = ({ handleEnrollNow }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-screen py-16 sm:py-20 lg:py-0">
           {/* Left Content */}
           <div className="text-center lg:text-left space-y-6 lg:space-y-8 order-2 lg:order-1">
-            <div className="inline-flex items-center space-x-2 glass bg-[#F8F9FA] backdrop-blur-sm border border-primary/20 text-primary px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium">
+            <div className="inline-flex items-center space-x-2 glass bg-[#f9f8f5] backdrop-blur-sm border border-primary/20 text-black px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium">
               
               <span>Advanced STEM Learning Platform</span>
             </div>
@@ -80,7 +80,7 @@ const Hero = ({ handleEnrollNow }) => {
             <div className="space-y-4 sm:space-y-6">
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-text leading-tight">
                 <span className="block relative">
-                  <span className="text-primary">{displayedText}</span>
+                  <span className="text-black">{displayedText}</span>
                   {currentIndex < fullText.length && (
                     <span className="inline-block w-1 h-12 sm:h-16 lg:h-20 bg-primary ml-2 animate-pulse"></span>
                   )}
@@ -150,7 +150,7 @@ const Hero = ({ handleEnrollNow }) => {
             <div className={`flex flex-wrap gap-3 pt-4 justify-center lg:justify-start transition-opacity duration-700 delay-300 lg:hidden ${
                 showButtons ? "opacity-100" : "opacity-0"
               }`}>
-              {["Interactive Labs", "Expert Mentors", "24/7 Support"].map(
+              {["1:1 Learning", "Expert Mentors", "24/7 Support"].map(
                 (feature, index) => (
                   <div
                     key={feature}
@@ -205,7 +205,7 @@ const Hero = ({ handleEnrollNow }) => {
       </div>
 
       {/* Bottom wave decoration */}
-      <div className="absolute bottom-0 left-0 w-full h-10 sm:h-20 bg-gradient-to-r from-primary/5 to-secondary/5 transform skew-y-1"></div>
+      {/* <div className="absolute bottom-0 left-0 w-full h-10 sm:h-20 bg-gradient-to-r from-primary/5 to-secondary/5 transform skew-y-1"></div> */}
     </section>
   );
 };

@@ -114,9 +114,9 @@ const CourseCard = ({ course, index }) => {
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
-      className={`group relative h-[350px] perspective-1000 bg-white 
-        rounded-2xl shadow-lg hover:shadow-2xl 
-        border border-primary-blue/10 hover:border-primary-blue/30
+      className={`group relative h-[280px] perspective-1000 bg-[#f9f8f5] 
+        rounded-xl shadow-lg hover:shadow-2xl 
+        border border-gray-200 hover:border-[#fc8eac]/50
         transition-all duration-500 cursor-pointer overflow-hidden
         transform ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -136,21 +136,21 @@ const CourseCard = ({ course, index }) => {
         <div className="absolute w-full h-full backface-hidden"
         style={{ backfaceVisibility: "hidden" }}
         >
-          <div className="w-full h-full bg-white rounded-2xl shadow-lg border border-primary-blue/10 p-8 flex flex-col items-center justify-center">
+          <div className="w-full h-full bg-gradient-to-br from-[#f9f8f5] via-white to-[#f9f8f5] rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center">
             {/* Original card content */}
-            <div className="relative mb-6">
-              <div className="w-20 h-20 bg-gradient-to-br from-primary-blue/10 via-cyan/5 to-primary-blue/10 
-                rounded-3xl flex items-center justify-center transition-all duration-500">
-                <img src={course.image} alt={course.title} className="w-12 h-12" />
+            <div className="relative mb-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#fc8eac]/20 via-[#ecd0ec]/15 to-[#fc8eac]/20 
+                rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110">
+                <img src={course.image} alt={course.title} className="w-10 h-10" />
               </div>
             </div>
 
-            <h3 className="text-charcoal font-bold text-xl md:text-2xl text-center mb-4">
+            <h3 className="text-gray-800 font-bold text-lg md:text-xl text-center mb-3">
               {course.title}
             </h3>
 
-            <span className="px-4 py-2 bg-gradient-to-r from-primary-blue/10 to-cyan/10 
-              text-primary-blue text-sm font-semibold rounded-full">
+            <span className="px-4 py-2 bg-gradient-to-r from-[#fc8eac]/30 to-[#ecd0ec]/30 
+              text-gray-700 text-sm font-semibold rounded-full border border-[#fc8eac]/20">
               Level: {course.level}
             </span>
           </div>
@@ -161,15 +161,15 @@ const CourseCard = ({ course, index }) => {
         style={{ backfaceVisibility: 'hidden',
           transform: 'rotateY(180deg)'
          }}>
-          <div className="w-full h-full bg-gradient-to-br from-primary-blue to-cyan rounded-2xl shadow-lg p-8 flex flex-col items-center justify-center">
-            <h3 className="text-white font-bold text-xl md:text-2xl text-center mb-4">
+          <div className="w-full h-full bg-gradient-to-br from-[#fc8eac] via-[#ecd0ec] to-[#c6c2b6] rounded-xl shadow-lg p-6 flex flex-col items-center justify-center">
+            <h3 className="text-black font-bold text-lg md:text-xl text-center mb-3">
               {course.title} Course
             </h3>
-            <p className="text-white/90 text-center mb-6">
+            <p className="text-black text-center mb-4 text-sm leading-relaxed">
               Click to explore the {course.title} curriculum and start your learning journey!
             </p>
-            <button className="px-6 py-3 bg-white text-primary-blue rounded-full font-semibold 
-              hover:bg-opacity-90 transition-all duration-300">
+            <button className="px-5 py-2 bg-white/90 text-black rounded-full font-semibold text-sm
+              hover:bg-white transition-all duration-300 shadow-md">
               Learn More
             </button>
           </div>
@@ -189,59 +189,8 @@ const CourseCard = ({ course, index }) => {
         ></div>
       </div> */}
 
-      {/* Floating Decorative Elements */}
-      {/* <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-primary-blue/10 to-cyan/20 rounded-full 
-        group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 animate-pulse"></div>
-      <div className="absolute bottom-6 left-4 w-6 h-6 bg-gradient-to-br from-cyan/10 to-primary-blue/20 rounded-full 
-        group-hover:scale-110 group-hover:-rotate-12 transition-all duration-500 animate-pulse delay-200"></div> */}
 
-      {/* Card Content */}
-      {/*<div className="relative z-10 p-8 flex flex-col items-center justify-center h-56">
-        {/* Icon 
-        <div className="relative mb-6">
-          <div className="w-20 h-20 bg-gradient-to-br from-primary-blue/10 via-cyan/5 to-primary-blue/10 
-            rounded-3xl flex items-center justify-center
-            group-hover:from-primary-blue/20 group-hover:via-cyan/10 group-hover:to-cyan/20 
-            transition-all duration-500 group-hover:scale-110 group-hover:rotate-3
-            shadow-lg group-hover:shadow-xl group-hover:shadow-primary-blue/20">
-              <img src={course.image} alt={course.title} className="w-12 h-12" />
-            {/* <svg
-              className="w-10 h-10 text-primary-blue group-hover:text-cyan transition-all duration-500 group-hover:scale-110"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-              />
-            </svg> 
-          </div>
-          {/* Glow effect 
-          <div className="absolute inset-0 w-20 h-20 bg-gradient-to-br from-primary-blue/20 to-cyan/20 rounded-3xl 
-            blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
-        </div>
-
-        {/* Course Title 
-        <h3 className="text-charcoal font-bold text-xl md:text-2xl text-center mb-4
-          group-hover:text-primary-blue transition-colors duration-300 group-hover:scale-105 transform">
-          {course.title}
-        </h3>
-
-        {/* Level Badge 
-        <span className="px-4 py-2 bg-gradient-to-r from-primary-blue/10 to-cyan/10 
-          text-primary-blue text-sm font-semibold rounded-full
-          group-hover:from-primary-blue/20 group-hover:to-cyan/20 
-          group-hover:text-cyan group-hover:scale-105
-          transition-all duration-300 border border-primary-blue/20
-          group-hover:border-cyan/30 group-hover:shadow-lg">
-          Level: {course.level}
-        </span>
-
-        
-      </div> */}
+      
     </div>
   );
 };
@@ -255,6 +204,15 @@ export default function TinkrionShowcase() {
 
   return (
     <div className="w-full section-padding bg-[#f9f8f5] relative overflow-hidden">
+      {/* Static decorative boxes - same as NeuroShowcase */}
+      <div className="absolute top-8 left-8 w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-xl opacity-60 shadow-lg"></div>
+      <div className="absolute bottom-16 left-16 w-10 h-10 sm:w-14 sm:h-14 bg-[#ecd0ec]/40 rounded-xl opacity-60 shadow-md"></div>
+      <div className="absolute bottom-20 right-16 w-10 h-10 sm:w-14 sm:h-14 bg-[#ecd0ec]/40 rounded-xl opacity-50 shadow-md"></div>
+      <div className="absolute top-10 right-8 w-12 h-12 sm:w-16 sm:h-16 bg-[#fc8eac]/40 rounded-xl opacity-50 shadow-lg"></div>
+      <div className="absolute top-[120px] left-20 w-14 h-10 sm:w-16 sm:h-12 bg-[#fc8eac]/50 rounded-xl opacity-60 shadow"></div>
+      <div className="absolute top-40 right-12 w-12 h-10 sm:w-16 sm:h-12 bg-gray-300 rounded-xl opacity-60 shadow"></div>
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-14 h-10 sm:w-20 sm:h-14 bg-[#c6c2b6]/50 rounded-xl opacity-60 shadow"></div>
+
       {/* Background Circles */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-32 bg-primary-blue/5 rounded-full animate-float blur-xl"></div>
@@ -265,11 +223,11 @@ export default function TinkrionShowcase() {
       <div className="relative z-10 w-full px-4 md:px-6 max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 glass bg-primary-blue/10 backdrop-blur-sm
+          {/* <div className="inline-flex items-center space-x-2 glass bg-primary-blue/10 backdrop-blur-sm
             border border-primary-blue/20 text-primary-blue px-6 py-3 rounded-full text-sm font-medium mb-8 animate-slideDown">
             <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
             <span>Explore Our Courses</span>
-          </div>
+          </div> */}
 
           <h2 className="text-5xl md:text-5xl lg:text-6xl font-bold mb-8 animate-fadeIn">
             <img
@@ -293,7 +251,7 @@ export default function TinkrionShowcase() {
         </div>
 
         {/* Static 3-Course Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {courses.map((course, index) => (
             <CourseCard key={course.id} course={course} index={index} />
           ))}

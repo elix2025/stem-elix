@@ -91,8 +91,7 @@ const NeuroShowcase = () => {
           {/* Image Container - Simplified */}
           <div className="relative">
             {/* Static decorative elements */}
-            <div className="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br from-primary-blue/20 to-cyan/30 rounded-full blur-2xl" />
-            <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-gradient-to-br from-cyan/20 to-primary-blue/20 rounded-full blur-3xl" />
+          
 
             {/* Static connection lines */}
             <svg
@@ -115,7 +114,7 @@ const NeuroShowcase = () => {
 
             {/* Static hover element */}
             <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-cyan/20 to-primary-blue/30 rounded-full opacity-50" />
-          </div>
+           </div>
         </div>
       </div>
     </section>
