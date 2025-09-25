@@ -9,8 +9,8 @@ router.post("/send-register", async (req, res) => {
 
     await sendEmail({
       to,
-      subject: "Welcome to Stemelix 🎉",
-      text: `Hi ${name || ""}, welcome to Stemelix! Start your learning journey today.`,
+      subject: "Welcome to STEMelix 🎉",
+      text: `Hi ${name || ""}, welcome to STEMelix! Start your learning journey today.`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eaeaea; border-radius: 10px; overflow: hidden;">
           <!-- Logo -->
@@ -67,14 +67,28 @@ router.post("/send-enroll", async (req, res) => {
 
 router.post("/send-invoice", async (req, res) => {
   try {
-    const { to, invoiceDetails } = req.body;
+    const { to, invoicePdf, orderId } = req.body;
     await sendEmail({
       to,
-      subject: "Your Invoice from Tinkrion",
-      text: `Here are your invoice details: ${invoiceDetails}`,
-      html: `<h2>Your Invoice</h2><p>Here are your invoice details:</p><pre>${invoiceDetails}</pre>`,
+      subject: "Your Invoice from STEMelix",
+      attachments: [{
+        filename: `invoice_${orderId}.pdf`,
+        content: Buffer.from(invoicePdf, 'base64'),
+        contentType: 'application/pdf'
+      }],
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2>Your Invoice</h2>
+          <p>Thank you for your payment. Your invoice is attached to this email.</p>
+          <p>Order ID: ${orderId}</p>
+          <br/>
+          <p>Best regards,</p>
+          <p>The Stemelix Team</p>
+        </div>
+      `
     });
-  }catch (error) {
+    res.json({ success: true, message: "Invoice email sent successfully" });
+  } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -84,7 +98,7 @@ router.post("/send-meeting-link", async (req, res) => {
     const { to, meetingLink, meetingTime } = req.body;
     await sendEmail({
       to,
-      subject: "Your Meeting Link from Tinkrion",
+      subject: "Your Meeting Link from STEMelix",
       text: `Your meeting is scheduled at ${meetingTime}. Join using this link: ${meetingLink}`,
       html: `<h2>Your Meeting Link</h2><p>Your meeting is scheduled at <strong>${meetingTime}</strong>.</p><p>Join using this link: <a href="${meetingLink}">${meetingLink}</a></p>`,
     });
