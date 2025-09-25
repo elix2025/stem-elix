@@ -26,6 +26,7 @@
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^7.0.5",
+    "pdfkit": "^0.17.2",
     "razorpay": "^2.9.6",
     "twilio": "^5.8.0",
     "uuid": "^11.1.0",

@@ -1,8 +1,8 @@
 import Payment from "../models/orderModel.js";
 import User from "../models/User.js";
 import Course from "../models/CourseModel.js";
-import connectCloudinary from "../config/cloudinary.js";
-import {v2 as cloudinary} from "cloudinary";
+import generateInvoice from "../utils/invoiceGenerator.js";
+import { sendEmail } from "../config/mailer.js";
 
 // Helper function to validate payment data
 const validatePaymentData = (data) => {
@@ -25,29 +25,19 @@ const checkExistingPayment = async (userId, courseId) => {
   });
 };
 
-// Helper function to handle cloudinary upload
-const uploadToCloudinary = async (file) => {
+// Helper function to store file temporarily
+const storePaymentScreenshot = async (file) => {
   try {
-    return await new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        {
-          resource_type: "image",
-          folder: "payment_proofs",
-          transformation: [
-            { width: 1000, crop: "limit" },
-            { quality: "auto" }
-          ]
-        },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        }
-      );
-      stream.end(file.buffer);
-    });
+    // For now we'll just keep the file buffer in memory
+    // In production, you might want to store it in a file system or cloud storage
+    return {
+      buffer: file.buffer,
+      originalName: file.originalname,
+      mimetype: file.mimetype
+    };
   } catch (error) {
-    console.error("Cloudinary upload error:", error);
-    throw new Error("Failed to upload payment screenshot");
+    console.error("File storage error:", error);
+    throw new Error("Failed to store payment screenshot");
   }
 };
 
@@ -103,10 +93,10 @@ export const createPayment = async (req, res) => {
       });
     }
 
-    // Upload screenshot to Cloudinary
-    console.log("📤 Uploading screenshot to Cloudinary...");
-    const uploadResult = await uploadToCloudinary(receipt);
-    console.log("✅ Cloudinary upload successful:", uploadResult.public_id);
+    // Store payment screenshot
+    console.log("📤 Storing payment screenshot...");
+    const fileInfo = await storePaymentScreenshot(receipt);
+    console.log("✅ Screenshot stored successfully");
 
     // Create payment record
     console.log("💳 Creating payment record...");
@@ -114,13 +104,16 @@ export const createPayment = async (req, res) => {
       user: userId,
       course: courseId,
       amount,
-      screenshotUrl: uploadResult.secure_url,
+      paymentScreenshot: {
+        data: fileInfo.buffer,
+        contentType: fileInfo.mimetype,
+        originalName: fileInfo.originalName
+      },
       status: "pending",
       ipAddress: req.ip,
       userAgent: req.headers["user-agent"],
       originalAmount: course.price,
       notes: new Map([
-        ['screenshot_public_id', uploadResult.public_id],
         ['uploader_ip', req.ip]
       ])
     });
@@ -195,10 +188,18 @@ export const getPayment = async (req, res) => {
 // Admin endpoint to verify/reject payments
 export const verifyPayment = async (req, res) => {
   try {
+    console.log("\n=== Payment Verification Started ===");
+    console.log("� Verification request received at:", new Date().toISOString());
+    console.log("📝 Payment ID:", req.params.paymentId);
+    console.log("📝 Action:", req.body.action);
+    console.log("📝 GPay Transaction ID:", req.body.gpayTransactionId);
+    console.log("=================================\n");
+
     const { paymentId } = req.params;
     const { action, gpayTransactionId, rejectionReason } = req.body;
 
     if (!paymentId || !action) {
+      console.log("❌ Validation failed: Missing paymentId or action");
       return res.status(400).json({
         success: false,
         message: "Payment ID and action are required."
@@ -212,16 +213,27 @@ export const verifyPayment = async (req, res) => {
       });
     }
 
+    console.log("🔍 Looking up payment with ID:", paymentId);
     const payment = await Payment.findById(paymentId);
 
     if (!payment) {
+      console.log("❌ Payment not found with ID:", paymentId);
       return res.status(404).json({
         success: false,
         message: "Payment not found."
       });
     }
 
+    console.log("✅ Found payment:", {
+      id: payment._id,
+      status: payment.status,
+      amount: payment.amount,
+      userId: payment.user,
+      courseId: payment.course
+    });
+
     if (payment.status !== "pending") {
+      console.log("❌ Invalid payment status:", payment.status);
       return res.status(409).json({
         success: false,
         message: `Payment cannot be ${action}ed. Current status: ${payment.status}`
@@ -229,12 +241,17 @@ export const verifyPayment = async (req, res) => {
     }
 
     if (action === "verify") {
+      console.log('🔄 Starting payment verification process...');
+      
       if (!gpayTransactionId) {
+        console.log('❌ Missing GPay transaction ID');
         return res.status(400).json({
           success: false,
           message: "Google Pay transaction ID is required for verification."
         });
       }
+
+      console.log('💳 GPay Transaction ID:', gpayTransactionId);
 
       // Update payment status
       payment.status = "verified";
@@ -243,10 +260,17 @@ export const verifyPayment = async (req, res) => {
       payment.paidAt = new Date();
 
       // Find user and check enrollment
+      console.log("🔍 Looking up user with ID:", payment.user);
       const user = await User.findById(payment.user);
       if (!user) {
+        console.log("❌ User not found for ID:", payment.user);
         throw new Error("User not found");
       }
+      console.log("✅ Found user:", {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      });
 
       // Check if already enrolled
       if (!user.coursesEnrolled.some(enrollment => enrollment.course.toString() === payment.course.toString())) {
@@ -263,10 +287,70 @@ export const verifyPayment = async (req, res) => {
         await user.save();
       }
 
-      await payment.save();
+      // Generate invoice
+      try {
+        console.log("📄 Starting invoice generation...");
+        const courseDetails = await Course.findById(payment.course);
+        console.log("📚 Course details fetched:", courseDetails.title);
+        
+        const pdfBuffer = await generateInvoice({
+          orderId: payment._id,
+          user: user,
+          course: courseDetails,
+          amount: payment.amount,
+          gpayTransactionId,
+          verifiedAt: payment.verifiedAt,
+          paidAt: payment.paidAt
+        });
+        console.log("✅ Invoice generated successfully");
 
-      // You can add notification to user here about successful enrollment
-      // await notifyUser(user.email, "Payment verified and course enrollment completed");
+        // Send email with invoice as attachment
+        console.log("📧 Attempting to send email with invoice to:", user.email);
+        await sendEmail({
+          to: user.email,
+          subject: "Payment Verified - Your Course Enrollment is Complete",
+          attachments: [{
+            filename: `invoice_${payment._id}.pdf`,
+            content: pdfBuffer,
+            contentType: 'application/pdf'
+          }],
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2>Payment Verified Successfully!</h2>
+              <p>Dear ${user.name},</p>
+              <p>Your payment has been verified and you have been successfully enrolled in the course "${(await Course.findById(payment.course)).title}".</p>
+              <p>Payment Details:</p>
+              <ul>
+                <li>Amount: ₹${payment.amount}</li>
+                <li>Transaction ID: ${gpayTransactionId}</li>
+                <li>Date: ${new Date(payment.paidAt).toLocaleDateString()}</li>
+              </ul>
+              <p>Your invoice is attached to this email.</p>
+              <p>You can now access your course content from your dashboard.</p>
+              <p>Thank you for choosing Stemelix!</p>
+              <br/>
+              <p>Best regards,</p>
+              <p>The Stemelix Team</p>
+            </div>
+          `
+        });
+
+      } catch (error) {
+        console.error("Error in invoice generation or email sending:", error);
+        console.error("Full error stack:", error.stack);
+        
+        // Still send success response but include warning about invoice/email
+        return res.status(200).json({
+          success: true,
+          message: "Payment verified but there was an issue generating the invoice or sending the email. Our team will send it manually.",
+          error: error.message,
+          payment: {
+            id: payment._id,
+            status: payment.status,
+            verifiedAt: payment.verifiedAt
+          }
+        });
+      }
 
       res.status(200).json({
         success: true,

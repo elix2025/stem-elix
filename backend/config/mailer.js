@@ -1,14 +1,25 @@
 import nodemailer from "nodemailer";
 
 // For now use Gmail SMTP (later can switch to AWS SES/SendGrid)
-export const sendEmail = async ({ to, subject, text, html }) => {
+export const sendEmail = async ({ to, subject, text, html, attachments }) => {
   try {
+    console.log("📧 Starting email send process...");
+    console.log("📧 Email configuration:", {
+      emailUser: process.env.EMAIL_USER ? "Set" : "Not set",
+      emailPass: process.env.EMAIL_PASS ? "Set" : "Not set",
+      hasAttachments: !!attachments
+    });
+
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      throw new Error("Email credentials are not configured in environment variables");
+    }
+
     // create transporter
     const transporter = nodemailer.createTransport({
-      service: "gmail", // or 'smtp.gmail.com'
+      service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER, // your Gmail address
-        pass: process.env.EMAIL_PASS, // App password (not normal Gmail password!)
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
@@ -19,6 +30,7 @@ export const sendEmail = async ({ to, subject, text, html }) => {
       subject,
       text,
       html,
+      attachments,
     });
 
     console.log("✅ Email sent: ", info.messageId);

@@ -47,13 +47,18 @@ const PaymentVerification = () => {
   };
 
   const handleVerify = async (paymentId) => {
+    console.log('🔄 Starting payment verification...', { paymentId, gpayTransactionId });
+    
     if (!gpayTransactionId) {
       setError('Please enter GPay Transaction ID');
       return;
     }
 
     try {
+      console.log('📤 Sending verification request...');
       const result = await verifyPayment(paymentId, 'verify', { gpayTransactionId });
+      console.log('📥 Verification response:', result);
+      
       if (result.success) {
         setSelectedPayment(null);
         setGpayTransactionId('');
@@ -62,7 +67,8 @@ const PaymentVerification = () => {
         setError(result.message);
       }
     } catch (err) {
-      setError('Failed to verify payment');
+      console.error('❌ Verification error:', err);
+      setError('Failed to verify payment: ' + (err.response?.data?.message || err.message));
     }
   };
 

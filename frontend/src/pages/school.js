@@ -1,14 +1,6 @@
-import React, { useRef, useLayoutEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import gsap from "gsap";
-
-/**
- * Replace these imports with your real assets.
- * e.g. import labPhoto1 from "../assets/lab1.jpg";
- */
-import labPhoto1 from "../assets/machine.jpg";
-import labPhoto2 from "../assets/component1.jpg";
-import labPhoto3 from "../assets/star.webp";
+// Using placeholder divs instead of images for now
 // import kitImg from "../assets/stemkit-box.png";
 
 const steps = [
@@ -84,80 +76,26 @@ const teacherCourses = [
 
 export default function ForSchool () {
   const navigate = useNavigate();
-  const planeRef = useRef(null);
-  const containerRef = useRef(null);
-  const stepRefs = useRef([]);
-  stepRefs.current = [];
-
-  function addStepRef(el) {
-    if (el && !stepRefs.current.includes(el)) stepRefs.current.push(el);
-  }
-
-  useLayoutEffect(() => {
-    // Wait for layout to compute positions
-    const ctx = gsap.context(() => {
-      const plane = planeRef.current;
-      const container = containerRef.current;
-      if (!plane || !container || stepRefs.current.length === 0) return;
-
-      // reset plane position
-      gsap.set(plane, { x: 0, y: 0, rotation: 0 });
-
-      // compute coordinates relative to container
-      const containerRect = container.getBoundingClientRect();
-      const positions = stepRefs.current.map((el) => {
-        const r = el.getBoundingClientRect();
-        // we aim for center of the step card
-        return {
-          x: r.left + r.width / 2 - containerRect.left - plane.offsetWidth / 2,
-          y:
-            r.top +
-            r.height / 2 -
-            containerRect.top -
-            plane.offsetHeight / 2,
-        };
-      });
-
-      // Timeline - fly through each step
-      const tl = gsap.timeline({ defaults: { duration: 1.1, ease: "power2.inOut" } });
-
-      positions.forEach((pos, i) => {
-        // rotate slightly forward/back while moving
-        tl.to(plane, { x: pos.x, y: pos.y, rotation: i % 2 === 0 ? 10 : -6 });
-      });
-
-      // a subtle hover/float loop after reaching last step
-      tl.to(plane, { rotation: 0, y: `+=-6`, duration: 0.8 });
-      tl.to(plane, { y: `+=6`, duration: 0.8, repeat: -1, yoyo: true, ease: "sine.inOut" }, "+=0.2");
-
-      // cleanup
-      return () => {
-        tl.kill();
-      };
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
       {/* HERO */}
-      <header className="bg-gradient-to-br from-indigo-50 to-white py-16 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-8">
+      <header className="bg-gradient-to-br from-indigo-50 to-white py-8 sm:py-12 lg:py-16 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-6 sm:gap-8">
           <div className="flex-1">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
               STEM Lab Design & Installation for Schools
             </h1>
-            <p className="mt-4 text-lg text-slate-700 max-w-2xl">
+            <p className="mt-3 sm:mt-4 text-base sm:text-lg text-slate-700 max-w-2xl">
               End-to-end STEM Lab solutions for schools and institutes — from design
               and safety planning to equipment, installation and teacher training.
               Create future-ready classrooms where students learn by building and discovering.
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-4">
+            <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={() => document.getElementById("installation-timeline")?.scrollIntoView({ behavior: "smooth" })}
-                className="px-6 py-3 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-indigo-600 text-white text-sm sm:text-base rounded-lg shadow hover:bg-indigo-700 transition w-full sm:w-auto"
                 aria-label="See installation steps"
               >
                 View Installation Steps
@@ -165,7 +103,7 @@ export default function ForSchool () {
 
               <button
                 onClick={() => navigate("/contact")}
-                className="px-6 py-3 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 border border-indigo-600 text-indigo-600 text-sm sm:text-base rounded-lg hover:bg-indigo-50 transition w-full sm:w-auto"
                 aria-label="Contact us to partner"
               >
                 Become a Learning Partner
@@ -174,11 +112,11 @@ export default function ForSchool () {
           </div>
 
           <div className="flex-1 flex justify-center">
-            <img
-            //   src={kitImg}
-              alt="STEM Kits and Lab"
-              className="w-64 sm:w-72 lg:w-80 rounded-xl shadow-lg object-contain"
-            />
+            <div className="w-64 sm:w-72 lg:w-80 h-64 rounded-xl shadow-lg bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center p-6 text-center">
+              <p className="text-slate-600">
+                Interactive STEM Lab Setup with Modern Equipment and Safety Features
+              </p>
+            </div>
           </div>
         </div>
       </header>
@@ -227,81 +165,67 @@ export default function ForSchool () {
             </ul>
           </div>
 
-          <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
-            <img src={labPhoto1} alt="STEM Lab classroom setup" className="w-full h-full object-cover" />
+          <div className="aspect-[4/3] rounded-xl shadow-lg bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center p-6">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 mx-auto bg-indigo-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <p className="text-slate-600 font-medium">Modern STEM Lab Environment</p>
+              <p className="text-sm text-slate-500">Equipped with the latest technology and safety features</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Installation Timeline with paper plane motif */}
-      <section id="installation-timeline" className="py-8 px-6 bg-slate-50">
+      {/* Installation Timeline */}
+      <section id="installation-timeline" className="py-8 px-4 sm:px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <h3 className="text-2xl font-semibold mb-6 text-center">Step-by-Step STEM Lab Installation</h3>
 
-          {/* Container for plane + steps */}
-          <div ref={containerRef} className="relative bg-white rounded-2xl p-6 md:p-10 shadow-sm overflow-visible">
-            {/* absolute paper plane element */}
-            <div
-              ref={planeRef}
-              aria-hidden
-              className="pointer-events-none absolute w-10 h-10 md:w-12 md:h-12"
-              style={{ transform: "translate(0,0)" }}
-            >
-              {/* Simple inline SVG of a paper plane */}
-              <svg viewBox="0 0 24 24" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                <path d="M2 12l20-8-8 20-3-7-9-5z" fill="#6366F1" />
-              </svg>
-            </div>
-
-            {/* Horizontal timeline (desktop) and vertical (mobile). We'll render steps with flex and let Tailwind handle wrapping. */}
-            <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-8">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 shadow-sm">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-8">
               {/* Left column: textual intro */}
               <div className="lg:w-1/3">
                 <p className="text-slate-700">
                   Our proven installation process ensures your STEM Lab is safe, effective and ready for teaching.
-                  Watch the paper plane move through each phase — each step includes detailed planning and school-ready documentation.
+                  Each step includes detailed planning and school-ready documentation.
                 </p>
               </div>
 
               {/* Center timeline steps */}
               <div className="lg:w-2/3">
-                <div className="flex flex-col lg:flex-row lg:space-x-6 items-stretch">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {steps.map((step, idx) => (
                     <article
                       key={idx}
-                      ref={addStepRef}
-                      className="flex-1 bg-white rounded-2xl p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition relative"
+                      className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm hover:shadow-md transition"
                       aria-labelledby={`step-title-${idx}`}
                       role="group"
                     >
-                      <div className="flex items-start gap-4">
+                      <div className="flex items-start gap-3">
                         <div className="flex-none">
-                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-semibold shadow">
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-semibold">
                             {idx + 1}
                           </div>
                         </div>
                         <div>
-                          <h4 id={`step-title-${idx}`} className="font-semibold text-slate-900">
+                          <h4 id={`step-title-${idx}`} className="font-semibold text-slate-900 text-sm sm:text-base">
                             {step.title}
                           </h4>
-                          <p className="mt-2 text-sm text-slate-600">{step.desc}</p>
+                          <p className="mt-1 text-xs sm:text-sm text-slate-600">{step.desc}</p>
                         </div>
                       </div>
-
-                      {/* small connector line for large screens */}
-                      <div
-                        aria-hidden
-                        className={`hidden lg:block absolute top-1/2 -right-6 w-12 h-0.5 bg-slate-200 ${idx === steps.length - 1 ? "opacity-0" : ""}`}
-                        style={{ transform: "translateY(-50%)" }}
-                      />
                     </article>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* small accessibility text */}
-            <div className="mt-6 text-xs text-slate-500">Tip: This visual outlines the typical sequence we follow when building a STEM lab.</div>
+            <div className="mt-4 text-xs text-slate-500 text-center">
+              Follow these steps for a successful STEM lab setup.
+            </div>
           </div>
         </div>
       </section>
@@ -355,18 +279,35 @@ export default function ForSchool () {
         <div className="max-w-6xl mx-auto">
           <h3 className="text-2xl font-semibold mb-6 text-center">STEM Labs We've Built</h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <figure className="rounded-xl overflow-hidden shadow">
-              <img src={labPhoto1} alt="STEM Lab 1" className="w-full h-56 object-cover" />
-              <figcaption className="p-4 text-sm text-slate-700">Collaborative robotics zone with student workstations.</figcaption>
-            </figure>
-            <figure className="rounded-xl overflow-hidden shadow">
-              <img src={labPhoto2} alt="STEM Lab 2" className="w-full h-56 object-cover" />
-              <figcaption className="p-4 text-sm text-slate-700">Electronics bench and safe storage for components.</figcaption>
-            </figure>
-            <figure className="rounded-xl overflow-hidden shadow">
-              <img src={labPhoto3} alt="STEM Lab 3" className="w-full h-56 object-cover" />
-              <figcaption className="p-4 text-sm text-slate-700">Student showcases and portfolio display area.</figcaption>
-            </figure>
+            {[
+              {
+                icon: "🤖",
+                title: "Robotics Zone",
+                desc: "Collaborative robotics zone with student workstations"
+              },
+              {
+                icon: "⚡",
+                title: "Electronics Lab",
+                desc: "Electronics bench and safe storage for components"
+              },
+              {
+                icon: "🏆",
+                title: "Showcase Area",
+                desc: "Student showcases and portfolio display area"
+              }
+            ].map((item, idx) => (
+              <figure key={idx} className="rounded-xl shadow bg-white">
+                <div className="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center">
+                  <span className="text-4xl" role="img" aria-label={item.title}>
+                    {item.icon}
+                  </span>
+                </div>
+                <figcaption className="p-4">
+                  <h4 className="font-medium text-slate-900 mb-2">{item.title}</h4>
+                  <p className="text-sm text-slate-600">{item.desc}</p>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>

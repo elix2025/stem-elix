@@ -42,8 +42,10 @@ const paymentSchema = new mongoose.Schema(
       type: String,
     },
 
-    screenshotUrl: {
-      type: String,
+    paymentScreenshot: {
+      data: Buffer,
+      contentType: String,
+      originalName: String
     },
     status: {
       type: String,
