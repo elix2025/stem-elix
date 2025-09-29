@@ -237,13 +237,13 @@ const Home = () => {
         <LandingSection />
       </div>
 
-      <div className="relative bg-[#f9f8f5] scroll-mt-16">
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
-          <div>
-            <NeuroShowcase />
-          </div>
-        </div>
-      </div>
+      // <div className="relative bg-[#f9f8f5] scroll-mt-16">
+      //   <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
+      //     <div>
+      //       <NeuroShowcase />
+      //     </div>
+      //   </div>
+      // </div>
 
       <div className="bg-gradient-to-br from-light-bg to-white scroll-mt-16">
         <ShowCaseProjects />
