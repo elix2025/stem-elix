@@ -8,7 +8,7 @@ import { MdOutlineSupportAgent } from "react-icons/md";
 import { useAPI } from "../context/api";
 import Hero from "../components/Hero";
 import TinkrionShowcase from "../components/coursecard";
-import NeuroShowcase from "../components/NeuroShowcase";
+
 import ShowCaseProjects from "../components/ShowCaseProjects";
 import LandingSection from "../components/labs";
 import AnimatedSection from "../components/abotsec";
