@@ -69,11 +69,8 @@ export const APIContextProvider = ({ children }) => {
       });
       if (res.data.success && res.data.token) {
         localStorage.setItem("token", res.data.token);
-        // Fetch user profile after login
-        const profileRes = await axios.get(`${BASE_URL}/auth/me`, {
-          headers: { Authorization: `Bearer ${res.data.token}` },
-        });
-        const userObj = { ...profileRes.data, token: res.data.token };
+        // Use the user data from login response directly
+        const userObj = { ...res.data.user, token: res.data.token };
         setCurrentUser(userObj);
         localStorage.setItem("user", JSON.stringify(userObj));
         return { success: true, ...userObj };

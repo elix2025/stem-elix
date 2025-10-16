@@ -1,112 +1,188 @@
-import React, { useRef, useEffect, useState } from "react";
-import robotImage from "../assets/3974104.png";
-import hero from "../assets/hero-removebg.png";
+import React, { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 
-const Hero = ({ handleEnrollNow }) => {
-  const heroRef = useRef(null);
-  const [heroVisible, setHeroVisible] = useState(true);
-  const [displayedText, setDisplayedText] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function Hero({ handleEnrollNow }) {
+  const [showContent, setShowContent] = useState(false);
+  const [text, setText] = useState("");
   const [showSubtext, setShowSubtext] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [videoSrc, setVideoSrc] = useState("");
+  const videoRef = useRef(null);
 
-  const fullText = "Turn Curiosity into Creation"; //From Ideas to Inventors
-  const typingSpeed = 85; // milliseconds per character
-
+  // Handle responsive video source and positioning
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setHeroVisible(entry.isIntersecting),
-      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
-    );
-    if (heroRef.current) observer.observe(heroRef.current);
-    return () => observer.disconnect();
+    const handleResize = () => {
+      const isSmallScreen = window.innerWidth < 768;
+      const newVideoSrc = isSmallScreen 
+        ? require("../assets/herosection.mp4")
+        : require("../assets/printervideo.mp4");
+      
+      setVideoSrc(newVideoSrc);
+
+      if (videoRef.current) {
+        const isLargeScreen = window.innerWidth >= 992;
+        const isMediumScreen = window.innerWidth >= 768 && window.innerWidth <= 850;
+        
+        if (isMediumScreen) {
+          // For screens around 790px, move video up
+          videoRef.current.style.objectPosition = 'center 20%';
+        } else if (isLargeScreen) {
+          videoRef.current.style.objectPosition = 'center center';
+        } else {
+          videoRef.current.style.objectPosition = 'center 30%';
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial call
+
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Typewriter effect - KEEPING THIS
   useEffect(() => {
-    if (heroVisible && currentIndex < fullText.length) {
-      const timer = setTimeout(() => {
-        setDisplayedText((prev) => prev + fullText[currentIndex]);
-        setCurrentIndex((prev) => prev + 1);
-      }, typingSpeed);
-      return () => clearTimeout(timer);
-    } else if (currentIndex >= fullText.length && !showSubtext) {
-      // Show subtext after typing completes
-      const timer = setTimeout(() => {
-        setShowSubtext(true);
-        // Show buttons after subtext appears
-        setTimeout(() => setShowButtons(true), 600);
-      }, 500);
-      return () => clearTimeout(timer);
+    // Sequential fade-in animations
+    const sequence = async () => {
+      // Initial delay
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      
+      // Show the container
+      setShowContent(true);
+      
+      // Set the main text
+      setText("Cast|Craft|Create");
+      
+      // Show subtext after 800ms
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setShowSubtext(true);
+      
+      // Show buttons after another 800ms
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setShowButtons(true);
+    };
+
+    sequence();
+  }, []);
+
+  // Handle video muting on scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && !isMuted) {
+            // If video is not in view and not already muted, mute it
+            setIsMuted(true);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when 50% of the section is out of view
+      }
+    );
+
+    const heroSection = document.querySelector('.hero-section');
+    if (heroSection) {
+      observer.observe(heroSection);
     }
-  }, [heroVisible, currentIndex, fullText.length, showSubtext]);
+
+    return () => {
+      if (heroSection) {
+        observer.unobserve(heroSection);
+      }
+    };
+  }, [isMuted]);
+
+  //   useEffect(() => {
+  //   // Try to play unmuted video
+  //   const playVideo = async () => {
+  //     try {
+  //       if (videoRef.current) {
+  //         await videoRef.current.play();
+  //       }
+  //     } catch (error) {
+  //       // If autoplay with sound fails, fall back to muted
+  //       console.log("Autoplay with sound failed, falling back to muted");
+  //       setIsMuted(true);
+  //       if (videoRef.current) {
+  //         videoRef.current.play();
+  //       }
+  //     }
+  //   };
+  //   playVideo();
+  // }, []); 
 
   const handleWatchDemo = () => {
-    // Add your demo functionality here
     console.log("Watch Demo clicked");
   };
 
   return (
-    <section
-      ref={heroRef}
-      className="relative overflow-hidden min-h-screen bg-[#f9f8f5] pb-0 my-0"
-    >
-      {/* Static Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-16 sm:w-20 h-16 sm:h-20 bg-primary/10 rounded-full"></div>
-        <div className="absolute top-20 sm:top-40 right-10 sm:right-20 w-12 sm:w-16 h-12 sm:h-16 bg-secondary/10 rounded-full"></div>
-        <div className="absolute bottom-20 sm:bottom-40 left-10 sm:left-20 w-10 sm:w-12 h-10 sm:h-12 bg-primary/20 rounded-full"></div>
-        <div className="absolute bottom-10 sm:bottom-20 right-20 sm:right-40 w-20 sm:w-24 h-20 sm:h-24 bg-secondary/15 rounded-full"></div>
-
-        {/* Tech grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #6366F1 1px, transparent 0)`,
-            backgroundSize: "40px 40px",
+    <section className="relative overflow-hidden h-screen hero-section">
+      {/* Video Background */}
+      <div className="absolute inset-0 w-full h-full">
+        <video
+          ref={videoRef}
+          className="absolute top-0 left-0 w-full h-full object-cover"
+          autoPlay
+          muted={isMuted}
+          loop
+          playsInline
+          key={videoSrc} // Force re-render when video source changes
+          style={{ 
+            height: '100vh',
+            width: '100vw',
+            objectFit: 'cover',
+            objectPosition: 'center center'
           }}
-        ></div>
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/40"></div>
+        
+        {/* Sound Toggle Button */}
+        <button 
+          onClick={() => {
+            const newMutedState = !isMuted;
+            setIsMuted(newMutedState);
+            if (videoRef.current) {
+              videoRef.current.muted = newMutedState;
+            }
+          }}
+          className="absolute bottom-4 right-4 z-30 p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
+        >
+          {isMuted ? (
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+          ) : (
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M12 8v8m9.536-9.536a9 9 0 010 11.072M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            </svg>
+          )}
+        </button>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-screen py-16 sm:py-20 lg:py-0">
-          {/* Left Content */}
-          <div className="text-center lg:text-left space-y-6 lg:space-y-8 order-2 lg:order-1">
-            <div className="inline-flex items-center space-x-2 glass bg-[#f9f8f5] backdrop-blur-sm border border-primary/20 text-black px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium">
-              
-              <span>Advanced STEM Learning Platform</span>
-            </div>
+      {/* Content */}
+      <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="text-left max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-20">
+          <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 text-white transform transition-all duration-1000 leading-tight ${text ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            {text}
+          </h1>
 
-            <div className="space-y-4 sm:space-y-6">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-text leading-tight">
-                <span className="block relative">
-                  <span className="text-black">{displayedText}</span>
-                  {currentIndex < fullText.length && (
-                    <span className="inline-block w-1 h-12 sm:h-16 lg:h-20 bg-primary ml-2 animate-pulse"></span>
-                  )}
-                </span>
-              </h1>
+          <div className={`transform transition-all duration-1000 ${showSubtext ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl">
+              Empowering young minds to code, build, and innovate through creative learning that turns imagination into innovations
+            </p>
 
-              <div className={`transition-opacity duration-700 ${
-                  showSubtext ? "opacity-100" : "opacity-0"
-                }`}>
-                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-text/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                 STEMelix where curiosity meets creation. Igniting innovation in young learners.
-                </p>
-              </div>
-            </div>
-
-            <div className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transition-opacity duration-700 ${
-                showButtons ? "opacity-100" : "opacity-0"
-              }`}>
+            <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-start transform transition-all duration-1000 ${showButtons ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <button
                 onClick={handleEnrollNow}
-                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white font-semibold rounded-xl shadow-xl hover:shadow-primary/25 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 overflow-hidden w-full sm:w-auto"
+                className="group relative inline-flex items-center justify-center px-4 py-2 sm:px-5 sm:py-3 border border-white text-white font-medium text-sm rounded-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300 w-fit"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative z-10">Start Learning</span>
                 <svg
-                  className="relative z-10 ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300"
+                  className="relative z-10 ml-2 w-4 h-4 transition-transform duration-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -118,16 +194,14 @@ const Hero = ({ handleEnrollNow }) => {
                     d="M13 7l5 5m0 0l-5 5m5-5H6"
                   />
                 </svg>
-                <div className="absolute inset-0 rounded-xl bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-500"></div>
               </button>
 
-              <button
+              {/* <button
                 onClick={handleWatchDemo}
-                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-primary/30 hover:border-primary text-text hover:text-primary font-semibold rounded-xl bg-white/50 hover:bg-white/80 backdrop-blur-sm transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:scale-105 w-full sm:w-auto"
+                className="group relative inline-flex items-center justify-center px-4 py-2 sm:px-5 sm:py-3 border border-white text-white font-medium text-sm rounded-lg hover:bg-white/10 transition-all duration-300 w-fit"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <svg
-                  className="relative z-10 mr-2 w-5 h-5 group-hover:scale-110 transition-transform duration-300"
+                  className="relative z-10 mr-2 w-4 h-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -136,78 +210,21 @@ const Hero = ({ handleEnrollNow }) => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-9 4h10a2 2 0 002-2V6a2 2 0 00-2-2H8a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <span className="relative z-10 transition-colors duration-300">
-                  Watch Demo
-                </span>
-                <div className="absolute inset-0 rounded-xl border border-primary/20 scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500"></div>
-              </button>
-            </div>
-
-            {/* Feature badges */}
-            <div className={`flex flex-wrap gap-3 pt-4 justify-center lg:justify-start transition-opacity duration-700 delay-300 lg:hidden ${
-                showButtons ? "opacity-100" : "opacity-0"
-              }`}>
-              {["1:1 Learning", "Expert Mentors", "24/7 Support"].map(
-                (feature, index) => (
-                  <div
-                    key={feature}
-                    className="flex items-center space-x-2 bg-white/40 backdrop-blur-sm border border-primary/20 rounded-full px-3 sm:px-4 py-2"
-                  >
-                    <div className="w-2 h-2 bg-secondary rounded-full"></div>
-                    <span className="text-xs sm:text-sm font-medium text-text">
-                      {feature}
-                    </span>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-
-          {/* Right visual */}
-          <div className="relative flex justify-center items-center w-full order-1 lg:order-2 mb-8 lg:mb-0">
-            {/* Static background effects */}
-            {/* <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/5 to-primary/10 rounded-full blur-3xl"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 via-transparent to-primary/20 rounded-full blur-2xl"></div> */}
-
-            <div className="relative z-18 w-full max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
-              <div className="relative">
-                <img
-                  src={hero}
-                  alt="Advanced STEM Robot"
-                  className="w-full h-auto hover:scale-105 transition-transform duration-700"
-                  // style={{
-                  //   maskImage:
-                  //     "radial-gradient(ellipse at center, black 40%, transparent 80%)",
-                  //   WebkitMaskImage:
-                  //     "radial-gradient(ellipse at center, black 40%, transparent 80%)",
-                  // }}
-                />
-                {/* Gradient overlay for better blending */}
-                <div className="absolute inset-0 bg-gradient-to-br from-background/30 via-transparent to-background/50 rounded-full opacity-60"></div>
-              </div>
-
-              {/* Static tech circles around robot */}
-              <div className="absolute -top-2 sm:-top-4 -left-2 sm:-left-4 w-6 sm:w-8 h-6 sm:h-8 bg-primary/20 rounded-full"></div>
-              <div className="absolute top-1/4 -right-3 sm:-right-6 w-4 sm:w-6 h-4 sm:h-6 bg-secondary/30 rounded-full"></div>
-              <div className="absolute -bottom-1 sm:-bottom-2 left-1/4 w-4 sm:w-5 h-4 sm:h-5 bg-primary/25 rounded-full"></div>
-            </div>
-
-            {/* Static orbital elements */}
-            <div className="absolute inset-0">
-              <div className="absolute top-10 left-10 w-2 sm:w-3 h-2 sm:h-3 bg-primary rounded-full opacity-60"></div>
-              <div className="absolute bottom-10 right-10 w-1.5 sm:w-2 h-1.5 sm:h-2 bg-secondary rounded-full opacity-80"></div>
+                <span className="relative z-10">Watch Demo</span>
+              </button> */}
             </div>
           </div>
         </div>
       </div>
-
-      {/* Bottom wave decoration */}
-      {/* <div className="absolute bottom-0 left-0 w-full h-10 sm:h-20 bg-gradient-to-r from-primary/5 to-secondary/5 transform skew-y-1"></div> */}
     </section>
   );
-};
-
-export default Hero;
+}

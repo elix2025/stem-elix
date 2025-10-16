@@ -1,63 +1,145 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  * {
-    @apply border-gray-200;
+  :root {
+    /* Color System */
+    --color-background: #ffffff;
+    --color-text-primary: #1c1c1c;
+    --color-text-secondary: #4a4a4a;
+    --color-button: #337472;
+    --color-button-hover: #2a5d5b;
+    --color-border: #e5e7eb;
+    
+    /* Typography */
+    --font-headlines: 'Inter', sans-serif;
+    --font-body: 'Poppins', sans-serif;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
   }
+
+  /* Global Reset */
+  * {
+    @apply border-[var(--color-border)] box-border m-0 p-0;
+  }
+
+  /* Base Typography */
   body {
-    @apply bg-light-bg text-charcoal;
-    margin: 0;
-    font-family: "Inter", "DM Sans", -apple-system, BlinkMacSystemFont,
-      "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-      "Droid Sans", "Helvetica Neue", sans-serif;
+    @apply bg-[var(--color-background)] text-[var(--color-text-primary)];
+    font-family: var(--font-body);
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Headlines */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headlines);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
   html {
     scroll-behavior: smooth;
   }
 }
 
 @layer components {
+  /* Typography Classes */
+  .headline-1 {
+    font-family: var(--font-headlines);
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    color: var(--color-text-primary);
+  }
+
+  .headline-2 {
+    font-family: var(--font-headlines);
+    font-weight: 600;
+    font-size: 2rem;
+    line-height: 1.3;
+    color: var(--color-text-primary);
+  }
+
+  .body-text {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  .body-text-bold {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+  }
+
   /* Button Components */
   .btn-primary {
-    @apply bg-primary-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg;
+    background-color: var(--color-button);
+    color: var(--color-background);
+    font-family: var(--font-body);
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-button-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
   .btn-secondary {
-    @apply bg-cyan hover:bg-cyan/80 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg;
+    background-color: transparent;
+    color: var(--color-button);
+    border: 2px solid var(--color-button);
+    font-family: var(--font-body);
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
   }
 
-  .btn-outline {
-    @apply border-2 border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1;
+  .btn-secondary:hover {
+    background-color: var(--color-button);
+    color: var(--color-background);
+    transform: translateY(-2px);
   }
 
   /* Card Components */
   .card {
-    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100;
+    background-color: var(--color-background);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
   }
 
-  .card-gradient {
-    @apply bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2;
-  }
-
-  /* Glass Morphism */
-  .glass {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl;
-  }
-
-  /* Gradient Text */
-  .text-gradient {
-    @apply bg-gradient-to-r from-primary-blue to-cyan bg-clip-text text-transparent;
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
   }
 
   /* Section Spacing */
   .section-padding {
-    @apply py-20 px-6 lg:px-8;
+    padding: 5rem 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .section-padding {
+      padding: 5rem 2rem;
+    }
   }
 }
 
@@ -68,36 +150,21 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-gray-100;
+    background-color: #f1f1f1;
+    border-radius: 4px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-primary-blue rounded;
+    background-color: var(--color-button);
+    border-radius: 4px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-blue-700;
+    background-color: var(--color-button-hover);
   }
 
-  /* Animation delays */
-  .delay-100 {
-    animation-delay: 100ms;
-  }
-  .delay-200 {
-    animation-delay: 200ms;
-  }
-  .delay-300 {
-    animation-delay: 300ms;
-  }
-  .delay-400 {
-    animation-delay: 400ms;
-  }
-  .delay-500 {
-    animation-delay: 500ms;
-  }
-
-  /* Fade-in animation */
-  .animate-fadeIn {
+  /* Animations */
+  .fade-in {
     animation: fadeIn 0.6s ease-out forwards;
   }
 
@@ -110,6 +177,25 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* Focus States */
+  .focus-ring {
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .focus-ring:focus {
+    box-shadow: 0 0 0 3px rgba(51, 116, 114, 0.3);
+  }
+
+  /* Interactive States */
+  .hover-lift {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
   }
 }
 

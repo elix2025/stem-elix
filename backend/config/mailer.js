@@ -25,7 +25,7 @@ export const sendEmail = async ({ to, subject, text, html, attachments }) => {
 
     // send mail
     const info = await transporter.sendMail({
-      from: `"Stemelix Team" <${process.env.EMAIL_USER}>`,
+      from: `"STEMelix Team" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       text,

@@ -20,7 +20,7 @@ router.post("/send-register", async (req, res) => {
 
           <!-- Content -->
           <div style="padding: 20px;">
-            <h2 style="color: #333;">Welcome to Tinkrion, ${name || "Learner"} 👋</h2>
+            <h2 style="color: #333;">Welcome to STEMelix, ${name || "Learner"} 👋</h2>
             <p style="font-size: 16px; color: #555;">
               We’re thrilled to have you on board! 🚀  
               Get ready to explore amazing courses and start your learning journey.
@@ -83,7 +83,7 @@ router.post("/send-invoice", async (req, res) => {
           <p>Order ID: ${orderId}</p>
           <br/>
           <p>Best regards,</p>
-          <p>The Stemelix Team</p>
+          <p>The STEMelix Team</p>
         </div>
       `
     });

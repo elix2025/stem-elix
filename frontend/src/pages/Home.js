@@ -6,12 +6,14 @@ import { GrUserExpert } from "react-icons/gr";
 import { MdOutlineSupportAgent } from "react-icons/md";
 
 import { useAPI } from "../context/api";
+import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import TinkrionShowcase from "../components/coursecard";
 import NeuroShowcase from "../components/NeuroShowcase";
 import ShowCaseProjects from "../components/ShowCaseProjects";
-import LandingSection from "../components/labs";
+
 import AnimatedSection from "../components/abotsec";
+import ChooseUs from "../components/chooseus";
 
 const Home = () => {
   const { currentUser } = useAPI();
@@ -190,19 +192,22 @@ const Home = () => {
   return (
     <div
       ref={containerRef}
-      className="home-page bg-[#f9f8f5] overflow-hidden smooth-scroll"
+      className="home-page bg-[var(--color-background)] overflow-hidden smooth-scroll"
       style={{
         scrollBehavior: 'smooth',
         overscrollBehavior: 'contain'
       }}
     >
+     
+      <Navbar />
+
       {/* HERO - No animations */}
       <div className="relative z-10">
         <Hero handleEnrollNow={handleEnrollNow} />
       </div>
 
       {/* FEATURES - No animations */}
-      <div className="hidden lg:block">
+      {/* <div className="hidden lg:block">
         <div className="relative bg-[#f9f8f5]">
           <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
             <div className="flex flex-wrap gap-4 justify-center">
@@ -222,31 +227,97 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Sections without animations */}
-      <div className="bg-[#f9f8f5] scroll-mt-16">
-        <TinkrionShowcase />
-      </div>
-
-      <div className="bg-white scroll-mt-16">
-        <AnimatedSection />
-      </div>
-
-      <div className="bg-gradient-to-br from-primary-blue/5 to-cyan/5 scroll-mt-16">
-        <LandingSection />
-      </div>
-
-      <div className="relative bg-[#f9f8f5] scroll-mt-16">
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16">
+      {/* Main card container for all content except Hero */}
+      <div className="w-full px-0 py-12">
+        <div className="bg-[var(--color-background)] shadow-2xl overflow-hidden">
+          {/* Content sections inside the main card */}
           <div>
+            <div className="p-6">
+              <TinkrionShowcase />
+            </div>
             <NeuroShowcase />
+
+            {/* Call to Action Section */}
+            <section className="relative overflow-hidden bg-[var(--color-background)] py-16 sm:py-20">
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[var(--color-button)]/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-[var(--color-button)]/5 rounded-full blur-3xl" />
+              </div>
+
+              <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl">
+                  <h4 className="text-[var(--color-button)] font-medium mb-2">
+                    Start Learning
+                  </h4>
+                  <h2 className="headline-1 mb-4">
+                    Ready to Start Your Child's
+                    <span className="text-[var(--color-button)]"> STEM Journey?</span>
+                  </h2>
+                  <p className="body-text text-lg sm:text-xl mb-10">
+                    Discover our carefully curated STEM kits delivered to your doorstep and book a free demo session with our experts.
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                    <button 
+                      onClick={() => navigate('/kits')}
+                      className="btn-primary w-full sm:w-auto px-8 py-4 font-semibold
+                               shadow-lg shadow-[var(--color-button)]/25 transition-all duration-300 hover:scale-105"
+                    >
+                      Explore Our STEM Kits
+                    </button>
+                    
+                    <button 
+                      onClick={() => navigate('/contact')}
+                      className="btn-secondary w-full sm:w-auto px-8 py-4 font-semibold
+                               shadow-lg transition-all duration-300 hover:scale-105"
+                    >
+                      Book a Free Demo
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <div>
+              <AnimatedSection />
+            </div>
+            <ChooseUs />
+                    <section id="how" className="py-16 bg-[#F5F7FA]">
+          <div className="container mx-auto px-6 max-w-4xl">
+            <h3 className="text-2xl font-poppins font-semibold text-center">How It Works</h3>
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="text-center p-4">
+                <div className="w-12 h-12 rounded-full bg-white shadow flex items-center justify-center mx-auto">1</div>
+                <h4 className="mt-3 font-semibold">Choose Course</h4>
+                <p className="text-sm text-gray-600 mt-2">Pick the right program for your child.</p>
+              </div>
+
+              <div className="text-center p-4">
+                <div className="w-12 h-12 rounded-full bg-white shadow flex items-center justify-center mx-auto">2</div>
+                <h4 className="mt-3 font-semibold">Join Live Classes</h4>
+                <p className="text-sm text-gray-600 mt-2">Attend interactive Zoom sessions.</p>
+              </div>
+
+              <div className="text-center p-4">
+                <div className="w-12 h-12 rounded-full bg-white shadow flex items-center justify-center mx-auto">3</div>
+                <h4 className="mt-3 font-semibold">Build Projects</h4>
+                <p className="text-sm text-gray-600 mt-2">Hands-on assignments & mentorship.</p>
+              </div>
+
+              <div className="text-center p-4">
+                <div className="w-12 h-12 rounded-full bg-white shadow flex items-center justify-center mx-auto">4</div>
+                <h4 className="mt-3 font-semibold">Showcase & Certify</h4>
+                <p className="text-sm text-gray-600 mt-2">Showcase work & receive certificates.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+            <ShowCaseProjects />
           </div>
         </div>
-      </div>
-
-      <div className="bg-gradient-to-br from-light-bg to-white scroll-mt-16">
-        <ShowCaseProjects />
       </div>
 
       {/* Scroll to top button - Simple version */}
@@ -276,7 +347,7 @@ const Home = () => {
       )}
 
       {/* Floating action button - Simple version */}
-      <div className="fixed bottom-8 left-8 z-50 hidden lg:block">
+      {/* <div className="fixed bottom-8 left-8 z-50 hidden lg:block">
         <button
           onClick={() => smoothNavigate("/courses")}
           className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-cyan to-cyan/80 
@@ -298,9 +369,9 @@ const Home = () => {
           </svg>
           <span>Explore Courses</span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
-};
+}
 
 export default Home;

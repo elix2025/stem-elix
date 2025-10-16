@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAPI } from "../../context/api";
 import { createSlug } from "../../utils/slugutils";
 
@@ -38,6 +38,14 @@ const Courses = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
+  const location = useLocation();
+
+  // Set initial category from navigation state if available
+  useEffect(() => {
+    if (location.state?.selectedCategory) {
+      setSelectedCategory(location.state.selectedCategory);
+    }
+  }, [location]);
 
   const navigate = useNavigate();
   const { getAllCourses, currentUser, isCourseEnrolled, canAccessCourse } = useAPI();

@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Explorer from "../assets/explorer.png";
-import Master from "../assets/Master.png";
-import Junior from "../assets/junior.png";
-import Star from "../assets/star.webp";
+import Explorer from "../assets/explorer.jpg";
+import Master from "../assets/mastercourse.png";
+import Junior from "../assets/juniorcourse.png";
+import Aero from "../assets/aerocourse.jpg";
+
 import gsap from "gsap";
 
 const CourseCard = ({ course, index }) => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef(null);
-  const cardInnerRef = useRef(null);
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -18,7 +19,8 @@ const CourseCard = ({ course, index }) => {
     return () => clearTimeout(timer);
   }, [index]);
 
-  useEffect(() => {
+  // Commented out card flipping animations
+  /*useEffect(() => {
     const card = cardRef.current;
     const cardInner = cardInnerRef.current;
 
@@ -48,11 +50,10 @@ const CourseCard = ({ course, index }) => {
       threshold: 0.5 // Trigger when 50% of the card is visible
     });
 
-        // Start observing the card
+    // Start observing the card
     if (card) {
       observer.observe(card);
     }
-
 
     const handleMouseEnter = () => {
       gsap.to(cardInner, {
@@ -70,7 +71,7 @@ const CourseCard = ({ course, index }) => {
       });
     };
 
-        if (card) {
+    if (card) {
       card.addEventListener("mouseenter", handleMouseEnter);
       card.addEventListener("mouseleave", handleMouseLeave);
     }
@@ -82,136 +83,159 @@ const CourseCard = ({ course, index }) => {
         card.removeEventListener("mouseleave", handleMouseLeave);
       }
     };
-  }, []);
+  }, []);*/
 
   
 
   const handleClick = () => {
-    // Direct routing based on course title
-    switch (course.title.toLowerCase()) {
-      case 'junior':
-        navigate('/coursejunior');
-        break;
-      case 'explorer':
-        navigate('/coursexplorer');
-        break;
-      case 'master':
-        navigate('/coursemaster');
-        break;
-      default:
-        navigate('/courses');
+    // Get the category from the course title
+    let category = "All";
+    if (course.title.toLowerCase().includes('junior')) {
+      category = "Junior";
+    } else if (course.title.toLowerCase().includes('explorer')) {
+      category = "Explorer";
+    } else if (course.title.toLowerCase().includes('master')) {
+      category = "Master";
     }
+    // Navigate to courses page with category in state
+    navigate('/courses', { state: { selectedCategory: category } });
   };
 
-    const handleKeyDown = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter" || e.key === " ") {
       handleClick();
     }
   };
+
+  // Get background color based on course type
+  const getCardBackground = () => {
+    if (course.title.toLowerCase().includes('junior')) {
+      return 'bg-[#E8F2F2] hover:bg-[#DCE9E9]'; // Light teal
+    } else if (course.title.toLowerCase().includes('explorer')) {
+      return 'bg-[#F2ECE8] hover:bg-[#E9E1DC]'; // Warm sand
+    } else if (course.title.toLowerCase().includes('master')) {
+      return 'bg-[#E8EDF2] hover:bg-[#DCE3E9]'; // Cool blue
+    } else if (course.title.toLowerCase().includes('aero')) {
+      return 'bg-[#F2E8EC] hover:bg-[#E9DCE1]'; // Soft rose
+    }
+    return 'bg-[var(--color-background)]';
+  };
+
+  // Get icon based on course type
+  const getCourseIcon = () => {
+    if (course.title.toLowerCase().includes('junior')) {
+      return (
+        <svg className="w-12 h-12 text-[var(--color-button)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      );
+    } else if (course.title.toLowerCase().includes('explorer')) {
+      return (
+        <svg className="w-12 h-12 text-[var(--color-button)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+        </svg>
+      );
+    } else if (course.title.toLowerCase().includes('master')) {
+      return (
+        <svg className="w-12 h-12 text-[var(--color-button)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+        </svg>
+      );
+    } else {
+      return (
+        <svg className="w-12 h-12 text-[var(--color-button)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+        </svg>
+      );
+    }
+  };
+
   return (
     <div
       ref={cardRef}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
-      className={`group relative h-[280px] perspective-1000 bg-[#f9f8f5] 
-        rounded-xl shadow-lg hover:shadow-2xl 
-        border border-gray-200 hover:border-[#fc8eac]/50
-        transition-all duration-500 cursor-pointer overflow-hidden
+      className={`group relative h-80 w-72 flex-shrink-0
+        ${getCardBackground()} rounded-2xl overflow-hidden
+        transition-all duration-500 cursor-pointer
         transform ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
         }
-        hover:scale-105 hover:-translate-y-2`}
+        hover:scale-105 hover:shadow-lg border border-gray-200`}
       style={{
         transitionDelay: `${index * 50}ms`,
         animationDelay: `${index * 100}ms`,
       }}
     >
-      <div
-        ref={cardInnerRef}
-        className="relative w-full h-full transition-all duration-500 preserve-3d"
-        style ={{ transformStyle: "preserve-3d" }}
-      >
-        {/* Front of the card */}
-        <div className="absolute w-full h-full backface-hidden"
-        style={{ backfaceVisibility: "hidden" }}
-        >
-          <div className="w-full h-full bg-gradient-to-br from-[#f9f8f5] via-white to-[#f9f8f5] rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center">
-            {/* Original card content */}
-            <div className="relative mb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-[#fc8eac]/20 via-[#ecd0ec]/15 to-[#fc8eac]/20 
-                rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110">
-                <img src={course.image} alt={course.title} className="w-10 h-10" />
-              </div>
-            </div>
-
-            <h3 className="text-gray-800 font-bold text-lg md:text-xl text-center mb-3">
-              {course.title}
-            </h3>
-
-            <span className="px-4 py-2 bg-gradient-to-r from-[#fc8eac]/30 to-[#ecd0ec]/30 
-              text-gray-700 text-sm font-semibold rounded-full border border-[#fc8eac]/20">
-              Level: {course.level}
-            </span>
-          </div>
+      <div className="relative z-10 w-full h-full p-6 flex flex-col items-center justify-center text-center">
+        {/* Icon */}
+        <div className="mb-4">
+          {getCourseIcon()}
         </div>
 
-                {/* Back of the card */}
-        <div className="absolute w-full h-full backface-hidden rotate-y-180"
-        style={{ backfaceVisibility: 'hidden',
-          transform: 'rotateY(180deg)'
-         }}>
-          <div className="w-full h-full bg-gradient-to-br from-[#fc8eac] via-[#ecd0ec] to-[#c6c2b6] rounded-xl shadow-lg p-6 flex flex-col items-center justify-center">
-            <h3 className="text-black font-bold text-lg md:text-xl text-center mb-3">
-              {course.title} Course
-            </h3>
-            <p className="text-black text-center mb-4 text-sm leading-relaxed">
-              Click to explore the {course.title} curriculum and start your learning journey!
-            </p>
-            <button className="px-5 py-2 bg-white/90 text-black rounded-full font-semibold text-sm
-              hover:bg-white transition-all duration-300 shadow-md">
-              Learn More
-            </button>
-          </div>
-        </div>
-      </div>
-      {/* Gradient Background Overlay */}
-      {/* <div className="absolute inset-0 bg-gradient-to-br from-primary-blue/5 to-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div> */}
+        {/* Title */}
+        <h3 className="font-headlines text-xl font-semibold text-gray-800 mb-2">
+          {course.title.replace('Tinkrion ', '')}
+        </h3>
 
-      {/* Animated Background Pattern */}
-      {/* <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-500">
-        <div
-          style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, #2563EB 1px, transparent 0)`,
-            backgroundSize: "20px 20px",
-          }}
-          className="w-full h-full"
-        ></div>
-      </div> */}
-
+        {/* Subtitle */}
+        <p className="text-sm text-gray-600 mb-4">
+          {course.grade}
+        </p>
 
       
+
+        {/* Button */}
+        <button className="inline-flex items-center px-6 py-2.5 bg-[var(--color-button)] hover:bg-[var(--color-button-hover)] text-white rounded-lg font-medium text-sm
+          transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg group">
+          <span>Learn More</span>
+          <svg className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 };
 
 export default function TinkrionShowcase() {
+  const scrollRef = useRef(null);
+  
   const courses = [
-    { id: 1, title: "Junior", level: "Beginner"  , image: Junior , path: 'coursejunior' },
-    { id: 2, title: "Explorer", level: "Intermediate", image: Explorer , path: 'courseexplorer' },
-    { id: 3, title: "Master", level: "Advanced", image: Master , path: 'coursemaster' },
+    { id: 1, title: "Tinkrion Junior", grade: "For Grades 2 to 4", image: Junior, path: 'coursejunior' },
+    { id: 2, title: "Tinkrion Explorer", grade: "For Grades 5 to 8", image: Explorer, path: 'courseexplorer' },
+    { id: 3, title: "Tinkrion Master", grade: "For Grades 9 to 12", image: Master, path: 'coursemaster' },
+    { id: 4, title: "Tinkrion Aero", grade: "For All Grades", image: Aero, path: 'courseaero' }
   ];
 
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="w-full section-padding bg-[#f9f8f5] relative overflow-hidden">
-      {/* Static decorative boxes - same as NeuroShowcase */}
-      <div className="absolute top-8 left-8 w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-xl opacity-60 shadow-lg"></div>
-      <div className="absolute bottom-16 left-16 w-10 h-10 sm:w-14 sm:h-14 bg-[#ecd0ec]/40 rounded-xl opacity-60 shadow-md"></div>
-      <div className="absolute bottom-20 right-16 w-10 h-10 sm:w-14 sm:h-14 bg-[#ecd0ec]/40 rounded-xl opacity-50 shadow-md"></div>
-      <div className="absolute top-10 right-8 w-12 h-12 sm:w-16 sm:h-16 bg-[#fc8eac]/40 rounded-xl opacity-50 shadow-lg"></div>
-      <div className="absolute top-[120px] left-20 w-14 h-10 sm:w-16 sm:h-12 bg-[#fc8eac]/50 rounded-xl opacity-60 shadow"></div>
-      <div className="absolute top-40 right-12 w-12 h-10 sm:w-16 sm:h-12 bg-gray-300 rounded-xl opacity-60 shadow"></div>
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-14 h-10 sm:w-20 sm:h-14 bg-[#c6c2b6]/50 rounded-xl opacity-60 shadow"></div>
+    <div className="w-full section-padding bg-[var(--color-background)] relative overflow-hidden">
+      {/* Scroll Container Styles */}
+      <style>
+        {`
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+          }
+        `}
+      </style>
 
       {/* Background Circles */}
       <div className="absolute inset-0 overflow-hidden">
@@ -222,39 +246,105 @@ export default function TinkrionShowcase() {
 
       <div className="relative z-10 w-full px-4 md:px-6 max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          {/* <div className="inline-flex items-center space-x-2 glass bg-primary-blue/10 backdrop-blur-sm
-            border border-primary-blue/20 text-primary-blue px-6 py-3 rounded-full text-sm font-medium mb-8 animate-slideDown">
-            <div className="w-2 h-2 bg-primary-blue rounded-full animate-pulse"></div>
-            <span>Explore Our Courses</span>
-          </div> */}
+        <div className="mb-16">
+          <div className="text-left mb-12">
+            <h4 className="text-[var(--color-button)] font-medium mb-2">
+              Our Courses
+            </h4>
+            <h3 className="headline-1 mb-6">Tinkrion</h3>
+            <p className="body-text text-xl max-w-3xl">
+              Tinkrion courses, thoughtfully designed by STEMelix for students from Grades 2 to 12. 
+              Introduces to the Exciting world of Robotics, Coding And Electronics with Fun and real time activities.
+            </p>
+          </div>
 
-          <h2 className="text-5xl md:text-5xl lg:text-6xl font-bold mb-8 animate-fadeIn">
-            <img
-              src={Star}
-              alt="Robot Icon"
-              className="inline-block ml-2 mr-4 w-12 h-12 -mt-2"
-              />
-            <span className="text-black font-Dan sans bg-black bg-clip-text text-transparent">
-              Tinkrion
-            </span>
-          </h2>
-          <h4 className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
-           By STEMelix Introduces students to the exciting world of Robotics, Coding and Electronics.
-          </h4>
+          {/* Benefits Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* Benefit 1 */}
+            <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-xl border border-[var(--color-border)] hover:border-[var(--color-button)] transition-all">
+              <div className="flex-shrink-0 w-12 h-12 bg-[var(--color-button)]/10 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-[var(--color-button)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h4 className="font-headlines font-semibold mb-1">Small Classroom Sizes</h4>
+                <p className="text-sm text-[var(--color-text-secondary)]">Personalized attention for every student</p>
+              </div>
+            </div>
 
-          <p className="text-charcoal/80 text-xl md:text-2xl px-2 max-w-3xl mx-auto leading-relaxed animate-slideUp">
-            Choose your{" "}
-            <span className="text-primary-blue font-semibold">learning path</span>{" "}-Junior, Explorer, or Master-
-            and embark on an exciting journey of problem-solving and future powered by curiosity.
-          </p>
+            {/* Benefit 2 */}
+            <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-xl border border-[var(--color-border)] hover:border-[var(--color-button)] transition-all">
+              <div className="flex-shrink-0 w-12 h-12 bg-[var(--color-button)]/10 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-[var(--color-button)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h4 className="font-headlines font-semibold mb-1">Real Tech Tools</h4>
+                <p className="text-sm text-[var(--color-text-secondary)]">Hands-on learning with industry tools</p>
+              </div>
+            </div>
+
+            {/* Benefit 3 */}
+            <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-xl border border-[var(--color-border)] hover:border-[var(--color-button)] transition-all">
+              <div className="flex-shrink-0 w-12 h-12 bg-[var(--color-button)]/10 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-[var(--color-button)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h4 className="font-headlines font-semibold mb-1">Certification</h4>
+                <p className="text-sm text-[var(--color-text-secondary)]">Earn a certificate upon completion</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Static 3-Course Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {courses.map((course, index) => (
-            <CourseCard key={course.id} course={course} index={index} />
-          ))}
+        <div className="flex justify-between items-center mb-8">
+          <a href="/courses" className="text-[var(--color-button)] hover:text-[var(--color-button-hover)] font-semibold hover:underline transition-colors flex items-center gap-2">
+            Explore Our Courses
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+
+          {/* Navigation Buttons */}
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={scrollLeft}
+              className="p-2 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-all duration-300 hover:scale-105 shadow-sm"
+            >
+              <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={scrollRight}
+              className="p-2 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-all duration-300 hover:scale-105 shadow-sm"
+            >
+              <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Horizontal Scroll Container */}
+        <div className="relative">
+          <div 
+            ref={scrollRef}
+            className="flex space-x-6 overflow-x-auto scrollbar-hide pb-4"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              scrollBehavior: 'smooth'
+            }}
+          >
+            {courses.map((course, index) => (
+              <CourseCard key={course.id} course={course} index={index} />
+            ))}
+          </div>
         </div>
 
         {/* Call to Action

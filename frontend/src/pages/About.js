@@ -1,234 +1,171 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import hero from "../assets/herosec.jpg";
+// import founder1 from "../assets/about.jpg";
+// import founder2 from "../assets/about2.jpg";
 
 const AboutUsPage = () => {
+  const navigate = useNavigate();
+
   return (
-    <main className="bg-[#f9f8f5] min-h-screen">
+    <main className="min-h-screen bg-[var(--color-background)]">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[#f9f8f5] pt-24 pb-16">
-        {/* Background decorative elements - matching homepage */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-primary-blue/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-40 right-20 w-24 h-24 bg-cyan/5 rounded-full blur-xl"></div>
-          <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-primary-blue/3 rounded-full blur-lg"></div>
-          
-          {/* Tech grid pattern */}
-          <div
-            className="absolute inset-0 opacity-[0.02]"
-            style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, #2563EB 1px, transparent 0)`,
-              backgroundSize: "40px 40px",
-            }}
-          ></div>
-        </div>
+      <section
+        className="relative h-[60vh] md:h-[75vh] w-full bg-cover bg-center flex items-center"
+        style={{ backgroundImage: `url(${hero})` }}
+        aria-label="About STEMelix hero"
+      >
+        <div className="absolute inset-0 bg-black/45" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center space-x-2 glass bg-primary-blue/10 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-6 py-3 rounded-full font-medium mb-8">
-            <div className="w-2 h-2 bg-primary-blue rounded-full"></div>
-            <span>About STEMelix </span>
-          </div>
-
-          <div className="space-y-6">
-            <h1 className="text-4xl lg:text-5xl font-bold leading-tight text-charcoal">
-              <span className="block">Tinkering Minds,</span>
-              <span className="block text-gradient bg-gradient-to-r from-primary-blue via-cyan to-primary-blue bg-clip-text text-transparent">
-                Empowering Youth
-              </span>
-            </h1>
-            <p className="text-lg lg:text-xl text-charcoal/80 max-w-4xl mx-auto leading-relaxed">
-              At STEMelix, we're reimagining education by blending science,
-              technology, engineering, and mathematics with hands-on creativity.
-              Our mission is simple: ignite curiosity and transform young learners
-              into innovators who will shape tomorrow.
+        <div className="relative z-10 max-w-6xl mx-auto px-6">
+          <div className="max-w-3xl text-white">
+            <h1 className="headline-1 text-white mb-4">We make STEM feel do-able</h1>
+            <p className="body-text text-white/90">
+              Hands-on projects, friendly mentors, and a step-by-step approach that turns curiosity into confidence. We help kids build things they can show off—and be proud of.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
+      <section className="section-padding bg-white">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="mb-12">
+            <span className="text-sm uppercase tracking-wide font-semibold text-[var(--color-button)]">
+              Our Story
+            </span>
+            <h2 className="headline-2 mt-4">Passion, Tinkering and a Few Mistakes</h2>
+          </div>
+
+          <div className="grid gap-10 md:grid-cols-2 items-start">
+            <div className="space-y-6">
+              <p className="body-text text-[var(--color-text-secondary)]">
+                STEMelix started with the belief that learning should be joyful. We built kits for friends, ran weekend sessions for local kids, and learned what actually helps spark sustained curiosity.
+              </p>
+
+              <p className="body-text text-[var(--color-text-secondary)]">
+                Today we blend playful hardware kits, short project-based lessons, and mentor time so students learn by making. The end result: real things they can point to and say, "I made that." 
+              </p>
+
+              <div className="flex gap-4 mt-4">
+                <button
+                  onClick={() => navigate('/courses')}
+                  className="btn-primary"
+                  aria-label="Explore courses"
+                >
+                  Explore Courses
+                </button>
+
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="btn-secondary"
+                  aria-label="Contact us"
+                >
+                  Book a Demo
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="card p-6 flex items-center gap-4">
+                  <img
+                    // src={founder1}
+                    alt="Founder - Anshu"
+                    className="w-20 h-20 rounded-full object-cover shadow-md"
+                  />
+                  <div>
+                    <p className="body-text-bold">Deepak</p>
+                    <p className="body-text text-[var(--color-text-secondary)] text-sm">Co-founder • Loves robotics and messy code that works</p>
+                  </div>
+                </div>
+
+              
+              </div>
+
+              <blockquote className="mt-4 p-4 border-l-4 border-[var(--color-button)] bg-[var(--color-button)]/5 rounded">
+                <p className="body-text text-[var(--color-text-secondary)]">"We design experiences that nudge kids to try one more step—because that next step is where learning happens."</p>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 glass bg-cyan/10 backdrop-blur-sm border border-cyan/20 text-cyan px-6 py-3 rounded-full text-sm font-medium mb-8">
-              <div className="w-2 h-2 bg-cyan rounded-full"></div>
-              <span>Our Mission</span>
-            </div>
-            
-            <h2 className="text-3xl lg:text-4xl font-bold text-charcoal mb-6">
-              Transforming STEM Education
-            </h2>
-            <p className="text-lg text-charcoal/80 max-w-3xl mx-auto leading-relaxed">
-              We believe in making STEM accessible, engaging, and future-ready.
-              By combining digital learning with hands-on tinkering, we help
-              students move from learners to creators.
+          <div className="mb-12">
+            <span className="text-sm uppercase tracking-wide font-semibold text-[var(--color-button)]">Our Mission</span>
+            <h3 className="headline-2 mt-3">Help every curious kid make something</h3>
+            <p className="body-text text-[var(--color-text-secondary)] max-w-3xl mt-4">
+              We combine short, tangible projects and live mentor guidance so students build skills while having fun. No long lectures—just small wins that add up.
             </p>
           </div>
 
-          {/* Mission Cards Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid gap-6 md:grid-cols-3">
             {[
               {
-                title: "Hands-On Learning",
-                desc: "Interactive labs and projects that make abstract concepts tangible and understandable.",
-                icon: "🔬"
+                title: "Hands-on Kits",
+                desc: "Kits with clear steps so learners focus on making, not guessing.",
+                icon: "🔧"
               },
               {
-                title: "Future Skills",
-                desc: "Teaching coding, robotics, and electronics to prepare students for tomorrow's challenges.",
+                title: "Short Projects",
+                desc: "Projects that finish in a few sessions and lead to a showcase piece.",
                 icon: "🚀"
               },
               {
-                title: "Creative Problem Solving",
-                desc: "Encouraging innovative thinking and engineering mindset in young learners.",
-                icon: "💡"
+                title: "Mentor Time",
+                desc: "Real mentors who help unblock and inspire, not lecture.",
+                icon: "👩‍🏫"
               }
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-primary-blue/10 hover:border-primary-blue/30 transition-all duration-300 hover:scale-105"
-              >
-                <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="text-xl font-bold text-charcoal mb-4 group-hover:text-primary-blue transition-colors duration-300">
-                  {item.title}
-                </h3>
-                <p className="text-charcoal/70 leading-relaxed">
-                  {item.desc}
-                </p>
+            ].map((item, i) => (
+              <div key={i} className="card p-6">
+                <div className="text-2xl mb-3">{item.icon}</div>
+                <h4 className="font-semibold text-[var(--color-text-primary)]">{item.title}</h4>
+                <p className="body-text text-[var(--color-text-secondary)] mt-2">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Our Story Section */}
-      <section className="section-padding bg-[#f9f8f5]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Text Content */}
-            <div className="space-y-6">
-              <div className="inline-flex items-center space-x-2 glass bg-primary-blue/10 backdrop-blur-sm border border-primary-blue/20 text-primary-blue px-6 py-3 rounded-full text-sm font-medium">
-                <div className="w-2 h-2 bg-primary-blue rounded-full"></div>
-                <span>Our Story</span>
-              </div>
-              
-              <h2 className="text-3xl lg:text-4xl font-bold text-charcoal">
-                Where Youth Tinker, Think and Transform
-              </h2>
-              
-              <div className="space-y-4">
-                <p className="text-lg text-charcoal/80 leading-relaxed">
-                  STEMelix is a future-focused STEM Learning Platform. We teach coding, 
-                  robotics and electronics through mentor-led, hands-on labs and progressive 
-                  learning paths—so learners don't just study concepts; they design, build 
-                  and ship real projects.
-                </p>
-                
-                <p className="text-lg text-charcoal/80 leading-relaxed">
-                  Our approach develops technical skills and the creative problem-solving, 
-                  logical thinking and engineering confidence young people need to shape the future. 
-                  Our programs are aligned with NEP 2020 and NITI Aayog's vision, preparing 
-                  India's next generation of innovators.
-                </p>
-              </div>
-            </div>
-
-            {/* Image/Visual Content */}
-            <div className="relative">
-              <div className="bg-white rounded-2xl p-8 shadow-xl border border-primary-blue/10">
-                <div className="text-center space-y-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-primary-blue/10 to-cyan/10 rounded-3xl flex items-center justify-center mx-auto">
-                    <svg className="w-10 h-10 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  
-                  <h3 className="text-xl font-bold text-charcoal">Igniting Innovation</h3>
-                  
-                  <p className="text-charcoal/70 leading-relaxed">
-                    From curious beginners to confident creators, we guide every 
-                    step of the learning journey with personalized mentorship and 
-                    hands-on experiences.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 glass bg-cyan/10 backdrop-blur-sm border border-cyan/20 text-cyan px-6 py-3 rounded-full text-sm font-medium mb-8">
-              <div className="w-2 h-2 bg-cyan rounded-full"></div>
-              <span>Our Values</span>
-            </div>
-            
-            <h2 className="text-3xl lg:text-4xl font-bold text-charcoal mb-6">
-              What Drives Us Forward
-            </h2>
-            <p className="text-lg text-charcoal/80 max-w-3xl mx-auto">
-              Our core values shape everything we do, from curriculum design to student mentorship.
-            </p>
+          <div className="mb-12">
+            <span className="text-sm uppercase tracking-wide font-semibold text-[var(--color-button)]">Our Values</span>
+            <h3 className="headline-2 mt-3">Small steps, big curiosities</h3>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            {[
-              {
-                title: "Curiosity First",
-                desc: "We believe curiosity is the spark that ignites all learning. Every project starts with a question, every solution begins with wonder."
-              },
-              {
-                title: "Learning by Doing", 
-                desc: "Theory meets practice in our labs. Students don't just learn about circuits—they build them. They don't just study code—they create with it."
-              },
-              {
-                title: "Innovation Mindset",
-                desc: "We encourage students to think beyond existing solutions, to see problems as opportunities for creative innovation."
-              },
-              {
-                title: "Future Ready",
-                desc: "Our curriculum evolves with technology, ensuring students are prepared for careers that may not even exist today."
-              }
-            ].map((value, index) => (
-              <div key={index} className="space-y-4">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary-blue/10 to-cyan/10 rounded-2xl flex items-center justify-center">
-                    <div className="w-6 h-6 bg-gradient-to-br from-primary-blue to-cyan rounded-full"></div>
-                  </div>
-                  <h3 className="text-xl font-bold text-charcoal">{value.title}</h3>
-                </div>
-                <p className="text-charcoal/70 leading-relaxed pl-16">
-                  {value.desc}
-                </p>
+          <div className="grid gap-8 md:grid-cols-2">
+            {[{
+              title: 'Curiosity First',
+              desc: "We start with a question and build from there."
+            },{
+              title: 'Learning By Doing',
+              desc: "Real projects beat passive slides every time."
+            },{
+              title: 'Iterate Fast',
+              desc: "Mistakes are data—try again with a small tweak."
+            },{
+              title: 'Be Inclusive',
+              desc: "We design for kids who haven't met a circuit before."
+            }].map((v, idx) => (
+              <div key={idx} className="space-y-3">
+                <h4 className="font-semibold text-[var(--color-text-primary)]">{v.title}</h4>
+                <p className="body-text text-[var(--color-text-secondary)]">{v.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="section-padding bg-gradient-to-br from-primary-blue/5 to-cyan/5">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center space-y-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-charcoal">
-            Ready to Start Your STEM Journey?
-          </h2>
-          <p className="text-lg text-charcoal/80 max-w-2xl mx-auto">
-            Join thousands of students who have already begun transforming their 
-            curiosity into creation. The future starts with your first project.
-          </p>
-          
+      <section className="section-padding bg-gradient-to-br from-[var(--color-button)]/5 to-cyan/5">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center space-y-6">
+          <h3 className="headline-2">Ready to try a project?</h3>
+          <p className="body-text text-[var(--color-text-secondary)]">Join a free demo or browse our starter kits. We promise no boring slides—only building.</p>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="inline-flex items-center px-8 py-4 bg-primary-blue text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-primary-blue/25 transition-all duration-300 hover:scale-105 hover:-translate-y-1">
-              <span>Explore Courses</span>
-              <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </button>
-            
-            <button className="inline-flex items-center px-8 py-4 border-2 border-primary-blue/30 hover:border-primary-blue text-charcoal hover:text-primary-blue font-semibold rounded-xl bg-white/50 hover:bg-white/80 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:-translate-y-1">
-              <span>Contact Us</span>
-            </button>
+            <button onClick={() => navigate('/kits')} className="btn-primary">Starter Kits</button>
+            <button onClick={() => navigate('/contact')} className="btn-secondary">Book a Free Demo</button>
           </div>
         </div>
       </section>

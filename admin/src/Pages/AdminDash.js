@@ -1,6 +1,7 @@
 import { useAdmin } from '../context/AdminContext';
 import { useNavigate } from 'react-router-dom';
 
+
 const AdminDash = () => {
   const { logoutAdmin } = useAdmin();
   const navigate = useNavigate();
@@ -46,6 +47,11 @@ const AdminDash = () => {
                 <li>• View student data</li>
                 <li>• System settings</li>
               </ul>
+            </div>
+            <div>
+              <a href="/payments" className="block w-full text-center bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+                Manage Payments
+              </a>
             </div>
           </div>
         </div>

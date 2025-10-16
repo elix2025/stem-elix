@@ -9,9 +9,27 @@ import img5 from "../assets/sensors.jpg";
 import img6 from "../assets/car1.jpg";
 import img7 from "../assets/car2.jpg";
 
+// Add CSS to hide scrollbar
+const hideScrollbarStyles = `
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+`;
+
 const StemKitsPage = () => {
-  const [selectedKit, setSelectedKit] = useState(null);
-  const [activeTab, setActiveTab] = useState('components');
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  // Add styles to document head
+  React.useEffect(() => {
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = hideScrollbarStyles;
+    document.head.appendChild(styleSheet);
+    return () => styleSheet.remove();
+  }, []);
 
   const kitData = {
     components: [
@@ -52,39 +70,7 @@ const StemKitsPage = () => {
         image: Img4
       }
     ],
-    projects: [
-      {
-        title: "Smart Home Automation",
-        difficulty: "Intermediate",
-       
-        description: "Build a miniature smart home with automated lights, temperature control, and security system",
-        skills: ["Sensor integration", "Programming logic", "Circuit design"],
-        image: Img1,
-        steps: ["Setup Arduino controller", "Connect sensors", "Program automation logic", "Test and calibrate"]
-      },
-    
-     
-      {
-        title: "Quadruped Robot",
-        difficulty: "Beginner",
-
-        description: "Build a walking robot with four legs that can navigate obstacles",
-        skills: ["Robotics", "Programming", "Mechanical design"],
-        image: img6,
-        steps: ["Wire LED circuits", "Program sequences", "Add button control", "Test timing"]
-      },
-
-        {
-        title: "4WD Robot Car",
-        difficulty: "Beginner",
-
-        description: " Programmed for Autonomous navigation - avoiding obstacles using the ultrasonic sensor Line following - to follow marked paths",
-        skills: ["Data collection", "Display programming", "Environmental monitoring"],
-        image: img7,
-        steps: ["Connect sensors", "Setup display", "Program readings", "Calibrate measurements"]
-      },
-   
-    ]
+    // Projects section removed for simplified UI
   };
 
   return (
@@ -157,122 +143,103 @@ const StemKitsPage = () => {
             </p>
           </div>
 
-          {/* Tab Navigation */}
-          <div className="flex justify-center mb-12">
-            <div className="bg-white rounded-2xl p-2 shadow-lg">
-              {[
-                { key: 'components', label: 'Kit Components', icon: '🔧' },
-                { key: 'projects', label: 'Featured Projects', icon: '🚀' }
-              ].map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
-                    activeTab === tab.key
-                      ? 'bg-indigo-600 text-white shadow-lg'
-                      : 'text-slate-600 hover:text-slate-800 hover:bg-slate-50'
-                  }`}
-                >
-                  <span className="mr-2">{tab.icon}</span>
-                  {tab.label}
-                </button>
-              ))}
+          {/* Components Carousel */}
+          <div className="relative overflow-hidden">
+            {/* Navigation Buttons */}
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
+              <button
+                onClick={() => {
+                  const container = document.querySelector('.components-scroll');
+                  container.scrollBy({ left: -300, behavior: 'smooth' });
+                }}
+                className="p-2 bg-white/80 backdrop-blur rounded-full shadow-lg hover:bg-white transition-all"
+              >
+                <svg className="w-6 h-6 text-slate-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10">
+              <button
+                onClick={() => {
+                  const container = document.querySelector('.components-scroll');
+                  container.scrollBy({ left: 300, behavior: 'smooth' });
+                }}
+                className="p-2 bg-white/80 backdrop-blur rounded-full shadow-lg hover:bg-white transition-all"
+              >
+                <svg className="w-6 h-6 text-slate-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Scrolling Container */}
+            <div 
+              className="components-scroll relative flex overflow-x-auto snap-x snap-mandatory hide-scrollbar"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              <div className="flex gap-8 px-4 pb-4">
+                {/* First set of components for infinite scroll effect */}
+                {kitData.components.map((component, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    className="flex-none w-[300px] snap-center bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100"
+                  >
+                    <div className="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl mb-6 flex items-center justify-center overflow-hidden">
+                      <img
+                        src={component.image}
+                        alt={component.title}
+                        className="w-full h-full object-contain p-4"
+                      />
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-slate-800">{component.title}</h3>
+                    <p className="text-slate-600 mb-4 leading-relaxed">{component.description}</p>
+                    <div className="space-y-2">
+                      {component.features.map((feature, featureIdx) => (
+                        <div key={featureIdx} className="flex items-center text-sm text-slate-700">
+                          <div className="w-2 h-2 bg-indigo-400 rounded-full mr-3"></div>
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+                {/* Duplicate components for seamless loop */}
+                {kitData.components.map((component, idx) => (
+                  <motion.div
+                    key={`dup-${idx}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    className="flex-none w-[300px] snap-center bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100"
+                  >
+                    <div className="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl mb-6 flex items-center justify-center overflow-hidden">
+                      <img
+                        src={component.image}
+                        alt={component.title}
+                        className="w-full h-full object-contain p-4"
+                      />
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-slate-800">{component.title}</h3>
+                    <p className="text-slate-600 mb-4 leading-relaxed">{component.description}</p>
+                    <div className="space-y-2">
+                      {component.features.map((feature, featureIdx) => (
+                        <div key={featureIdx} className="flex items-center text-sm text-slate-700">
+                          <div className="w-2 h-2 bg-indigo-400 rounded-full mr-3"></div>
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
-
-          {/* Components Tab */}
-          {activeTab === 'components' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {kitData.components.map((component, idx) => (
-                <motion.div
-                  key={idx}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100"
-                >
-                  <div className="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl mb-6 flex items-center justify-center overflow-hidden">
-                    <img
-                      src={component.image}
-                      alt={component.title}
-                      className="w-full h-full object-contain p-4"
-                    />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3 text-slate-800">{component.title}</h3>
-                  <p className="text-slate-600 mb-4 leading-relaxed">{component.description}</p>
-                  <div className="space-y-2">
-                    {component.features.map((feature, featureIdx) => (
-                      <div key={featureIdx} className="flex items-center text-sm text-slate-700">
-                        <div className="w-2 h-2 bg-indigo-400 rounded-full mr-3"></div>
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-
-          {/* Projects Tab */}
-          {activeTab === 'projects' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {kitData.projects.map((project, idx) => (
-                <motion.div
-                  key={idx}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100"
-                >
-                  <div className="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-contain p-4"
-                    />
-                  </div>
-                  <div className="p-8">
-                    <div className="flex items-center gap-2 mb-3">
-                      {/* <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        project.difficulty === 'Beginner' ? 'bg-green-100 text-green-700' :
-                        project.difficulty === 'Intermediate' ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-red-100 text-red-700'
-                      }`}>
-                        {project.difficulty}
-                      </span> */}
-                      {/* <span className="text-xs text-slate-500">⏱ {project.duration}</span> */}
-                    </div>
-                    <h3 className="text-xl font-bold mb-3 text-slate-800">{project.title}</h3>
-                    <p className="text-slate-600 mb-4 leading-relaxed">{project.description}</p>
-                    
-                    <div className="mb-4">
-                      <h4 className="font-semibold text-sm text-slate-800 mb-2">Skills You'll Learn:</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {project.skills.map((skill, skillIdx) => (
-                          <span key={skillIdx} className="px-2 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-xs">
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => setSelectedKit(project)}
-                      className="w-full py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors duration-300"
-                    >
-                      View Project Guide
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
         </div>
       </section>
 
@@ -308,12 +275,7 @@ const StemKitsPage = () => {
                 description: "Design thinking, prototyping, and iterative improvement",
                 skills: ["CAD basics", "Prototyping", "Design iteration"]
               },
-              {
-                icon: "💻",
-                title: "Programming Logic",
-                description: "Computational thinking and algorithm development",
-                skills: ["Code structure", "Debugging", "Algorithm design"]
-              }
+            
             ].map((outcome, idx) => (
               <motion.div
                 key={idx}
@@ -449,91 +411,6 @@ const StemKitsPage = () => {
           </div>
         </div>
       </section>
-
-      {/* Project Details Modal */}
-      {selectedKit && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedKit(null)}
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-8">
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h3 className="text-2xl font-bold text-slate-800 mb-2">{selectedKit.title}</h3>
-                  <div className="flex items-center gap-3">
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                      selectedKit.difficulty === 'Beginner' ? 'bg-green-100 text-green-700' :
-                      selectedKit.difficulty === 'Intermediate' ? 'bg-yellow-100 text-yellow-700' :
-                      'bg-red-100 text-red-700'
-                    }`}>
-                      {selectedKit.difficulty}
-                    </span>
-                    <span className="text-slate-500">⏱ {selectedKit.duration}</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setSelectedKit(null)}
-                  className="text-slate-400 hover:text-slate-600 text-2xl"
-                >
-                  ×
-                </button>
-              </div>
-
-              <div className="h-64 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl mb-6 flex items-center justify-center">
-                <img
-                  src={selectedKit.image}
-                  alt={selectedKit.title}
-                  className="w-full h-full object-contain p-4"
-                />
-              </div>
-
-              <p className="text-slate-600 mb-6 leading-relaxed">{selectedKit.description}</p>
-
-              <div className="mb-6">
-                <h4 className="font-bold text-slate-800 mb-3">Skills You'll Learn:</h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedKit.skills.map((skill, idx) => (
-                    <span key={idx} className="px-3 py-2 bg-indigo-50 text-indigo-700 rounded-lg text-sm font-medium">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mb-8">
-                <h4 className="font-bold text-slate-800 mb-4">Project Steps:</h4>
-                <div className="space-y-3">
-                  {selectedKit.steps.map((step, idx) => (
-                    <div key={idx} className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl">
-                      <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                        {idx + 1}
-                      </div>
-                      <span className="text-slate-700">{step}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                onClick={() => setSelectedKit(null)}
-                className="w-full py-4 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors duration-300"
-              >
-                Start This Project
-              </button>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
 
       {/* Call to Action */}
       <section className="py-20 px-6 bg-gradient-to-br from-primary to-purple-700 text-white">
