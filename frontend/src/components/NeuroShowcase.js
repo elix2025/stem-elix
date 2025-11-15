@@ -11,7 +11,6 @@ const NeuroShowcase = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Real projects that inspire young minds
   const projects = [
     {
       id: 1,
@@ -56,7 +55,6 @@ const NeuroShowcase = () => {
     }
   ];
 
-  // Auto-slide functionality
   useEffect(() => {
     if (!isAutoPlaying) return;
     
@@ -81,10 +79,8 @@ const NeuroShowcase = () => {
 
   return (
     <section className="relative overflow-hidden bg-[var(--color-background)]">
-      {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-button)]/5 via-transparent to-[var(--color-button)]/5"></div>
       
-      {/* Responsive 3D Carousel Styles */}
       <style>
         {`
           .carousel-3d {
@@ -130,14 +126,12 @@ const NeuroShowcase = () => {
         `}
       </style>
 
-      {/* Subtle Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#ac6cf4]5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-        {/* Human-friendly Header */}
         <div className="mb-12 lg:mb-16">
           <h4 className="text-[var(--color-button)] font-medium mb-2">
             Our Projects
@@ -145,15 +139,13 @@ const NeuroShowcase = () => {
           <div className="max-w-3xl">
             <h2 className="headline-1 mb-6">
               A Glimpse into the World of 
-              <span className="text-[var(--color-button)]"> STEM Creation</span>
+              <span className="text-[#ac6cf4]"> STEM Creation</span>
             </h2>
             <p className="body-text text-lg sm:text-xl leading-relaxed">
               Explore the fun side of STEM! Build, code, and create projects like smart cars and AI robots — and experience how technology turns imagination into action.
             </p>
           </div>
         </div>
-
-        {/* Responsive 3D Carousel */}
         <div className="relative h-[400px] sm:h-[480px] lg:h-[600px] mb-12 lg:mb-16">
           <div className="carousel-3d h-full flex items-center justify-center">
             {projects.map((project, index) => {
@@ -175,17 +167,15 @@ const NeuroShowcase = () => {
                   onClick={() => goToSlide(index)}
                 >
                   <div className="card relative w-full h-full overflow-hidden">
-                    {/* Project Image */}
                     <div className="absolute inset-0">
                       <img 
                         src={project.image} 
                         alt={project.title}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-button)]/95 via-[var(--color-button)]/60 to-[var(--color-button)]/20"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[[#ac6cf4]]/95 via-[var(--color-button)]/60 to-[var(--color-button)]/20"></div>
                     </div>
                     
-                    {/* Content */}
                     <div className="relative z-10 p-4 sm:p-5 lg:p-6 h-full flex flex-col justify-between text-[var(--color-background)]">
                       <div>
                         <div className="flex items-center justify-between mb-3">
@@ -202,14 +192,13 @@ const NeuroShowcase = () => {
                         </p>
                       </div>
 
-                      {/* Skills for center card only */}
                       {position === 0 && (
                         <div className="space-y-3">
                           <div className="flex flex-wrap gap-1">
                             {project.skills.slice(0, 3).map((skill, skillIndex) => (
                               <span 
                                 key={skillIndex}
-                                className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded text-xs font-medium border border-blue-500/30"
+                                className="px-2 py-1 bg-[#ac6cf4]/20 text-white rounded text-xs font-medium border border-[#ac6cf4]/30"
                               >
                                 {skill}
                               </span>
@@ -224,11 +213,9 @@ const NeuroShowcase = () => {
               );
             })}
           </div>
-
-          {/* Responsive Navigation */}
           <button
             onClick={prevSlide}
-            className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 lg:p-4 bg-[var(--color-button)] rounded-full hover:bg-[var(--color-button-hover)] transition-all duration-300 shadow-md"
+            className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 lg:p-4 bg-gradient-to-r from-[#ac6cf4] to-purple-600 text-white rounded-full hover:bg-[var(--color-button-hover)] transition-all duration-300 shadow-md"
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[var(--color-background)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -237,14 +224,12 @@ const NeuroShowcase = () => {
           
           <button
             onClick={nextSlide}
-            className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 lg:p-4 bg-[var(--color-button)] rounded-full hover:bg-[var(--color-button-hover)] transition-all duration-300 shadow-md"
+            className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 p-2 sm:p-3 lg:p-4 bg-gradient-to-r from-[#ac6cf4] to-purple-600 text-white rounded-full hover:bg-[var(--color-button-hover)] transition-all duration-300 shadow-md"
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[var(--color-background)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
-
-          {/* Responsive Slide Indicators */}
           <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 -translate-x-1/2 z-30 flex space-x-1 sm:space-x-1.5 lg:space-x-2">
             {projects.map((_, index) => (
               <button
@@ -252,14 +237,13 @@ const NeuroShowcase = () => {
                 onClick={() => goToSlide(index)}
                 className={`w-1.5 h-1.5 sm:w-2 sm:h-2 lg:w-3 lg:h-3 rounded-full transition-all duration-300 ${
                   index === currentSlide 
-                    ? 'bg-[var(--color-button)] scale-110' 
-                    : 'bg-[var(--color-button)]/30 hover:bg-[var(--color-button)]/50'
+                    ? 'bg-[#ac6cf4] scale-110' 
+                    : 'bg-[#ac6cf4]/30 hover:bg-[#ac6cf4]/50'
                 }`}
               />
             ))}
           </div>
 
-          {/* Auto-play toggle - hidden on mobile */}
           <button
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
             className="hidden sm:block absolute top-4 sm:top-6 lg:top-8 right-4 sm:right-6 lg:right-8 z-30 p-2 sm:p-3 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-all duration-300 border border-white/20"

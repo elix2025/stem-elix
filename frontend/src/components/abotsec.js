@@ -2,65 +2,66 @@ import { useNavigate } from "react-router-dom";
 import tinker from "../assets/aboutus.jpg";
 
 const ContentSection = ({ onLearnMore }) => (
-  <div className="relative p-10 lg:p-14 w-full flex flex-col lg:flex-row items-center lg:items-start gap-16 lg:gap-20">
+  <div className="relative p-6 sm:p-10 lg:p-14 w-full flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
     
-    {/* Image Section */}
-    <div className="relative w-full lg:w-1/3 flex justify-center lg:justify-start">
-      <div className="relative overflow-hidden rounded-2xl border-2 border-[var(--color-border)] hover:border-[var(--color-button)] transition-all duration-300">
-        <img 
-          src={tinker} 
-          alt="STEMelix hands-on learning" 
-          className="w-full h-full object-cover object-center sm:max-w-[26rem] sm:max-h-[26rem] -mt-12 lg:mt-0
-                   transform hover:scale-105 transition-transform duration-700"
-          style={{
-            imageRendering: 'auto',
-            backfaceVisibility: 'hidden'
-          }}
-          loading="eager"
-        />
-        {/* Overlay to prevent image tearing */}
-        <div className="absolute inset-0 bg-black/5 pointer-events-none"></div>
+    {/* Image Section - Improved for mobile */}
+    <div className="relative w-full lg:w-2/5 flex justify-center">
+      <div className="relative overflow-hidden rounded-2xl border-2 border-[var(--color-border)] hover:border-[var(--color-button)] transition-all duration-300 shadow-lg max-w-md lg:max-w-none">
+        <div className="relative aspect-square w-full max-w-[320px] sm:max-w-[380px] lg:max-w-none lg:w-full">
+          <img 
+            src={tinker} 
+            alt="STEMelix hands-on learning with students building robotics projects" 
+            className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
+            style={{
+              imageRendering: 'auto',
+              backfaceVisibility: 'hidden'
+            }}
+            loading="eager"
+          />
+        </div>
+        {/* Decorative elements to make it less "lonely" */}
+        <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-[#ac6cf4]/10 rounded-full z-0"></div>
+        <div className="absolute -top-3 -left-3 w-12 h-12 bg-purple-500/10 rounded-full z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#ac6cf4]/5 to-purple-500/5 pointer-events-none"></div>
       </div>
     </div>
 
-    {/* Text Section */}
-    <div className="w-full lg:w-2/3 flex flex-col items-end">
-      <div className="w-full max-w-4xl">
-        <h4 
-          className="text-[var(--color-button)] font-medium mb-2"
-        >
+    {/* Text Content Section */}
+    <div className="w-full lg:w-3/5 flex flex-col items-center lg:items-end">
+      <div className="w-full max-w-2xl lg:max-w-4xl text-center lg:text-left">
+        <h4 className="text-[#ac6cf4] font-medium mb-3 text-lg">
           About Us
         </h4>
         
-        <h2 className="headline-1 mb-8">
+        <h2 className="headline-1 mb-6 lg:mb-8 text-3xl sm:text-4xl lg:text-5xl">
           Where Youth Tinker, Think and Transform!
         </h2>
 
-        <div className="space-y-6 body-text text-base lg:text-lg leading-relaxed text-left">
-          <p>
-            <span className="body-text-bold">STEMelix</span> is a future-focused STEM Learning Platform. 
+        <div className="space-y-5 sm:space-y-6 body-text text-base sm:text-lg leading-relaxed">
+          <p className="text-gray-700">
+            <span className="body-text-bold text-gray-900">STEMelix</span> is a future-focused STEM Learning Platform. 
             We teach coding, robotics, and electronics through mentor-led, 
             hands-on labs and progressive learning paths.
           </p>
           
-          <p>
+          <p className="text-gray-700">
             Learners don't just study concepts; they design, build, and ship real projects. Our approach develops technical skills as well as{' '}
-            <span className="body-text-bold">problem-solving</span>,{' '}
-            <span className="body-text-bold">logical thinking</span>, and the{' '}
-            <span className="body-text-bold">engineering confidence</span>{' '}
+            <span className="body-text-bold text-gray-900">problem-solving</span>,{' '}
+            <span className="body-text-bold text-gray-900">logical thinking</span>, and the{' '}
+            <span className="body-text-bold text-gray-900">engineering confidence</span>{' '}
             young people need to shape the future.
           </p>
         </div>
 
-        <div className="mt-8 text-left">
+        <div className="mt-8 text-center lg:text-left">
           <button
             onClick={onLearnMore}
-            className="btn-primary inline-flex items-center gap-2"
+            className="btn px-6 py-3 rounded-lg bg-gradient-to-r from-[#ac6cf4] to-purple-600 text-white inline-flex items-center gap-2 hover:from-[#ac6cf4] hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             type="button"
             aria-label="Learn more about STEMelix"
           >
-            Learn More
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <span className="font-semibold">Learn More</span>
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -79,11 +80,15 @@ const AnimatedSection = () => {
 
   return (
     <section 
-      className="relative w-full flex justify-center items-center py-20 px-6 bg-[#f5f7fa]"
+      className="relative w-full flex justify-center items-center py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-br from-[#f5f7fa] to-[#e8ecf1]"
       role="region"
       aria-labelledby="about-us-heading"
     >
-      <div className="w-full max-w-6xl">
+      {/* Background decorative elements */}
+      <div className="absolute top-10 left-5 w-20 h-20 bg-blue-200/30 rounded-full blur-xl"></div>
+      <div className="absolute bottom-10 right-5 w-24 h-24 bg-purple-200/30 rounded-full blur-xl"></div>
+      
+      <div className="w-full max-w-6xl relative z-10">
         <ContentSection onLearnMore={handleLearnMore} />
       </div>
     </section>
@@ -91,53 +96,3 @@ const AnimatedSection = () => {
 };
 
 export default AnimatedSection;
-
-
-
-// Globe with tagline component - simplified
-// const GlobeSection = () => (
-//   <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-//     {/* Globe background */}
-//     <div className="
-//       w-80 h-40 
-//       sm:w-[420px] sm:h-48 
-//       md:w-[500px] md:h-[250px] 
-//       lg:w-[560px] lg:h-[280px]
-//       bg-gradient-to-b from-[#d6d3cc] via-[#d6d3cc] to-[#f9f8f5] 
-//       rounded-t-full 
-//       pointer-events-none
-//       relative
-//     ">
-//       {/* Centered tagline */}
-//       <div className="absolute inset-0 flex items-center justify-center">
-//         <svg 
-//           viewBox="0 0 400 200" 
-//           className="w-full h-full max-w-[350px] max-h-[175px]"
-//           role="img" 
-//           aria-label="Cast, Craft, Create tagline"
-//         >
-//           <defs>
-//             <path
-//               id="tagline-curve"
-//               d="M 75 125 A 125 125 0 0 1 325 125"
-//               fill="transparent"
-//             />
-//           </defs>
-//           <text 
-//             fill="#333" 
-//             fontSize="18" 
-//             fontWeight="600" 
-//             textAnchor="middle"
-//             className="sm:text-xl md:text-2xl"
-//           >
-//             <textPath href="#tagline-curve" startOffset="50%">
-//               Cast | Craft | Create
-//             </textPath>
-//           </text>
-//         </svg>
-//       </div>
-//     </div>
-//   </div>
-// );
-
-// Main component - no Framer Motion
