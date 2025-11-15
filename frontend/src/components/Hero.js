@@ -1,116 +1,72 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
 
 export default function Hero({ handleEnrollNow }) {
   const [showContent, setShowContent] = useState(false);
-  const [text, setText] = useState("");
+  const [animatedText, setAnimatedText] = useState("");
   const [showSubtext, setShowSubtext] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [videoSrc, setVideoSrc] = useState("");
   const videoRef = useRef(null);
+  const textRef = useRef(null);
 
-  // Handle responsive video source and positioning
+  const fullText = "Cast | Craft | Create";
+  const tagline = "Where Young Minds Build The Future";
+
   useEffect(() => {
     const handleResize = () => {
       const isSmallScreen = window.innerWidth < 768;
-      const newVideoSrc = isSmallScreen 
+      const newVideoSrc = isSmallScreen
         ? require("../assets/herosection.mp4")
         : require("../assets/printervideo.mp4");
-      
       setVideoSrc(newVideoSrc);
-
-      if (videoRef.current) {
-        const isLargeScreen = window.innerWidth >= 992;
-        const isMediumScreen = window.innerWidth >= 768 && window.innerWidth <= 850;
-        
-        if (isMediumScreen) {
-          // For screens around 790px, move video up
-          videoRef.current.style.objectPosition = 'center 20%';
-        } else if (isLargeScreen) {
-          videoRef.current.style.objectPosition = 'center center';
-        } else {
-          videoRef.current.style.objectPosition = 'center 30%';
-        }
-      }
     };
 
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial call
-
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
-    // Sequential fade-in animations
     const sequence = async () => {
-      // Initial delay
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      
-      // Show the container
       setShowContent(true);
-      
-      // Set the main text
-      setText("Cast|Craft|Create");
-      
-      // Show subtext after 800ms
-      await new Promise(resolve => setTimeout(resolve, 800));
+
+      let currentText = "";
+      for (let i = 0; i < fullText.length; i++) {
+        currentText += fullText[i];
+        setAnimatedText(currentText);
+        await new Promise((resolve) => setTimeout(resolve, 80));
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
       setShowSubtext(true);
-      
-      // Show buttons after another 800ms
-      await new Promise(resolve => setTimeout(resolve, 800));
+
+      await new Promise((resolve) => setTimeout(resolve, 300));
       setShowButtons(true);
     };
 
     sequence();
   }, []);
 
-  // Handle video muting on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting && !isMuted) {
-            // If video is not in view and not already muted, mute it
             setIsMuted(true);
           }
         });
       },
-      {
-        threshold: 0.5, // Trigger when 50% of the section is out of view
-      }
+      { threshold: 0.3 }
     );
 
-    const heroSection = document.querySelector('.hero-section');
-    if (heroSection) {
-      observer.observe(heroSection);
-    }
+    const heroSection = document.querySelector(".hero-section");
+    if (heroSection) observer.observe(heroSection);
 
     return () => {
-      if (heroSection) {
-        observer.unobserve(heroSection);
-      }
+      if (heroSection) observer.unobserve(heroSection);
     };
   }, [isMuted]);
-
-  //   useEffect(() => {
-  //   // Try to play unmuted video
-  //   const playVideo = async () => {
-  //     try {
-  //       if (videoRef.current) {
-  //         await videoRef.current.play();
-  //       }
-  //     } catch (error) {
-  //       // If autoplay with sound fails, fall back to muted
-  //       console.log("Autoplay with sound failed, falling back to muted");
-  //       setIsMuted(true);
-  //       if (videoRef.current) {
-  //         videoRef.current.play();
-  //       }
-  //     }
-  //   };
-  //   playVideo();
-  // }, []); 
 
   const handleWatchDemo = () => {
     console.log("Watch Demo clicked");
@@ -118,111 +74,144 @@ export default function Hero({ handleEnrollNow }) {
 
   return (
     <section className="relative overflow-hidden h-screen hero-section">
-      {/* Video Background */}
       <div className="absolute inset-0 w-full h-full">
         <video
           ref={videoRef}
-          className="absolute top-0 left-0 w-full h-full object-cover"
+          className="absolute top-0 left-0 w-full h-full object-cover scale-105"
           autoPlay
-          muted={isMuted}
           loop
+          muted
           playsInline
-          key={videoSrc} // Force re-render when video source changes
-          style={{ 
-            height: '100vh',
-            width: '100vw',
-            objectFit: 'cover',
-            objectPosition: 'center center'
-          }}
+          key={videoSrc}
         >
           <source src={videoSrc} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-black/40"></div>
-        
-        {/* Sound Toggle Button */}
-        <button 
-          onClick={() => {
-            const newMutedState = !isMuted;
-            setIsMuted(newMutedState);
-            if (videoRef.current) {
-              videoRef.current.muted = newMutedState;
-            }
-          }}
-          className="absolute bottom-4 right-4 z-30 p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
-        >
-          {isMuted ? (
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-            </svg>
-          ) : (
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M12 8v8m9.536-9.536a9 9 0 010 11.072M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-            </svg>
-          )}
-        </button>
+
+        <div className="absolute inset-0 bg-gradient-to-br from-[#ac6cf4]/40 via-purple-900/20 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#ac6cf4]/20 to-purple-600/10"></div>
+
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-[#ac6cf4]/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        </div>
       </div>
 
-      {/* Content */}
-      <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="text-left max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-20">
-          <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 text-white transform transition-all duration-1000 leading-tight ${text ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            {text}
-          </h1>
-
-          <div className={`transform transition-all duration-1000 ${showSubtext ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl">
-              Empowering young minds to code, build, and innovate through creative learning that turns imagination into innovations
-            </p>
-
-            <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-start transform transition-all duration-1000 ${showButtons ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <button
-                onClick={handleEnrollNow}
-                className="group relative inline-flex items-center justify-center px-4 py-2 sm:px-5 sm:py-3 border border-white text-white font-medium text-sm rounded-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300 w-fit"
-              >
-                <span className="relative z-10">Start Learning</span>
-                <svg
-                  className="relative z-10 ml-2 w-4 h-4 transition-transform duration-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </button>
-
-              {/* <button
-                onClick={handleWatchDemo}
-                className="group relative inline-flex items-center justify-center px-4 py-2 sm:px-5 sm:py-3 border border-white text-white font-medium text-sm rounded-lg hover:bg-white/10 transition-all duration-300 w-fit"
-              >
-                <svg
-                  className="relative z-10 mr-2 w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span className="relative z-10">Watch Demo</span>
-              </button> */}
+      <div
+        className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${
+          showContent ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <div className="text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-20">
+          <div className="hidden mb-8 md:block">
+            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6">
+              <span className="text-sm font-semibold text-white/90 tracking-wide">
+                {tagline}
+              </span>
             </div>
           </div>
+
+          <div className="mb-8 mt-9">
+            <h1
+              ref={textRef}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-white mb-6 leading-tight tracking-tight"
+            >
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-cyan-100">
+                {animatedText}
+                <span className="inline-block w-1 h-16 bg-cyan-400 ml-2 animate-pulse"></span>
+              </span>
+            </h1>
+          </div>
+
+          <div
+            className={`transition-all duration-1000 delay-700 ${
+              showSubtext
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-12 max-w-4xl mx-auto leading-relaxed font-light">
+              Empowering young innovators to{" "}
+              <span className="text-cyan-300 font-semibold">code</span>,{" "}
+              <span className="[#ac6cf4] font-semibold">build</span>, and{" "}
+              <span className="text-purple-300 font-semibold">create</span>{" "}
+              through hands-on STEM education
+            </p>
+          </div>
+
+          <div
+            className={`flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 transition-all duration-1000 delay-1000 ${
+              showButtons
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            <button
+              onClick={handleEnrollNow}
+              className="group relative inline-flex items-center justify-center px-8 py-4 sm:px-12 sm:py-5 bg-gradient-to-r from-[#ac6cf4] to-cyan-600 text-white font-bold text-lg rounded-2xl hover:from-[#ac6cf4] hover:to-cyan-700 transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg"
+            >
+              <span className="relative z-10">Start Learning Today</span>
+              <svg
+                className="relative z-10 ml-3 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#ac6cf4] to-cyan-400 opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-300 -z-10"></div>
+            </button>
+
+            <button
+              onClick={handleWatchDemo}
+              className="group relative inline-flex items-center justify-center px-8 py-4 sm:px-12 sm:py-5 bg-transparent text-white font-bold text-lg rounded-2xl border-2 border-white/30 hover:border-white/60 hover:bg-white/10 transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+            >
+              <svg
+                className="relative z-10 mr-3 w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span className="relative z-10">Watch Demo</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="animate-bounce">
+          <svg
+            className="w-6 h-6 text-white/70"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
         </div>
       </div>
     </section>
