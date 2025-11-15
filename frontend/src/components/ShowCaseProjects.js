@@ -141,19 +141,7 @@ const ShowcaseSection = ({ onShowFormClick }) => {
                 className="group/btn relative bg-white text-[#ac6cf4] px-10 py-4 rounded-2xl font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg border-2 border-white"
               >
                 <span className="relative z-10">Upload Your Project</span>
-                <svg
-                  className="ml-3 w-5 h-5 relative z-10 transition-transform duration-300 group-hover/btn:translate-y-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4v16m8-8l-8-8-8 8"
-                  />
-                </svg>
+               
                 <div className="absolute inset-0 bg-white rounded-2xl opacity-0 group-hover/btn:opacity-30 blur-md transition-opacity duration-300"></div>
               </button>
             </div>

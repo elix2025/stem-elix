@@ -43,7 +43,7 @@ const TermsAndConditions = () => {
           </h2>
           <p>
             All content, including text, graphics, videos, and code, is the
-            property of Edvenger and is protected by copyright laws. You may not
+            property of STEMelix and is protected by copyright laws. You may not
             reproduce, distribute, or modify any content without permission.
           </p>
         </section>

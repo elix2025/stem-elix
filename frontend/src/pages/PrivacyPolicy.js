@@ -80,7 +80,7 @@ const PrivacyPolicy = () => {
             6. Children's Privacy
           </h2>
           <p className="mt-2">
-            Our platform is built for students aged 6-18. For children under 13,
+            Our platform is built for students studying in classes from 2-12. For children under 13,
             parental consent is required.
           </p>
         </section>

@@ -40,8 +40,8 @@ const ContentSection = ({ onLearnMore }) => (
         <div className="space-y-5 sm:space-y-6 body-text text-base sm:text-lg leading-relaxed">
           <p className="text-gray-700">
             <span className="body-text-bold text-gray-900">STEMelix</span> is a future-focused STEM Learning Platform. 
-            We teach coding, robotics, and electronics through mentor-led, 
-            hands-on labs and progressive learning paths.
+            We teach coding, robotics, and electronics through mentor-led
+           and progressive learning paths.
           </p>
           
           <p className="text-gray-700">
