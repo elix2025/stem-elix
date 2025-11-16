@@ -260,7 +260,7 @@ const Nav2 = () => {
             mobileMenuOpen
               ? "translate-y-0 opacity-100 shadow-md"
               : "-translate-y-4 opacity-0 pointer-events-none"
-          } ${scrolled ? "bg-white/95" : "bg-black/95"} backdrop-blur-xl border-t border-gray-200`}
+          } ${scrolled ? "bg-white" : "bg-black"} border-t border-gray-200`}
         >
           <div className="px-6 py-4 space-y-4">
             <Link

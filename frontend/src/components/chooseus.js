@@ -148,9 +148,9 @@ const ChooseUs = () => {
         </svg>
       ),
       title: "Safe & Secure Learning Environment",
-      description: "Your child's safety is our priority. We provide a COPPA-compliant, moderated platform with secure interactions and parental controls.",
+      description: "Your child's safety is our priority. We provide a moderated platform with secure interactions and parental controls.",
       benefits: [
-        "COPPA compliant platform",
+       
         "Secure video sessions",
         "Parental monitoring tools",
         "Moderated community interactions"

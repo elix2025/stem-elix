@@ -9,6 +9,7 @@ import {
   FaTwitter,
   FaArrowUp,
 } from "react-icons/fa";
+import logo from "../assets/logo.png";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -31,12 +32,24 @@ const Footer = () => {
             {/* Brand Section */}
             <div className="lg:col-span-1 space-y-6">
               <div>
-                <h2 className="text-3xl lg:text-4xl font-bold mb-3">
-                  <span className="bg-gradient-to-r from-primary-blue to-cyan bg-clip-text text-transparent">
-                    STEM
-                  </span>
-                  <span className="text-white">elix</span>
-                </h2>
+                {/* Logo and Brand Name */}
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="flex-shrink-0">
+                    <img 
+                      src={logo} 
+                      alt="STEMelix Logo" 
+                      className="w-16 h-16 object-contain drop-shadow-lg hover:drop-shadow-xl transition-all duration-300 transform hover:scale-105"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-2xl lg:text-3xl font-bold leading-tight">
+                      <span className=" text-[#ac6cf4]">
+                        STEM
+                      </span>
+                      <span className="text-white">elix</span>
+                    </h2>
+                  </div>
+                </div>
                 <p className="text-gray-300 text-base leading-relaxed max-w-sm">
                   Empowering the next generation with innovative STEM education.
                   Building brilliant minds for a technological future.

@@ -193,8 +193,8 @@ const Navbar = () => {
           
           {/* Menu Panel */}
           <div className={`
-            absolute top-0 right-0 w-80 h-full bg-white shadow-2xl transform transition-transform duration-500 ease-out
-            ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"}
+            absolute top-0 left-0 w-80 h-full bg-white shadow-2xl transform transition-transform duration-500 ease-out
+            ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
           `}>
             <div className="h-full flex flex-col">
               {/* Header */}
