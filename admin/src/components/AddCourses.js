@@ -11,7 +11,7 @@ const AddCourses = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    categoryId: "",
+    coursename: "",
     levelNumber: 1,
     duration: "",
     gradeRangeMin: "",
@@ -122,7 +122,7 @@ const AddCourses = () => {
       setFormData({
         title: "",
         description: "",
-        categoryId: "",
+        coursename: "",
         levelNumber: 1,
         duration: "",
         gradeRangeMin: "",
@@ -212,37 +212,34 @@ const AddCourses = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
-              <label className="block font-medium mb-1">Course Title *</label>
+              <label className="block font-medium mb-1">Course Title</label>
               <input
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                required
                 className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter course title"
               />
             </div>
 
             <div className="md:col-span-2">
-              <label className="block font-medium mb-1">Description *</label>
+              <label className="block font-medium mb-1">Description</label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
                 rows="4"
-                required
                 className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
                 placeholder="Describe what this course is about"
               />
             </div>
 
             <div>
-              <label className="block font-medium mb-1">Category *</label>
+              <label className="block font-medium mb-1">Category</label>
               <select
-                name="categoryId"
-                value={formData.categoryId}
+                name="coursename"
+                value={formData.coursename}
                 onChange={handleChange}
-                required
                 className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select Category</option>
@@ -267,7 +264,7 @@ const AddCourses = () => {
             </div>
 
             <div>
-              <label className="block font-medium mb-1">Level Number *</label>
+              <label className="block font-medium mb-1">Level Number</label>
               <input
                 type="number"
                 name="levelNumber"
@@ -275,18 +272,16 @@ const AddCourses = () => {
                 onChange={handleChange}
                 min="1"
                 max="10"
-                required
                 className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block font-medium mb-1">Duration *</label>
+              <label className="block font-medium mb-1">Duration</label>
               <input
                 name="duration"
                 value={formData.duration}
                 onChange={handleChange}
-                required
                 className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
                 placeholder="e.g., 5 hours"
               />
@@ -294,7 +289,7 @@ const AddCourses = () => {
 
             <div>
               <label className="block font-medium mb-1">
-                Grade Range Min *
+                Grade Range Min
               </label>
               <input
                 type="number"
@@ -303,14 +298,13 @@ const AddCourses = () => {
                 onChange={handleChange}
                 min="1"
                 max="12"
-                required
                 className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
               <label className="block font-medium mb-1">
-                Grade Range Max *
+                Grade Range Max
               </label>
               <input
                 type="number"
@@ -319,20 +313,18 @@ const AddCourses = () => {
                 onChange={handleChange}
                 min="1"
                 max="12"
-                required
                 className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block font-medium mb-1">Price (₹) *</label>
+              <label className="block font-medium mb-1">Price (₹)</label>
               <input
                 type="number"
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
                 min="0"
-                required
                 className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -386,14 +378,13 @@ const AddCourses = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block font-medium mb-1">
-                Course Thumbnail *
+                Course Thumbnail
               </label>
               <input
                 type="file"
                 name="CourseThumbnail"
                 accept="image/*"
                 onChange={handleFileChange}
-                required
                 className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500"
               />
             </div>

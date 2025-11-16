@@ -12,6 +12,7 @@ export const createCourse = async (req, res) => {
     }
 
     console.log("incoming course data:", req.body);
+    
     const {
       title,
       coursename,
@@ -47,18 +48,18 @@ export const createCourse = async (req, res) => {
     const CourseThumbnail = req.files?.CourseThumbnail?.[0];
     const instructorAvatar = req.files?.instructorAvatar?.[0];
 
+    console.log("🔍 Required field check:", {
+      title: title,
+      titleTrimmed: title?.trim(),
+      coursename: coursename,
+      CourseThumbnail: !!CourseThumbnail
+    });
+
     // Validate required fields
     const missingFields = [];
     if (!title?.trim()) missingFields.push("title");
     if (!coursename) missingFields.push("coursename");
-    if (!levelNumber) missingFields.push("levelNumber");
-    if (!description?.trim()) missingFields.push("description");
-    if (!duration?.trim()) missingFields.push("duration");
-    if (gradeRangeMax === undefined || gradeRangeMax === null)
-      missingFields.push("gradeRangeMax");
-    if (gradeRangeMin === undefined || gradeRangeMin === null)
-      missingFields.push("gradeRangeMin");
-    if (price === undefined || price === null) missingFields.push("price");
+    // levelNumber, description, duration, gradeRange, price can be empty - will use defaults
     if (!CourseThumbnail) missingFields.push("CourseThumbnail");
 
     if (missingFields.length > 0) {
@@ -69,9 +70,19 @@ export const createCourse = async (req, res) => {
       });
     }
 
-    // Validate grade range
-    const minGrade = parseInt(gradeRangeMin);
-    const maxGrade = parseInt(gradeRangeMax);
+    // Validate grade range - provide defaults if empty
+    // Handle empty strings and undefined/null values
+    let minGrade = 1; // default
+    let maxGrade = 12; // default
+    
+    if (gradeRangeMin && gradeRangeMin.toString().trim() && !isNaN(gradeRangeMin)) {
+      minGrade = parseInt(gradeRangeMin);
+    }
+    
+    if (gradeRangeMax && gradeRangeMax.toString().trim() && !isNaN(gradeRangeMax)) {
+      maxGrade = parseInt(gradeRangeMax);
+    }
+    
     if (minGrade < 1 || minGrade > 12 || maxGrade < 1 || maxGrade > 12) {
       return res.status(400).json({
         success: false,
@@ -138,15 +149,15 @@ export const createCourse = async (req, res) => {
     const newCourse = new Course({
       title: title.trim(),
       coursename,
-      levelNumber: parseInt(levelNumber),
-      description: description.trim(),
+      levelNumber: levelNumber ? parseInt(levelNumber) : 1,
+      description: description && description.trim() ? description.trim() : "Course description pending",
       CourseThumbnail: thumbnailUpload.secure_url,
-      duration: duration.trim(),
+      duration: duration && duration.trim() ? duration.trim() : "TBD",
       gradeRange: {
       min: minGrade,
       max: maxGrade,
       },
-      price: parseFloat(price),
+      price: price && price.toString().trim() ? parseFloat(price) : 0,
       originalPrice: originalPrice ? parseFloat(originalPrice) : null,
       status,
       order: parseInt(order),

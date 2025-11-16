@@ -238,8 +238,21 @@ const ChooseUs = () => {
               >
                 Book Free Demo Session
               </button> 
-              <button className="px-8 py-4 bg-white text-gray-700 border border-gray-300 rounded-2xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-[#ac6cf4]">
-                Download Curriculum
+              <button 
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/STEMelix 2nd to 12th Grade Brochure .pdf';
+                  link.download = 'STEMelix-Curriculum-Brochure.pdf';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="px-8 py-4 bg-white text-gray-700 border border-gray-300 rounded-2xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-[#ac6cf4] flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download Brochure
               </button>
             </div>
           </div>
