@@ -69,7 +69,7 @@ export default function Hero({ handleEnrollNow }) {
   }, [isMuted]);
 
   const handleWatchDemo = () => {
-    console.log("Watch Demo clicked");
+    window.open('/contact', '_self');
   };
 
   return (

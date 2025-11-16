@@ -5,6 +5,7 @@ import Master from "../assets/mastercourse.png";
 import Junior from "../assets/juniorcourse.png";
 import Aero from "../assets/aerocourse.jpg";
 import { FaChalkboardTeacher } from "react-icons/fa";
+import { BrainCircuit } from "lucide-react";
 
 const CourseCard = ({ course, index }) => {
   const navigate = useNavigate();
@@ -121,19 +122,7 @@ const CourseCard = ({ course, index }) => {
       return (
         <div className="relative">
           <div className="absolute inset-0 bg-purple-100 rounded-2xl transform rotate-6"></div>
-          <svg
-            className={iconClass}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-            />
-          </svg>
+          <BrainCircuit className={`w-14 h-14 ${cardStyle.icon} transition-transform duration-300 ${isHovered ? "scale-110" : "scale-90"}`} />
         </div>
       );
     } else {
@@ -237,6 +226,7 @@ const CourseCard = ({ course, index }) => {
 export default function TinkrionShowcase() {
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
 
   const courses = [
     {
@@ -440,7 +430,10 @@ export default function TinkrionShowcase() {
                 Book a free demo session with our experts
               </p>
             </div>
-            <button className="px-8 py-3 bg-gradient-to-r from-[#ac6cf4] to-purple-600 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg">
+            <button 
+              onClick={() => navigate('/contact')}
+              className="px-8 py-3 bg-gradient-to-r from-[#ac6cf4] to-purple-600 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            >
               Book Free Demo
             </button>
           </div>

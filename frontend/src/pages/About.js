@@ -25,11 +25,7 @@ const AboutUsPage = () => {
         <div className="relative z-10 max-w-6xl mx-auto px-6">
           <div className="max-w-3xl text-white">
             <div className="mb-6">
-              <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-4">
-                <span className="text-sm font-semibold text-white/90 tracking-wide">
-                  Learn About STEMelix
-                </span>
-              </div>
+             
             </div>
             <h1 className="headline-1 text-white mb-6">About Us</h1>
             <p className="body-text-large text-white/90 max-w-2xl">

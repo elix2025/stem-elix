@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FeatureCard = ({ feature, index }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -70,6 +71,7 @@ const FeatureCard = ({ feature, index }) => {
 const ChooseUs = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -230,9 +232,12 @@ const ChooseUs = () => {
               Start with a free demo session and see the difference for yourself.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button className="px-8 py-4 bg-gradient-to-r from-[#ac6cf4] to-purple-600 text-white rounded-2xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg">
+              <button 
+                onClick={() => navigate('/contact')}
+                className="px-8 py-4 bg-gradient-to-r from-[#ac6cf4] to-purple-600 text-white rounded-2xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg"
+              >
                 Book Free Demo Session
-              </button>
+              </button> 
               <button className="px-8 py-4 bg-white text-gray-700 border border-gray-300 rounded-2xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-[#ac6cf4]">
                 Download Curriculum
               </button>

@@ -31,30 +31,39 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const scrollPosition = window.scrollY;
+      // More responsive scroll detection
+      setScrolled(scrollPosition > 30);
     };
 
-    if (isHomePage) {
-      window.addEventListener("scroll", handleScroll);
-      return () => window.removeEventListener("scroll", handleScroll);
-    } else {
-      setScrolled(true);
-    }
-  }, [isHomePage]);
+    // Always add scroll listener
+    window.addEventListener("scroll", handleScroll);
+    // Initial state check
+    handleScroll();
+    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // Professional navbar styling
-  const navbarClass = `
-    fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out
-    ${scrolled 
-      ? "bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-100" 
-      : isHomePage 
-        ? "bg-transparent" 
-        : "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-100"
+  // Improved navbar styling with better logic
+  const getNavbarBackground = () => {
+    if (!isHomePage) {
+      // Non-home pages always have solid background
+      return "bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-100";
     }
+    
+    // Home page: transparent at top, solid when scrolled
+    return scrolled 
+      ? "bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-100"
+      : "bg-transparent";
+  };
+
+  const navbarClass = `
+    fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-out
+    ${getNavbarBackground()}
   `;
 
   const textColorClass = scrolled || !isHomePage 
@@ -166,7 +175,7 @@ const Navbar = () => {
                 className={`p-2 rounded-xl transition-all duration-300 ${
                   scrolled || !isHomePage 
                     ? "text-gray-700 hover:bg-gray-100" 
-                    : "text-white hover:bg-white/10"
+                    : "text-white hover:bg-white/20"
                 } ${mobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -191,14 +200,14 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(false)}
           />
           
-          {/* Menu Panel */}
+          {/* Menu Panel - Always white background */}
           <div className={`
-            absolute top-0 left-0 w-80 h-full bg-white shadow-2xl transform transition-transform duration-500 ease-out
+            absolute top-0 left-0 w-80 min-h-screen h-full bg-white shadow-2xl transform transition-transform duration-300 ease-out
             ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
           `}>
-            <div className="h-full flex flex-col">
-              {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-100">
+            <div className="min-h-screen h-full flex flex-col">
+              {/* Header - Always white background with consistent styling */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-white">
                 <div className="flex items-center space-x-3">
                   <img src={brainLogo} alt="STEMelix" className="w-8 h-8" />
                   <span className="text-xl font-bold text-gray-900">STEMelix</span>
@@ -213,13 +222,13 @@ const Navbar = () => {
                 </button>
               </div>
 
-              {/* Navigation Links */}
-              <div className="flex-1 p-6 space-y-6">
+              {/* Navigation Links - Consistent white background */}
+              <div className="flex-1 p-6 space-y-6 bg-white">
                 <Link
                   to="/"
                   className={`block text-lg font-medium transition-all duration-300 ${
                     location.pathname === "/" 
-                      ? "[#ac6cf4] font-semibold" 
+                      ? "text-[#ac6cf4] font-semibold" 
                       : "text-gray-700 hover:text-[#ac6cf4]"
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
@@ -230,7 +239,7 @@ const Navbar = () => {
                   to="/about"
                   className={`block text-lg font-medium transition-all duration-300 ${
                     location.pathname === "/about" 
-                      ? "[#ac6cf4] font-semibold" 
+                      ? "text-[#ac6cf4] font-semibold" 
                       : "text-gray-700 hover:text-[#ac6cf4]"
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
@@ -261,8 +270,8 @@ const Navbar = () => {
                 </Link>
               </div>
 
-              {/* Auth Section */}
-              <div className="p-6 border-t border-gray-100 space-y-4">
+              {/* Auth Section - Consistent white background */}
+              <div className="p-6 border-t border-gray-100 space-y-4 bg-white">
                 {currentUser && currentUser.token ? (
                   <>
                     <Link
