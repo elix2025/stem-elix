@@ -179,8 +179,6 @@ const CourseSchema = new mongoose.Schema(
       trim: true,
       maxlength: [200, "Course title cannot exceed 200 characters"],
       index: "text", // Text index for search
-       values: ["Junior", "Explorer", "Master"],
-        message: "Category must be Junior, Explorer, or Master",
     },
     slug: {
       type: String,
@@ -190,7 +188,10 @@ const CourseSchema = new mongoose.Schema(
     coursename: {
       type: String,
       required: true,
-     
+      enum: {
+        values: ["Junior", "Explorer", "Master"],
+        message: "Category must be Junior, Explorer, or Master",
+      },
     },
     levelNumber: {
       type: Number,
@@ -468,16 +469,19 @@ CourseSchema.index(
   }
 );
 
-// Pre-save middleware to generate slug
+// Pre-save middleware to generate slug with level number for uniqueness
 CourseSchema.pre("save", function (next) {
-  if (this.isModified("title") || this.isNew) {
-    this.slug = this.title
+  if (this.isModified("title") || this.isModified("levelNumber") || this.isNew) {
+    const baseSlug = this.title
       .toLowerCase()
       .trim()
       .replace(/[^a-z0-9\s-]/g, "")
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-")
       .replace(/^-|-$/g, "");
+    
+    // Append level number to ensure uniqueness
+    this.slug = `${baseSlug}${this.levelNumber || 1}`;
   }
   next();
 });
