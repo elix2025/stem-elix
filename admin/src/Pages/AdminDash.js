@@ -25,7 +25,7 @@ const AdminDash = () => {
             </button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             <div className="bg-blue-50 p-6 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">Welcome Admin!</h2>
               <p className="text-gray-600 mb-4">
@@ -48,10 +48,31 @@ const AdminDash = () => {
                 <li>• System settings</li>
               </ul>
             </div>
-            <div>
-              <a href="/payments" className="block w-full text-center bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+            
+            <div className="bg-purple-50 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold mb-4">Student Management</h2>
+              <p className="text-gray-600 mb-4">
+                View enrolled students and their course progress.
+              </p>
+              <button
+                onClick={() => navigate('/students')}
+                className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+              >
+                Manage Students
+              </button>
+            </div>
+            
+            <div className="bg-orange-50 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold mb-4">Payment Management</h2>
+              <p className="text-gray-600 mb-4">
+                Review and verify student payments.
+              </p>
+              <button
+                onClick={() => navigate('/payments')}
+                className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+              >
                 Manage Payments
-              </a>
+              </button>
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import Courses from './Pages/Courses';
 import CourseContentPage from './Pages/Coursecontent';
 import AdminProgressDemo from './Pages/AdminProgressDemo';
 import PaymentManagement from "./Pages/payment.js";
+import StudentList from "./components/StudentList.js";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/admin/course-content/:courseId" element={<CourseContentPage/>}/>
           <Route path="/admin/progress" element={<AdminProgressDemo />} />
           <Route path="/payments" element={<PaymentManagement />} />
+          <Route path="/students" element={<StudentList />} />
         </Routes>
       </BrowserRouter>
     </AdminProvider>

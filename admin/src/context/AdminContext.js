@@ -425,6 +425,123 @@ export const AdminProvider = ({ children }) => {
         };
       }
     };
+
+    // Student Management Functions
+    
+    // Get all students with pagination and search
+    const getAllStudents = async (page = 1, limit = 10, search = '', status = '') => {
+      try {
+        const adminToken = localStorage.getItem('adminToken');
+        
+        if (!adminToken) {
+          throw new Error('No admin token found');
+        }
+
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+          ...(search && { search }),
+          ...(status && { status })
+        });
+
+        console.log('🔍 Fetching students with params:', { page, limit, search, status });
+
+        const res = await axios.get(`${Admin_Base_URL}/auth/admin/students?${params}`, {
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (res.data.success) {
+          console.log('✅ Students fetched successfully:', res.data.data.pagination);
+          return {
+            success: true,
+            data: res.data.data
+          };
+        } else {
+          throw new Error(res.data.message || 'Failed to fetch students');
+        }
+      } catch (error) {
+        console.error('❌ Error fetching students:', error);
+        return {
+          success: false,
+          message: error.response?.data?.message || error.message || 'Failed to fetch students'
+        };
+      }
+    };
+
+    // Get detailed student profile
+    const getStudentDetails = async (studentId) => {
+      try {
+        const adminToken = localStorage.getItem('adminToken');
+        
+        if (!adminToken) {
+          throw new Error('No admin token found');
+        }
+
+        console.log('🔍 Fetching student details for ID:', studentId);
+
+        const res = await axios.get(`${Admin_Base_URL}/auth/admin/students/${studentId}`, {
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (res.data.success) {
+          console.log('✅ Student details fetched successfully');
+          return {
+            success: true,
+            data: res.data.data
+          };
+        } else {
+          throw new Error(res.data.message || 'Failed to fetch student details');
+        }
+      } catch (error) {
+        console.error('❌ Error fetching student details:', error);
+        return {
+          success: false,
+          message: error.response?.data?.message || error.message || 'Failed to fetch student details'
+        };
+      }
+    };
+
+    // Get enrollment statistics for dashboard
+    const getEnrollmentStats = async () => {
+      try {
+        const adminToken = localStorage.getItem('adminToken');
+        
+        if (!adminToken) {
+          throw new Error('No admin token found');
+        }
+
+        console.log('📊 Fetching enrollment statistics...');
+
+        const res = await axios.get(`${Admin_Base_URL}/auth/admin/enrollment-stats`, {
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (res.data.success) {
+          console.log('✅ Enrollment stats fetched successfully');
+          return {
+            success: true,
+            data: res.data.data
+          };
+        } else {
+          throw new Error(res.data.message || 'Failed to fetch enrollment statistics');
+        }
+      } catch (error) {
+        console.error('❌ Error fetching enrollment stats:', error);
+        return {
+          success: false,
+          message: error.response?.data?.message || error.message || 'Failed to fetch enrollment statistics'
+        };
+      }
+    };
   
 
   return (
@@ -449,7 +566,10 @@ export const AdminProvider = ({ children }) => {
         getUserProjects,
         verifyPayment,
         getAllPayments,
-        getPaymentDetails
+        getPaymentDetails,
+        getAllStudents,
+        getStudentDetails,
+        getEnrollmentStats
       }}
     >
       {children}

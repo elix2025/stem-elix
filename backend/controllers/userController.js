@@ -297,3 +297,305 @@ const checkCourseAccess = async (userId, courseId) => {
   });
   return !!payment;
 };
+
+// Admin endpoints for student management
+
+// Get all students with their enrolled courses (Admin only)
+export const getAllStudents = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, search = "", status = "" } = req.query;
+    
+    // Build search query
+    const searchQuery = search 
+      ? {
+          $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { email: { $regex: search, $options: 'i' } },
+            { institute: { $regex: search, $options: 'i' } }
+          ]
+        }
+      : {};
+
+    // Add role filter to get only students
+    searchQuery.role = { $ne: 'admin' };
+
+    // Aggregation pipeline for rich student data
+    const pipeline = [
+      { $match: searchQuery },
+      {
+        $lookup: {
+          from: 'payments',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'paymentHistory'
+        }
+      },
+      {
+        $lookup: {
+          from: 'coursemodels',
+          localField: 'coursesEnrolled.course',
+          foreignField: '_id',
+          as: 'enrolledCoursesDetails'
+        }
+      },
+      {
+        $addFields: {
+          totalPayments: { $size: '$paymentHistory' },
+          verifiedPayments: {
+            $size: {
+              $filter: {
+                input: '$paymentHistory',
+                cond: { $eq: ['$$this.status', 'verified'] }
+              }
+            }
+          },
+          totalSpent: {
+            $sum: {
+              $map: {
+                input: {
+                  $filter: {
+                    input: '$paymentHistory',
+                    cond: { $eq: ['$$this.status', 'verified'] }
+                  }
+                },
+                in: '$$this.amount'
+              }
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          name: 1,
+          email: 1,
+          phone: 1,
+          institute: 1,
+          createdAt: 1,
+          totalCoursesEnrolled: 1,
+          coursesCompleted: 1,
+          coursesEnrolled: 1,
+          enrolledCoursesDetails: {
+            _id: 1,
+            title: 1,
+            categoryId: 1,
+            price: 1,
+            status: 1
+          },
+          paymentHistory: {
+            _id: 1,
+            amount: 1,
+            status: 1,
+            createdAt: 1,
+            verifiedAt: 1,
+            course: 1
+          },
+          totalPayments: 1,
+          verifiedPayments: 1,
+          totalSpent: 1
+        }
+      },
+      { $sort: { createdAt: -1 } },
+      { $skip: (page - 1) * limit },
+      { $limit: parseInt(limit) }
+    ];
+
+    const [students, totalCount] = await Promise.all([
+      User.aggregate(pipeline),
+      User.countDocuments(searchQuery)
+    ]);
+
+    // Calculate pagination info
+    const totalPages = Math.ceil(totalCount / limit);
+    const hasNextPage = page < totalPages;
+    const hasPrevPage = page > 1;
+
+    res.json({
+      success: true,
+      data: {
+        students,
+        pagination: {
+          currentPage: parseInt(page),
+          totalPages,
+          totalStudents: totalCount,
+          hasNextPage,
+          hasPrevPage,
+          limit: parseInt(limit)
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error("Get all students error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch students data",
+      error: error.message
+    });
+  }
+};
+
+// Get detailed student profile with purchase history (Admin only)
+export const getStudentDetails = async (req, res) => {
+  try {
+    const { studentId } = req.params;
+
+    if (!studentId) {
+      return res.status(400).json({
+        success: false,
+        message: "Student ID is required"
+      });
+    }
+
+    const Payment = (await import("../models/orderModel.js")).default;
+
+    // Get student with populated data
+    const student = await User.findById(studentId)
+      .select('-password')
+      .populate({
+        path: 'coursesEnrolled.course',
+        select: 'title categoryId price status CourseThumbnail levelNumber'
+      })
+      .lean();
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found"
+      });
+    }
+
+    // Get payment history
+    const payments = await Payment.find({ user: studentId })
+      .populate('course', 'title categoryId price')
+      .sort({ createdAt: -1 });
+
+    // Calculate statistics
+    const stats = {
+      totalCoursesEnrolled: student.coursesEnrolled?.length || 0,
+      completedCourses: student.coursesEnrolled?.filter(c => c.status === 'completed').length || 0,
+      inProgressCourses: student.coursesEnrolled?.filter(c => c.status === 'in-progress').length || 0,
+      totalPayments: payments.length,
+      verifiedPayments: payments.filter(p => p.status === 'verified').length,
+      pendingPayments: payments.filter(p => p.status === 'pending').length,
+      totalAmountSpent: payments
+        .filter(p => p.status === 'verified')
+        .reduce((sum, p) => sum + p.amount, 0)
+    };
+
+    res.json({
+      success: true,
+      data: {
+        student,
+        payments,
+        stats
+      }
+    });
+
+  } catch (error) {
+    console.error("Get student details error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch student details",
+      error: error.message
+    });
+  }
+};
+
+// Get enrollment statistics for admin dashboard (Admin only)
+export const getEnrollmentStats = async (req, res) => {
+  try {
+    const Payment = (await import("../models/orderModel.js")).default;
+    
+    // Get various statistics
+    const [
+      totalStudents,
+      totalEnrollments,
+      recentEnrollments,
+      paymentStats,
+      coursePopularity
+    ] = await Promise.all([
+      // Total students (exclude admins)
+      User.countDocuments({ role: { $ne: 'admin' } }),
+      
+      // Total enrollments across all users
+      User.aggregate([
+        { $match: { role: { $ne: 'admin' } } },
+        { $group: { _id: null, total: { $sum: '$totalCoursesEnrolled' } } }
+      ]),
+      
+      // Recent enrollments (last 30 days)
+      User.aggregate([
+        { $match: { role: { $ne: 'admin' } } },
+        { $unwind: '$coursesEnrolled' },
+        {
+          $match: {
+            'coursesEnrolled.enrolledAt': {
+              $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+            }
+          }
+        },
+        { $count: 'recentEnrollments' }
+      ]),
+      
+      // Payment statistics
+      Payment.aggregate([
+        {
+          $group: {
+            _id: '$status',
+            count: { $sum: 1 },
+            totalAmount: { $sum: '$amount' }
+          }
+        }
+      ]),
+      
+      // Course popularity
+      User.aggregate([
+        { $match: { role: { $ne: 'admin' } } },
+        { $unwind: '$coursesEnrolled' },
+        {
+          $lookup: {
+            from: 'coursemodels',
+            localField: 'coursesEnrolled.course',
+            foreignField: '_id',
+            as: 'courseInfo'
+          }
+        },
+        { $unwind: '$courseInfo' },
+        {
+          $group: {
+            _id: '$courseInfo._id',
+            courseTitle: { $first: '$courseInfo.title' },
+            categoryId: { $first: '$courseInfo.categoryId' },
+            enrollments: { $sum: 1 },
+            completions: {
+              $sum: { $cond: [{ $eq: ['$coursesEnrolled.status', 'completed'] }, 1, 0] }
+            }
+          }
+        },
+        { $sort: { enrollments: -1 } },
+        { $limit: 10 }
+      ])
+    ]);
+
+    res.json({
+      success: true,
+      data: {
+        overview: {
+          totalStudents,
+          totalEnrollments: totalEnrollments[0]?.total || 0,
+          recentEnrollments: recentEnrollments[0]?.recentEnrollments || 0,
+        },
+        paymentStats,
+        popularCourses: coursePopularity
+      }
+    });
+
+  } catch (error) {
+    console.error("Get enrollment stats error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch enrollment statistics",
+      error: error.message
+    });
+  }
+};
