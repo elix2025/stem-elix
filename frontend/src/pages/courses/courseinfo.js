@@ -115,7 +115,7 @@ const CourseInfo = () => {
   const tabs = [
     { id: "overview", label: "Overview", icon: "📋" },
     // { id: "curriculum", label: "Curriculum", icon: "📚" },
-    { id: "instructor", label: "Instructor", icon: "👨‍🏫" },
+
     // { id: "reviews", label: "Reviews", icon: "⭐" },
   ];
 
@@ -208,8 +208,8 @@ const CourseInfo = () => {
             {/* Video Preview Card */}
             <div className="lg:col-span-1">
               <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
-                <div className="relative mb-6">
-                  <div className="aspect-video bg-black/30 rounded-xl overflow-hidden">
+                {/* <div className="relative mb-6"> */}
+                  {/* <div className="aspect-video bg-black/30 rounded-xl overflow-hidden">
                     <iframe
                       width="100%"
                       height="100%"
@@ -223,8 +223,8 @@ const CourseInfo = () => {
                       allowFullScreen
                       className="w-full h-full"
                     ></iframe>
-                  </div>
-                </div>
+                  </div> */}
+                {/* </div>  */}
 
                 <div className="text-center">
                   <div className="text-white mb-4">
@@ -641,7 +641,7 @@ const CourseInfo = () => {
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-slate-200">
+              {/* <div className="mt-8 pt-6 border-t border-slate-200">
                 <h4 className="font-semibold text-slate-800 mb-4">
                   Share this course
                 </h4>
@@ -674,7 +674,7 @@ const CourseInfo = () => {
                     </svg>
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

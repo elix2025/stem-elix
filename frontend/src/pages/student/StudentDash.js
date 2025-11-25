@@ -555,11 +555,11 @@ const StudentDash = () => {
                               <h3 className="font-bold text-lg mb-2 line-clamp-2">
                                 {progress.courseId?.title || "Course Title"}
                               </h3>
-                              <p className="text-teal-100 text-sm flex items-center gap-1">
+                              {/* <p className="text-teal-100 text-sm flex items-center gap-1">
                                 <MdSchool className="text-sm" />
                                 {progress.courseId?.instructor?.name ||
                                   "Instructor"}
-                              </p>
+                              </p> */}
                             </div>
                             {progress.isCompleted && (
                               <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center">
@@ -570,22 +570,22 @@ const StudentDash = () => {
 
                           {/* Progress Bar */}
                           <div className="space-y-2">
-                            <div className="flex justify-between items-center">
+                            {/* <div className="flex justify-between items-center">
                               <span className="text-sm text-teal-100">
                                 Progress
                               </span>
                               <span className="text-sm font-bold">
                                 {progress.overallProgress || 0}%
                               </span>
-                            </div>
-                            <div className="w-full bg-white/20 rounded-full h-2">
+                            </div> */}
+                            {/* <div className="w-full bg-white/20 rounded-full h-2">
                               <div
                                 className="bg-white h-2 rounded-full transition-all duration-500 ease-out"
                                 style={{
                                   width: `${progress.overallProgress || 0}%`,
                                 }}
                               ></div>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
