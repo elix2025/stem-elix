@@ -208,6 +208,16 @@ paymentSchema.post("save", function (doc) {
   console.log(`Payment ${doc.orderId} status updated to: ${doc.status}`);
 });
 
+// Virtual field to convert screenshot buffer to Base64 data URL
+paymentSchema.virtual('screenshotUrl').get(function() {
+  if (this.paymentScreenshot && this.paymentScreenshot.data) {
+    const base64 = this.paymentScreenshot.data.toString('base64');
+    const contentType = this.paymentScreenshot.contentType || 'image/png';
+    return `data:${contentType};base64,${base64}`;
+  }
+  return null;
+});
+
 // Add pagination plugin
 paymentSchema.plugin(mongoosePaginate);
 
