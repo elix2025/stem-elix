@@ -287,6 +287,11 @@ export const verifyPayment = async (req, res) => {
         await user.save();
       }
 
+      // Save payment status changes to database
+      console.log("💾 Saving payment status to database...");
+      await payment.save();
+      console.log("✅ Payment saved successfully with status: verified");
+
       // Generate invoice
       try {
         console.log("📄 Starting invoice generation...");
@@ -339,8 +344,8 @@ export const verifyPayment = async (req, res) => {
         console.error("Error in invoice generation or email sending:", error);
         console.error("Full error stack:", error.stack);
         
-        // Still send success response but include warning about invoice/email
-        return res.status(200).json({
+        // Payment is already saved at this point, so just notify about email/invoice error
+        res.status(200).json({
           success: true,
           message: "Payment verified but there was an issue generating the invoice or sending the email. Our team will send it manually.",
           error: error.message,
@@ -350,6 +355,7 @@ export const verifyPayment = async (req, res) => {
             verifiedAt: payment.verifiedAt
           }
         });
+        return;
       }
 
       res.status(200).json({
