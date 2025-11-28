@@ -162,7 +162,7 @@ export const getPayment = async (req, res) => {
 
     const payment = await Payment.findById(id)
       .populate("user", "name email")
-      .populate("course", "title price thumbnail");
+      .populate("course", "title price thumbnail levelNumber");
 
     if (!payment) {
       return res.status(404).json({ 
@@ -469,7 +469,7 @@ export const getAllPayments = async (req, res) => {
     
     const payments = await Payment.find()
       .populate("user", "name email")
-      .populate("course", "title")
+      .populate("course", "title levelNumber")
       .sort({ createdAt: -1 });
 
     console.log(`📊 Found ${payments.length} payments in database`);

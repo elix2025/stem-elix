@@ -32,7 +32,7 @@ const AdminDash = () => {
                 You are successfully logged in as an administrator.
               </p>
               <button
-                onClick={() => navigate('/courses')}
+                onClick={() => navigate('/admin/courses')}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Manage Courses
@@ -55,7 +55,7 @@ const AdminDash = () => {
                 View enrolled students and their course progress.
               </p>
               <button
-                onClick={() => navigate('/students')}
+                onClick={() => navigate('/admin/students')}
                 className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
               >
                 Manage Students
@@ -68,7 +68,7 @@ const AdminDash = () => {
                 Review and verify student payments.
               </p>
               <button
-                onClick={() => navigate('/payments')}
+                onClick={() => navigate('/admin/payments')}
                 className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
               >
                 Manage Payments

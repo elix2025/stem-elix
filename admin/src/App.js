@@ -7,6 +7,7 @@ import CourseContentPage from './Pages/Coursecontent';
 import AdminProgressDemo from './Pages/AdminProgressDemo';
 import PaymentManagement from "./Pages/payment.js";
 import StudentList from "./components/StudentList.js";
+import EditCourse from "./components/EditCourse.js";
 
 function App() {
   return (
@@ -15,11 +16,12 @@ function App() {
         <Routes>
           <Route path="/" element={<AdminLogin />} />
           <Route path="/admin-dash" element={<AdminDash />} />
-          <Route path="/courses" element={<Courses />} />
+          <Route path="/admin/courses" element={<Courses />} />
+          <Route path="/admin/edit-course/:courseId" element={<EditCourse />} />
           <Route path="/admin/course-content/:courseId" element={<CourseContentPage/>}/>
           <Route path="/admin/progress" element={<AdminProgressDemo />} />
-          <Route path="/payments" element={<PaymentManagement />} />
-          <Route path="/students" element={<StudentList />} />
+          <Route path="/admin/payments" element={<PaymentManagement />} />
+          <Route path="/admin/students" element={<StudentList />} />
         </Routes>
       </BrowserRouter>
     </AdminProvider>

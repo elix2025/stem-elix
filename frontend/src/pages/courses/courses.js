@@ -19,19 +19,19 @@ const categories = [
    {
     id: "Explorer",
      label: "Explorer",
-     icon: "📐",
+     icon: "🔬",
        color: "from-green-500 to-teal-500",
    },
    {
      id: "Master",
      label: "Master",
-     icon: "💻",
+     icon: "🎓",
      color: "from-orange-500 to-red-500",
    },
    {
      id: "Aero",
      label: "Aero",
-     icon: "💻",
+     icon: "🚁",
      color: "from-orange-500 to-red-500",
    },
 ];

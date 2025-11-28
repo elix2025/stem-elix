@@ -208,16 +208,24 @@ const PaymentVerification = () => {
                     <p className="mt-1">{selectedPayment.course?.title || 'Course not found'}</p>
                   </div>
                   <div>
+                    <h4 className="text-sm font-medium text-gray-500">Course Level</h4>
+                    <p className="mt-1">{selectedPayment.course?.levelNumber || 'N/A'}</p>
+                  </div>
+                  <div>
                     <h4 className="text-sm font-medium text-gray-500">Amount</h4>
                     <p className="mt-1">₹{selectedPayment.amount}</p>
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium text-gray-500">Status</h4>
-                    <p className="mt-1">{selectedPayment.status}</p>
-                  </div>
-                  <div>
                     <h4 className="text-sm font-medium text-gray-500">Order ID</h4>
                     <p className="mt-1 text-sm">{selectedPayment.orderId || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500">GPay Transaction ID</h4>
+                    <p className="mt-1 text-sm font-mono">{selectedPayment.gpayTransactionId || 'Not yet verified'}</p>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500">Status</h4>
+                    <p className="mt-1">{selectedPayment.status}</p>
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-gray-500">Created At</h4>

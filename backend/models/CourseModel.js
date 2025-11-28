@@ -253,6 +253,10 @@ const CourseSchema = new mongoose.Schema(
         max: [12, "Maximum grade cannot exceed 12"],
         validate: {
           validator: function (value) {
+            // Handle case where gradeRange.min might not be available during partial updates
+            if (!this.gradeRange || !this.gradeRange.min) {
+              return true; // Skip validation if min is not available
+            }
             return value >= this.gradeRange.min;
           },
           message:

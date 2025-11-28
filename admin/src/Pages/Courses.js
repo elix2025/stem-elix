@@ -39,6 +39,24 @@ const Courses = () => {
     navigate(`/admin/course-content/${courseId}`); 
   };
 
+  const handleEditCourse = (courseId) => {
+    navigate(`/admin/edit-course/${courseId}`);
+  };
+
+  const handleDeleteCourse = async (courseId) => {
+    if (!window.confirm("Are you sure you want to delete this course? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      // Implement delete functionality when backend endpoint is available
+      console.log("Delete functionality to be implemented for course:", courseId);
+      alert("Delete functionality coming soon...");
+    } catch (error) {
+      console.error("Error deleting course:", error);
+    }
+  };
+
   return (
     <div className="flex max-w-7xl mx-auto mt-10 p-6 gap-6">
       {/* Sidebar */}
@@ -94,22 +112,56 @@ const Courses = () => {
                   <div
                     key={course._id}
                     className="border rounded-lg p-4 shadow-md hover:shadow-lg transition duration-300 bg-white"
-                    onClick={() => handleThumbnailClick(course._id)}
                   >
                     {course.CourseThumbnail && (
                       <img
                         src={course.CourseThumbnail}
                         alt={course.title}
                         className="w-full h-40 object-cover rounded mb-3 cursor-pointer hover:opacity-80"
-                        // onClick={() => handleThumbnailClick(course._id)}
+                        onClick={() => handleThumbnailClick(course._id)}
                       />
                     )}
                     <h3 className="text-xl font-semibold mb-1">{course.title}</h3>
-                    <p className="text-sm text-gray-600 mb-2">{course.description}</p>
-                    <p><strong>Category:</strong> {course.categoryId}</p>
-                    <p><strong>Level:</strong> {course.levelNumber}</p>
-                    <p><strong>Price:</strong> ₹{course.price}</p>
-                    <p><strong>Status:</strong> {course.status}</p>
+                    <p className="text-sm text-gray-600 mb-3">{course.description}</p>
+                    
+                    {/* Category Badge */}
+                    <div className="mb-3">
+                      <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
+                        course.coursename === 'Junior' ? 'bg-blue-100 text-blue-800' : 
+                        course.coursename === 'Explorer' ? 'bg-purple-100 text-purple-800' : 
+                        'bg-orange-100 text-orange-800'
+                      }`}>
+                        {course.coursename || 'N/A'}
+                      </span>
+                    </div>
+                    
+                    <div className="space-y-1 text-sm">
+                      <p><strong>Level:</strong> {course.levelNumber}</p>
+                      <p><strong>Price:</strong> ₹{course.price}</p>
+                      <p><strong>Status:</strong> <span className={`px-2 py-1 rounded text-xs font-semibold ${course.status === 'active' ? 'bg-green-100 text-green-800' : course.status === 'draft' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>{course.status}</span></p>
+                    </div>
+                    
+                    {/* Action Buttons */}
+                    <div className="mt-4 flex gap-2">
+                      <button
+                        onClick={() => handleThumbnailClick(course._id)}
+                        className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded text-sm font-medium transition"
+                      >
+                        📚 View Content
+                      </button>
+                      <button
+                        onClick={() => handleEditCourse(course._id)}
+                        className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded text-sm font-medium transition"
+                      >
+                        ✏️ Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCourse(course._id)}
+                        className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded text-sm font-medium transition"
+                      >
+                        🗑️ Delete
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
