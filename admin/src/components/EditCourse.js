@@ -25,6 +25,10 @@ const EditCourse = () => {
     accessType: "lifetime",
     order: 0,
     featured: false,
+    highlights: [""],
+    prerequisites: [""],
+    learningOutcomes: [""],
+    tags: [""],
   });
 
   const [files, setFiles] = useState({
@@ -69,6 +73,10 @@ const EditCourse = () => {
           accessType: course.accessType || "lifetime",
           order: course.order || 0,
           featured: course.featured || false,
+          highlights: course.highlights && course.highlights.length > 0 ? course.highlights : [""],
+          prerequisites: course.prerequisites && course.prerequisites.length > 0 ? course.prerequisites : [""],
+          learningOutcomes: course.learningOutcomes && course.learningOutcomes.length > 0 ? course.learningOutcomes : [""],
+          tags: course.tags && course.tags.length > 0 ? course.tags : [""],
         });
 
         // Set current thumbnail
@@ -106,6 +114,27 @@ const EditCourse = () => {
     }
   };
 
+  const handleArrayChange = (field, index, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: prev[field].map((item, i) => (i === index ? value : item)),
+    }));
+  };
+
+  const addArrayField = (field) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: [...prev[field], ""],
+    }));
+  };
+
+  const removeArrayField = (field, index) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: prev[field].filter((_, i) => i !== index),
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -118,7 +147,16 @@ const EditCourse = () => {
 
       // Add basic course data
       Object.keys(formData).forEach((key) => {
-        courseData.append(key, formData[key]);
+        if (Array.isArray(formData[key])) {
+          // Handle array fields - filter empty strings
+          formData[key]
+            .filter((item) => item.trim())
+            .forEach((item) => {
+              courseData.append(key, item);
+            });
+        } else {
+          courseData.append(key, formData[key]);
+        }
       });
 
       // Add new thumbnail if provided
@@ -151,6 +189,38 @@ const EditCourse = () => {
       </div>
     );
   }
+
+  const ArrayField = ({ label, field, placeholder }) => (
+    <div>
+      <label className="block font-medium mb-2">{label}</label>
+      {formData[field].map((item, index) => (
+        <div key={index} className="flex gap-2 mb-2">
+          <input
+            value={item}
+            onChange={(e) => handleArrayChange(field, index, e.target.value)}
+            placeholder={placeholder}
+            className="flex-1 border px-3 py-2 rounded"
+          />
+          {formData[field].length > 1 && (
+            <button
+              type="button"
+              onClick={() => removeArrayField(field, index)}
+              className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Remove
+            </button>
+          )}
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() => addArrayField(field)}
+        className="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+      >
+        Add {label.slice(0, -1)}
+      </button>
+    </div>
+  );
 
   return (
     <div className="max-w-6xl mx-auto mt-10 p-8 bg-white shadow-md rounded">
@@ -406,6 +476,45 @@ const EditCourse = () => {
                 placeholder="YouTube embed URL (optional)"
               />
             </div>
+          </div>
+        </div>
+
+        {/* Course Content & Structure */}
+        <div className="bg-gray-50 p-6 rounded-lg space-y-4">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Course Highlights & Learning Outcomes
+          </h2>
+
+          <div>
+            <ArrayField
+              label="Course Highlights (What students will learn)"
+              field="highlights"
+              placeholder="e.g., Master fundamental concepts and principles"
+            />
+          </div>
+
+          <div>
+            <ArrayField
+              label="Prerequisites"
+              field="prerequisites"
+              placeholder="e.g., Basic knowledge of programming"
+            />
+          </div>
+
+          <div>
+            <ArrayField
+              label="Learning Outcomes"
+              field="learningOutcomes"
+              placeholder="e.g., Build real-world projects"
+            />
+          </div>
+
+          <div>
+            <ArrayField
+              label="Tags"
+              field="tags"
+              placeholder="e.g., Python, AI, Machine Learning"
+            />
           </div>
         </div>
 

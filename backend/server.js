@@ -9,6 +9,7 @@ import protectedRoutes from "./routes/protectedRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
 import progressRouter from "./routes/progressRoutes.js";
 import emailRouter from "./routes/emailRoutes.js";
+import meetingRouter from "./routes/meetingRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -45,6 +46,7 @@ app.use("/api/protected", protectedRoutes);
 app.use("/api/orders", orderRouter);
 app.use("/api/progress", progressRouter);
 app.use("/api/email", emailRouter);
+app.use("/api/meetings", meetingRouter);
 
 app.get("/", (req, res) => {
   res.send("API is running ✅");

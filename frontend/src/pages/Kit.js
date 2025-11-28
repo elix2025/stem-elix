@@ -244,7 +244,7 @@ const StemKitsPage = () => {
       </section>
 
       {/* Learning Outcomes */}
-      <section className="py-20 px-6 bg-white">
+      {/* <section className="py-20 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6 text-slate-800">
@@ -301,7 +301,7 @@ const StemKitsPage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Kit Specifications */}
       <section className="py-20 px-6 bg-slate-50">
@@ -346,29 +346,7 @@ const StemKitsPage = () => {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <h3 className="text-2xl font-bold mb-6 text-slate-800">Age & Skill Levels</h3>
-                <div className="space-y-4">
-                  {[
-                    { level: "Starter (Ages 8-10)", description: "Basic electronics and simple programming", projects: "4-6 projects" },
-                    { level: "Builder (Ages 11-13)", description: "Intermediate circuits and sensor integration", projects: "8-12 projects" },
-                    { level: "Creator (Ages 14+)", description: "Advanced programming and custom designs", projects: "15+ projects" }
-                  ].map((level, idx) => (
-                    <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 rounded-xl">
-                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold">
-                        {idx + 1}
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-bold text-slate-800 mb-1">{level.level}</h4>
-                        <p className="text-slate-600 mb-2">{level.description}</p>
-                        <span className="text-sm bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">
-                          {level.projects}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+
             </div>
 
             <div className="space-y-8">
@@ -376,11 +354,7 @@ const StemKitsPage = () => {
                 <h3 className="text-2xl font-bold mb-6 text-slate-800">Safety & Quality</h3>
                 <div className="space-y-6">
                   {[
-                    { 
-                      title: "CE Certified Components", 
-                      description: "All electronic parts meet international safety standards",
-                      icon: "✅" 
-                    },
+                    
                     { 
                       title: "Child-Safe Materials", 
                       description: "Non-toxic plastics and rounded edges on all components",
@@ -388,7 +362,7 @@ const StemKitsPage = () => {
                     },
                     { 
                       title: "Low Voltage Design", 
-                      description: "All circuits operate at safe 5V DC with battery protection",
+                      description: "All circuits operate upto 12V DC with battery protection",
                       icon: "⚡" 
                     },
                     { 

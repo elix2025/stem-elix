@@ -450,15 +450,21 @@ export const editCourse = async (req, res) => {
       order,
       featured,
       tags,
+      highlights,
+      prerequisites,
+      learningOutcomes,
+      difficulty,
+      demoVideo,
+      language,
+      hasCertificate,
+      accessType,
     } = req.body;
 
     const updateData = {};
 
     if (title?.trim()) updateData.title = title.trim();
     if (description?.trim()) updateData.description = description.trim();
-    if (coursename && ["Junior", "Explorer", "Master"].includes(coursename)) {
-      updateData.coursename = coursename;
-    }
+    if (coursename) updateData.coursename = coursename;
     if (levelNumber) updateData.levelNumber = parseInt(levelNumber);
     if (duration?.trim()) updateData.duration = duration.trim();
     if (price !== undefined) updateData.price = parseFloat(price);
@@ -468,6 +474,18 @@ export const editCourse = async (req, res) => {
     if (order !== undefined) updateData.order = parseInt(order);
     if (featured !== undefined) updateData.featured = Boolean(featured);
     if (Array.isArray(tags)) updateData.tags = tags.filter((tag) => tag.trim());
+    
+    // Handle array fields for highlights, prerequisites, learning outcomes
+    if (Array.isArray(highlights)) updateData.highlights = highlights.filter((h) => h.trim());
+    if (Array.isArray(prerequisites)) updateData.prerequisites = prerequisites.filter((p) => p.trim());
+    if (Array.isArray(learningOutcomes)) updateData.learningOutcomes = learningOutcomes.filter((l) => l.trim());
+    
+    // Handle other optional fields
+    if (difficulty) updateData.difficulty = difficulty;
+    if (demoVideo?.trim()) updateData.demoVideo = demoVideo.trim();
+    if (language) updateData.language = language;
+    if (hasCertificate !== undefined) updateData.hasCertificate = Boolean(hasCertificate);
+    if (accessType) updateData.accessType = accessType;
 
     // Handle grade range update
     if (gradeRangeMin !== undefined || gradeRangeMax !== undefined) {
@@ -1401,6 +1419,46 @@ export const updateSubmissionStatus = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating submission status:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: process.env.NODE_ENV === "development" ? error.message : undefined,
+    });
+  }
+};
+
+export const getTeacherCourses = async (req, res) => {
+  try {
+    // Get teacher ID from authenticated user
+    const teacherId = req.user?.id || req.user?._id;
+    
+    if (!teacherId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized - Teacher ID not found",
+      });
+    }
+
+    // Find all courses where the teacher is the instructor
+    const courses = await Course.find({
+      instructorId: teacherId,
+    }).select("_id title coursename description price enrollmentCount status");
+
+    if (!courses || courses.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No courses found for this teacher",
+        courses: [],
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Teacher courses retrieved successfully",
+      courses,
+    });
+  } catch (error) {
+    console.error("Error fetching teacher courses:", error);
     res.status(500).json({
       success: false,
       message: "Server error",

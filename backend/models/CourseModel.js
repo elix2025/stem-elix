@@ -188,10 +188,6 @@ const CourseSchema = new mongoose.Schema(
     coursename: {
       type: String,
       required: true,
-      enum: {
-        values: ["Junior", "Explorer", "Master"],
-        message: "Category must be Junior, Explorer, or Master",
-      },
     },
     levelNumber: {
       type: Number,
