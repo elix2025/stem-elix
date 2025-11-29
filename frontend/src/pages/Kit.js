@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Img1 from "../assets/projectcamera.jpg";
+
 import Img2 from "../assets/project2.jpg";
 import Img3 from "../assets/kit1.jpg";
 import Img4 from "../assets/kitbox3.jpg";
@@ -34,15 +34,15 @@ const StemKitsPage = () => {
   const kitData = {
     components: [
       {
-        title: " Microcontroller",
-        description: "The brain of your projects - programmable controller with multiple I/O pins",
+        title: "Microcontroller",
+        description: "Programmable boards that serve as the intelligence hub for your projects, with GPIO pins to control motors, sensors, and lights",
         features: ["Arduino Uno", "Arduino Mega 2560", "Raspberry Pi"],
         image: img5
       },
       {
-        title: "Distance Sensing Alert System",
-        description: "Detects obstacles and alerts users with visual and audio signals",
-        features: ["Ultrasonic distance sensor", "Buzzer for alerts", "LED indicators"],
+        title: "Sensor & Prototyping Essentials",
+        description: "Measure distances and detect obstacles using ultrasonic sensors connected to breadboards with color-coded wires for easy circuit building without soldering",
+        features: ["Ultrasonic distance sensor", "Breadboard prototyping", "Color-coded wires"],
         image: Img2
       },
       // {
@@ -52,21 +52,21 @@ const StemKitsPage = () => {
       //   image: Img2
       // },
       {
-        title: "Sensors Kit",
-        description: "Complete sensor collection for environmental monitoring and interaction",
-        features: ["Temperature sensor", "Light sensor", "Motion detector", "Sound sensor"],
+        title: "Motor & Motion Control Kit",
+        description: "Everything you need to build moving robots and automated machines with DC motors, motor drivers, gears, wheels, and power management components organized in a convenient storage box",
+        features: ["DC motors", "Motor control modules", "Gears & wheels", "Power management"],
         image: Img8
       },
       {
-        title: "Breadboards & Wires",
-        description: "Essential prototyping tools for circuit building without soldering",
-        features: ["Reusable connections", "Color-coded wires", "Multiple sizes"],
+        title: "Electronics Prototyping Bundle",
+        description: "Complete starter kit with breadboards, color-coded wires, resistors, capacitors, LEDs, and other essential components neatly organized in a portable storage box for easy access and circuit building",
+        features: ["Breadboards", "Color-coded wires", "Electronic components", "Organized storage"],
         image: Img3
       },
       {
-        title: "Electronic Components",
-        description: "Resistors, capacitors, LEDs, buttons, and other essential electronics",
-        features: ["Assorted resistors", "Push buttons", "Colorful LEDs", "Buzzers"],
+        title: "Resistor & Capacitor Assortment",
+        description: "Complete collection of passive electronic components including assorted resistors, capacitors, diodes, and other essential elements color-coded and organized for easy selection and circuit design",
+        features: ["Assorted resistors", "Capacitors", "Diodes", "Organized storage"],
         image: Img4
       }
     ],
@@ -343,6 +343,11 @@ const StemKitsPage = () => {
                       </ul>
                     </div>
                   ))}
+                </div>
+                <div className="mt-8 pt-6 border-t border-slate-200">
+                  <p className="text-center text-slate-600 font-semibold">
+                    <span className="text-indigo-600">✨ And Many More</span> components carefully curated for complete learning
+                  </p>
                 </div>
               </div>
 

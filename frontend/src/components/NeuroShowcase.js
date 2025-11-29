@@ -260,7 +260,36 @@ const NeuroShowcase = () => {
           </button>
         </div>
 
-      
+        {/* Call-to-Action Section with Kits Button */}
+        <div className="mt-16 lg:mt-20">
+          <div >
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#ac6cf4] to-[#1F3A7A] bg-clip-text text-transparent mb-4">
+              Ready to Build Amazing Robots?
+            </h3>
+         
+            
+            {/* Action Buttons Container */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              {/* Explore Courses Button */}
+              <button
+                onClick={() => navigate("/courses")}
+                className="bg-[#ac6cf4] hover:bg-[#9d5ce6] text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+              >
+                Explore Courses
+              </button>
+              
+              {/* Explore Kits Button - NEW */}
+              <button
+                onClick={() => navigate("/kits")}
+                className="bg-gradient-to-r  hover:from-[#ac6cf4] hover:to-[#9d5ce6] text-black font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 border-2 border-[#ac6cf4]/30"
+              >
+                🛠️ Explore Our Kits
+              </button>
+            </div>
+            
+           
+          </div>
+        </div>
       </div>
     </section>
   );
