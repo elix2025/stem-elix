@@ -144,7 +144,7 @@ const Schedulemeet = () => {
                   name="teacherName"
                   value={formData.teacherName}
                   onChange={handleInputChange}
-                  placeholder="e.g., John Smith"
+                  placeholder="Teacher's full name"
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-gray-700"
                 />
@@ -158,7 +158,7 @@ const Schedulemeet = () => {
                   name="teacherEmail"
                   value={formData.teacherEmail}
                   onChange={handleInputChange}
-                  placeholder="e.g., john@example.com"
+                  placeholder="e.g., teacher@example.com"
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-gray-700"
                 />

@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { TeacherProvider } from './context/teachapi';
 import TeachDash from './Pages/TeachDash';
+import Schedulemeet from './Pages/Schedulemeet';
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<TeachDash />} />
-          
+          <Route path="/meeting" element={<Schedulemeet />} />
         </Routes>
       </Router>
     </TeacherProvider>
