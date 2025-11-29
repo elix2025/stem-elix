@@ -52,7 +52,11 @@ export default function Hero({ handleEnrollNow }) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting && !isMuted) {
+          if (entry.isIntersecting) {
+            // Hero section is visible - unmute video
+            setIsMuted(false);
+          } else {
+            // Hero section is not visible - mute video
             setIsMuted(true);
           }
         });
@@ -66,7 +70,7 @@ export default function Hero({ handleEnrollNow }) {
     return () => {
       if (heroSection) observer.unobserve(heroSection);
     };
-  }, [isMuted]);
+  }, []);
 
   const handleWatchDemo = () => {
     window.open('/contact', '_self');
@@ -80,7 +84,7 @@ export default function Hero({ handleEnrollNow }) {
           className="absolute top-0 left-0 w-full h-full object-cover scale-105"
           autoPlay
           loop
-          muted
+          muted={isMuted}
           playsInline
           key={videoSrc}
         >

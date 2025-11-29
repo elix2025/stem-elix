@@ -192,11 +192,11 @@ const Courses = () => {
                 ✓ Enrolled
               </span>
             )}
-            {course.isBestSeller && (
+            {/* {course.isBestSeller && (
               <span className="px-3 py-1.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-semibold rounded-full shadow-lg">
                 🏆 Bestseller
               </span>
-            )}
+            )} */}
           </div>
         </div>
 
