@@ -6,8 +6,7 @@ export default function Hero({ handleEnrollNow }) {
   const [showSubtext, setShowSubtext] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [videoSrc, setVideoSrc] = useState(require("../assets/printervideo.mp4"));
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const [videoSrc, setVideoSrc] = useState("");
   const videoRef = useRef(null);
   const textRef = useRef(null);
 
@@ -50,35 +49,11 @@ export default function Hero({ handleEnrollNow }) {
   }, []);
 
   useEffect(() => {
-    const handleUserInteraction = () => {
-      setHasUserInteracted(true);
-    };
-
-    document.addEventListener("click", handleUserInteraction, { once: true });
-    document.addEventListener("touchstart", handleUserInteraction, { once: true });
-
-    return () => {
-      document.removeEventListener("click", handleUserInteraction);
-      document.removeEventListener("touchstart", handleUserInteraction);
-    };
-  }, []);
-
-  // Unmute when hero is visible and user has interacted
-  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && hasUserInteracted) {
-            setIsMuted(false);
-            if (videoRef.current) {
-              videoRef.current.muted = false;
-              videoRef.current.play().catch(err => console.log("Play after interaction:", err));
-            }
-          } else {
+          if (!entry.isIntersecting && !isMuted) {
             setIsMuted(true);
-            if (videoRef.current) {
-              videoRef.current.muted = true;
-            }
           }
         });
       },
@@ -91,18 +66,10 @@ export default function Hero({ handleEnrollNow }) {
     return () => {
       if (heroSection) observer.unobserve(heroSection);
     };
-  }, [hasUserInteracted]);
+  }, [isMuted]);
 
   const handleWatchDemo = () => {
     console.log("Watch Demo clicked");
-  };
-
-  const toggleAudio = () => {
-    const newMutedState = !isMuted;
-    setIsMuted(newMutedState);
-    if (videoRef.current) {
-      videoRef.current.muted = newMutedState;
-    }
   };
 
   return (
@@ -113,8 +80,9 @@ export default function Hero({ handleEnrollNow }) {
           className="absolute top-0 left-0 w-full h-full object-cover scale-105"
           autoPlay
           loop
-          muted={isMuted}
+          muted
           playsInline
+          key={videoSrc}
         >
           <source src={videoSrc} type="video/mp4" />
         </video>
@@ -246,45 +214,6 @@ export default function Hero({ handleEnrollNow }) {
           </svg>
         </div>
       </div>
-
-      <button
-        onClick={toggleAudio}
-        className="absolute bottom-6 right-6 z-30 p-3 rounded-full bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-110 group shadow-lg hover:shadow-xl flex items-center justify-center"
-        title={isMuted ? "Unmute audio" : "Mute audio"}
-      >
-        <svg
-          className="w-6 h-6 text-white group-hover:text-cyan-300 transition-colors absolute"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          {/* Speaker Icon */}
-          <path d="M13.5 4.06c0-1.336-1.616-2.256-2.73-1.572l-5.365 3.828A2 2 0 005 9.172V15a2 2 0 002.405 1.973l5.365-3.828c1.114.684 2.73-.236 2.73-1.572V4.06z" />
-        </svg>
-        
-        {isMuted ? (
-          <svg
-            className="w-5 h-5 text-white group-hover:text-cyan-300 transition-colors relative z-10"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            viewBox="0 0 24 24"
-          >
-            {/* X for muted */}
-            <path d="M6 6l12 12M18 6l-12 12" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg
-            className="w-5 h-5 text-white group-hover:text-cyan-300 transition-colors relative z-10"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            viewBox="0 0 24 24"
-          >
-            {/* Sound waves */}
-            <path d="M18 8c1.657 1.657 1.657 4.343 0 6M20 4c3.314 3.314 3.314 8.686 0 12" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
     </section>
   );
 }
