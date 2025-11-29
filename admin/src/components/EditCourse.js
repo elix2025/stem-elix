@@ -142,37 +142,57 @@ const EditCourse = () => {
     setSuccessMsg("");
 
     try {
-      // Create FormData for file uploads
-      const courseData = new FormData();
+      // Prepare data object with filtered array fields
+      const dataToSend = {};
 
-      // Add basic course data
       Object.keys(formData).forEach((key) => {
         if (Array.isArray(formData[key])) {
-          // Handle array fields - filter empty strings
-          formData[key]
-            .filter((item) => item.trim())
-            .forEach((item) => {
-              courseData.append(key, item);
-            });
+          // Filter empty strings from array fields
+          dataToSend[key] = formData[key].filter((item) => item.trim());
         } else {
-          courseData.append(key, formData[key]);
+          dataToSend[key] = formData[key];
         }
       });
 
-      // Add new thumbnail if provided
+      // If we have a file to upload, use FormData; otherwise send JSON
       if (files.CourseThumbnail) {
+        const courseData = new FormData();
+
+        // Add all form fields to FormData
+        Object.keys(dataToSend).forEach((key) => {
+          if (Array.isArray(dataToSend[key])) {
+            // Send arrays as JSON string
+            courseData.append(key, JSON.stringify(dataToSend[key]));
+          } else {
+            courseData.append(key, dataToSend[key]);
+          }
+        });
+
+        // Add thumbnail file
         courseData.append("CourseThumbnail", files.CourseThumbnail);
-      }
 
-      const result = await editCourse(courseId, courseData);
+        const result = await editCourse(courseId, courseData);
 
-      if (result.success) {
-        setSuccessMsg("Course updated successfully!");
-        setTimeout(() => {
-          navigate("/admin/courses", { state: { refresh: true } });
-        }, 2000);
+        if (result.success) {
+          setSuccessMsg("Course updated successfully!");
+          setTimeout(() => {
+            navigate("/admin/courses", { state: { refresh: true } });
+          }, 2000);
+        } else {
+          setErrorMsg(result.message || "Failed to update course");
+        }
       } else {
-        setErrorMsg(result.message || "Failed to update course");
+        // Send as JSON if no file upload
+        const result = await editCourse(courseId, dataToSend);
+
+        if (result.success) {
+          setSuccessMsg("Course updated successfully!");
+          setTimeout(() => {
+            navigate("/admin/courses", { state: { refresh: true } });
+          }, 2000);
+        } else {
+          setErrorMsg(result.message || "Failed to update course");
+        }
       }
     } catch (error) {
       console.error("Error updating course:", error);
@@ -194,18 +214,18 @@ const EditCourse = () => {
     <div>
       <label className="block font-medium mb-2">{label}</label>
       {formData[field].map((item, index) => (
-        <div key={index} className="flex gap-2 mb-2">
+        <div key={`${field}-${index}`} className="flex gap-2 mb-2">
           <input
             value={item}
             onChange={(e) => handleArrayChange(field, index, e.target.value)}
             placeholder={placeholder}
-            className="flex-1 border px-3 py-2 rounded"
+            className="flex-1 border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {formData[field].length > 1 && (
             <button
               type="button"
               onClick={() => removeArrayField(field, index)}
-              className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
             >
               Remove
             </button>
@@ -215,9 +235,9 @@ const EditCourse = () => {
       <button
         type="button"
         onClick={() => addArrayField(field)}
-        className="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        className="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
       >
-        Add {label.slice(0, -1)}
+        + Add {label.slice(0, -1)}
       </button>
     </div>
   );

@@ -502,3 +502,48 @@ export const getAllPayments = async (req, res) => {
     });
   }
 };
+
+// 5️⃣ Test Invoice PDF Generation
+export const testInvoicePDF = async (req, res) => {
+  try {
+    console.log("🧪 Test Invoice PDF endpoint called");
+
+    // Create mock test data
+    const testData = {
+      orderId: "TEST-" + Date.now(),
+      user: {
+        name: "Test Student",
+        email: "test@stemelix.com",
+        _id: "test_user_123"
+      },
+      course: {
+        title: "AI & Robotics Mastery",
+        _id: "test_course_123"
+      },
+      amount: 4999,
+      gpayTransactionId: "GPAY_TEST_" + Math.random().toString(36).substr(2, 9).toUpperCase(),
+      verifiedAt: new Date(),
+      paidAt: new Date()
+    };
+
+    console.log("📋 Generating test invoice with data:", testData);
+
+    // Generate PDF
+    const pdfBuffer = await generateInvoice(testData);
+
+    console.log("✅ Test PDF generated successfully, size:", pdfBuffer.length, "bytes");
+
+    // Send PDF as response
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="test-invoice-${testData.orderId}.pdf"`);
+    res.send(pdfBuffer);
+
+  } catch (error) {
+    console.error("❌ Error generating test invoice:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to generate test invoice PDF",
+      error: error.message
+    });
+  }
+};

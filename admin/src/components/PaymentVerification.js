@@ -220,7 +220,7 @@ const PaymentVerification = () => {
                     <p className="mt-1 text-sm">{selectedPayment.orderId || 'N/A'}</p>
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium text-gray-500">GPay Transaction ID</h4>
+                    <h4 className="text-sm font-medium text-gray-500"> Transaction ID</h4>
                     <p className="mt-1 text-sm font-mono">{selectedPayment.gpayTransactionId || 'Not yet verified'}</p>
                   </div>
                   <div>
@@ -238,14 +238,14 @@ const PaymentVerification = () => {
                     {/* Verify Payment */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        GPay Transaction ID
+                       Transaction ID
                       </label>
                       <input
                         type="text"
                         value={gpayTransactionId}
                         onChange={(e) => setGpayTransactionId(e.target.value)}
                         className="w-full px-3 py-2 border rounded-md"
-                        placeholder="Enter GPay Transaction ID"
+                        placeholder="Enter Transaction ID"
                       />
                       <button
                         onClick={() => handleVerify(selectedPayment._id)}

@@ -12,7 +12,8 @@ import { createPayment,
         
        getPayment,
        getAllPayments,
-        getUserPayments
+        getUserPayments,
+        testInvoicePDF
  } from "../controllers/paymentcontroller.js";
 import { protect } from "../middleware/auth.js";
 import upload from "../middleware/multer.js";
@@ -36,6 +37,9 @@ orderRouter.get("/health", (req, res) => {
     environment: process.env.NODE_ENV || "development",
   });
 });
+
+// Test invoice PDF endpoint - No auth required for testing
+orderRouter.get("/test-invoice-pdf", testInvoicePDF);
 
 // Debug endpoint to test admin auth
 orderRouter.get("/test-admin", AdminAuth, (req, res) => {

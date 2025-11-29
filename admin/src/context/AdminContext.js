@@ -242,15 +242,21 @@ export const AdminProvider = ({ children }) => {
     try {
       const adminToken = localStorage.getItem("adminToken");
 
+      // Determine if courseData is FormData or plain object
+      const isFormData = courseData instanceof FormData;
+      const headers = {
+        Authorization: `Bearer ${adminToken}`,
+      };
+
+      // Only set Content-Type if it's FormData; axios will handle it automatically
+      if (!isFormData) {
+        headers["Content-Type"] = "application/json";
+      }
+
       const res = await axios.put(
         `${Admin_Base_URL}/courses/${courseId}`,
         courseData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${adminToken}`,
-          },
-        }
+        { headers }
       );
 
       if (res.data.success) {

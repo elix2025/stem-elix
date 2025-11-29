@@ -472,13 +472,44 @@ export const editCourse = async (req, res) => {
       updateData.status = status;
     }
     if (order !== undefined) updateData.order = parseInt(order);
-    if (featured !== undefined) updateData.featured = Boolean(featured);
-    if (Array.isArray(tags)) updateData.tags = tags.filter((tag) => tag.trim());
+    if (featured !== undefined) {
+      // Handle boolean from FormData (comes as string) or JSON (actual boolean)
+      updateData.featured = featured === "true" || featured === true;
+    }
+    
+    // Handle array fields - they might come as JSON strings from FormData or actual arrays from JSON
+    const parseArray = (field) => {
+      if (!field) return [];
+      if (typeof field === 'string') {
+        try {
+          return JSON.parse(field);
+        } catch (e) {
+          return [field];
+        }
+      }
+      return Array.isArray(field) ? field : [];
+    };
+
+    if (tags !== undefined) {
+      const tagArray = parseArray(tags);
+      updateData.tags = tagArray.filter((tag) => tag?.trim?.());
+    }
     
     // Handle array fields for highlights, prerequisites, learning outcomes
-    if (Array.isArray(highlights)) updateData.highlights = highlights.filter((h) => h.trim());
-    if (Array.isArray(prerequisites)) updateData.prerequisites = prerequisites.filter((p) => p.trim());
-    if (Array.isArray(learningOutcomes)) updateData.learningOutcomes = learningOutcomes.filter((l) => l.trim());
+    if (highlights !== undefined) {
+      const highlightArray = parseArray(highlights);
+      updateData.highlights = highlightArray.filter((h) => h?.trim?.());
+    }
+    
+    if (prerequisites !== undefined) {
+      const prereqArray = parseArray(prerequisites);
+      updateData.prerequisites = prereqArray.filter((p) => p?.trim?.());
+    }
+    
+    if (learningOutcomes !== undefined) {
+      const outcomeArray = parseArray(learningOutcomes);
+      updateData.learningOutcomes = outcomeArray.filter((l) => l?.trim?.());
+    }
     
     // Handle other optional fields
     if (difficulty) updateData.difficulty = difficulty;
